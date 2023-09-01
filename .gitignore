@@ -1,0 +1,41 @@
+.DS_Store
+node_modules
+/dist
+/build
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# warnings
+unused-files.json
+
+# package manager
+# .yarnrc.yml
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/install-state.gz
+
+# turbo
+.turbo
+
+# yarn 3.5.1
+.pnp.*
+
+/packages/icewhale*
