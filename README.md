@@ -1,40 +1,45 @@
+<!--
+ * @Author: zhanghengxin ezreal.zhang@icewhale.org
+ * @Date: 2023-08-31 10:49:26
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-01 17:49:30
+ * @FilePath: /CasaOS-App-UI/README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by IceWhale, All Rights Reserved.
+-->
 # How to develop this project.
 
 ```shell
-# Node.js <16.17 or <18.6 
-corepack prepare yarn@3.5.1 --activate
-yarn set version 3.5.1
-
-# Node.js ^16.17 or >=18.6
-corepack prepare yarn@stable --activate
-
 # install dependencies
-yarn install
+pnpm
 
-# build
-yarn dev 
+# dev
+pnpm serve
+
+# lint
+pnpm lint
 ```
 
 # How to build this project.
 
 ```shell
-# install tool
-yarn global add turbo
-
-# install dependencies
-yarn install
-
 # build
-yarn build 
+pnpm build 
 ```
 
-# TODO how to test this project.
+# how to test this project.
 
 ```shell
+# unit test
+pnpm test:unit:mocha
 
+# e2e test
+pnpm test:e2e
 ```
 
-# TODO how to deploy this project.
+# how to deploy this project.
+replace your linux file（sysroot/var/lib/casaos/www/modules/icewhale_app）
 
 # How to contribute to this project.
 
@@ -43,8 +48,6 @@ need contributions from community members just like you!
 
 - See <https://wiki.casaos.io/en/contribute> for ways of contribution to CasaOS
 - See <https://wiki.casaos.io/en/contribute/development> if you want to be involved in code contribution specificially
-
-# TODO how to license this project.
 
 # How to contact this project.
 
