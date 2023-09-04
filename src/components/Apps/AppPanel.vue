@@ -2,7 +2,7 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-03-01 21:10:57
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-01 17:03:52
+ * @LastEditTime: 2023-09-04 17:28:47
  * @FilePath: /CasaOS-App-UI/src/components/Apps/AppPanel.vue
  * @Description:
  *
@@ -1191,7 +1191,7 @@ export default {
 
 .app-panel {
 	.modal-card {
-		width: auto;
+		width: 81.25rem;
 		.app-store{
 			width: 1300px;
 		}
@@ -1263,7 +1263,7 @@ export default {
 	// }
 	.app-panel {
 		.modal-card {
-			width: 100%;
+			min-width: 100%;
 			.app-store{
 				width: 100%;
 			}
