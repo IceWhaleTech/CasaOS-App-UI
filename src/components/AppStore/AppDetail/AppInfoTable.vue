@@ -1,3 +1,13 @@
+<!--
+ * @Author: zhanghengxin ezreal.zhang@icewhale.org
+ * @Date: 2023-08-31 15:41:00
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-04 18:08:55
+ * @FilePath: /CasaOS-App-UI/src/components/AppStore/AppDetail/AppInfoTable.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by IceWhale, All Rights Reserved.
+-->
 <template>
 	<nav class="level is-mobile mt-4">
 		<div class="level-item has-text-centered">
@@ -45,10 +55,10 @@ const props = defineProps({
 		default: () => {
 		}
 	},
-	// cateMenu: {
-	// 	type: Array,
-	// 	default: []
-	// },
+	cateMenu: {
+		type: Array,
+		default: []
+	},
 });
 
 // const getCategoryIcon = (name) => {
@@ -57,7 +67,9 @@ const props = defineProps({
 // };
 
 const categoryIcon = computed(() => {
-	return props.appDetailData.category;
+	// return props.appDetailData.category;
+	let category = props.cateMenu.find(item => item.name == props.appDetailData.category) || {font: 'apps'}
+	return category.font;
 });
 
 </script>

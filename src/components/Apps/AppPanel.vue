@@ -2,7 +2,7 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-03-01 21:10:57
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-04 17:28:47
+ * @LastEditTime: 2023-09-04 18:07:10
  * @FilePath: /CasaOS-App-UI/src/components/Apps/AppPanel.vue
  * @Description:
  *
@@ -23,6 +23,7 @@
 					:handleBackBtnClick="close"
 					:installedList="installedList"
 					:showDetailSwiper="showDetailSwiper"
+					:cateMenu="cateMenu"
 					@install="quickInstall">
 					</AppDetail>
 				</template>
@@ -358,7 +359,7 @@ export default {
 			isLoading: true,
 			isFetching: false,
 			isLoadError: false,
-			loadErrorStep: 0,
+			// loadErrorStep: 0,
 			isFirst: true,
 			errorType: 1,
 			currentInstallAppName: null,
@@ -396,7 +397,8 @@ export default {
 			// Featured Swiper
 			searchKey: "",
 			currentAuthor: {count: 0, font: "author", id: 0, name: "All"},
-			currentSort: {},
+			cateMenu:[],
+			// currentSort: {},
 			// sortMenu: [
 			// 	{icon: "", slash: "rank", name: "Popular"},
 			// 	{icon: "", slash: "new", name: "New"},
@@ -478,7 +480,7 @@ export default {
 			this.currentSlide = 1
 
 		} else {
-			// this.getCategoryList();
+			this.getCategoryList();
 		}
 
 		// If StoreId is not 0
@@ -591,6 +593,30 @@ export default {
 		setCSSVHVar() {
 			const vh = window.innerHeight * 0.01;
 			document.documentElement.style.setProperty('--vh', `${vh}px`);
+		},
+		
+		/**
+		 * @description: Get category list
+		 * @param {*}
+		 * @return {*} void
+		 */
+		 async getCategoryList() {
+			// this.isLoading = true
+			try {
+				this.cateMenu = await this.$openAPI.appManagement.appStore.categoryList().then(res => res.data.data.filter((item) => {
+					return item.count > 0
+				}));
+				// this.currentCate = this.cateMenu[0]
+				// this.currentSort = this.sortMenu[0]
+				// if (this.isFirst) {
+				// 	this.isFirst = false
+				// }
+			} catch (error) {
+				// this.loadErrorStep = 1
+				// this.isLoading = false;
+				// this.isLoadError = true;
+			}
+
 		},
 
 		async getStoreRecommend() {

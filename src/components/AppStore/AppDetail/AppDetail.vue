@@ -18,6 +18,7 @@
 			<SpiltLine  />
 
 			<AppInfoTable 
+				:cateMenu="cateMenu"
 				:appDetailData="appDetailData" 
 			></AppInfoTable>
 
@@ -70,10 +71,10 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
-	// cateMenu: {
-	// 	type: Array,
-	// 	default: []
-	// },
+	cateMenu: {
+		type: Array,
+		default: []
+	},
 	handleBackBtnClick: {
 		type: Function,
 		default: () => {}
