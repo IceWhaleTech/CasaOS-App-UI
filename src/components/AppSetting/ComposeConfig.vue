@@ -1,7 +1,7 @@
 <!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/2/22 下午12:18
-  * @FilePath: /CasaOS-UI/src/components/Apps/ComposeConfig.vue
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-05 15:14:38
+ * @FilePath: /CasaOS-App-UI/src/components/AppSetting/ComposeConfig.vue
   * @Description:
   *
   * Copyright (c) 2023 by IceWhale, All Rights Reserved.
@@ -582,7 +582,10 @@ export default {
 			let composeServicesItem = {};
 			// Image
 			composeServicesItem.image = composeServicesItemInput.image;
+			
 			// Envs
+			// @environment is an object or an array -- TO be arry.
+			// value@item@environment for Boolean, String and Number
 			if (composeServicesItemInput.environment) {
 				let envArray = Array.isArray(composeServicesItemInput.environment)
 				? composeServicesItemInput.environment
@@ -590,7 +593,7 @@ export default {
 				composeServicesItem.environment = envArray.map((item) => {
 					let ii = typeof item === "object" ? Array.from(item) : item.split("=");
 					return {
-						host: ii[1]?.replace(/"/g, "") ?? "",
+						host: ii[1]?.toString().replace(/"/g, "") ?? "",
 						container: ii[0],
 					};
 				});
