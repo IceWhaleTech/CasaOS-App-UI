@@ -2,7 +2,7 @@
  * @Author: zhanghengxin ezreal.zhang@icewhale.org
  * @Date: 2023-08-31 15:40:59
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-05 10:59:02
+ * @LastEditTime: 2023-09-05 11:02:32
  * @FilePath: /CasaOS-App-UI/src/components/AppStore/AppDetail/AppScreenshotSlider.vue
  * @Description: 
  * 
@@ -15,7 +15,7 @@
 			<swiper-slide v-for="item in appDetailData.screenshot_link" :key="'sc'+item">
 				<div class="gap">
 					<b-image 
-						class="app-screenshot"
+						class="app-screenshot cursor-pointer"
 						:src="item"
 						:src-fallback="require('@/assets/img/app/swiper_placeholder.png')"
 						placeholder ratio="16by9" @click.native="zoomScreenshot(item)">
