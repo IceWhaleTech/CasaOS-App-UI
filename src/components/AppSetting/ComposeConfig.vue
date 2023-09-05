@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-05 15:14:38
+ * @LastEditTime: 2023-09-05 15:23:25
  * @FilePath: /CasaOS-App-UI/src/components/AppSetting/ComposeConfig.vue
   * @Description:
   *
@@ -631,6 +631,7 @@ export default {
 						protocol,
 					};
 				} else {
+					item.published.toString();
 					return item;
 				}
 			});
