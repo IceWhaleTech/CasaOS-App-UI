@@ -2,7 +2,7 @@
  * @Author: zhanghengxin ezreal.zhang@icewhale.org
  * @Date: 2023-08-31 10:49:26
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-01 17:49:30
+ * @LastEditTime: 2023-09-05 11:20:27
  * @FilePath: /CasaOS-App-UI/README.md
  * @Description: 
  * 
@@ -16,6 +16,10 @@ pnpm
 
 # dev
 pnpm serve
+
+# login
+## The default port of the proxy server is 8080.The port according to the actual output of the console.
+open the http://localhost:8080 in your brower and login.
 
 # lint
 pnpm lint
