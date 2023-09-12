@@ -43,8 +43,8 @@ jobs:
                 run: echo ${{ env.VERSION }}
                 # run: echo ${{ steps.get_version.outputs.VERSION }}
 
-            -   run: yarn install
-            -   run: yarn build
+            -   run: pnpm install
+            -   run: pnpm build
             -   run: |
                     tar -zcvf linux-all-icewhale-app-ui-v99.99.99.tar.gz build
                     ls
