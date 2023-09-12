@@ -17,17 +17,30 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v3
+            
             -   name: '使用 Use Node.js ${{ matrix.node-version }}'
                 uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
-                    cache: 'npm'
+
+            -   uses: pnpm/action-setup@v2
+                name: Install pnpm
+                with:
+                  version: 8.6
+                  run_install: false
+            -   name: Get pnpm store directory
+                shell: bash
+                run: |
+                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+                  
             -   name: '缓存 Cache'
                 uses: actions/cache@v3
                 id: cache-dependencies
                 with:
-                    path: node_modules
-                    key: ${{runner.OS}}
+                   path: ${{ env.STORE_PATH }}
+                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                   restore-keys: |
+                     ${{ runner.os }}-pnpm-store-
                     
             -   uses: actions/checkout@v3
             -   name: install git
