@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-14 17:07:28
+ * @LastEditTime: 2023-09-14 17:24:50
  * @FilePath: /CasaOS-App-UI/src/components/AppSetting/ComposeConfig.vue
   * @Description:
   *
@@ -195,26 +195,25 @@
 
 					<!-- <ValidationProvider v-slot="{ errors, valid }" name="Name" rules="rfc1123">
 						<b-field
-							:label="$t('Container Hostname')"
-							:message="$t(errors)"
-							:type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }"
-							>
-								<b-input
-								v-model="service.container_name"
-								:placeholder="$t('Hostname of app container')"
-								value=""
-								></b-input>
-							</b-field>
-						</ValidationProvider>
-					</ValidationObserver> -->
-				<b-field
-					:label="$t('Container Hostname')">
-					<b-input
-						v-model="service.container_name"
-						:placeholder="$t('Hostname of app container')"
-						value="">
-					</b-input>
-				</b-field>
+						:label="$t('Container Hostname')"
+						:message="$t(errors)"
+						:type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }"
+						>
+							<b-input
+							v-model="service.container_name"
+							:placeholder="$t('Hostname of app container')"
+							value=""
+							></b-input>
+						</b-field>
+					</ValidationProvider> -->
+					<b-field :label="$t('Container Hostname')">
+						<b-input
+							v-model="service.container_name"
+							:placeholder="$t('Hostname of app container')"
+							value="">
+						</b-input>
+					</b-field>
+				</ValidationObserver>
 			</b-tab-item>
 		</b-tabs>
 	</section>
