@@ -34,6 +34,7 @@ jobs:
                 with:
                   version: 8.6
                   run_install: false
+                  
             -   name: Get pnpm store directory
                 shell: bash
                 run: |
@@ -64,8 +65,9 @@ jobs:
                     echo github ${{ github }}
                     echo github.sha ${{ github.sha }}
                     echo env.VERSION ${{ steps.get_version.outputs.VERSION }}
-            - run: yarn
-            -   run: yarn build
+                    
+            -   run: pnpm install
+            -   run: pnpm build
             -   run: |
                     tar -zcvf linux-all-icewhale-app-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz build
             -   name: '更新 Update release'
