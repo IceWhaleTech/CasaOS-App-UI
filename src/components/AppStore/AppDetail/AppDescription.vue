@@ -2,7 +2,7 @@
  * @Author: zhanghengxin ezreal.zhang@icewhale.org
  * @Date: 2023-08-31 15:40:59
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-11 17:12:33
+ * @LastEditTime: 2023-09-15 11:05:07
  * @FilePath: /CasaOS-App-UI/src/components/AppStore/AppDetail/AppDescription.vue
  * @Description: 
  * 
@@ -41,5 +41,6 @@ defineExpose({
 <style scoped>
 ::v-deep .github-markdown-body{
 	padding: 1rem 0 0 0;
+	line-height: 1.25rem;
 }
 </style>
