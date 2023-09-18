@@ -1,6 +1,6 @@
 /*
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-15 19:14:42
+ * @LastEditTime: 2023-09-18 19:02:15
  * @FilePath: /CasaOS-App-UI/src/router/index.js
  * @Description:
  *
@@ -9,8 +9,6 @@
 
 import Vue       from 'vue'
 import VueRouter from 'vue-router'
-import api       from '@/service/api'
-import store     from '@/store'
 import route     from './route.js'
 
 Vue.use(VueRouter)
@@ -23,33 +21,12 @@ const router = new VueRouter({
 	routes
 })
 
-const originalPush = VueRouter.prototype.push
+// const originalPush = VueRouter.prototype.push
 
-let externalMircoApp = '';
 
-VueRouter.prototype.push = function push(location) {
-	return originalPush.call(this, location).catch((err) => err)
-}
-
-function checkUrlToken() {
-	const searchParams = new URLSearchParams(window.location.search);
-	const token = searchParams.get("token")
-	externalMircoApp = searchParams.get("appName") || ''
-	if (typeof token === 'string' && token !== '') {
-		store.commit('SET_NEED_INITIALIZATION', false);
-		localStorage.setItem("access_token", token);
-	}
-	searchParams.delete("token")
-	searchParams.delete("appName")
-	let newUrl = window.location.pathname;
-	if (searchParams.toString()) {
-		newUrl += "?" + searchParams.toString() + "/" + window.location.hash
-	} else {
-		newUrl += window.location.hash
-	}
-	// NOTICE: try to avoid page reload
-	window.history.replaceState(null, '', newUrl);
-}
+// VueRouter.prototype.push = function push(location) {
+// 	return originalPush.call(this, location).catch((err) => err)
+// }
 
 router.beforeEach(async (to, from, next) => {
 
@@ -61,14 +38,9 @@ router.beforeEach(async (to, from, next) => {
 
 	if (!accessToken) {
 		window.$wujie?.props.jump({ path: "/logout" });
-		// next('/login')
 	}else{
 		next()
 	}
 })
 
-// NOTICE: check only once when router inited
-checkUrlToken();
-
-export {externalMircoApp};
 export default router;
