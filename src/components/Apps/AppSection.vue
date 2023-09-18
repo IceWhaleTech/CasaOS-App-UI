@@ -2,8 +2,8 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-02-18 10:20:10
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-15 18:34:42
- * @FilePath: /CasaOS-App-UI/src/components/Apps/AppSection.vue
+ * @LastEditTime: 2023-09-18 18:06:28
+ * @FilePath: \CasaOS-UI-0.4.2\src\components\Apps\AppSection.vue
  * @Description:
  *
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
@@ -170,7 +170,7 @@ export default {
 		});
 
 		this.ListRefreshTimer = setInterval(() => {
-			// this.getList();
+			this.getList();
 		}, 5000)
 	},
 	beforeDestroy() {
