@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-11 17:18:50
+ * @LastEditTime: 2023-09-18 15:16:24
  * @FilePath: /CasaOS-App-UI/src/App.vue
   * @Description:
   *
@@ -177,5 +177,10 @@ _____             _____ _____
 		bottom: 0;
 		z-index: 10;
 	}
+}
+</style>
+<style lang="scss">
+body.is-noscroll {
+	position: relative;
 }
 </style>
