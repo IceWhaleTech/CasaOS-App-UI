@@ -1,8 +1,8 @@
 <!--
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-02-18 10:20:10
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-12 18:13:52
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-18 18:06:28
  * @FilePath: \CasaOS-UI-0.4.2\src\components\Apps\AppSection.vue
  * @Description:
  *
@@ -135,10 +135,6 @@ export default {
 			appListErrorMessage: "",
 			skCount: 0,
 			ListRefreshTimer: null,
-			// prefetched: false,
-			// TODO remove
-			mircoAppInstanceMap: new Map(),
-			mircoAppList: []
 		}
 	},
 	components: {
@@ -171,9 +167,6 @@ export default {
 		// }
 	},
 	async created() {
-		// TODO remove
-		await this.initMircoApp();
-
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
 		this.$EventBus.$on(events.OPEN_APP_STORE_AND_GOTO_SYNCTHING, () => {
@@ -185,7 +178,7 @@ export default {
 		});
 
 		this.ListRefreshTimer = setInterval(() => {
-			// this.getList();
+			this.getList();
 		}, 5000)
 	},
 	beforeDestroy() {
@@ -193,10 +186,6 @@ export default {
 		window.removeEventListener('resize', this.getSkCount);
 
 		clearInterval(this.ListRefreshTimer);
-		// TODO remove
-		this.mircoAppInstanceMap.forEach((v, name) => {
-			this.destroyMircoApp(name);
-		});
 	},
 	mounted() {
 		window.addEventListener('resize', this.getSkCount);
@@ -291,110 +280,6 @@ export default {
 						type: 'is-danger'
 					})
 				}
-			}
-		},
-
-		// TODO remove
-		async initMircoApp() {
-			const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
-			const prefetchMircoAppList = [];
-			this.mircoAppList = mircoAppListRaw.map(item => {
-				if (item.prefetch) {
-					prefetchMircoAppList.push({name: item.title, entry: item.entry});
-				}
-				return {
-					name: item.name,
-					entry: item.entry,
-					title: item.title,
-					icon: item.icon,
-					status: "running",
-					app_type: "mircoApp",
-					// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
-					formality: item.formality,
-					prefetch: item.prefetch
-				}
-			});
-			prefetchApps(prefetchMircoAppList);
-			if (externalMircoApp) {
-				this.$messageBus('mircoapp_communicate', {
-					action: MIRCO_APP_ACTION_ENUM.OPEN,
-					name: externalMircoApp
-				})
-			}
-		},
-
-		// TODO remove
-		createMircoApp(app) {
-			const customVNode = this.$createElement('div', {
-				class: "full-screen-container",
-				attrs: {
-					id: app.name
-				}
-			});
-			const customModal = this.$buefy.modal.open({
-				content: [customVNode],
-				fullScreen: app.formality?.props?.fullscreen || true,
-				hasModalCard: app.formality?.props?.hasModalCard || true,
-				destroyOnHide: false,
-				animation: app.formality?.props?.animation || "zoom-in",
-				canCancel: ["escape", "x"],
-				onCancel: () => {
-					this.hideMircoApp(app.name);
-				}
-			});
-
-			this.$nextTick(() => {
-				try {
-					const customAppInstance = loadMicroApp({
-						name: app.name,
-						entry: app.entry,
-						container: `#${app.name}`,
-						props: {
-							store: { // sync necessary store status to child mirco app
-								device_id: this.$store.state.device_id,
-								access_id: this.$store.state.access_id,
-								access_token: this.$store.state.access_token,
-								refresh_token: this.$store.state.refresh_token,
-								casaos_lang: this.$store.state.casaos_lang,
-							}
-						}
-					}, {
-						sandbox: {
-							experimentalStyleIsolation: true
-						}
-					});
-					this.mircoAppInstanceMap.set(app.name, {
-						instance: customAppInstance,
-						modal: customModal
-					});
-				} catch (e) {
-					this.$buefy.toast.open({
-						message: `Error occured in loading mirco app ${app.name}, please check mirco app`,
-						duration: 5000,
-						type: "is-danger"
-					});
-				}
-			});
-		},
-
-		// TODO remove
-		hideMircoApp(peerType = '') { // NOTICE: hide all mirco app for now
-			if (peerType) {
-				let {modal} = this.mircoAppInstanceMap.get(peerType) || {};
-				modal?.close();
-				return
-			}
-			this.mircoAppInstanceMap.forEach(({modal}) => modal?.close());
-		},
-
-		// TODO remove
-		showMircoApp(appName) {
-			const {instance = null, modal = null} = this.mircoAppInstanceMap.get(appName) || {};
-			if (!instance) {
-				let app = this.mircoAppList.find(app => app.name === appName)
-				app && this.createMircoApp(app);
-			} else {
-				modal?.open();
 			}
 		},
 
@@ -681,25 +566,6 @@ export default {
 				})
 			}
 		},
-		// TODO remove
-		"casaos-ui:app:mircoapp_communicate"(res) {
-			const data = res.Properties;
-			if (data.access_id === this.$store.state.access_id) {
-				switch (data.action) {
-					case MIRCO_APP_ACTION_ENUM.OPEN:
-						this.showMircoApp(data.name);
-						break;
-					case MIRCO_APP_ACTION_ENUM.CLOSE:
-						this.hideMircoApp(data.name);
-						break;
-				// case MIRCO_APP_ACTION_ENUM.LOGIN:
-				// 	this.$router.push("/login");
-				// 	break;
-					default:
-						break;
-				}
-			}
-		}
 	}
 }
 </script>
