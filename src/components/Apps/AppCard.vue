@@ -1,7 +1,7 @@
 <!--
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-03-01 10:54:46
- * @FilePath: /CasaOS-UI/src/components/Apps/AppCard.vue
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-18 13:44:44
+ * @FilePath: /CasaOS-App-UI/src/components/Apps/AppCard.vue
   * @Description:
   *
   * Copyright (c) 2022 by IceWhale, All Rights Reserved.

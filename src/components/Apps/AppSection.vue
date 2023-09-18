@@ -94,9 +94,6 @@ import last                         from 'lodash/last';
 import business_ShowNewAppTag       from "@/mixins/app/Business_ShowNewAppTag";
 import business_LinkApp             from "@/mixins/app/Business_LinkApp";
 import isEqual                      from "lodash/isEqual";
-import {loadMicroApp, prefetchApps} from 'qiankun';
-import {MIRCO_APP_ACTION_ENUM}      from "@/const";
-import {externalMircoApp}           from "@/router";
 import {ice_i18n}                   from "@/mixins/base/common-i18n";
 
 const SYNCTHING_STORE_ID = 74
@@ -146,8 +143,6 @@ export default {
 	provide() {
 		return {
 			openAppStore: this.showAppSettingPanel,
-			// homeShowFiles: this.showMircoApp,
-			// showMircoApp: this.showMircoApp,
 		};
 	},
 	computed: {
@@ -162,9 +157,6 @@ export default {
 		showDragTip() {
 			return this.draggable === ".handle"
 		},
-		// exsitingAppsShow() {
-		// 	return this.$store.state.existingAppsSwitch
-		// }
 	},
 	async created() {
 		this.getList();
@@ -240,7 +232,7 @@ export default {
 					}
 				})
 				// all app list
-				let casaAppList = concat(builtInApplications, orgNewAppList, this.mircoAppList, listLinkApp)
+				let casaAppList = concat(builtInApplications, orgNewAppList, listLinkApp)
 				// get app sort info.
 				let lateSortList = await this.$api.users.getCustomStorage(orderConfig).then(res => res.data.data.data || []);
 
@@ -280,16 +272,6 @@ export default {
 						type: 'is-danger'
 					})
 				}
-			}
-		},
-
-		destroyMircoApp(name = '') {
-			this.hideMircoApp();
-			if (this.mircoAppInstanceMap.has(name)) {
-				const {instance, modal} = this.mircoAppInstanceMap.get(name);
-				instance?.unmount();
-				modal?.close();
-				this.mircoAppInstanceMap.delete(name);
 			}
 		},
 
