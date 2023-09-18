@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-15 19:14:54
+ * @LastEditTime: 2023-09-18 13:44:44
  * @FilePath: /CasaOS-App-UI/src/components/Apps/AppCard.vue
   * @Description:
   *
