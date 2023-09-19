@@ -2,8 +2,8 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-02-18 10:20:10
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-18 18:06:28
- * @FilePath: \CasaOS-UI-0.4.2\src\components\Apps\AppSection.vue
+ * @LastEditTime: 2023-09-19 10:30:37
+ * @FilePath: /CasaOS-App-UI/src/components/Apps/AppSection.vue
  * @Description:
  *
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
@@ -224,15 +224,30 @@ export default {
 				})
 				this.oldAppList = orgOldAppList;
 
-				let listLinkApp = await this.getLinkAppList();
-				listLinkApp.forEach((item) => {
+				let linkAppList = await this.getLinkAppList();
+				linkAppList.forEach((item) => {
 					// linkApp does not have title.
 					item.title = {
 						en_us: item.name
 					}
 				})
+				// mirco app list
+				const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
+				const mircoAppList = mircoAppListRaw.map(item => {
+					return {
+						name: item.name,
+						entry: item.entry,
+						title: item.title,
+						icon: item.icon,
+						status: "running",
+						app_type: "mircoApp",
+						// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
+						// formality: item.formality,
+						// prefetch: item.prefetch
+					}
+				});
 				// all app list
-				let casaAppList = concat(builtInApplications, orgNewAppList, listLinkApp)
+				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, mircoAppList);
 				// get app sort info.
 				let lateSortList = await this.$api.users.getCustomStorage(orderConfig).then(res => res.data.data.data || []);
 
