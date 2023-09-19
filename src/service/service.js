@@ -1,6 +1,6 @@
 /*
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-13 02:06:42
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-18 19:03:16
  * @FilePath: \CasaOS-UI-0.4.2\src\service\service.js
  * @Description:
  *
@@ -10,9 +10,7 @@
 import axios  from 'axios'
 import router from '@/router'
 import store  from '@/store'
-// import { ToastProgrammatic as Toast } from 'buefy'
 
-// const axiosBaseURL1 = (process.env.NODE_ENV === "dev") ? `${document.location.protocol}//${process.env.VUE_APP_DEV_IP}:${process.env.VUE_APP_DEV_PORT}` : ``
 const axiosBaseURL = ``
 
 //Create a axios instance, And set timeout to 30s
