@@ -2,7 +2,7 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-02-18 10:20:10
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-19 10:30:37
+ * @LastEditTime: 2023-09-20 11:19:54
  * @FilePath: /CasaOS-App-UI/src/components/Apps/AppSection.vue
  * @Description:
  *
@@ -503,7 +503,9 @@ export default {
 		}
 	},
 	sockets: {
-		"app:install-end"() {
+		"app:install-end"(res) {
+			// business :: Tagging of new app / scrollIntoView
+			this.addIdToSessionStorage(res.Properties["app:name"])
 			this.getList().then(() => {
 				this.scrollToNewApp();
 			});

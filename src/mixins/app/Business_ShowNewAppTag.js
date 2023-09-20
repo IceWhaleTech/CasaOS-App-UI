@@ -1,7 +1,7 @@
 /*
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-12 18:30:18
- * @FilePath: \CasaOS-UI-0.4.2\src\mixins\app\Business_ShowNewAppTag.js
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-20 11:16:37
+ * @FilePath: /CasaOS-App-UI/src/mixins/app/Business_ShowNewAppTag.js
  * @Description:
  *
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
@@ -36,7 +36,7 @@ export default {
 				newAppTag = [appId];
 			}
 			this.newAppIds = newAppTag;
-			sessionStorage.setItem('newAppTag', JSON.stringify(newAppTag));
+			return sessionStorage.setItem('newAppTag', JSON.stringify(newAppTag));
 		},
 		removeIdFromSessionStorage(appId) {
 			let newAppTag = this.getSessionStorageOutputArray('newAppTag');
