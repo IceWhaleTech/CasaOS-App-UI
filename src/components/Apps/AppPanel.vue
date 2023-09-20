@@ -2,7 +2,7 @@
  * @Author: Jerryk jerry@icewhale.org
  * @Date: 2022-03-01 21:10:57
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-04 18:07:10
+ * @LastEditTime: 2023-09-20 11:20:02
  * @FilePath: /CasaOS-App-UI/src/components/Apps/AppPanel.vue
  * @Description:
  *
@@ -1099,7 +1099,7 @@ export default {
 			} else {
 				localStorage.removeItem("app_data")
 				// business :: Tagging of new app / scrollIntoView
-				this.addIdToSessionStorage(resData.name)
+				// this.addIdToSessionStorage(resData.name)
 
 				setTimeout(() => {
 					this.$emit('updateState')

@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-18 16:04:56
+ * @LastEditTime: 2023-09-20 10:48:20
  * @FilePath: /CasaOS-App-UI/src/App.vue
   * @Description:
   *
@@ -114,11 +114,12 @@ export default {
 		})
 	},
 	created() {
-		console.log(`%c
-_____             _____ _____
-|     |___ ___ ___|     |   __|
-|   --| .'|_ -| .'|  |  |__   |
-|_____|__,|___|__,|_____|_____|
+		console.log(`%cMicroApp is created!
+
+┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐   ┌─┐┌─┐┌─┐   ┬ ┬┬
+│  ├─┤└─┐├─┤│ │└─┐───├─┤├─┘├─┘───│ ││
+└─┘┴ ┴└─┘┴ ┴└─┘└─┘   ┴ ┴┴  ┴     └─┘┴
+
 -- Made by IceWhale with YOU --
 `, `font-family: monospace`);
 
@@ -152,6 +153,9 @@ _____             _____ _____
 	sockets: {
 		connect() {
 			console.log('socket connected');
+		},
+		"casaos-ui:topbar:dashboardsetting_language"(res) {
+			this.setLang(res.Properties.casaos_lang)
 		},
 	},
 }
