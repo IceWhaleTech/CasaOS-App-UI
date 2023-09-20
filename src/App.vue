@@ -1,6 +1,6 @@
 <!--
  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-20 10:48:20
+ * @LastEditTime: 2023-09-20 18:25:37
  * @FilePath: /CasaOS-App-UI/src/App.vue
   * @Description:
   *
@@ -164,7 +164,7 @@ export default {
 <style lang="scss" scoped>
 #app {
 	width: 100%;
-	// height: 100vh;
+	height: 100%;
 	font-weight: 400;
 	font-size: 0.875rem;
 	-webkit-font-smoothing: antialiased;
