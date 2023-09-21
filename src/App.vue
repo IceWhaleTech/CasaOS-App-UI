@@ -170,7 +170,7 @@ export default {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: #2c3e50;
-	overflow-y: hidden;
+	// overflow-y: hidden;
 
 	&.is-dark-bg {
 		background-color: #000;
