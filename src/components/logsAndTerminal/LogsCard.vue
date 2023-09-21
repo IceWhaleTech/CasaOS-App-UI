@@ -8,14 +8,6 @@
 
   -->
 
-<!--
- * @Author: JerryK
- * @Date: 2021-10-28 13:56:32
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2022-07-15 17:39:01
- * @Description: 
- * @FilePath: /CasaOS-UI/src/components/logsAndTerminal/LogsCard.vue
--->
 <template>
 	<fullscreen :class="{'mt-5':!fullscreen}" :fullscreen.sync="fullscreen" :page-only="true"
 				:teleport="true" class="fullScreen  pl-2 pt-2 pb-2 fdark-bg" @change="onWindowResize">
