@@ -10,7 +10,7 @@
 
 -->
 <template>
-	<div :class="{'narrow': currentSlide > 0 ,'_stepStoreList' : currentSlide === 0}"
+	<div :class="{'narrow': currentSlide > 0 ,'_stepStoreList' : currentSlide === 0, 'pop-small': currentSlide === 2 }"
 		 class="app-card modal-card">
 		<template v-if="sidebarOpen">
 			<!-- Sidebar Start -->
@@ -226,7 +226,7 @@
 			<!-- App Install Form End -->
 
 			<!-- App Install Process Start -->
-			<section v-if="currentSlide == 2">
+			<section v-if="currentSlide == 2" class="app-installing">
 				<AppInstallLoadingPanel
 				:currentInstallAppText="currentInstallAppText"
 				:currentInstallAppTextClass="currentInstallAppTextClass"
@@ -1219,7 +1219,13 @@ export default {
 	.modal-card {
 		width: 81.25rem;
 		.app-store{
-			width: 1300px;
+			width: 81.25rem;
+		}
+		&.pop-small{
+			width: 424px;
+			.app-installing{
+				width: 424px;
+			}
 		}
 	}
 }
