@@ -1,7 +1,7 @@
 <!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/3/2 下午4:26
-  * @FilePath: /CasaOS-UI/src/components/Apps/AppTerminalPanel.vue
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-20 18:37:04
+ * @FilePath: /CasaOS-App-UI/src/components/Apps/AppTerminalPanel.vue
   * @Description:
   *
   * Copyright (c) 2023 by IceWhale, All Rights Reserved.
@@ -68,12 +68,8 @@ export default {
 	methods: {
 		getLogs() {
 			// OLD:: this.$api.container.getLogsV2(this.appid)
-			this.$openAPI.appManagement.compose.composeAppLogs(this.appName).then((res) => {
+			this.$openAPI.appManagement.compose.composeAppLogs(this.appName, 200).then((res) => {
 				if (res.status == 200) {
-					// let data = res.data.data
-					// console.log(data)
-					// let replaceData = data.replace(/\n(.{8})/gu, '\n');
-					// this.logData = replaceData.substring(8, replaceData.length - 1);
 					this.logData = res.data.data
 				}
 			}).catch((err) => {

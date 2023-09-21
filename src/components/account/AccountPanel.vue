@@ -1,20 +1,12 @@
 <!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/1/6 下午3:03
-  * @FilePath: /CasaOS-UI/src/components/account/AccountPanel.vue
+ * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
+ * @LastEditTime: 2023-09-21 11:14:25
+ * @FilePath: /CasaOS-App-UI/src/components/account/AccountPanel.vue
   * @Description:
   *
   * Copyright (c) 2022 by IceWhale, All Rights Reserved.
   -->
 
-<!--
- * @Author: JerryK
- * @Date: 2021-10-25 18:19:17
- * @LastEditors: zhanghengxin ezreal.ice@icloud.com
- * @LastEditTime: 2022-08-30 16:23:26
- * @Description:
- * @FilePath: /CasaOS-UI/src/components/account/AccountPanel.vue
--->
 <template>
 	<div class="modal-card">
 		<ValidationObserver ref="observer" v-slot="{ handleSubmit }">
