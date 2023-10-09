@@ -4,94 +4,95 @@
 // TODO app-panel transform to popup-window
 // app-panel(popup-window) > popup-[size] ,size: small、 large 、, it contorl the width of popup window.
 .modal.app-panel{
-	.pop-small{
-
-	}
-
-	@media screen and (min-width: 769px) {
-		.app-panel {
-			.modal-card {
-				transition: all 0.3s;
-				._pl {
-					margin-right: 0;
-				}
-			}
+	.modal-card {
+		transition: all 0.3s;
+		._pl {
+			margin-right: 0;
 		}
 	}
+	// .pop-large
+	// .pop-medium :: default
+	// .pop-small
+	// .pop-minimal
 	
-	@media screen and (min-width: 1440px) {
-		.app-panel {
-			.modal-card {
-				._pl {
-					margin-right: 0;
-				}
+	@media screen and (min-width: 1367px) {
+		.modal-card {
+			width: 40.25rem;
+			&.pop-large{
+				width: 60rem;
+			}
+			&.pop-medium{
+				width: 40.25rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
 			}
 		}
 	}
 	
 	@media screen and (max-width: 1366px) {
-		.app-panel {
-			.modal-card {
-				width: 60rem;
-				.app-store{
-					width: 100%;
-				}
-			}
-		}
-		.f-list {
-			.is-one-quarter {
-				width: 33.333333% !important;
-			}
-		}
+		
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 33.333333% !important;
+		// 	}
+		// }
 	}
 	
 	@media screen and (max-width: 1024px) {
-		.app-panel {
-			.modal-card {
-				min-width: 100%;
-				.app-store{
-					width: 100%;
-				}
-			}
-		}
-		.f-list {
-			.is-one-quarter {
-				width: 50% !important;
-			}
-		}
+		
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 50% !important;
+		// 	}
+		// }
 	}
 	
 	@media screen and (max-width: 960px){
-		.modal .animation-content{
-			width: 100%;
-		}
-		.app-panel {
-			.modal-card {
-				width: 100%;
-				.app-store{
-					width: 100%;
-				}
-			}
-		}
 	}
 	
 	@media screen and (max-width: 768px) {
+		.modal-card {
+			width: 40.25rem;
+			&.pop-large{
+				width: 48rem;
+			}
+			&.pop-medium{
+				width: 40.25rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
+			}
+		}
 	}
 	
 	@media screen and (max-width: 480px) {
-		.app-panel {
-			.modal-card {
-				width: 100%;
-				.app-store{
-					width: 100%;
-				}
+		.modal-card {
+			width: 30rem;
+			&.pop-large{
+				width: 30rem;
+			}
+			&.pop-medium{
+				width: 30rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
 			}
 		}
-		.f-list {
-			.is-one-quarter {
-				width: 100% !important;
-			}
-		}
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 100% !important;
+		// 	}
+		// }
 	}
 }
 
