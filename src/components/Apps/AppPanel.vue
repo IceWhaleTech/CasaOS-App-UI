@@ -231,7 +231,6 @@
 				:currentInstallAppText="currentInstallAppText"
 				:currentInstallAppTextClass="currentInstallAppTextClass"
 				:isCasa="isCasa"
-				:isLoading="isLoading"
 				:totalPercentage="totalPercentage"
 				/>
 			</section>
@@ -666,7 +665,6 @@ export default {
 				min_memory = min_memory / 1024 / 1024
 			}
 			this.$openAPI.appManagement.appStore.composeAppStoreInfo(id).then(res => {
-				this.isLoading = false;
 				this.sidebarOpen = true;
 				this.appDetailData = res.data.data
 				this.appDetailData.id = id
@@ -707,10 +705,12 @@ export default {
 				}
 			}).then(res => {
 				if (res.status == 200) {
+					// checking
 					// if (!this.checkComposeApp(res.data, id)) {
 					// 	return
 					// }
 					let composeJSON = parse(res.data)
+					// warning
 					if (composeJSON["x-casaos"]?.tips?.before_install?.en_us) {
 						this.$buefy.modal.open({
 							parent: this,
@@ -785,9 +785,9 @@ export default {
 		installApp() {
 			this.$refs.compose.checkStep().then((valid) => {
 				if (valid.every(v => v === true)) {
-					this.isLoading = true;
+					// this.isLoading = true;
 					this.installComposeApp(this.dockerComposeCommands, this.currentInstallId).finally(() => {
-						this.isLoading = false;
+						// this.isLoading = false;
 					})
 				} else {
 					// toast info error.

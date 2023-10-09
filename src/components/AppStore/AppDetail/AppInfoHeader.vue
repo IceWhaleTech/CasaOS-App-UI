@@ -16,8 +16,8 @@
 					}}</p>
 				<p class="description mb-2">
 					<b-button v-if="installedList.includes(appDetailData.id)"
-						:loading="appDetailData.id == currentInstallId" rounded
-						size="is-normal" type="is-primary"
+						:loading="appDetailData.id == currentInstallId" 
+						rounded size="is-normal" type="is-primary"
 						@click="openThirdContainerByAppInfo(appDetailData)">
 						{{ $t('Open') }}
 					</b-button>
