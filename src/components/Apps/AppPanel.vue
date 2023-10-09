@@ -275,13 +275,13 @@ import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
 import DockerProgress from "@/components/AppInstallLoadingPanel/progress.js";
 import ComposeConfig from "@/components/AppSetting/ComposeConfig.vue";
-import {ValidationObserver, ValidationProvider} from "vee-validate";
-import {ice_i18n} from "@/mixins/base/common-i18n";
-import {parse} from "yaml";
-import {vOnClickOutside} from '@vueuse/components'
-import {AppConditionSelector, AppDetail, AppRecommend} from "@/components/AppStore";
-import {AppInstallLoadingFooter, AppInstallLoadingPanel} from "@/components/AppInstallLoadingPanel";
-import {AppSettingPanelFooter} from "@/components/AppSetting";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ice_i18n } from "@/mixins/base/common-i18n";
+import { parse } from "yaml";
+import { vOnClickOutside } from '@vueuse/components'
+import { AppConditionSelector, AppDetail, AppRecommend } from "@/components/AppStore";
+import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
+import { AppSettingPanelFooter } from "@/components/AppSetting";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -1230,6 +1230,7 @@ export default {
 	}
 }
 .animation-content{
+	// 影响 External Link 宽度
 	max-width: 100vw !important;
 }
 
@@ -1307,6 +1308,7 @@ export default {
 		}
 	}
 }
+
 @media screen and (max-width: 960px){
 	.modal .animation-content{
 		width: 100%;

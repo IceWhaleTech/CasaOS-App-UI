@@ -1,0 +1,98 @@
+// 😀
+// follow the New specification. https://www.figma.com/file/awS8QHAtZEe8yI9yE1xMM6/Design-System-V0.1.6?type=design&node-id=411%3A1638&mode=design&t=Esf40nr4uSJFqJj7-1
+// popup window-large
+// TODO app-panel transform to popup-window
+// app-panel(popup-window) > popup-[size] ,size: small、 large 、, it contorl the width of popup window.
+.modal.app-panel{
+	.modal-card {
+		transition: all 0.3s;
+		._pl {
+			margin-right: 0;
+		}
+	}
+	// .pop-large
+	// .pop-medium :: default
+	// .pop-small
+	// .pop-minimal
+	
+	@media screen and (min-width: 1367px) {
+		.modal-card {
+			width: 40.25rem;
+			&.pop-large{
+				width: 60rem;
+			}
+			&.pop-medium{
+				width: 40.25rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
+			}
+		}
+	}
+	
+	@media screen and (max-width: 1366px) {
+		
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 33.333333% !important;
+		// 	}
+		// }
+	}
+	
+	@media screen and (max-width: 1024px) {
+		
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 50% !important;
+		// 	}
+		// }
+	}
+	
+	@media screen and (max-width: 960px){
+	}
+	
+	@media screen and (max-width: 768px) {
+		.modal-card {
+			width: 40.25rem;
+			&.pop-large{
+				width: 48rem;
+			}
+			&.pop-medium{
+				width: 40.25rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
+			}
+		}
+	}
+	
+	@media screen and (max-width: 480px) {
+		.modal-card {
+			width: 30rem;
+			&.pop-large{
+				width: 30rem;
+			}
+			&.pop-medium{
+				width: 30rem;
+			}
+			&.pop-small{
+				width: 26.5rem;
+			}
+			&.pop-minimal{
+				width: 19.625rem;
+			}
+		}
+		// .f-list {
+		// 	.is-one-quarter {
+		// 		width: 100% !important;
+		// 	}
+		// }
+	}
+}
+
