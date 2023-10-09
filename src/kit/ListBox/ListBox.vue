@@ -10,7 +10,7 @@
 <template>
 	<transition name="slide-fade">
 		<div v-if="!activeAppStoreSourceInput || !isMobile"
-			 class="_polymorphic is-flex is-align-items-center _dropdown">
+			 class="_polymorphic is-flex is-align-items-center _dropdown cursor-pointer">
 			<b-dropdown v-model="currentOptionProxy" :max-height="240" :mobile-modal="false"
 						animation="fade1" aria-role="list" class="app-select file-dropdown"
 						position="is-bottom-right" scrollable>
