@@ -82,7 +82,7 @@
 					:recommendList="recommendList"
 					:showAppDetial="showAppDetial"
 					:showDetailSwiper="showDetailSwiper"
-					@quickInstall="quickInstall"
+					:quickInstall="quickInstall"
 					>
 					</AppRecommend>
 					<!-- Featured Slider End -->
@@ -96,7 +96,7 @@
 					@update-pageList="updatePageList"
 					@update-isLoading="updateIsLoading"
 					@update-isLoadError="updateIsLoadError"
-					@update-installed-list="updateInstalledList"
+					@update-installedList="updateInstalledList"
 					@update-searchKey="updateSearchKey"
 					/>
 
