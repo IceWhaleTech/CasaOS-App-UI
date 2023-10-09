@@ -114,7 +114,8 @@ export default {
 		})
 	},
 	created() {
-		console.log(`%cMicroApp is created!
+		console.log(`
+MicroApp is created!
 
 ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐   ┌─┐┌─┐┌─┐   ┬ ┬┬
 │  ├─┤└─┐├─┤│ │└─┐───├─┤├─┘├─┘───│ ││
