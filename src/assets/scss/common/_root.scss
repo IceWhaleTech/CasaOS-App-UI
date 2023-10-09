@@ -46,9 +46,10 @@ html {
 }
 
 @media screen and (max-width: 1024px) {
-	.container {
-		margin: 0 1rem;
-	}
+	// fix https://github.com/IceWhaleTech/CasaOS-App-UI/blob/e50cc287c0db73a5ab095ff5899ffcb697a5a99a/src/views/Home.vue#L12
+	// .container {
+	// 	margin: 0 1rem;
+	// }
 }
 
 @media screen and (max-width: 480px) {
