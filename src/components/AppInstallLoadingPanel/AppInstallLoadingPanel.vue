@@ -1,3 +1,11 @@
+<!--
+ * @Author              : zhanghengxin ezreal.zhang@icewhale.org
+ * @Date                : 2023-08-31 15:40:59
+ * @LastEditTime        : 2023-10-09 15:56:48
+ * @LastEditors         : zhanghengxin ezreal.zhang@icewhale.org
+ * @FilePath            : /CasaOS-App-UI/src/components/AppInstallLoadingPanel/AppInstallLoadingPanel.vue
+ * @Description         : Copyright (c) 2023 by ${git_name}, All Rights Reserved. 
+-->
 <template>
 <div :class="{'_hideOverflow': !isCasa}" class="modal-card-body pt-3 _b-line">
 	<div class="installing-warpper mb-5">
@@ -14,8 +22,6 @@
 			style="height: 20px"
 			v-html="currentInstallAppText"></h3>
 	</div>
-
-	<b-loading v-model="isLoading" :can-cancel="false" :is-full-page="false"></b-loading>
 </div>
 </template>
 
@@ -27,6 +33,5 @@ defineProps({
 	totalPercentage: Number,
 	currentInstallAppText: String,
 	currentInstallAppTextClass: String,
-	isLoading: Boolean,
 })
 </script>
