@@ -192,6 +192,8 @@ export default {
 					}
 					this.saveLinkApp(listLinkApp)
 				}
+			}).finally(() => {
+				this.isLoading = false
 			})
 		},
 
