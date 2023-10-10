@@ -97,11 +97,13 @@
 		position: absolute;
 		right: 0.5rem;
 		top: 1rem;
-		visibility: hidden;
-		opacity: 0;
 		transition: all 0.2s;
 		outline: none;
 		z-index: 20;
+		.action-btn-trigger{
+			visibility: hidden;
+			opacity: 0;
+		}
 	}
 	
 	
@@ -121,8 +123,10 @@
 	
 	&:hover {
 		.action-btn {
-			visibility: visible;
-			opacity: 1;
+			.action-btn-trigger{
+				visibility: visible;
+				opacity: 1;
+			}
 		}
 	}
 	
