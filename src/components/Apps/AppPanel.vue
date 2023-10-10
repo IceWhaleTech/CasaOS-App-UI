@@ -732,6 +732,7 @@ export default {
 							}
 						})
 					} else {
+						debugger;
 						this.installComposeApp(res.data, id)
 					}
 
@@ -785,9 +786,8 @@ export default {
 		installApp() {
 			this.$refs.compose.checkStep().then((valid) => {
 				if (valid.every(v => v === true)) {
-					// this.isLoading = true;
 					this.installComposeApp(this.dockerComposeCommands, this.currentInstallId).finally(() => {
-						// this.isLoading = false;
+						this.isLoading = false;
 					})
 				} else {
 					// toast info error.
