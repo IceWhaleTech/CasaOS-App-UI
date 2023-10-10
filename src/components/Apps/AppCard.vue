@@ -16,7 +16,7 @@
 						aria-role="list" class="app-card-drop" position="is-bottom-left"
 						@active-change="setDropState">
 				<template #trigger>
-					<p role="button">
+					<p role="button" class="action-btn-trigger">
 						<b-icon class="is-clickable" icon="dots-vertical"></b-icon>
 					</p>
 				</template>
