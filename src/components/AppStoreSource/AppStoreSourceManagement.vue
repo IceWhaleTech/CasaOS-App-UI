@@ -171,7 +171,7 @@ onBeforeUnmount(() => {
 <template>
 	<div v-on-click-outside="onClickOutsideHandler">
 		<Transition mode="out-in" name="management-change" @after-enter="activeInput">
-			<div v-if="componentState==='first_add_state'" key="1" class="one-line" @click="changeInputState">+ {{
+			<div v-if="componentState==='first_add_state'" key="1" class="one-line polymorphic" @click="changeInputState">+ {{
 					$t("Add Source")
 				}}
 			</div>
