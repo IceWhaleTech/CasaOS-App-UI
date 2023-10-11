@@ -10,7 +10,7 @@
 
 -->
 <template>
-	<div :class="{'narrow': currentSlide > 0 ,'_stepStoreList' : currentSlide === 0, 'pop-large': currentSlide === 0 , 'pop-small': currentSlide === 2 }"
+	<div :class="{'narrow': currentSlide > 0 ,'_stepStoreList' : currentSlide === 0, 'pop-max': currentSlide === 0 , 'pop-small': currentSlide === 2 }"
 		 class="app-card modal-card">
 		<template v-if="sidebarOpen">
 			<!-- Sidebar Start -->
