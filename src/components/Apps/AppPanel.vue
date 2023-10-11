@@ -567,7 +567,7 @@ export default {
 		*  === 2 Other Panel. (Installing)
 		* */
 		currentSlide(val) {
-			if (val == 1) {
+			if (val == 1 || val == 2) {
 				this.isLoading = false;
 			}
 		},
@@ -577,6 +577,7 @@ export default {
 			this.pageList = val
 		},
 		updateIsLoading(val) {
+			// TODO Too many callbacks function to isLoading errors.
 			this.isLoading = val
 		},
 		updateInstalledList(val) {
@@ -732,7 +733,6 @@ export default {
 							}
 						})
 					} else {
-						debugger;
 						this.installComposeApp(res.data, id)
 					}
 
@@ -786,9 +786,7 @@ export default {
 		installApp() {
 			this.$refs.compose.checkStep().then((valid) => {
 				if (valid.every(v => v === true)) {
-					this.installComposeApp(this.dockerComposeCommands, this.currentInstallId).finally(() => {
-						this.isLoading = false;
-					})
+					this.installComposeApp(this.dockerComposeCommands, this.currentInstallId)
 				} else {
 					// toast info error.
 					this.$buefy.toast.open({
@@ -876,7 +874,6 @@ export default {
 					this.isLoading = true;
 					this.$api.container.update(this.id, this.settingData).then((res) => {
 						if (res.data.success == 200) {
-							this.isLoading = false;
 							this.$emit('updateState')
 						} else {
 							this.$buefy.toast.open({
@@ -886,11 +883,12 @@ export default {
 						}
 						this.$emit('close')
 					}).catch((err) => {
-						this.isLoading = false;
 						this.$buefy.toast.open({
 							message: err.response.data.message,
 							type: 'is-warning'
 						})
+					}).finally(() => {
+						this.isLoading = false;
 					})
 				}
 			})
@@ -982,89 +980,9 @@ export default {
 			})
 		},
 
-		/*async getDiskList() {
-			try {
-				const storageRes = await this.$api.storage.list({system: "show"})
-				const storageArray = []
-				storageRes.data.data.forEach(item => {
-					item.children.forEach(part => {
-						part.disk = item.path
-						part.diskName = item.disk_name
-						storageArray.push(part)
-					})
-				})
-				this.storageData = storageArray.map((storage) => {
-					return {
-						name: storage.label,
-						isSystem: storage.diskName == "System",
-						fsType: storage.type,
-						size: storage.size,
-						availSize: storage.avail,
-						usePercent: 100 - Math.floor(storage.avail * 100 / storage.size),
-						diskName: storage.drive_name,
-						path: storage.path,
-						mount_point: storage.mount_point,
-						disk: storage.disk
-					}
-
-				})
-			} catch (error) {
-				console.log(error.response.message);
-			}
-		},*/
-
 		getSelection(val) {
 			this.installationLocation = val
 		},
-
-		/*	async askInstallationLocation() {
-				try {
-					// get docker info
-					let {data} = await this.$api.container.getInstallationLocation()
-					switch (data.success) {
-						case 200:
-						case 400:
-						default:
-							this.isFirstInstall = !data.data.docker_root_dir
-							break;
-					}
-				} catch (err) {
-					console.log(`${err} in askInstallationLocation`)
-				}
-			},*/
-
-		/*async submitInstallationLocation(val) {
-			this.isLoading = true
-			let path = ''
-			if (val === '/') {
-				path = val + 'var/lib/docker'
-			} else {
-				path = val + '/docker'
-			}
-			try {
-
-				// await this.$api.folder.create(path)
-				await this.$openAPI.iceFile.putFile(path)
-			} catch (e) {
-				this.$buefy.toast.open({
-					message: this.$t('Error when creating installation path for apps'),
-					type: 'is-danger'
-				})
-				return
-			}
-
-			this.$api.container.putInstallationLocation(path).then(data => {
-				this.isLoading = false
-				this.isFirstInstall = data.data.docker_root_dir
-			}).catch(err => {
-				this.isLoading = false
-				console.log(`${err} in submitInstallationLocation`)
-				this.$buefy.toast.open({
-					message: err.message,
-					type: 'is-danger'
-				})
-			})
-		},*/
 
 		installAppProgress(resData) {
 			if (this.currentInstallAppName != resData.name) {
@@ -1217,10 +1135,10 @@ export default {
 
 .app-panel {
 	.modal-card {
-		width: 81.25rem;
-		.app-store{
-			width: 81.25rem;
-		}
+		//width: 81.25rem;
+		//.app-store{
+		//	width: 81.25rem;
+		//}
 		&.pop-small{
 			width: 424px;
 			.app-installing{

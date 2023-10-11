@@ -95,10 +95,9 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
-.app-detail {
+.modal-card.app-detail {
 	overflow: auto;
 	height: 100%;
+	width: 100%;
 }
-
 </style>
