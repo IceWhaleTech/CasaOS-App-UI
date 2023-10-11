@@ -72,7 +72,6 @@ describe('ListBox.vue', () => {
 		// console.log(dropdown)
 		// console.log(dropdown.vm)
 		// console.log(wrapper.vm)
-		debugger
 		dropdown.vm.$emit('click')
 		expect(wrapper.emitted().click).toBeTruthy()
 	})
