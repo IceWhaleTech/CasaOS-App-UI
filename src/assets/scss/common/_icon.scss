@@ -106,3 +106,22 @@
 	box-sizing: border-box;
 	overflow: hidden;
 }
+
+// 0.4.4
+.polymorphic:hover {
+	cursor: pointer;
+	background: hsla(208, 16%, 96%, 1);
+}
+
+.polymorphic:active {
+	background: hsla(208, 16%, 94%, 1);
+}
+
+.polymorphic-attention:hover {
+	cursor: pointer;
+	background: hsla(18, 98%, 94%, 1);
+}
+
+.polymorphic-attention:active {
+	background: hsla(18, 100%, 80%, 1);
+}
