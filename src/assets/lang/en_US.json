@@ -406,5 +406,9 @@
   "Rebulid error": "Rebulid error",
   "Installing {title}": "Installing {title}",
   "Legacy app (To be rebuilt).": "Legacy app (To be rebuilt).",
-  "To be rebuilt.": "To be rebuilt."
+  "To be rebuilt.": "To be rebuilt.",
+
+  "official":"Official",
+  "by_casaos":"Approved/Certified",
+  "community":"Community"
 }

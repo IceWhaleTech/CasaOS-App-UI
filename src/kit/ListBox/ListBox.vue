@@ -41,7 +41,7 @@
 					<div class="media is-align-items-center is-flex has-text-full-03"
 						 @click="handleOptionClick(option)">
 						<div class="media-content">
-							<h3>{{ option.name }}</h3>
+							<h3>{{ $t(option.name) }}</h3>
 						</div>
 					</div>
 				</b-dropdown-item>
