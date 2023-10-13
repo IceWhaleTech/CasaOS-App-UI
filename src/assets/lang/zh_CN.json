@@ -405,5 +405,9 @@
   "Rebulid error": "重建错误",
   "Installing {title}": "Installing {title}",
   "Legacy app (To be rebuilt).": "旧应用程序 (待重建)。",
-  "To be rebuilt.": "待重建。"
+  "To be rebuilt.": "待重建。",
+
+  "official":"Official",
+  "by_casaos":"Approved/Certified",
+  "community":"Community"
 }
