@@ -172,7 +172,7 @@ onBeforeUnmount(() => {
 	<div v-on-click-outside="onClickOutsideHandler">
 		<Transition mode="out-in" name="management-change" @after-enter="activeInput">
 			<div v-if="componentState==='first_add_state'" key="1" class="one-line polymorphic" @click="changeInputState">+ {{
-					$t("Add Source")
+					$t("Add a Repository")
 				}}
 			</div>
 			<div v-else-if="componentState === 'second_list_state'" key="2">
@@ -205,7 +205,7 @@ onBeforeUnmount(() => {
 					<hr class="mt-1 mb-1"/>
 					<b-dropdown-item @click="changeInputState">
 						<a :ref="ignoreElRef" class="one-line"> {{
-								$t("Add Source")
+								$t("Add a Repository")
 							}}
 						</a>
 					</b-dropdown-item>

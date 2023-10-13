@@ -38,7 +38,7 @@
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
 				<div class="is-flex is-align-items-center">
-					<b-button v-if="currentSlide == 0" :label="$t('Custom Install')" class="mr-2"
+					<b-button v-if="currentSlide == 0" :label="$t('Add a Containerized Application')" class="mr-2"
 							  icon-left="view-grid-plus"
 							  rounded size="is-small" type="is-primary" @click="currentSlide = 1"/>
 

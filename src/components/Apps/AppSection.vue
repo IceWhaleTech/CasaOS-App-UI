@@ -22,7 +22,7 @@
 							size="is-24"></b-icon>
 				</template>
 				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel(0, 'custom')">
-					{{ $t('Custom Install APP') }}
+					{{ $t('Add a Containerized Application APP') }}
 				</b-dropdown-item>
 				<b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
 					{{ $t('Add external link/APP') }}
