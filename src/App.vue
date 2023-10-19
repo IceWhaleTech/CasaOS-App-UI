@@ -56,8 +56,8 @@ export default {
 	mixins: [mixin],
 	data() {
 		return {
-			isZIMA: false,
-			TITLE: "NAME",
+			// isZIMA: false,
+			// TITLE: "NAME",
 			// OS: "OS",
 			// V_ID: '!@#$%^&*()10',
 		}
@@ -72,46 +72,46 @@ export default {
 	},
 	provide() {
 		return {
-			isZIMA: computed(() => this.isZIMA),
-			TITLE: computed(() => this.TITLE),
+			// isZIMA: computed(() => this.isZIMA),
+			// TITLE: computed(() => this.TITLE),
 		}
 	},
 	watch: {
-		TITLE: {
-			handler(val) {
-				if (this.$router.currentRoute.path !== "/") {
-					let wallpaper = {
-						from: "Built-in",
-						path: require('@/assets/background/default_wallpaper.jpg')
-					};
-					if (this.TITLE.toLowerCase() === 'zimablade') {
-						wallpaper = {
-							path: require('@/assets/background/wallpaper01-ZIMA.jpg'),
-							from: "Built-in" //Built-in, Upload, Files
-						}
-					} else if (this.TITLE.toLowerCase() === 'zimabox') {
-						wallpaper = {
-							path: require('@/assets/background/wallpaper02-ZIMA.jpg'),
-							from: "Built-in" //Built-in, Upload, Files
-						}
-					}
-					this.$store.commit('SET_WALLPAPER', wallpaper)
-				}
-			}
-		}
+		// TITLE: {
+		// 	handler(val) {
+		// 		if (this.$router.currentRoute.path !== "/") {
+		// 			let wallpaper = {
+		// 				from: "Built-in",
+		// 				path: require('@/assets/background/default_wallpaper.jpg')
+		// 			};
+		// 			if (this.TITLE.toLowerCase() === 'zimablade') {
+		// 				wallpaper = {
+		// 					path: require('@/assets/background/wallpaper01-ZIMA.jpg'),
+		// 					from: "Built-in" //Built-in, Upload, Files
+		// 				}
+		// 			} else if (this.TITLE.toLowerCase() === 'zimabox') {
+		// 				wallpaper = {
+		// 					path: require('@/assets/background/wallpaper02-ZIMA.jpg'),
+		// 					from: "Built-in" //Built-in, Upload, Files
+		// 				}
+		// 			}
+		// 			this.$store.commit('SET_WALLPAPER', wallpaper)
+		// 		}
+		// 	}
+		// }
 	},
 	beforeCreate() {
-		axios.get(`http://${this.$baseHostname}:9527`).then(res => {
-			const {
-				device_model = 'CasaOS',
-				device_name = 'CasaOS'
-			} = res.data
-			this.isZIMA = /^Zima/.test(device_model)
-			this.OS = device_model
-			this.TITLE = device_name
-		}).catch(e => {
-			console.error("GETTING THE CONFIG OF YOUR MACHINE IS EXPERIENCING AN ERROR:", e)
-		})
+		// axios.get(`http://${this.$baseHostname}:9527`).then(res => {
+		// 	const {
+		// 		device_model = 'CasaOS',
+		// 		device_name = 'CasaOS'
+		// 	} = res.data
+		// 	this.isZIMA = /^Zima/.test(device_model)
+		// 	this.OS = device_model
+		// 	this.TITLE = device_name
+		// }).catch(e => {
+		// 	console.error("GETTING THE CONFIG OF YOUR MACHINE IS EXPERIENCING AN ERROR:", e)
+		// })
 	},
 	created() {
 		console.log(`
