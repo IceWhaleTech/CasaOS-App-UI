@@ -572,7 +572,6 @@ export default {
 <style lang="scss" scoped>
 .app-list {
 	position: relative;
-	margin: 0;
 }
 
 @media screen and (max-width: 480px) {
