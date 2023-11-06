@@ -1,10 +1,1 @@
-{
-  "name": "icewhale_app",
-  "title": {
-    "en_us": "App"
-  },
-  "prefetch": true,
-  "entry": "/modules/icewhale_app/index.html",
-  "icon": "/modules/icewhale_app/appicon.svg",
-  "description": "Icewhale App: To manage your apps"
-}
+{}
