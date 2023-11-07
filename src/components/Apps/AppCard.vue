@@ -23,7 +23,7 @@
 
 				<b-dropdown-item :focusable="false" aria-role="menu-item" custom>
 					<b-button expanded tag="a" type="is-text" @click="openApp(item)">{{ $t('Open') }}</b-button>
-					<b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question" size="is-16"
+					<b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16"
 							  type="is-text" @click="openTips(item.name)">
 						{{ $t('Tips') }}
 					</b-button>
