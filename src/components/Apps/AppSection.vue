@@ -12,7 +12,7 @@
 <template>
 	<div class="home-section has-text-left">
 		<!-- Title Bar Start -->
-		<div class="is-flex is-align-items-center mb-4">
+		<div class="is-flex is-align-items-center mb-1">
 			<app-section-title-tip id="appTitle1" class="is-flex-grow-1 has-text-sub-04" label="Drag icons to sort."
 								   title="Apps"></app-section-title-tip>
 
@@ -33,7 +33,7 @@
 
 		<!-- App List Start -->
 		<draggable v-model="appList" :draggable="draggable"
-				   class="columns is-variable is-2 is-multiline app-list contextmenu-canvas" tag="div"
+				   class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div"
 				   v-bind="dragOptions"
 				   @end="onSortEnd" @start="drag = true">
 
