@@ -957,6 +957,14 @@ export default {
 .app-card .modal-card-head.setting-compose-panel {
 	background-color: hsla(208, 16%, 94%, 1);
 }
+// 滚动条背景, 
+.b-tabs .tab-content::-webkit-scrollbar {
+	background-color: rgba(255, 255, 255, 0);
+}
+// 滚动条颜色
+.b-tabs .tab-content::-webkit-scrollbar-thumb {
+	background-color: hsla(208, 16%, 94%, 1);
+}
 </style>
 <style lang="scss" scoped>
 
