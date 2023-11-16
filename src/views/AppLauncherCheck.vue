@@ -9,8 +9,8 @@
 <template>
 	<div v-if="isCheckFailed"
 		class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-fullheight">
-		<b-image :key="appDetailData.icon" :src="appDetailData.icon" :src-fallback="require('@/assets/img/app/default.svg')"
-			class="is-64x64 icon-shadow" webp-fallback=".jpg"></b-image>
+		<!-- <b-image :key="appDetailData.icon" :src="appDetailData.icon" :src-fallback="require('@/assets/img/app/default.svg')"
+			class="is-64x64 icon-shadow" webp-fallback=".jpg"></b-image> -->
 		<h2 class="has-text-emphasis-01 has-text-white mt-2">{{ appDetailData.name }}</h2>
 		<h1 v-if="status === 'pending'" class="has-text-sub-03 has-text-white mt-6">{{ $t('Preparing for launch') }}
 		</h1>
