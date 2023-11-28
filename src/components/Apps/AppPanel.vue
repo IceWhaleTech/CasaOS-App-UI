@@ -38,22 +38,22 @@
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
 				<div class="is-flex is-align-items-center">
-					<b-button v-if="currentSlide == 0" :label="$t('Add a Containerized Application')" class="mr-2 has-text-black"
+					<b-button v-if="currentSlide == 0" :label="$t('Add a Containerized Application')" class="mr-2"
 							  icon-left="view-grid-plus"
 							  rounded size="is-small" type="is-primary" @click="currentSlide = 1"/>
 
 					<b-tooltip v-if="showImportButton" :label="$t('Import')" position="is-bottom" type="is-dark">
-						<button class="icon-button mdi mdi-import has-text-black" type="button" @click="showImportPanel"/>
+						<button class="icon-button mdi mdi-import" type="button" @click="showImportPanel"/>
 					</b-tooltip>
 
 					<b-tooltip v-if="showTerminalButton" :label="$t('Terminal & Logs')" position="is-bottom"
 							   type="is-dark">
-						<button class="icon-button mdi mdi-console has-text-black" type="button" @click="showTerminalPanel"/>
+						<button class="icon-button mdi mdi-console" type="button" @click="showTerminalPanel"/>
 					</b-tooltip>
 
 					<b-tooltip v-if="showExportButton" :label="$t('Export ComposeFile')" position="is-bottom"
 							   type="is-dark">
-						<button class="icon-button mdi mdi-export-variant has-text-black" type="button" @click="exportYAML"/>
+						<button class="icon-button mdi mdi-export-variant" type="button" @click="exportYAML"/>
 					</b-tooltip>
 					<div v-if="currentSlide < 2"
 						 class="is-flex is-align-items-center modal-close-container modal-close-container-line ">
