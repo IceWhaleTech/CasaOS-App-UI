@@ -130,11 +130,6 @@
 									 webp-fallback=".jpg" @click.native="openApp(item)"></b-image>
 							<!-- Unstable-->
 							<cTooltip v-if="newAppIds.includes(item.name)" class="__position" content="NEW"></cTooltip>
-							<cTooltip v-else-if="hasUpdate" :is-block="true" class="__position" modal="is-info">
-								<b-icon :title="$t('New version available!')" icon="alert-decagram"
-										style="overflow:unset"
-										type="is-warning"></b-icon>
-							</cTooltip>
 						</div>
 
 						<!-- Loading Bar Start -->
@@ -199,7 +194,6 @@ export default {
 			// Public. Only changes the state of the card, not the state of the button.
 			isSaving: false,
 			isActiveTooltip: false,
-			hasUpdate: false
 		}
 	},
 	props: {
@@ -207,30 +201,6 @@ export default {
 			type: Object
 		},
 	},
-
-	async mounted() {
-
-		if (!!this.item.store_app_id) {
-			try {
-				const {data: {data: response}} = await apps.getAppComposeV2(this.item.store_app_id);
-
-				const image = response.compose.services[response.store_info.main].image;
-
-				if (!/:latest$/.test(this.item.image) && !/:latest$/.test(image)) {
-					if (this.item.image.trim() !== image.trim()) {
-						this.hasUpdate = true;
-					}
-				} else {
-					// TO DO: logic for handling images with `latest` tag
-				}
-
-			} catch (e) {
-			}
-
-		}
-
-	},
-
 	computed: {
 		tooltipLabel() {
 			if (this.isContainerApp) {
