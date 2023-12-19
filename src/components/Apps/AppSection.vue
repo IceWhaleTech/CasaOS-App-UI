@@ -233,7 +233,7 @@ export default {
 				})
 				// mirco app list
 				const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
-				const mircoAppList = mircoAppListRaw.map(item => {
+				const mircoAppList = mircoAppListRaw.filter(item=> item?.show ?? true).map(item => {
 					return {
 						name: item.name,
 						entry: item.entry,
@@ -241,6 +241,7 @@ export default {
 						icon: item.icon,
 						status: "running",
 						app_type: "mircoApp",
+						open_type: item.formality.modal,
 						// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
 						// formality: item.formality,
 						// prefetch: item.prefetch
