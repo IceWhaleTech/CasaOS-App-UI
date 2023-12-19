@@ -308,10 +308,15 @@ export default {
 				this.openSystemApps(item)
 			} else if (item.app_type === 'mircoApp') {
 				// this.showMircoApp(item);
-				this.$messageBus('mircoapp_communicate', {
-					action: MIRCO_APP_ACTION_ENUM.OPEN,
-					name: item.name
-				})
+				if (item.open_type === "newTab") {
+					window.open(`./modules/${item.name}`, '_blank');
+				} else {
+					this.$messageBus('mircoapp_communicate', {
+						action: MIRCO_APP_ACTION_ENUM.OPEN,
+						name: item.name
+					})
+				}
+				
 			} else if (this.isLinkApp) {
 				window.open(item.hostname, '_blank');
 				this.removeIdFromSessionStorage(item.name);
