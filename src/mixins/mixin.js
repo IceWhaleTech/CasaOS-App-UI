@@ -92,11 +92,11 @@ export const mixin = {
 		 * @return {void}
 		 */
 		//
-		setLang(lang) {
-			this.$store.commit('SET_LANGUAGE', lang);
-			localStorage.setItem('lang', lang)
-			this.$i18n.locale = lang;
-		},
+		// setLang(lang) {
+		// 	this.$store.commit('SET_LANGUAGE', lang);
+		// 	localStorage.setItem('lang', lang)
+		// 	this.$i18n.locale = lang;
+		// },
 
 
 		/**

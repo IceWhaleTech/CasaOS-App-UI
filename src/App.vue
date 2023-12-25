@@ -140,7 +140,6 @@ MicroApp is created!
 		setInitLang() {
 			let lang = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.getLangFromBrowser()
 			lang = lang.includes("_") ? lang : "en_us";
-			this.setLang(lang);
 		},
 		/**
 		 * @description: Handle on Window reize
@@ -154,9 +153,6 @@ MicroApp is created!
 	sockets: {
 		connect() {
 			console.log('socket connected');
-		},
-		"casaos-ui:topbar:dashboardsetting_language"(res) {
-			this.setLang(res.Properties.casaos_lang)
 		},
 	},
 }
