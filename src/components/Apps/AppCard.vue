@@ -297,7 +297,7 @@ export default {
 			} else if (item.app_type === 'mircoApp') {
 				// this.showMircoApp(item);
 				if (item.open_type?.toLowerCase() === "newtab") {
-					window.open(`./modules/${item.name}`, '_blank');
+					window.open(`/modules/${item.name}`, '_blank');
 				} else {
 					this.$messageBus('mircoapp_communicate', {
 						action: MIRCO_APP_ACTION_ENUM.OPEN,
