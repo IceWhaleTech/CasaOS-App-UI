@@ -241,7 +241,7 @@ export default {
 						icon: item.icon,
 						status: "running",
 						app_type: "mircoApp",
-						open_type: item.formality.modal,
+						open_type: item.formality.type,
 						// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
 						// formality: item.formality,
 						// prefetch: item.prefetch
