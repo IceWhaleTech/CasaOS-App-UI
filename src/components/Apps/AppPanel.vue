@@ -10,59 +10,51 @@
 
 -->
 <template>
-	<div :class="{'narrow': currentSlide > 0 ,'_stepStoreList' : currentSlide === 0, 'pop-max': currentSlide === 0 , 'pop-small': currentSlide === 2 }"
-		 class="app-card modal-card">
+	<div :class="{ 'narrow': currentSlide > 0, '_stepStoreList': currentSlide === 0, 'pop-max': currentSlide === 0, 'pop-small': currentSlide === 2 }"
+		class="app-card modal-card">
 		<template v-if="sidebarOpen">
 			<!-- Sidebar Start -->
 			<app-side-bar v-model="sidebarOpen" :overlay="true" :right="true" position="absolute">
 				<template slot-scope="{close}">
-					<AppDetail
-					:appDetailData="appDetailData"
-					:arch="arch"
-					:currentInstallId="currentInstallId"
-					:handleBackBtnClick="close"
-					:installedList="installedList"
-					:showDetailSwiper="showDetailSwiper"
-					:cateMenu="cateMenu"
-					@install="quickInstall">
+					<AppDetail :appDetailData="appDetailData" :arch="arch" :currentInstallId="currentInstallId"
+						:handleBackBtnClick="close" :installedList="installedList" :showDetailSwiper="showDetailSwiper"
+						:cateMenu="cateMenu" @install="quickInstall">
 					</AppDetail>
 				</template>
 			</app-side-bar>
 			<!-- Sidebar End -->
-        </template>
-        <template v-else>
+		</template>
+		<template v-else>
 
 			<!-- Modal-Card Header Start -->
-			<header :class="{'setting-compose-panel' : currentSlide == 1 && isCasa}" class="modal-card-head _b-line">
+			<header :class="{ 'setting-compose-panel': currentSlide == 1 && isCasa }" class="modal-card-head _b-line">
 				<div class="is-flex-grow-1">
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
 				<div class="is-flex is-align-items-center">
 					<b-button v-if="currentSlide == 0" :label="$t('Add a Containerized Application')" class="mr-2"
-							  icon-left="view-grid-plus"
-							  rounded size="is-small" type="is-primary" @click="currentSlide = 1"/>
+						icon-left="view-grid-plus" rounded size="is-small" type="is-primary" @click="currentSlide = 1" />
 
 					<b-tooltip v-if="showImportButton" :label="$t('Import')" position="is-bottom" type="is-dark">
-						<button class="icon-button mdi mdi-import" type="button" @click="showImportPanel"/>
+						<button class="icon-button mdi mdi-import" type="button" @click="showImportPanel" />
 					</b-tooltip>
 
-					<b-tooltip v-if="showTerminalButton" :label="$t('Terminal & Logs')" position="is-bottom"
-							   type="is-dark">
-						<button class="icon-button mdi mdi-console" type="button" @click="showTerminalPanel"/>
+					<b-tooltip v-if="showTerminalButton" :label="$t('Terminal & Logs')" position="is-bottom" type="is-dark">
+						<button class="icon-button mdi mdi-console" type="button" @click="showTerminalPanel" />
 					</b-tooltip>
 
 					<b-tooltip v-if="showExportButton" :label="$t('Export ComposeFile')" position="is-bottom"
-							   type="is-dark">
-						<button class="icon-button mdi mdi-export-variant" type="button" @click="exportYAML"/>
+						type="is-dark">
+						<button class="icon-button mdi mdi-export-variant" type="button" @click="exportYAML" />
 					</b-tooltip>
 					<div v-if="currentSlide < 2"
-						 class="is-flex is-align-items-center modal-close-container modal-close-container-line ">
+						class="is-flex is-align-items-center modal-close-container modal-close-container-line ">
 						<b-icon class="_polymorphic close" icon="close-outline" pack="casa"
-								@click.native="$emit('close')"/>
+							@click.native="$emit('close')" />
 					</div>
 					<div v-else-if="currentSlide === 2" class="is-flex is-align-items-center">
 						<b-icon class="_polymorphic close" icon="close-outline" pack="casa"
-								@click.native="$emit('close')"/>
+							@click.native="$emit('close')" />
 					</div>
 				</div>
 			</header>
@@ -70,50 +62,36 @@
 
 			<!-- Modal-Card Body Start -->
 			<!-- App Store List Start -->
-			<section v-if="currentSlide == 0" :class="{'_hideOverflow': !isCasa}" class="modal-card-body pt-3 _pl app-store">
+			<section v-if="currentSlide == 0" :class="{ '_hideOverflow': !isCasa }"
+				class="modal-card-body pt-3 _pl app-store">
 
 				<template v-if="!isLoadError">
 
-					<AppRecommend
-					v-if="recommendList.length > 0"
-					:arch="arch"
-					:currentInstallId="currentInstallId"
-					:installedList="installedList"
-					:recommendList="recommendList"
-					:showAppDetial="showAppDetial"
-					:showDetailSwiper="showDetailSwiper"
-					:quickInstall="quickInstall"
-					>
+					<AppRecommend v-if="recommendList.length > 0" :arch="arch" :currentInstallId="currentInstallId"
+						:installedList="installedList" :recommendList="recommendList" :showAppDetial="showAppDetial"
+						:showDetailSwiper="showDetailSwiper" :quickInstall="quickInstall">
 					</AppRecommend>
 					<!-- Featured Slider End -->
 
 					<!-- List condition Start -->
-					<AppConditionSelector
-					:installedList="installedList"
-					:isLoading="isLoading"
-					:isMobile="isMobile"
-					:pageList="pageList"
-					@update-pageList="updatePageList"
-					@update-isLoading="updateIsLoading"
-					@update-isLoadError="updateIsLoadError"
-					@update-installedList="updateInstalledList"
-					@update-searchKey="updateSearchKey"
-					/>
+					<AppConditionSelector :installedList="installedList" :isLoading="isLoading" :isMobile="isMobile"
+						:pageList="pageList" @update-pageList="updatePageList" @update-isLoading="updateIsLoading"
+						@update-isLoadError="updateIsLoadError" @update-installedList="updateInstalledList"
+						@update-searchKey="updateSearchKey" />
 
 					<!-- List condition End -->
 					<!-- App list Start-->
 					<div class="columns f-list is-multiline is-mobile pb-3 mb-5">
-						<div v-for="(item,index) in filteredPageList" :key="index+item.title+item.id"
-							 class="column app-item is-one-quarter">
+						<div v-for="(item, index) in filteredPageList" :key="index + item.title + item.id"
+							class="column app-item is-one-quarter">
 							<div class="is-flex  is-align-items-center">
 								<div class="mr-4 is-clickable" @click="showAppDetial(item.id)">
-									<b-image :src="item.icon"
-											 :src-fallback="require('@/assets/img/app/default.svg')"
-											 class="is-64x64 icon-shadow" style="display: flex;align-items: center;"
-											 webp-fallback=".jpg"></b-image>
+									<b-image :src="item.icon" :src-fallback="require('@/assets/img/app/default.svg')"
+										class="is-64x64 icon-shadow" style="display: flex;align-items: center;"
+										webp-fallback=".jpg"></b-image>
 								</div>
 								<div class="is-flex-grow-1 mr-4 is-clickable"
-									 @click="showAppDetial(item.id);$messageBus('appstore_detail', item.title)">
+									@click="showAppDetial(item.id); $messageBus('appstore_detail', item.title)">
 									<h6 class="title is-6 mb-2">{{ item.title }}</h6>
 									<p class="is-size-7 two-line">{{ item.tagline }}</p>
 								</div>
@@ -121,21 +99,18 @@
 							</div>
 							<div class="mt-1 ml-7 is-flex is-align-items-center">
 								<div class="is-flex-grow-1 is-size-7 has-text-grey-light">{{
-										item.category
-									}}
+									item.category
+								}}
 								</div>
-								<b-button v-if="installedList.includes(item.id)"
-										  :loading="item.id == currentInstallId" rounded
-										  size="is-small"
-										  type="is-primary is-light" @click="openThirdContainerByAppInfo(item)">
+								<b-button v-if="installedList.includes(item.id)" :loading="item.id == currentInstallId"
+									rounded size="is-small" type="is-primary is-light"
+									@click="openThirdContainerByAppInfo(item)">
 									{{ $t('Open') }}
 								</b-button>
 								<b-button v-else :disabled="!item.architectures?.includes(arch)"
-										  :loading="item.id == currentInstallId"
-										  rounded
-										  size="is-small"
-										  type="is-primary is-light"
-										  @click="quickInstall(item.id);$messageBus('appstore_install', item.title)">
+									:loading="item.id == currentInstallId" rounded size="is-small"
+									type="is-primary is-light"
+									@click="quickInstall(item.id); $messageBus('appstore_install', item.title)">
 									{{ $t('Install') }}
 								</b-button>
 
@@ -166,23 +141,20 @@
 			<!-- App Install Form Start -->
 			<template v-if="currentSlide == 1">
 				<!--:config-data="initConfigData"-->
-				<ComposeConfig v-if="isCasa" ref="compose"
-							   :cap-array="capArray"
-							   :docker-compose-commands="dockerComposeConfig" :errInfo="errInfo" :networks="networks"
-							   :state="state"
-							   :total-memory="totalMemory"
-							   @updateDockerComposeCommands="updateDockerComposeCommands"
-							   @updateDockerComposeServiceName="updateDockerComposeServiceName"
-							   @updateMainName="name=> currentInstallId = name"></ComposeConfig>
+				<ComposeConfig v-if="isCasa" ref="compose" :cap-array="capArray"
+					:docker-compose-commands="dockerComposeConfig" :errInfo="errInfo" :networks="networks" :state="state"
+					:total-memory="totalMemory" @updateDockerComposeCommands="updateDockerComposeCommands"
+					@updateDockerComposeServiceName="updateDockerComposeServiceName"
+					@updateMainName="name => currentInstallId = name"></ComposeConfig>
 
-				<section v-else :class="{'_hideOverflow': !isCasa}" class="modal-card-body pt-3">
+				<section v-else :class="{ '_hideOverflow': !isCasa }" class="modal-card-body pt-3">
 					<!--	导入"已存在的容器"，进行初始化操作	-->
 					<ValidationObserver ref="containerValida">
 						<ValidationProvider v-slot="{ errors, valid }" name="appName" rules="required">
-							<b-field :label="$t('App name')+' *'" :message="$t(errors)"
-									 :type="{ 'is-danger': errors[0], 'is-success': valid }">
+							<b-field :label="$t('App name') + ' *'" :message="$t(errors)"
+								:type="{ 'is-danger': errors[0], 'is-success': valid }">
 								<b-input v-model="settingData.label" :placeholder="$t('Your custom App Name')"
-										 maxlength="40"></b-input>
+									maxlength="40"></b-input>
 							</b-field>
 						</ValidationProvider>
 
@@ -190,12 +162,12 @@
 							<p class="control">
 								<span class="button is-static container-icon">
 									<b-image :key="settingData.icon" :src="settingData.icon"
-											 :src-fallback="require('@/assets/img/app/default.svg')"
-											 class="is-32x32" ratio="1by1"></b-image>
+										:src-fallback="require('@/assets/img/app/default.svg')" class="is-32x32"
+										ratio="1by1"></b-image>
 								</span>
 							</p>
 							<b-input v-model="settingData.icon" :placeholder="$t('Your custom icon URL')"
-									 expanded></b-input>
+								expanded></b-input>
 						</b-field>
 
 						<b-field label="Web UI">
@@ -203,21 +175,15 @@
 								<option value="http">http://</option>
 								<option value="https">https://</option>
 							</b-select>
-							<b-input v-model="settingData.host" :placeholder="this.$baseHostname"
-									 expanded></b-input>
-							<b-autocomplete
-							v-model="settingData.port_map"
-							:data="(()=>{
-								return (settingData.ports || []).map((item)=>{
+							<b-input v-model="settingData.host" :placeholder="this.$baseHostname" expanded></b-input>
+							<b-autocomplete v-model="settingData.port_map" :data="(() => {
+								return (settingData.ports || []).map((item) => {
 									return item.host
 								})
-							})()"
-							:open-on-focus="true"
-							:placeholder="$t('Port')" class="has-colon" field="hostname"
-							@select="option => (settingData.port_map = option)"></b-autocomplete>
-							<b-input v-model="settingData.index"
-									 :placeholder="'/index.html '+ $t('[Optional]')"
-									 expanded></b-input>
+							})()" :open-on-focus="true" :placeholder="$t('Port')" class="has-colon" field="hostname"
+								@select="option => (settingData.port_map = option)"></b-autocomplete>
+							<b-input v-model="settingData.index" :placeholder="'/index.html ' + $t('[Optional]')"
+								expanded></b-input>
 						</b-field>
 					</ValidationObserver>
 
@@ -227,38 +193,23 @@
 
 			<!-- App Install Process Start -->
 			<section v-if="currentSlide == 2" class="app-installing">
-				<AppInstallLoadingPanel
-				:currentInstallAppText="currentInstallAppText"
-				:currentInstallAppTextClass="currentInstallAppTextClass"
-				:isCasa="isCasa"
-				:totalPercentage="totalPercentage"
-				/>
+				<AppInstallLoadingPanel :currentInstallAppText="currentInstallAppText"
+					:currentInstallAppTextClass="currentInstallAppTextClass" :isCasa="isCasa"
+					:totalPercentage="totalPercentage" />
 			</section>
 			<!-- App Install Process End -->
 			<b-loading v-model="isLoading" :can-cancel="false" :is-full-page="false"></b-loading>
 			<!-- Modal-Card Body End -->
 
 
-            <!-- Modal-Card Footer Start-->
-            <AppInstallLoadingFooter
-                v-if="currentSlide == 2"
-                :currentInstallAppError="currentInstallAppError"
-                :cancelButtonText="cancelButtonText"
-                @close="$emit('close')"
-                @back="prevStep"
-            />
+			<!-- Modal-Card Footer Start-->
+			<AppInstallLoadingFooter v-if="currentSlide == 2" :currentInstallAppError="currentInstallAppError"
+				:cancelButtonText="cancelButtonText" @close="$emit('close')" @back="prevStep" />
 
-            <AppSettingPanelFooter
-                v-if="currentSlide == 1 "
-                :state="state"
-                :isCasa="isCasa"
-                :isLoading="isLoading"
-                @install="installApp()"
-                @update="updateApp()"
-                @updateContainer="updateContainer()"
-            />
-            <!-- Modal-Card Footer End -->
-        </template>
+			<AppSettingPanelFooter v-if="currentSlide == 1" :state="state" :isCasa="isCasa" :isLoading="isLoading"
+				@install="installApp()" @update="updateApp()" @updateContainer="updateContainer()" />
+			<!-- Modal-Card Footer End -->
+		</template>
 	</div>
 </template>
 
@@ -273,7 +224,7 @@ import FileSaver from 'file-saver';
 import AppsInstallationLocation from "@/components/AppSetting/AppInstallationLocation.vue";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
-import DockerProgress from "@/components/AppInstallLoadingPanel/progress.js";
+// import DockerProgress from "@/components/AppInstallLoadingPanel/progress.js";
 import ComposeConfig from "@/components/AppSetting/ComposeConfig.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { ice_i18n } from "@/mixins/base/common-i18n";
@@ -321,7 +272,7 @@ export default {
 		ValidationObserver,
 		ValidationProvider,
 		AppDetail, AppRecommend, AppConditionSelector,
-		AppInstallLoadingPanel,AppInstallLoadingFooter,
+		AppInstallLoadingPanel, AppInstallLoadingFooter,
 		AppSettingPanelFooter
 	},
 	mixins: [business_ShowNewAppTag, business_OpenThirdApp],
@@ -395,8 +346,8 @@ export default {
 
 			// Featured Swiper
 			searchKey: "",
-			currentAuthor: {count: 0, font: "author", id: 0, name: "All"},
-			cateMenu:[],
+			currentAuthor: { count: 0, font: "author", id: 0, name: "All" },
+			cateMenu: [],
 			// currentSort: {},
 			// sortMenu: [
 			// 	{icon: "", slash: "rank", name: "Popular"},
@@ -413,9 +364,9 @@ export default {
 			},
 			//  App Detail info
 			appDetailData: {
-				title: {en_us: "",},
-				tagline: {en_us: "",},
-				description: {en_us: "",},
+				title: { en_us: "", },
+				tagline: { en_us: "", },
+				description: { en_us: "", },
 			},
 			arch: "",
 			// unusable: false, // computer unusable
@@ -441,7 +392,7 @@ export default {
 			/*storage_item_scence: 'select installation location',*/
 			// isFirstInstall: false,
 			installationLocation: '',
-			dockerProgress: null,
+			// dockerProgress: null,
 			totalPercentage: 0,
 			installedList: [],
 			counterPatchGetStoreList: 0,
@@ -536,7 +487,7 @@ export default {
 		currentInstallAppTextClass() {
 			return this.currentInstallAppError ? 'has-text-danger' : 'has-text-black'
 		},
-        archTitle() {
+		archTitle() {
 			if (this.arch === 'arm') {
 				return 'armv7'
 			}
@@ -594,13 +545,13 @@ export default {
 			const vh = window.innerHeight * 0.01;
 			document.documentElement.style.setProperty('--vh', `${vh}px`);
 		},
-		
+
 		/**
 		 * @description: Get category list
 		 * @param {*}
 		 * @return {*} void
 		 */
-		 async getCategoryList() {
+		async getCategoryList() {
 			// this.isLoading = true
 			try {
 				this.cateMenu = await this.$openAPI.appManagement.appStore.categoryList().then(res => res.data.data.filter((item) => {
@@ -647,10 +598,10 @@ export default {
 		},
 
 		/**
-         * @description: Show the details of app
-         * @param id
-         * @param id
-         */
+		 * @description: Show the details of app
+		 * @param id
+		 * @param id
+		 */
 		async showAppDetial(id) {
 			this.isLoading = true;
 			let min_memory = await this.$openAPI.appManagement.appStore.composeApp(id).then(res => {
@@ -693,10 +644,10 @@ export default {
 
 
 		/**
-         * @description: Qucik Install App from app store
-         * @param id
-         * @param id
-         */
+		 * @description: Qucik Install App from app store
+		 * @param id
+		 * @param id
+		 */
 		quickInstall(id) {
 			this.sidebarOpen = false;
 			this.$openAPI.appManagement.appStore.composeApp(id, {
@@ -749,7 +700,7 @@ export default {
 				})
 			})
 		},
-        /**
+		/**
 		 * @description: Get App icon form image
 		 * @param {*} image
 		 * @return {*}
@@ -763,9 +714,9 @@ export default {
 			}
 		},
 		/**
-         * @description: Back to prev Step
-         * @return {*} void
-         */
+		 * @description: Back to prev Step
+		 * @return {*} void
+		 */
 		prevStep() {
 			this.currentSlide--;
 		},
@@ -776,13 +727,13 @@ export default {
 		 * @return {Boolean}
 		 */
 		async checkStep(ref) {
-            return await ref.validate()
+			return await ref.validate()
 		},
 
 		/**
-         * @description: Submit datas after valid
-         * @return {*} void
-         */
+		 * @description: Submit datas after valid
+		 * @return {*} void
+		 */
 		installApp() {
 			this.$refs.compose.checkStep().then((valid) => {
 				if (valid.every(v => v === true)) {
@@ -914,15 +865,15 @@ export default {
 						this.$buefy.dialog.alert({
 							title: '⚠️ ' + this.$t('Attention'),
 							message: '<div class="nobrk"><h4 class="title is-5">' + this.$t('AutoFill only helps you to complete most of the configuration.') + '</h4>' +
-							'<p class="mb-3">' + this.$t('Some configuration information such as:') + '</p>' +
-							'<ul>' +
-							'<li>1. ' + this.$t('the port and path of the Web UI') + '</li>' +
-							'<li>2. ' + this.$t('the mount location of the volume or file') + '</li>' +
-							'<li>3. ' + this.$t('the port mapping of the Host') + '</li>' +
-							'<li>4. ' + this.$t('optional configuration items') + '</li>' +
-							'</ul>' +
-							'<p class="mt-3">' + this.$t('These include but are not limited to these cases and <b>still need to be confirmed or modified by you.</b>') + '</p>' +
-							'<p class="mt-3">' + this.$t('Feel free to suggest improvements to this feature in Discord Server!') + '</p></div>',
+								'<p class="mb-3">' + this.$t('Some configuration information such as:') + '</p>' +
+								'<ul>' +
+								'<li>1. ' + this.$t('the port and path of the Web UI') + '</li>' +
+								'<li>2. ' + this.$t('the mount location of the volume or file') + '</li>' +
+								'<li>3. ' + this.$t('the port mapping of the Host') + '</li>' +
+								'<li>4. ' + this.$t('optional configuration items') + '</li>' +
+								'</ul>' +
+								'<p class="mt-3">' + this.$t('These include but are not limited to these cases and <b>still need to be confirmed or modified by you.</b>') + '</p>' +
+								'<p class="mt-3">' + this.$t('Feel free to suggest improvements to this feature in Discord Server!') + '</p></div>',
 							type: 'is-dark'
 						})
 					}
@@ -936,9 +887,9 @@ export default {
 		},
 
 		/**
-         * @description: Export AppData to json file
-         * @return {*} void
-         */
+		 * @description: Export AppData to json file
+		 * @return {*} void
+		 */
 		exportYAML() {
 			let title = YAML.parse(this.dockerComposeCommands)?.["x-casaos"]?.["title"]
 			if (title) {
@@ -946,11 +897,11 @@ export default {
 			} else {
 				title = this.currentInstallId
 			}
-			const blob = new Blob([this.dockerComposeCommands], {type: ''});
+			const blob = new Blob([this.dockerComposeCommands], { type: '' });
 			FileSaver.saveAs(blob, `${title}.yaml`);
 		},
-        /**
-         * @description: Show Terminal & Logs panel
+		/**
+		 * @description: Show Terminal & Logs panel
 		 * @return {*} void
 		 */
 		showTerminalPanel() {
@@ -988,28 +939,19 @@ export default {
 			if (this.currentInstallAppName != resData.name) {
 				return false
 			}
+			console.log(resData.progress);
 			if (!resData.finished) {
 				this.currentInstallAppError = !resData.success;
 				if (resData.success) {
 					this.currentInstallAppType = resData.type;
-					if (resData.message !== "") {
-						const messageArray = resData.message.split(/[(\r\n)\r\n]+/);
-						messageArray.forEach((item, index) => {
-							if (!item) {
-								messageArray.splice(index, 1);
-							}
-						})
-						messageArray.forEach(item => {
-							const evt = JSON.parse(item)
-							this.totalPercentage = this.dockerProgress.getProgress(evt)
-						})
-						if (this.totalPercentage === 0) {
-							this.currentInstallAppText = 'Starting installation'
-						} else if (this.totalPercentage === 100) {
-							this.currentInstallAppText = 'Installation completed'
-						} else {
-							this.currentInstallAppText = 'Installing'
-						}
+					this.totalPercentage = Number(resData.progress);
+
+					if (this.totalPercentage === 0) {
+						this.currentInstallAppText = 'Starting installation'
+					} else if (this.totalPercentage === 100) {
+						this.currentInstallAppText = 'Installation completed'
+					} else {
+						this.currentInstallAppText = 'Installing ' + this.totalPercentage + '%'
 					}
 				} else {
 					this.currentInstallAppText = resData.message
@@ -1046,13 +988,23 @@ export default {
 			this.currentSlide = 2;
 			this.currentInstallAppText = "Start Installation..."
 			this.cancelButtonText = 'Continue in background'
-			this.dockerProgress = new DockerProgress();
+			// this.dockerProgress = new DockerProgress();
+			this.installAppProgress({
+				finished: false,
+				name: res.Properties["app:name"],
+				id: res.Properties["app:name"],
+				success: true,
+				type: "install-begin",
+				message: "Start Installation...",
+				progress: 0
+			});
 		},
 		"app:install-end"(res) {
 			this.installAppProgress({
 				finished: true,
 				name: res.Properties["app:name"],
-				id: res.Properties["docker:container:id"]
+				id: res.Properties["docker:container:id"],
+				process: 100
 			});
 		},
 		"app:install-error"(res) {
@@ -1064,16 +1016,27 @@ export default {
 				message: res.Properties["message"]
 			});
 		},
-		"docker:image:pull-progress"(res) {
+		"app:install-progress"(res) {
 			this.installAppProgress({
 				finished: false,
 				name: res.Properties["app:name"],
-				id: res.Properties["docker:container:id"],
+				id: res.Properties["app:name"],
 				success: true,
 				type: "pull",
-				message: res.Properties["message"]
+				progress: res.Properties["app:progress"],
+				message: res.Properties["app:progress"],
 			});
 		},
+		// "docker:image:pull-progress"(res) {
+		// 	this.installAppProgress({
+		// 		finished: false,
+		// 		name: res.Properties["app:name"],
+		// 		id: res.Properties["docker:container:id"],
+		// 		success: true,
+		// 		type: "pull",
+		// 		message: res.Properties["message"]
+		// 	});
+		// },
 	}
 }
 </script>
@@ -1135,19 +1098,22 @@ export default {
 
 .app-panel {
 	.modal-card {
+
 		//width: 81.25rem;
 		//.app-store{
 		//	width: 81.25rem;
 		//}
-		&.pop-small{
+		&.pop-small {
 			width: 424px;
-			.app-installing{
+
+			.app-installing {
 				width: 424px;
 			}
 		}
 	}
 }
-.animation-content{
+
+.animation-content {
 	// 影响 External Link 宽度
 	max-width: 100vw !important;
 }
@@ -1191,11 +1157,13 @@ export default {
 	.app-panel {
 		.modal-card {
 			width: 60rem;
-			.app-store{
+
+			.app-store {
 				width: 100%;
 			}
 		}
 	}
+
 	.f-list {
 		.is-one-quarter {
 			width: 33.333333% !important;
@@ -1204,6 +1172,7 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
+
 	// .modal-card{
 	// 	max-height: calc(var(--vh, 1vh) * 100);
 	// 	border-radius: 0;
@@ -1215,11 +1184,13 @@ export default {
 	.app-panel {
 		.modal-card {
 			min-width: 100%;
-			.app-store{
+
+			.app-store {
 				width: 100%;
 			}
 		}
 	}
+
 	.f-list {
 		.is-one-quarter {
 			width: 50% !important;
@@ -1227,14 +1198,16 @@ export default {
 	}
 }
 
-@media screen and (max-width: 960px){
-	.modal .animation-content{
+@media screen and (max-width: 960px) {
+	.modal .animation-content {
 		width: 100%;
 	}
+
 	.app-panel {
 		.modal-card {
 			width: 100%;
-			.app-store{
+
+			.app-store {
 				width: 100%;
 			}
 		}
@@ -1257,11 +1230,13 @@ export default {
 	.app-panel {
 		.modal-card {
 			width: 100%;
-			.app-store{
+
+			.app-store {
 				width: 100%;
 			}
 		}
 	}
+
 	.f-list {
 		.is-one-quarter {
 			width: 100% !important;
@@ -1385,5 +1360,4 @@ export default {
 		margin-bottom: 2px;
 	}
 }
-
 </style>
