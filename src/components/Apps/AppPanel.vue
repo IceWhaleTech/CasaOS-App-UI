@@ -939,7 +939,7 @@ export default {
 			if (this.currentInstallAppName != resData.name) {
 				return false
 			}
-			console.log(resData.progress);
+
 			if (!resData.finished) {
 				this.currentInstallAppError = !resData.success;
 				if (resData.success) {
