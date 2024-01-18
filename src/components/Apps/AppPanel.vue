@@ -27,7 +27,7 @@
 		<template v-else>
 
 			<!-- Modal-Card Header Start -->
-			<header :class="{ 'setting-compose-panel': currentSlide == 1 && isCasa }" class="modal-card-head _b-line">
+			<header :class="{ 'setting-compose-panel': currentSlide == 1 && isCasa }" class="modal-card-head b-line">
 				<div class="is-flex-grow-1">
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
@@ -1300,10 +1300,6 @@ export default {
 
 ._hideOverflow {
 	overflow: unset;
-}
-
-._b-line {
-	border-bottom: 1px solid hsla(208, 16%, 94%, 1) !important;
 }
 
 .progress {
