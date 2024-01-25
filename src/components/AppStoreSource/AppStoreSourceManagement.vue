@@ -107,9 +107,10 @@ function getSourceList() {
 	app.$openAPI.appManagement.appStore.appStoreList().then(res => {
 		if (res.status === 200) {
 			const storeList = res.data.data.filter(item => {
-				const pathname = new URL(item.url).pathname;
+				const isHttp = item.url.includes("http");
+				const pathname = isHttp ? new URL(item.url).pathname : item.url;
 				const pathnameList = pathname.split("/");
-				const sourceName = pathnameList[1]// + "/" + pathnameList[2];
+				const sourceName = isHttp ? pathnameList[1] : pathnameList[pathnameList.length - 1].split('.').slice(0, -1).join('.');
 
 				if (pathnameList[1] === "IceWhaleTech") {
 					return false
