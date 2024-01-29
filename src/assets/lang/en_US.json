@@ -407,8 +407,17 @@
   "Installing {title}": "Installing {title}",
   "Legacy app (To be rebuilt).": "Legacy app (To be rebuilt).",
   "To be rebuilt.": "To be rebuilt.",
-
-  "official":"Official",
-  "by_casaos":"Approved/Certified",
-  "community":"Community"
+  "official": "Official",
+  "by_casaos": "Approved/Certified",
+  "community": "Community",
+  "Insufficient performance to run simultaneously": "Insufficient performance to run simultaneously.",
+  "Detected performance conflict": "Detected performance conflict.",
+  "Please right-click on the dashboard and try switching it again": "Please right-click on the dashboard and try closing it again.",
+  "Please right-click on the dashboard and try closing it again": "Please right-click on the dashboard and try closing it again.",
+  "Closing {name}": "Closing {name}",
+  "Cannot close {name}": "Cannot close {name}",
+  "Launching {name}": "Launching {name}",
+  "Cannot launch {name}" : "Cannot launch {name}",
+  "Switch to {name}": "Switch to {name}",
+  "Continue {name}": "Continue {name}"
 }

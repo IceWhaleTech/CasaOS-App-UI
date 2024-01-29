@@ -28,4 +28,14 @@ export default [
 			showBackground: false
 		}
 	},
+	{
+		path: '/detection',
+		name: 'AppDetection',
+		hidden: true,
+		component: () => import('@/views/AppDetection.vue'),
+		meta: {
+			requireAuth: false,
+			showBackground: false
+		}
+	}
 ]
