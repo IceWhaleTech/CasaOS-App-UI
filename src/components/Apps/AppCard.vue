@@ -292,6 +292,18 @@ export default {
 				this.$emit("importApp", item, false)
 				return false
 			}
+			if (item.name === 'icewhale_chat') {
+				console.log('icewhale_chat', item);
+				let routeUrl = this.$router.resolve({
+					name: 'AppDetection',
+					path: '/detection',
+					query: {
+						appDetailData: JSON.stringify(item)
+					}
+				});
+				window.open(routeUrl.href, '_blank');
+				return
+			}
 			if (item.app_type === "system") {
 				this.openSystemApps(item)
 			} else if (item.app_type === 'mircoApp') {

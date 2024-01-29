@@ -406,8 +406,19 @@
   "Installing {title}": "Installing {title}",
   "Legacy app (To be rebuilt).": "旧应用程序 (待重建)。",
   "To be rebuilt.": "待重建。",
-
-  "official":"Official",
-  "by_casaos":"Approved/Certified",
-  "community":"Community"
+  "official": "Official",
+  "by_casaos": "Approved/Certified",
+  "community": "Community",
+  "Detected performance conflict": "检测到性能冲突",
+  "Insufficient performance to run simultaneously": "性能不足以同时运行",
+  "insufficient-performance-to-run-simultaneously": "Insufficient performance to run simultaneously",
+  "detected-performance-conflict": "Detected performance conflict",
+  "Please right-click on the dashboard and try closing it again": "请在仪表盘右键关闭后再次尝试",
+  "Please right-click on the dashboard and try switching it again": "请在仪表盘右键开启后再次尝试",
+  "Closing {name}": "正在关闭 {name}",
+  "Cannot close {name}": "无法关闭 {name}",
+  "Launching {name} {name}": "正在启动 {name}",
+  "Cannot launch {name}": "无法启动 {name}",
+  "Switch to {name}": "切换至 {name}",
+  "Continue {name}": "继续运行 {name}"
 }
