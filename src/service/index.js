@@ -8,33 +8,33 @@
 
  */
 
-import {instance} from "@/service/service";
+import { instance } from '@/service/service'
 import {
 	AppStoreMethodsApi,
 	ComposeMethodsApiFactory,
 	Configuration,
 	InternalMethodsApiFactory
-}                 from "@icewhale/casaos-appmanagement-openapi";
-import {
-	ZerotierMethodsApi
-}                 from "@icewhale/casaos-openapi";
-import {
-	FileApiFactory,
-	FolderApiFactory,
-}                 from "@icewhale/icewhale-files-openapi";
+} from '@icewhale/casaos-appmanagement-openapi'
+import { ZerotierMethodsApi } from '@icewhale/casaos-openapi'
+import { FileApiFactory, FolderApiFactory } from '@icewhale/icewhale-files-openapi'
+import { GPUMethodsApi } from '@icewhale/zimaos-openapi'
 
-const axiosBaseURL = (process.env.NODE_ENV === "dev") ? `${document.location.protocol}//${process.env.VUE_APP_DEV_IP}:${process.env.VUE_APP_DEV_PORT}` : ``
+const axiosBaseURL =
+	process.env.NODE_ENV === 'dev'
+		? `${document.location.protocol}//${process.env.VUE_APP_DEV_IP}:${process.env.VUE_APP_DEV_PORT}`
+		: ``
 
 // 初始化 openapi 配置
-const config = new Configuration({});
+const config = new Configuration({})
 
 const appManagement = {}
-appManagement.compose = new ComposeMethodsApiFactory(config, '/v2/app_management', instance);
-appManagement.appStore = new AppStoreMethodsApi(config, '/v2/app_management', instance);
-const appGrid = new InternalMethodsApiFactory(config, '/v2/app_management', instance);
-const appCompose = new ComposeMethodsApiFactory(config, '/v2/app_management', instance);
-const zerotier = new ZerotierMethodsApi(config, '/v2/casaos/', instance);
-const iceFile = new FileApiFactory(config, '/v2', instance);
-const iceFolder = new FolderApiFactory(config, '/v2', instance);
+appManagement.compose = new ComposeMethodsApiFactory(config, '/v2/app_management', instance)
+appManagement.appStore = new AppStoreMethodsApi(config, '/v2/app_management', instance)
+const appGrid = new InternalMethodsApiFactory(config, '/v2/app_management', instance)
+const appCompose = new ComposeMethodsApiFactory(config, '/v2/app_management', instance)
+const zerotier = new ZerotierMethodsApi(config, '/v2/casaos/', instance)
+const iceFile = new FileApiFactory(config, '/v2', instance)
+const iceFolder = new FolderApiFactory(config, '/v2', instance)
+export const iceGpu = new GPUMethodsApi(config, '/v2/zimaos', instance)
 
-export default {appManagement, appGrid, appCompose, zerotier, iceFile, iceFolder}
+export default { appManagement, appGrid, appCompose, zerotier, iceFile, iceFolder }

@@ -10,13 +10,16 @@ dependencies:
     version: 4.5.8
   '@icewhale/casaos-appmanagement-openapi':
     specifier: latest
-    version: 0.4.6-alpha3
+    version: 0.4.6
   '@icewhale/casaos-openapi':
     specifier: latest
     version: 0.4.6-ef57d33
   '@icewhale/icewhale-files-openapi':
     specifier: latest
     version: 0.4.9-alpha3
+  '@icewhale/zimaos-openapi':
+    specifier: 1.1.0-alpha13
+    version: 1.1.0-alpha13
   '@kangc/v-md-editor':
     specifier: ^1.7.11
     version: 1.7.11(vue-template-compiler@2.7.14)(vue@2.7.14)
@@ -1670,8 +1673,8 @@ packages:
     dependencies:
       '@hapi/hoek': 8.5.1
 
-  /@icewhale/casaos-appmanagement-openapi@0.4.6-alpha3:
-    resolution: {integrity: sha512-NJTxtfN+CcCnd5viapYpqV7KDkJBaYK/k59/NFRQus0kS1271ml0YO/hcvMEDklK6IGiWrAcol8d2Z9nh+WNzA==}
+  /@icewhale/casaos-appmanagement-openapi@0.4.6:
+    resolution: {integrity: sha512-y2ESU4dU8zBVmSIu3hVZhjgLGMA2IprO82XkNF22gOYeLt+bhm5Dg9eug1vDu2W+M9PAp3cftSMKAK9LysRC4w==}
     dependencies:
       axios: 1.5.0
     transitivePeerDependencies:
@@ -1688,6 +1691,14 @@ packages:
 
   /@icewhale/icewhale-files-openapi@0.4.9-alpha3:
     resolution: {integrity: sha512-LoldrP8T2g4H2gfRxhoY289uwHn0nbwZOPIuc92dZ2161dcgeOtCuyRUpcNtl/10/Qw9Da9MbAku6JDD0DboAQ==}
+    dependencies:
+      axios: 1.5.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@icewhale/zimaos-openapi@1.1.0-alpha13:
+    resolution: {integrity: sha512-jsc/pDJxA1wSAXIVt/BEjhCO7bwAWPgkRXth5zR9sV/EyewVDLzeywz14SoT5ZdmhLrOIvEY5N8aBtxVv5vqEA==}
     dependencies:
       axios: 1.5.0
     transitivePeerDependencies:

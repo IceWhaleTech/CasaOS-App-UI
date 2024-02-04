@@ -283,8 +283,8 @@ export default {
 		id: String,
 		state: String,
 		storeId: {
-			type: Number,
-			default: 0
+			type: String,
+			default: ""
 		},
 		isCasa: {
 			type: Boolean,
@@ -434,8 +434,10 @@ export default {
 		}
 
 		// If StoreId is not 0
-		if (this.storeId != 0) {
-			this.showAppDetial(this.storeId);
+		if (this.storeId != "") {
+			this.$nextTick(() => {
+				this.showAppDetial(this.storeId);
+			})
 		}
 
 		// 这是 选择应用安装位置。 这块功能不被使用，暂且保留。

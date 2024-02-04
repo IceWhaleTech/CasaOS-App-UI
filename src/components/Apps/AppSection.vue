@@ -94,9 +94,9 @@ import last                         from 'lodash/last';
 import business_ShowNewAppTag       from "@/mixins/app/Business_ShowNewAppTag";
 import business_LinkApp             from "@/mixins/app/Business_LinkApp";
 import isEqual                      from "lodash/isEqual";
-import {ice_i18n}                   from "@/mixins/base/common-i18n";
+import { ice_i18n } 				from "@/mixins/base/common-i18n";
+import { iceGpu } 					from "@/service/index.js"
 
-const SYNCTHING_STORE_ID = 74
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -161,9 +161,6 @@ export default {
 	async created() {
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
-		this.$EventBus.$on(events.OPEN_APP_STORE_AND_GOTO_SYNCTHING, () => {
-			this.showAppSettingPanel(SYNCTHING_STORE_ID)
-		});
 
 		this.$EventBus.$on(events.RELOAD_APP_LIST, () => {
 			this.getList();
@@ -210,6 +207,7 @@ export default {
 		async getList() {
 
 			try {
+				const gupApp = await iceGpu.getGPUApplications().then(res => res.data.data || []);
 				const orgAppList = await this.$openAPI.appGrid.getAppGrid().then(res => res.data.data || []);
 				let orgOldAppList = [], orgNewAppList = [];
 				orgAppList.forEach((item) => {
@@ -248,7 +246,11 @@ export default {
 					}
 				});
 				// all app list
-				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, mircoAppList);
+				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, mircoAppList).map((item) => {
+					item.enableGPU = gupApp.find((gpuItem) => gpuItem.store_app_id === item.name) ? true : false;
+					return item
+				});
+				console.log(casaAppList, 'casaAppList');
 				// get app sort info.
 				let lateSortList = await this.$api.users.getCustomStorage(orderConfig).then(res => res.data.data.data || []);
 
@@ -332,7 +334,7 @@ export default {
 		 * @description: Show Setting App Panel Programmatic
 		 * @return {*} void
 		 */
-		async showAppSettingPanel(storeId = 0, mode) {
+		async showAppSettingPanel(storeId = "", mode) {
 			if (mode === 'custom') {
 				this.$messageBus('apps_custominstall');
 			}
@@ -565,6 +567,10 @@ export default {
 					type: 'is-danger'
 				})
 			}
+		},
+		"casaos-ui:app:openme"(data) { 
+			console.log(data, 'casaos-ui:app:mircoapp_communicate');
+			this.showAppSettingPanel("chatgpt-next-web");
 		},
 	}
 }

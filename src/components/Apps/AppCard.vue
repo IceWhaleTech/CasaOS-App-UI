@@ -292,8 +292,9 @@ export default {
 				this.$emit("importApp", item, false)
 				return false
 			}
-			if (item.name === 'icewhale_chat') {
-				console.log('icewhale_chat', item);
+			// TODO: logic
+			if (!item.enableGPU) {
+				console.log('enable GPU ::', item);
 				let routeUrl = this.$router.resolve({
 					name: 'AppDetection',
 					path: '/detection',
