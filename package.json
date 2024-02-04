@@ -21,6 +21,7 @@
     "@icewhale/casaos-appmanagement-openapi": "latest",
     "@icewhale/casaos-openapi": "latest",
     "@icewhale/icewhale-files-openapi": "latest",
+    "@icewhale/zimaos-openapi": "1.1.0-alpha13",
     "@kangc/v-md-editor": "^1.7.11",
     "@mdi/font": "^6.6.96",
     "@vue/cli-plugin-e2e-cypress": "^4.5.19",
