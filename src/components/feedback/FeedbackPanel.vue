@@ -1,11 +1,3 @@
-<!--
- * @Author: JerryK
- * @Date: 2022-01-24 11:57:35
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2022-07-14 08:37:45
- * @Description:
- * @FilePath: \CasaOS-UI\src\components\feedback\FeedbackPanel.vue
--->
 <template>
 	<div class="modal-card">
 
@@ -51,7 +43,7 @@
 
 <script>
 
-import browserInfo from 'browser-info'
+import BrowserInfo from '@smartbear/browser-info'
 import {marked}    from 'marked'
 
 export default {
@@ -74,8 +66,8 @@ export default {
 
 	mounted() {
 		this.$api.sys.getDebugInfo().then(res => {
-			const browserInfos = browserInfo();
-			this.feedBody = res.data.data.replace("$Browser$", browserInfos.name).replace("$Version$", browserInfos.fullVersion);
+			BrowserInfo.detect();
+			this.feedBody = res.data.data.replace("$Browser$", BrowserInfo.name).replace("$Version$", BrowserInfo.version);
 		})
 	},
 	methods: {
