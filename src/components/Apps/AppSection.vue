@@ -14,12 +14,12 @@
 		<!-- Title Bar Start -->
 		<div class="is-flex is-align-items-center mb-1">
 			<app-section-title-tip id="appTitle1" class="is-flex-grow-1 has-text-sub-04" label="Drag icons to sort."
-								   title="Apps"></app-section-title-tip>
+				title="Apps"></app-section-title-tip>
 
 			<b-dropdown animation="fade1" aria-role="menu" position="is-bottom-left">
 				<template #trigger>
 					<b-icon class="polymorphic is-clickable has-text-grey-100" icon="plus-outline" pack="casa"
-							size="is-24"></b-icon>
+						size="is-24"></b-icon>
 				</template>
 				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel(0, 'custom')">
 					{{ $t('Add a Containerized Application APP') }}
@@ -33,21 +33,20 @@
 
 		<!-- App List Start -->
 		<draggable v-model="appList" :draggable="draggable"
-				   class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div"
-				   v-bind="dragOptions"
-				   @end="onSortEnd" @start="drag = true">
+			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div" v-bind="dragOptions"
+			@end="onSortEnd" @start="drag = true">
 
 			<!-- App Icon Card Start -->
 			<template v-if="!isLoading">
 				<div v-for="(item) in appList" :id="'app-' + item.name" :key="'app-' + item.name"
-					 class="column is-narrow is-3 handle">
+					class="column is-narrow is-3 handle">
 					<app-card :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
-							  @updateState="getList"></app-card>
+						@updateState="getList"></app-card>
 				</div>
 			</template>
 			<template v-else>
 				<div v-for="(index) in skCount" :id="'app-' + index" :key="'app-' + index"
-					 class="column is-narrow is-3 handle">
+					class="column is-narrow is-3 handle">
 					<app-card-skeleton :index="index"></app-card-skeleton>
 				</div>
 			</template>
@@ -59,7 +58,7 @@
 			<!-- Title Bar Start -->
 			<div class="title-bar is-flex is-align-items-center mt-2rem  mb-5">
 				<app-section-title-tip id="appTitle2" class="is-flex-grow-1 has-text-sub-04" label="To be rebuilt."
-									   title="Legacy app(To be rebuilt).">
+					title="Legacy app(To be rebuilt).">
 				</app-section-title-tip>
 			</div>
 			<!-- Title Bar End -->
@@ -68,9 +67,9 @@
 			<div class="columns is-variable is-2 is-multiline app-list contextmenu-canvas">
 				<!-- Application not imported Start -->
 				<div v-for="(item) in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name"
-					 class="column is-narrow is-3">
+					class="column is-narrow is-3">
 					<app-card :isCasa="false" :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
-							  @updateState="getList"></app-card>
+						@updateState="getList"></app-card>
 				</div>
 				<!-- Application not imported End -->
 			</div>
@@ -81,21 +80,21 @@
 </template>
 
 <script>
-import AppCard                      from './AppCard.vue'
-import AppCardSkeleton              from './AppCardSkeleton.vue';
-import AppPanel                     from './AppPanel.vue'
-import ExternalLinkPanel            from "@/components/Apps/ExternalLinkPanel";
-import AppSectionTitleTip           from './AppSectionTitleTip.vue'
-import draggable                    from 'vuedraggable'
-import xor                          from 'lodash/xor'
-import concat                       from 'lodash/concat'
-import events                       from '@/events/events';
-import last                         from 'lodash/last';
-import business_ShowNewAppTag       from "@/mixins/app/Business_ShowNewAppTag";
-import business_LinkApp             from "@/mixins/app/Business_LinkApp";
-import isEqual                      from "lodash/isEqual";
-import { ice_i18n } 				from "@/mixins/base/common-i18n";
-import { iceGpu } 					from "@/service/index.js"
+import AppCard from './AppCard.vue'
+import AppCardSkeleton from './AppCardSkeleton.vue';
+import AppPanel from './AppPanel.vue'
+import ExternalLinkPanel from "@/components/Apps/ExternalLinkPanel";
+import AppSectionTitleTip from './AppSectionTitleTip.vue'
+import draggable from 'vuedraggable'
+import xor from 'lodash/xor'
+import concat from 'lodash/concat'
+import events from '@/events/events';
+import last from 'lodash/last';
+import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
+import business_LinkApp from "@/mixins/app/Business_LinkApp";
+import isEqual from "lodash/isEqual";
+import { ice_i18n } from "@/mixins/base/common-i18n";
+import { iceGpu } from "@/service/index.js"
 
 
 // meta_data :: build-in app
@@ -132,6 +131,8 @@ export default {
 			appListErrorMessage: "",
 			skCount: 0,
 			ListRefreshTimer: null,
+			gpuAppList: [],
+			mircoAppList: [],
 		}
 	},
 	components: {
@@ -207,7 +208,9 @@ export default {
 		async getList() {
 
 			try {
-				const gupApp = await iceGpu.getGPUApplications().then(res => res.data.data || []);
+				if (this.gpuAppList.length === 0) {
+					this.gpuAppList = await iceGpu.getGPUApplications().then(res => res.data.data || []);
+				}
 				const orgAppList = await this.$openAPI.appGrid.getAppGrid().then(res => res.data.data || []);
 				let orgOldAppList = [], orgNewAppList = [];
 				orgAppList.forEach((item) => {
@@ -230,24 +233,26 @@ export default {
 					}
 				})
 				// mirco app list
-				const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
-				const mircoAppList = mircoAppListRaw.filter(item=> item?.show ?? true).map(item => {
-					return {
-						name: item.name,
-						entry: item.entry,
-						title: item.title,
-						icon: item.icon,
-						status: "running",
-						app_type: "mircoApp",
-						open_type: item.formality.type,
-						// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
-						// formality: item.formality,
-						// prefetch: item.prefetch
-					}
-				});
+				if (this.mircoAppList.length === 0) {
+					const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
+					this.mircoAppList = mircoAppListRaw.filter(item => item?.show ?? true).map(item => {
+						return {
+							name: item.name,
+							entry: item.entry,
+							title: item.title,
+							icon: item.icon,
+							status: "running",
+							app_type: "mircoApp",
+							open_type: item.formality.type,
+							// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
+							// formality: item.formality,
+							// prefetch: item.prefetch
+						}
+					});
+				}
 				// all app list
-				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, mircoAppList).map((item) => {
-					item.enableGPU = gupApp.find((gpuItem) => gpuItem.store_app_id === item.name) ? true : false;
+				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList).map((item) => {
+					item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.name);
 					return item
 				});
 				console.log(casaAppList, 'casaAppList');
@@ -493,7 +498,7 @@ export default {
 			// business :: scroll to last position
 			let name = last(this.newAppIds);
 			let showEl = document.getElementById("app-" + name)
-			showEl && showEl.scrollIntoView({behavior: "smooth", block: 'end'});
+			showEl && showEl.scrollIntoView({ behavior: "smooth", block: 'end' });
 		},
 
 		messageBusToast(message, type) {
@@ -568,7 +573,7 @@ export default {
 				})
 			}
 		},
-		"casaos-ui:app:openme"(data) { 
+		"casaos-ui:app:openme"(data) {
 			console.log(data, 'casaos-ui:app:mircoapp_communicate');
 			this.showAppSettingPanel("chatgpt-next-web");
 		},

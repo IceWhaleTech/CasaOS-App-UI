@@ -293,7 +293,7 @@ export default {
 				return false
 			}
 			// TODO: logic
-			if (!item.enableGPU) {
+			if (item.requireGPU) {
 				console.log('enable GPU ::', item);
 				let routeUrl = this.$router.resolve({
 					name: 'AppDetection',
