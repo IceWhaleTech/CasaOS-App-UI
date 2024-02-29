@@ -27,7 +27,7 @@
 						isStoppingApp
 						? $t(contentText, { name: activeAppData.name })
 						: $t(contentText, {
-							name: appDetailData.name,
+							name: activeAppData.name,
 						})
 					}}
 				</div>
@@ -85,7 +85,7 @@ async function stopApp() {
 
 	try {
 		await iceGpu
-			.setGPUApplicationsStatus(activeAppData.name, {
+			.setGPUApplicationsStatus(activeAppData.value.store_app_id, {
 				status: GPUApplicationStatusEnum.Stop,
 			})
 			.then((res) => {
@@ -93,7 +93,9 @@ async function stopApp() {
 					isStoppingApp.value = false;
 				}
 			});
-	} catch {
+		return true;
+	} catch(error) {
+		console.error('close error', error);
 		isStoppingApp.value = false;
 		contentText.value = "Cannot close {name}";
 		remakeText.value = "Please right-click on the dashboard and try closing it again";
@@ -126,7 +128,6 @@ function startApp() {
 async function switchToApp(appName) {
 	// first close the current app
 	const result = await stopApp();
-	console.log(result, 11);
 	if (!result) {
 		return;
 	}
@@ -139,7 +140,7 @@ onMounted(() => {
 		// TODO: data model is not unified.
 		const app = appList.find(
 			(item) =>
-				item.status !== GPUApplicationStatusEnum.Stop &&
+				item.status === GPUApplicationStatusEnum.Running &&
 				item.store_app_id !== appDetailData.name
 		);
 
