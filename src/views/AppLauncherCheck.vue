@@ -48,13 +48,10 @@ export default {
 	},
 
 	async created() {
-		console.log(this.$route.query);
-		if (this.$route.query) {
+		if (this.$route.query.appDetailData) {
 			this.appDetailData = this.$route.query.appDetailData
-			debugger
 		} else {
-			this.appDetailData = JSON.parse(this.$route.query.appDetailData)
-			debugger
+			this.appDetailData = qs.parse(window.location.hash.split("?")[1])
 		}
 		const startRes = await this.startContainer()
 		this.timer && clearInterval(this.timer)
