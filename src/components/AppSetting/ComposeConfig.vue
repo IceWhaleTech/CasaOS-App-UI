@@ -546,7 +546,6 @@ export default {
 		parseComposeYaml(val) {
 			try {
 				const yaml = YAML.parse(val);
-				console.log("传入的 yaml 文件", yaml);
 
 				// 其他配置
 				this.volumes = yaml.volumes || {};

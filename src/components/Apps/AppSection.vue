@@ -255,7 +255,6 @@ export default {
 					item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.name);
 					return item
 				});
-				console.log(casaAppList, 'casaAppList');
 				// get app sort info.
 				let lateSortList = await this.$api.users.getCustomStorage(orderConfig).then(res => res.data.data.data || []);
 

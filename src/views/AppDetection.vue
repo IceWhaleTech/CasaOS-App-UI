@@ -142,7 +142,7 @@ onMounted(() => {
 				item.status !== GPUApplicationStatusEnum.Stop &&
 				item.store_app_id !== appDetailData.name
 		);
-		console.log(appDetailData, "on Mounted");
+
 		if (app) {
 			activeAppData.value = app;
 		} else {

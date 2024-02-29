@@ -142,7 +142,6 @@ export default {
 		* */
 		toggle() {
 			this.isEditing = !this.isEditing
-			console.log('isDifferentiaation', this.isDifferentiation)
 			if (this.isDifferentiation) {
 				this.save();
 			}
