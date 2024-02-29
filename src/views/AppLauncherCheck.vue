@@ -28,6 +28,7 @@
 
 <script>
 import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
+import qs from "qs";
 
 export default {
 	name: "AppLauncherCheck",
@@ -47,7 +48,14 @@ export default {
 	},
 
 	async created() {
-		this.appDetailData = JSON.parse(this.$route.query.appDetailData)
+		console.log(this.$route.query);
+		if (this.$route.query) {
+			this.appDetailData = this.$route.query.appDetailData
+			debugger
+		} else {
+			this.appDetailData = JSON.parse(this.$route.query.appDetailData)
+			debugger
+		}
 		const startRes = await this.startContainer()
 		this.timer && clearInterval(this.timer)
 		this.timer = setInterval(this.check, 1000)

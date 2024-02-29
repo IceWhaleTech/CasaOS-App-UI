@@ -1,4 +1,5 @@
 import messageBus from '@/events/index.js'
+import qs from 'qs'
 
 export const useOpenThirdApp = (appInfo, isNewWindows) => {
 	return openThirdApp(appInfo, isNewWindows)
@@ -24,9 +25,27 @@ function openThirdApp(appInfo, isNewWindows) {
 	}
 }
 
+function openAppToNewWindow(appInfo) {
+	appInfo.requireGPU ? firstOpenThirdApp(appInfo) : openThirdApp(appInfo, true);
+}
+
+function firstOpenThirdApp(appInfo) {
+	// const router = useRoute();
+	// let routeUrl = router.resolve({
+	// 	name: 'AppLauncherCheck',
+	// 	path: '/launch',
+	// 	query: {
+	// 		appDetailData: JSON.stringify(appInfo)
+	// 	}
+	// });
+	window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(appInfo )}`
+	// console.log(routeUrl.href);
+	// window.open(routeUrl.href);
+}
+
 export const useOpenApp = () => {
+	
 	return (item) => {
-		debugger
 		if (item.app_type === 'mircoApp') {
 			if (item.open_type?.toLowerCase() === "newtab") {
 				window.location.assign(`/modules/${item.name}`);
@@ -37,7 +56,7 @@ export const useOpenApp = () => {
 				})
 			}
 		}else{
-			openThirdApp(item)
+			openAppToNewWindow(item)
 		}
 	}
 }
