@@ -22,10 +22,10 @@
 						size="is-24"></b-icon>
 				</template>
 				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel(0, 'custom')">
-					{{ $t('Add a Containerized Application APP') }}
+					{{ $t("Add a Containerized Application APP") }}
 				</b-dropdown-item>
 				<b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
-					{{ $t('Add external link/APP') }}
+					{{ $t("Add external link/APP") }}
 				</b-dropdown-item>
 			</b-dropdown>
 		</div>
@@ -35,17 +35,16 @@
 		<draggable v-model="appList" :draggable="draggable"
 			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div" v-bind="dragOptions"
 			@end="onSortEnd" @start="drag = true">
-
 			<!-- App Icon Card Start -->
 			<template v-if="!isLoading">
-				<div v-for="(item) in appList" :id="'app-' + item.name" :key="'app-' + item.name"
+				<div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name"
 					class="column is-narrow is-3 handle">
 					<app-card :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
 						@updateState="getList"></app-card>
 				</div>
 			</template>
 			<template v-else>
-				<div v-for="(index) in skCount" :id="'app-' + index" :key="'app-' + index"
+				<div v-for="index in skCount" :id="'app-' + index" :key="'app-' + index"
 					class="column is-narrow is-3 handle">
 					<app-card-skeleton :index="index"></app-card-skeleton>
 				</div>
@@ -56,7 +55,7 @@
 
 		<template v-if="oldAppList.length > 0">
 			<!-- Title Bar Start -->
-			<div class="title-bar is-flex is-align-items-center mt-2rem  mb-5">
+			<div class="title-bar is-flex is-align-items-center mt-2rem mb-5">
 				<app-section-title-tip id="appTitle2" class="is-flex-grow-1 has-text-sub-04" label="To be rebuilt."
 					title="Legacy app(To be rebuilt).">
 				</app-section-title-tip>
@@ -66,7 +65,7 @@
 			<!-- App List Start -->
 			<div class="columns is-variable is-2 is-multiline app-list contextmenu-canvas">
 				<!-- Application not imported Start -->
-				<div v-for="(item) in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name"
+				<div v-for="item in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name"
 					class="column is-narrow is-3">
 					<app-card :isCasa="false" :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
 						@updateState="getList"></app-card>
@@ -75,27 +74,25 @@
 			</div>
 			<!-- App List End -->
 		</template>
-
 	</div>
 </template>
 
 <script>
-import AppCard from './AppCard.vue'
-import AppCardSkeleton from './AppCardSkeleton.vue';
-import AppPanel from './AppPanel.vue'
+import AppCard from "./AppCard.vue";
+import AppCardSkeleton from "./AppCardSkeleton.vue";
+import AppPanel from "./AppPanel.vue";
 import ExternalLinkPanel from "@/components/Apps/ExternalLinkPanel";
-import AppSectionTitleTip from './AppSectionTitleTip.vue'
-import draggable from 'vuedraggable'
-import xor from 'lodash/xor'
-import concat from 'lodash/concat'
-import events from '@/events/events';
-import last from 'lodash/last';
+import AppSectionTitleTip from "./AppSectionTitleTip.vue";
+import draggable from "vuedraggable";
+import xor from "lodash/xor";
+import concat from "lodash/concat";
+import events from "@/events/events";
+import last from "lodash/last";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 import business_LinkApp from "@/mixins/app/Business_LinkApp";
 import isEqual from "lodash/isEqual";
 import { ice_i18n } from "@/mixins/base/common-i18n";
-import { iceGpu } from "@/service/index.js"
-
+import { iceGpu } from "@/service/index.js";
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -107,11 +104,11 @@ const builtInApplications = [
 		},
 		icon: require(`@/assets/img/app/appstore.svg`),
 		status: "running",
-		app_type: "system"
-	}
-]
+		app_type: "system",
+	},
+];
 
-const orderConfig = "app_order"
+const orderConfig = "app_order";
 
 export default {
 	mixins: [business_ShowNewAppTag, business_LinkApp],
@@ -125,7 +122,7 @@ export default {
 			isLoading: false,
 			isShowing: false,
 			importHelpText: "Click icon to import.",
-			appHelpText: 'Drag icons to sort.',
+			appHelpText: "Drag icons to sort.",
 			draggable: ".handle",
 			retryCount: 0,
 			appListErrorMessage: "",
@@ -133,13 +130,13 @@ export default {
 			ListRefreshTimer: null,
 			gpuAppList: [],
 			mircoAppList: [],
-		}
+		};
 	},
 	components: {
 		AppCard,
 		draggable,
 		AppSectionTitleTip,
-		AppCardSkeleton
+		AppCardSkeleton,
 	},
 	provide() {
 		return {
@@ -156,7 +153,7 @@ export default {
 			};
 		},
 		showDragTip() {
-			return this.draggable === ".handle"
+			return this.draggable === ".handle";
 		},
 	},
 	async created() {
@@ -169,35 +166,36 @@ export default {
 
 		this.ListRefreshTimer = setInterval(() => {
 			this.getList();
-		}, 5000)
+		}, 5000);
 	},
 	beforeDestroy() {
 		this.$EventBus.$off(events.OPEN_APP_STORE_AND_GOTO_SYNCTHING);
-		window.removeEventListener('resize', this.getSkCount);
+		window.removeEventListener("resize", this.getSkCount);
 
 		clearInterval(this.ListRefreshTimer);
 	},
 	mounted() {
-		window.addEventListener('resize', this.getSkCount);
-		this.getSkCount()
+		window.addEventListener("resize", this.getSkCount);
+		this.getSkCount();
 	},
 	methods: {
-
 		isMobile() {
-			let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-			return flag
+			let flag = navigator.userAgent.match(
+				/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+			);
+			return flag;
 		},
 
 		getSkCount() {
-			const windowWidth = window.innerWidth
+			const windowWidth = window.innerWidth;
 			if (windowWidth < 1024) {
-				this.skCount = 4
+				this.skCount = 4;
 			} else if (windowWidth < 1216) {
-				this.skCount = 6
+				this.skCount = 6;
 			} else if (windowWidth < 1408) {
-				this.skCount = 8
+				this.skCount = 8;
 			} else {
-				this.skCount = 10
+				this.skCount = 10;
 			}
 		},
 
@@ -206,14 +204,26 @@ export default {
 		 * @return {*} void
 		 */
 		async getList() {
-
 			try {
+				const hasGpu = await iceGpu.getGPUList().then((res) => {
+					return res.data.data.length > 0;
+				});
 				if (this.gpuAppList.length === 0) {
-					this.gpuAppList = await iceGpu.getGPUApplications().then(res => res.data.data || []);
+					this.gpuAppList = await iceGpu
+						.getGPUApplications()
+						.then((res) => res.data.data || []);
 				}
-				const orgAppList = await this.$openAPI.appGrid.getAppGrid().then(res => res.data.data || []);
-				let orgOldAppList = [], orgNewAppList = [];
+
+				const orgAppList = await this.$openAPI.appGrid
+					.getAppGrid()
+					.then((res) => res.data.data || []);
+				let orgOldAppList = [],
+					orgNewAppList = [];
 				orgAppList.forEach((item) => {
+					// if (hasGpu) {
+					// } else {
+					// 	this.gpuAppList = [];
+					// }
 					item.hostname = item.hostname || this.$baseHostname;
 					// Container app does not have icon.
 					item.icon = item.icon || require(`@/assets/img/app/default.svg`);
@@ -222,41 +232,63 @@ export default {
 					} else {
 						orgNewAppList.push(item);
 					}
-				})
+				});
 				this.oldAppList = orgOldAppList;
 
 				let linkAppList = await this.getLinkAppList();
 				linkAppList.forEach((item) => {
 					// linkApp does not have title.
 					item.title = {
-						en_us: item.name
-					}
-				})
+						en_us: item.name,
+					};
+				});
 				// mirco app list
 				if (this.mircoAppList.length === 0) {
-					const mircoAppListRaw = await this.$api.sys.getEntry().then(res => res.data.data || []);
-					this.mircoAppList = mircoAppListRaw.filter(item => item?.show ?? true).map(item => {
-						return {
-							name: item.name,
-							entry: item.entry,
-							title: item.title,
-							icon: item.icon,
-							status: "running",
-							app_type: "mircoApp",
-							open_type: item.formality.type,
-							// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
-							// formality: item.formality,
-							// prefetch: item.prefetch
-						}
-					});
+					const mircoAppListRaw = await this.$api.sys
+						.getEntry()
+						.then((res) => res.data.data || []);
+					this.mircoAppList = mircoAppListRaw
+						.filter((item) => item?.show ?? true)
+						.map((item) => {
+							return {
+								name: item.name,
+								entry: item.entry,
+								title: item.title,
+								icon: item.icon,
+								status: "running",
+								app_type: "mircoApp",
+								open_type: item.formality.type,
+								// TODO Resolve metadata structure conflicts and ensure uniformity and non-redundancy in the application's data models.
+								// formality: item.formality,
+								// prefetch: item.prefetch
+							};
+						});
 				}
 				// all app list
-				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList).map((item) => {
-					item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.name);
-					return item
-				});
+				let casaAppList = concat(
+					builtInApplications,
+					orgNewAppList,
+					linkAppList,
+					this.mircoAppList
+				);
+
+				if (hasGpu) {
+					casaAppList = casaAppList.map((item) => {
+						item.requireGPU = this.gpuAppList.find(
+							(gpuItem) => gpuItem.store_app_id === item.name
+						);
+						return item;
+					});
+				} else {
+					casaAppList = casaAppList.filter((item) => {
+						return !this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.name);
+					});
+				}
+
 				// get app sort info.
-				let lateSortList = await this.$api.users.getCustomStorage(orderConfig).then(res => res.data.data.data || []);
+				let lateSortList = await this.$api.users
+					.getCustomStorage(orderConfig)
+					.then((res) => res.data.data.data || []);
 
 				// filter anything not in casaAppList.
 				const propList = casaAppList.map((obj) => obj.name);
@@ -272,27 +304,26 @@ export default {
 				const sortedList = sortedAppList.map((obj) => obj.name);
 				this.appList = sortedAppList;
 				if (!isEqual(lateSortList, sortedList)) {
-					this.saveSortData()
+					this.saveSortData();
 				}
 
 				this.isLoading = false;
 				this.retryCount = 0;
-				this.appListErrorMessage = ""
+				this.appListErrorMessage = "";
 			} catch (error) {
 				console.error(error);
 				this.isLoading = true;
 				if (this.retryCount < 5) {
 					setTimeout(() => {
-						this.retryCount++
+						this.retryCount++;
 						this.getList();
-					}, 2000)
+					}, 2000);
 				} else {
-
-					this.appListErrorMessage = "Failed to get app list."
+					this.appListErrorMessage = "Failed to get app list.";
 					this.$buefy.toast.open({
 						message: this.$t(`Failed to load apps, please refresh later.`),
-						type: 'is-danger'
-					})
+						type: "is-danger",
+					});
 				}
 			}
 		},
@@ -304,9 +335,9 @@ export default {
 		 * @return {*}
 		 */
 		getNewSortList(oriList, newList) {
-			let xorList = xor(oriList, newList)
+			let xorList = xor(oriList, newList);
 			// xorList.reverse()
-			return concat(oriList, xorList)
+			return concat(oriList, xorList);
 		},
 
 		/**
@@ -317,12 +348,12 @@ export default {
 		saveSortData() {
 			let newList = this.appList.map((item) => {
 				// compose milestone :: name is unique, global index.
-				return item.name
-			})
+				return item.name;
+			});
 			let data = {
-				data: newList
-			}
-			this.$api.users.setCustomStorage(orderConfig, data)
+				data: newList,
+			};
+			this.$api.users.setCustomStorage(orderConfig, data);
 		},
 		/**
 		 * @description: Handle on Sort End
@@ -330,8 +361,8 @@ export default {
 		 * @return {*}
 		 */
 		onSortEnd() {
-			this.drag = false
-			this.saveSortData()
+			this.drag = false;
+			this.saveSortData();
 		},
 
 		/**
@@ -339,31 +370,31 @@ export default {
 		 * @return {*} void
 		 */
 		async showAppSettingPanel(storeId = "", mode) {
-			if (mode === 'custom') {
-				this.$messageBus('apps_custominstall');
+			if (mode === "custom") {
+				this.$messageBus("apps_custominstall");
 			}
-			this.isShowing = true
+			this.isShowing = true;
 
 			const networks = await this.$api.container.getNetworks();
 			const memory = this.$store.state.hardwareInfo.mem;
 			const configData = {
 				networks: networks.data.data,
-				memory: memory
-			}
-			this.isShowing = false
+				memory: memory,
+			};
+			this.isShowing = false;
 			this.$buefy.modal.open({
 				parent: this,
 				component: AppPanel,
 				hasModalCard: true,
-				customClass: 'app-panel',
+				customClass: "app-panel",
 				trapFocus: true,
-				canCancel: ['escape'],
+				canCancel: ["escape"],
 				scroll: "keep",
 				animation: "zoom-in",
 				events: {
-					'updateState': () => {
-						this.getList()
-					}
+					updateState: () => {
+						this.getList();
+					},
 				},
 				props: {
 					id: "0",
@@ -371,9 +402,9 @@ export default {
 					configData: configData,
 					storeId: storeId,
 					// TODO transfer to yaml string.
-					settingData: mode !== 'custom' ? undefined : {},
-				}
-			})
+					settingData: mode !== "custom" ? undefined : {},
+				},
+			});
 		},
 
 		/**
@@ -386,35 +417,35 @@ export default {
 			let name = item.name;
 			// this.$messageBus('appsexsiting_open', name);
 			try {
-				if (item.app_type === 'LinkApp') {
-					await this.showExternalLinkPanel(item)
-					return
+				if (item.app_type === "LinkApp") {
+					await this.showExternalLinkPanel(item);
+					return;
 				}
 				const networks = await this.$api.container.getNetworks();
 				const memory = this.$store.state.hardwareInfo.mem;
 				const configData = {
 					networks: networks.data.data,
-					memory: memory
-				}
+					memory: memory,
+				};
 				const ret = await this.$openAPI.appManagement.compose.myComposeApp(name, {
 					headers: {
-						'content-type': 'application/yaml',
-						'accept': 'application/yaml'
-					}
+						"content-type": "application/yaml",
+						accept: "application/yaml",
+					},
 				});
 				this.$buefy.modal.open({
 					parent: this,
 					component: AppPanel,
 					hasModalCard: true,
-					customClass: 'app-panel',
+					customClass: "app-panel",
 					trapFocus: true,
-					canCancel: [''],
+					canCancel: [""],
 					scroll: "keep",
 					animation: "zoom-in",
 					events: {
-						'updateState': () => {
-							this.getList()
-						}
+						updateState: () => {
+							this.getList();
+						},
 					},
 					props: {
 						id: name,
@@ -425,36 +456,36 @@ export default {
 						configData: configData,
 						// settingData: ret.data,
 						settingComposeData: ret.data,
-					}
-				})
+					},
+				});
 			} catch (e) {
-				console.error(e)
+				console.error(e);
 			}
 		},
 
 		async showContainerPanel(item) {
-			this.$messageBus('appsexsiting_open', item.name);
-			let id = item.name
+			this.$messageBus("appsexsiting_open", item.name);
+			let id = item.name;
 			const networks = await this.$api.container.getNetworks();
 			const memory = this.$store.state.hardwareInfo.mem;
 			const configData = {
 				networks: networks.data.data,
-				memory: memory
-			}
+				memory: memory,
+			};
 			const ret = await this.$api.container.getInfo(id);
 			this.$buefy.modal.open({
 				parent: this,
 				component: AppPanel,
 				hasModalCard: true,
-				customClass: 'app-panel',
+				customClass: "app-panel",
 				trapFocus: true,
-				canCancel: [''],
+				canCancel: [""],
 				scroll: "keep",
 				animation: "zoom-in",
 				events: {
-					'updateState': () => {
-						this.getList()
-					}
+					updateState: () => {
+						this.getList();
+					},
 				},
 				props: {
 					id: id,
@@ -462,9 +493,9 @@ export default {
 					isCasa: false,
 					runningStatus: item.status,
 					configData: configData,
-					settingData: ret.data.data
-				}
-			})
+					settingData: ret.data.data,
+				},
+			});
 		},
 
 		async showExternalLinkPanel(item = {}) {
@@ -472,47 +503,47 @@ export default {
 				parent: this,
 				component: ExternalLinkPanel,
 				hasModalCard: true,
-				customClass: 'app-panel', // peer modal
+				customClass: "app-panel", // peer modal
 				trapFocus: true,
-				canCancel: [''],
+				canCancel: [""],
 				scroll: "keep",
 				animation: "zoom-in",
 				events: {
-					'updateState': () => {
-						this.$messageBus('apps_external');
+					updateState: () => {
+						this.$messageBus("apps_external");
 						this.getList().then(() => {
 							this.scrollToNewApp();
-						})
-					}
+						});
+					},
 				},
 				props: {
 					linkName: item.name,
 					linkHost: item.hostname,
 					linkIcon: item.icon,
-				}
-			})
+				},
+			});
 		},
 
 		scrollToNewApp() {
 			// business :: scroll to last position
 			let name = last(this.newAppIds);
-			let showEl = document.getElementById("app-" + name)
-			showEl && showEl.scrollIntoView({ behavior: "smooth", block: 'end' });
+			let showEl = document.getElementById("app-" + name);
+			showEl && showEl.scrollIntoView({ behavior: "smooth", block: "end" });
 		},
 
 		messageBusToast(message, type) {
-			let duration = 5000
+			let duration = 5000;
 			this.$buefy.toast.open({
 				message: message,
 				duration,
 				type,
-			})
-		}
+			});
+		},
 	},
 	sockets: {
 		"app:install-end"(res) {
 			// business :: Tagging of new app / scrollIntoView
-			this.addIdToSessionStorage(res.Properties["app:name"])
+			this.addIdToSessionStorage(res.Properties["app:name"]);
 			this.getList().then(() => {
 				this.scrollToNewApp();
 			});
@@ -527,16 +558,16 @@ export default {
 		},
 		"app:apply-changes-error"(res) {
 			// toast info
-			this.messageBusToast(res.Properties.message, 'is-danger');
+			this.messageBusToast(res.Properties.message, "is-danger");
 		},
 		"app:apply-changes-end"(res) {
-			let languages = JSON.parse(res.Properties["app:title"])
-			const title = ice_i18n(languages)
+			let languages = JSON.parse(res.Properties["app:title"]);
+			const title = ice_i18n(languages);
 			// toast info
-			this.messageBusToast(title + ' is OK', 'is-success');
+			this.messageBusToast(title + " is OK", "is-success");
 
 			// business :: Tagging of new app / scrollIntoView
-			this.addIdToSessionStorage(res.Properties['app:name'])
+			this.addIdToSessionStorage(res.Properties["app:name"]);
 
 			this.getList().then(() => {
 				this.scrollToNewApp();
@@ -547,37 +578,37 @@ export default {
 		 * @param {Object} data
 		 * @return {void}
 		 */
-		'app:update-end'(data) {
-			if (data.Properties['docker:image:updated'] === "true") {
+		"app:update-end"(data) {
+			if (data.Properties["docker:image:updated"] === "true") {
 				// business :: Tagging of new app / scrollIntoView
-				this.addIdToSessionStorage(data.Properties['app:name'])
+				this.addIdToSessionStorage(data.Properties["app:name"]);
 
 				this.$buefy.toast.open({
 					message: this.$t(`{name} has been updated to the latest version!`, {
-						name: data.Properties.name
+						name: data.Properties.name,
 					}),
-					type: 'is-success'
-				})
+					type: "is-success",
+				});
 				this.getList().then(() => {
 					this.scrollToNewApp();
 				});
 			}
 		},
-		'app:update-error'(data) {
+		"app:update-error"(data) {
 			if (data.Properties.cid === this.item.id) {
 				this.isUpdating = false;
 				this.$buefy.toast.open({
-					message: this.$t(data.Properties['error']),
-					type: 'is-danger'
-				})
+					message: this.$t(data.Properties["error"]),
+					type: "is-danger",
+				});
 			}
 		},
 		"casaos-ui:app:openme"(data) {
-			console.log(data, 'casaos-ui:app:mircoapp_communicate');
+			console.log(data, "casaos-ui:app:mircoapp_communicate");
 			this.showAppSettingPanel("chatgpt-next-web");
 		},
-	}
-}
+	},
+};
 </script>
 
 <style lang="scss" scoped>
