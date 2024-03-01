@@ -30,17 +30,7 @@ function openAppToNewWindow(appInfo) {
 }
 
 function firstOpenThirdApp(appInfo) {
-	// const router = useRoute();
-	// let routeUrl = router.resolve({
-	// 	name: 'AppLauncherCheck',
-	// 	path: '/launch',
-	// 	query: {
-	// 		appDetailData: JSON.stringify(appInfo)
-	// 	}
-	// });
 	window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(appInfo )}`
-	// console.log(routeUrl.href);
-	// window.open(routeUrl.href);
 }
 
 export const useOpenApp = () => {
