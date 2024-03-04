@@ -220,10 +220,6 @@ export default {
 				let orgOldAppList = [],
 					orgNewAppList = [];
 				orgAppList.forEach((item) => {
-					// if (hasGpu) {
-					// } else {
-					// 	this.gpuAppList = [];
-					// }
 					item.hostname = item.hostname || this.$baseHostname;
 					// Container app does not have icon.
 					item.icon = item.icon || require(`@/assets/img/app/default.svg`);
@@ -252,6 +248,7 @@ export default {
 						.map((item) => {
 							return {
 								name: item.name,
+								store_app_id: item.name, // Add supplementary field during the GPU era to determine if it is a GPU app.
 								entry: item.entry,
 								title: item.title,
 								icon: item.icon,
@@ -271,17 +268,18 @@ export default {
 					linkAppList,
 					this.mircoAppList
 				);
+				console.log(casaAppList, "casaAppList");
 
 				if (hasGpu) {
 					casaAppList = casaAppList.map((item) => {
 						item.requireGPU = this.gpuAppList.find(
-							(gpuItem) => gpuItem.store_app_id === item.name
+							(gpuItem) => gpuItem.store_app_id === item.store_app_id
 						);
 						return item;
 					});
 				} else {
 					casaAppList = casaAppList.filter((item) => {
-						return !this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.name);
+						return !this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.store_app_id);
 					});
 				}
 
