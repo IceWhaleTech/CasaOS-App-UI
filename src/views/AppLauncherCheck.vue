@@ -49,7 +49,7 @@ export default {
 
 	async created() {
 		if (this.$route.query.appDetailData) {
-			this.appDetailData = this.$route.query.appDetailData
+			this.appDetailData = JSON.parse(this.$route.query.appDetailData)
 		} else {
 			this.appDetailData = qs.parse(window.location.hash.split("?")[1])
 		}
