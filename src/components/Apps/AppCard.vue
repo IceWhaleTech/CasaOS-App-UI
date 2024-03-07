@@ -299,7 +299,8 @@ export default {
 					name: 'AppDetection',
 					path: '/detection',
 					query: {
-						appDetailData: JSON.stringify(item)
+						// appDetailData: JSON.stringify(item),
+						name: item.name
 					}
 				});
 				window.open(routeUrl.href, '_blank');

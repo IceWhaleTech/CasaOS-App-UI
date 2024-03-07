@@ -36,6 +36,7 @@ function firstOpenThirdApp(appInfo) {
 export const useOpenApp = () => {
 	
 	return (item) => {
+		debugger
 		if (item.app_type === 'mircoApp') {
 			if (item.open_type?.toLowerCase() === "newtab") {
 				window.location.assign(`/modules/${item.name}`);
