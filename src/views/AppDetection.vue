@@ -25,10 +25,10 @@
 				<div class="has-text-full-02 mt-4 mb-2">
 					{{
 						isStoppingApp
-						? $t(contentText, { name: activeAppData.name })
-						: $t(contentText, {
-							name: activeAppData.name,
-						})
+							? $t(contentText, { name: activeAppData.name })
+							: $t(contentText, {
+								name: activeAppData.name,
+							})
 					}}
 				</div>
 				<div v-show="remakeText" class="has-text-full-04 op40 mb-5">
@@ -41,7 +41,8 @@
 				<b-image v-if="isPending" :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
 					class="is-48x48 mt-6" />
 				<div v-else-if="!isFailed" class="mt-4 is-flex is-justify-content-space-between">
-					<b-button rounded class="has-text-white close-app-button mr-1" @click="closePage(appDetailData.name)">
+					<b-button rounded class="has-text-white close-app-button mr-1"
+						@click="closePage(appDetailData.name)">
 						{{ $t("Continue {name}", { name: activeAppData.name }) }}
 					</b-button>
 					<b-button type="is-primary" rounded class="ml-1" @click="switchToApp(appDetailData.name)">
@@ -94,8 +95,8 @@ async function stopApp() {
 				}
 			});
 		return true;
-	} catch(error) {
-		console.error('close error', error);
+	} catch (error) {
+		console.error("close error", error);
 		isStoppingApp.value = false;
 		contentText.value = "Cannot close {name}";
 		remakeText.value = "Please right-click on the dashboard and try closing it again";
@@ -152,6 +153,7 @@ onMounted(() => {
 	});
 });
 </script>
+
 <style scoped>
 .close-app-button {
 	border: 0;
