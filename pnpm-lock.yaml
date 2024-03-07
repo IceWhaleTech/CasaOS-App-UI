@@ -187,6 +187,9 @@ devDependencies:
   file-loader:
     specifier: ^6.2.0
     version: 6.2.0(webpack@4.36.0)
+  idb:
+    specifier: ^8.0.0
+    version: 8.0.0
   jsdom:
     specifier: ^22.1.0
     version: 22.1.0
@@ -7170,6 +7173,10 @@ packages:
       postcss: ^8.1.0
     dependencies:
       postcss: 8.4.35
+    dev: true
+
+  /idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
     dev: true
 
   /ieee754@1.2.1:

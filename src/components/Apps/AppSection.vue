@@ -33,8 +33,8 @@
 
 		<!-- App List Start -->
 		<draggable v-model="appList" :draggable="draggable"
-			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div" v-bind="dragOptions"
-			@end="onSortEnd" @start="drag = true">
+			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div"
+			v-bind="dragOptions" @end="onSortEnd" @start="drag = true">
 			<!-- App Icon Card Start -->
 			<template v-if="!isLoading">
 				<div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name"
@@ -93,6 +93,7 @@ import business_LinkApp from "@/mixins/app/Business_LinkApp";
 import isEqual from "lodash/isEqual";
 import { ice_i18n } from "@/mixins/base/common-i18n";
 import { iceGpu } from "@/service/index.js";
+/* import { openDB } from 'idb'; */
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -109,6 +110,7 @@ const builtInApplications = [
 ];
 
 const orderConfig = "app_order";
+/* let db; */
 
 export default {
 	mixins: [business_ShowNewAppTag, business_LinkApp],
@@ -157,6 +159,14 @@ export default {
 		},
 	},
 	async created() {
+		/* db = await openDB('casaos', '1', {
+			upgrade(db) {
+				db.createObjectStore('app', {
+					keyPath: 'name'
+				})
+
+			}
+		}); */
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
 
@@ -268,18 +278,21 @@ export default {
 					linkAppList,
 					this.mircoAppList
 				);
-				console.log(casaAppList, "casaAppList");
-
+				// console.log(casaAppList, "casaAppList");
+				/* for (let app of casaAppList) {
+					await db.put('app', app);
+				} */
+				// await db.put('app', casaAppList, 'appList');
 				if (hasGpu) {
 					casaAppList = casaAppList.map((item) => {
 						item.requireGPU = this.gpuAppList.find(
-							(gpuItem) => gpuItem.store_app_id === item.store_app_id
+							(gpuItem) => gpuItem.name === item.name
 						);
 						return item;
 					});
 				} else {
 					casaAppList = casaAppList.filter((item) => {
-						return !this.gpuAppList.find((gpuItem) => gpuItem.store_app_id === item.store_app_id);
+						return !this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
 					});
 				}
 

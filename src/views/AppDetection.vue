@@ -4,7 +4,7 @@
 			<div
 				class="container has-text-white is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
 				<div class="is-flex is-align-items-center mb-3">
-					<b-image :key="activeAppData.icon" :src="activeAppData.icon"
+					<b-image :key="activeAppData.icon + 1" :src="activeAppData.icon"
 						:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64 icon-shadow"
 						webp-fallback=".jpg"></b-image>
 
@@ -15,19 +15,19 @@
 							fill="#303233" />
 					</svg>
 
-					<b-image v-show="!isStoppingApp" :key="appDetailData.name" :src="appDetailData.icon"
+					<b-image v-show="!isStoppingApp" :key="appDetailData.name + 2" :src="appDetailData.icon"
 						:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64 icon-shadow"
 						webp-fallback=".jpg"></b-image>
 				</div>
 				<div class="has-text-full-02 mb-5">
-					{{ appDetailData.name }}
+					{{ ice_i18n(appDetailData.title) }}
 				</div>
 				<div class="has-text-full-02 mt-4 mb-2">
 					{{
 						isStoppingApp
-							? $t(contentText, { name: activeAppData.name })
+							? $t(contentText, { name: "" }) + ice_i18n(appDetailData.title)
 							: $t(contentText, {
-								name: activeAppData.name,
+								name: "",
 							})
 					}}
 				</div>
@@ -43,10 +43,10 @@
 				<div v-else-if="!isFailed" class="mt-4 is-flex is-justify-content-space-between">
 					<b-button rounded class="has-text-white close-app-button mr-1"
 						@click="closePage(appDetailData.name)">
-						{{ $t("Continue {name}", { name: activeAppData.name }) }}
+						{{ $t("Continue {name}", { name: "" }) + ice_i18n(activeAppData.title) }}
 					</b-button>
 					<b-button type="is-primary" rounded class="ml-1" @click="switchToApp(appDetailData.name)">
-						{{ $t("Switch to {name}", { name: appDetailData.name }) }}
+						{{ $t("Switch to {name}", { name: "" }) + ice_i18n(appDetailData.title) }}
 					</b-button>
 				</div>
 			</div>
@@ -55,18 +55,21 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, reactive, nextTick } from "vue";
 import { useRoute } from "vue-router/composables";
 import { usei18n } from "@/composables/usei18n";
 import { useOpenApp } from "@/composables/useOpenApp";
 import { iceGpu } from "@/service/index.js";
 import { GPUApplicationStatusEnum } from "@icewhale/zimaos-openapi";
+import { ice_i18n } from "@/mixins/base/common-i18n";
+/* import { openDB } from "idb"; */
 
 const openApp = useOpenApp();
 const { i18n: t } = usei18n();
 const route = useRoute();
-const activeAppData = ref({ icon: "", name: "" });
-const appDetailData = JSON.parse(route.query.appDetailData) || { icon: "", name: "" };
+const activeAppData = ref({ icon: "", name: "", title: {} });
+const appDetailData = ref({ icon: "", name: "", title: {} });
+const currentAppName = route.query.name;
 const isStoppingApp = ref(false);
 const isStarttingApp = ref(false);
 const contentText = ref("Insufficient performance to run simultaneously");
@@ -86,7 +89,7 @@ async function stopApp() {
 
 	try {
 		await iceGpu
-			.setGPUApplicationsStatus(activeAppData.value.store_app_id, {
+			.setGPUApplicationsStatus(activeAppData.value.name, {
 				status: GPUApplicationStatusEnum.Stop,
 			})
 			.then((res) => {
@@ -109,13 +112,13 @@ function startApp() {
 	isStarttingApp.value = true;
 	contentText.value = "Launching {name}";
 	iceGpu
-		.setGPUApplicationsStatus(appDetailData.name, {
+		.setGPUApplicationsStatus(appDetailData.value.name, {
 			status: GPUApplicationStatusEnum.Start,
 		})
 		.then((res) => {
 			if (res.status === 200) {
 				isStarttingApp.value = false;
-				openApp(appDetailData);
+				openApp(appDetailData.value);
 			}
 		})
 		.catch(() => {
@@ -135,20 +138,28 @@ async function switchToApp(appName) {
 	startApp();
 }
 
-onMounted(() => {
+onMounted(async () => {
+	/* const db = await openDB('casaos', 1);
+	const ice = await db.get('app', 'icewhale_chat') */
+
 	iceGpu.getGPUApplications().then((res) => {
 		const appList = res.data.data || [];
+		// console.log(appList, appDetailData.name, 'appList');
 		// TODO: data model is not unified.
 		const app = appList.find(
 			(item) =>
 				item.status === GPUApplicationStatusEnum.Running &&
-				item.store_app_id !== appDetailData.name
+				item.name !== currentAppName
 		);
-
+		appDetailData.value = appList.find(
+			(item) => item.name === currentAppName
+		);
 		if (app) {
 			activeAppData.value = app;
 		} else {
-			startApp();
+			nextTick(() => {
+				startApp();
+			});
 		}
 	});
 });
