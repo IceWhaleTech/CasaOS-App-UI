@@ -45,7 +45,8 @@
 						@click="closePage(appDetailData.name)">
 						{{ $t("Continue {name}", { name: "" }) + ice_i18n(activeAppData.title) }}
 					</b-button>
-					<b-button type="is-primary" rounded class="ml-1" @click="switchToApp(appDetailData.name)">
+					<b-button type="is-primary" :loading="isLoading" rounded class="ml-1"
+						@click="switchToApp(appDetailData.name)">
 						{{ $t("Switch to {name}", { name: "" }) + ice_i18n(appDetailData.title) }}
 					</b-button>
 				</div>
@@ -75,6 +76,7 @@ const isStarttingApp = ref(false);
 const contentText = ref("Insufficient performance to run simultaneously");
 const remakeText = ref("Detected performance conflict");
 const isFailed = ref(false);
+const isLoading = ref(false);
 const isPending = computed(() => isStoppingApp.value || isStarttingApp.value);
 
 let db;
@@ -110,6 +112,10 @@ async function stopApp() {
 	}
 }
 
+async function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function startApp() {
 	isStarttingApp.value = true;
 	contentText.value = "Launching {name}";
@@ -119,13 +125,25 @@ function startApp() {
 		})
 		.then(async (res) => {
 			if (res.status === 200) {
-				isStarttingApp.value = false;
 				const targetApp = await db.get('app', appDetailData.value.name);
-				openApp(targetApp);
+				let runningApps = 2, times = 0;
+				while (times > 10 || runningApps > 1) {
+					runningApps = await iceGpu.getGPUApplications().then(res => {
+						return res.data.data?.filter(item => item.status === 'running').length || 1;
+					})
+					await sleep(2000);
+					times++;
+					console.log('探测运行中的应用书目，第 * 次', times);
+				}
+				isLoading.value = false;
+				isStarttingApp.value = false;
+
+				runningApps < 2 && openApp(targetApp);
 			}
 		})
 		.catch((e) => {
 			console.error(e);
+			isLoading.value = false;
 			isStarttingApp.value = false;
 			contentText.value = "Cannot launch {name}";
 			remakeText.value = "Please right-click on the dashboard and try switching it again";
@@ -134,9 +152,12 @@ function startApp() {
 }
 
 async function switchToApp(appName) {
+	isLoading.value = true;
+
 	// first close the current app
 	const result = await stopApp();
 	if (!result) {
+		isLoading.value = false;
 		return;
 	}
 	startApp();

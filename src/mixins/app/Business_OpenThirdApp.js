@@ -28,7 +28,9 @@ export default {
 					html.href = url;
 					html.rel = 'noreferrer';
 					document.getElementById('app').appendChild(html)
-					html.click();
+					setTimeout(() => {
+						html.click();
+					}, 500);
 				}
 			}
 		},

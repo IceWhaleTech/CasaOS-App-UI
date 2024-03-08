@@ -278,11 +278,7 @@ export default {
 					linkAppList,
 					this.mircoAppList
 				);
-				// console.log(casaAppList, "casaAppList");
-				for (let app of casaAppList) {
-					db.put('app', app);
-				}
-				// await db.put('app', casaAppList, 'appList');
+
 				if (hasGpu) {
 					casaAppList = casaAppList.map((item) => {
 						item.requireGPU = this.gpuAppList.find(
@@ -296,6 +292,10 @@ export default {
 					});
 				}
 
+				for (let app of casaAppList) {
+					db.put('app', app);
+				}
+				
 				// get app sort info.
 				let lateSortList = await this.$api.users
 					.getCustomStorage(orderConfig)
