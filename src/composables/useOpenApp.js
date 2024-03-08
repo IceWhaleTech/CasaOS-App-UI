@@ -11,7 +11,7 @@ function openThirdApp(appInfo, isNewWindows) {
 		const scheme = appInfo.scheme || 'http'
 		const port = appInfo.port ? `:${appInfo.port}` : ''
 		const url = `${scheme}://${hostIp}${port}${appInfo.index}`
-		if (item?.app_type === 'mircoApp') { 
+		if (item?.app_type === 'mircoApp') {
 			window.location.href = `/modules/${item.name}`;
 		}
 
@@ -33,25 +33,22 @@ function openAppToNewWindow(appInfo) {
 }
 
 function firstOpenThirdApp(appInfo) {
-	window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(appInfo )}`
+	window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(appInfo)}`
 }
 
 export const useOpenApp = () => {
-	
 	return (item) => {
 		if (item.app_type === 'mircoApp') {
 			if (item.open_type?.toLowerCase() === "newtab") {
-				// debugger
-				// window.location.assign(`/modules/${item.name}`);
-				// window.location.href = `/modules/${item.name}`;
-				item.requireGPU ? (window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(item)}`) : (window.location.href = `/modules/${item.name}`);
+				// item.requireGPU ? (window.location.href = `/modules/icewhale_app/#/launch?${qs.stringify(item)}`) : (window.location.href = `/modules/${item.name}`);
+				window.location.href = `/modules/${item.name}`
 			} else {
 				messageBus('mircoapp_communicate', {
 					action: MIRCO_APP_ACTION_ENUM.OPEN,
 					name: item.name
 				})
 			}
-		}else{
+		} else {
 			openAppToNewWindow(item)
 		}
 	}

@@ -106,9 +106,9 @@ export default {
 			}
 		},
 
-		openApp: (item) => {
+		openApp (item) {
 			if (item.app_type === 'mircoApp') {
-					window.location.href = `/modules/${item.name}`;
+				window.location.href = `/modules/${item.name}`;
 			} else {
 				this.openThirdApp(item)
 			}
