@@ -9,8 +9,9 @@
 <template>
 	<div v-if="isCheckFailed"
 		class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-fullheight">
-		<b-image :key="appDetailData.icon" :src="appDetailData.icon" :src-fallback="require('@/assets/img/app/default.svg')"
-			class="is-64x64 icon-shadow" webp-fallback=".jpg"></b-image>
+		<b-image :key="appDetailData.icon" :src="appDetailData.icon"
+			:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64 icon-shadow"
+			webp-fallback=".jpg"></b-image>
 		<h2 class="has-text-emphasis-01 has-text-white mt-2">{{ appDetailData.name }}</h2>
 		<h1 v-if="status === 'pending'" class="has-text-sub-03 has-text-white mt-6">{{ $t('Preparing for launch') }}
 		</h1>
@@ -18,9 +19,9 @@
 		<b-image v-if="status === 'pending'" :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
 			class="is-48x48 mt-6" />
 		<span v-else class="has-text-full-03 has-text-grey-600 mt-6">{{
-			$t('Please')
-		}}
-			<a @click="openThirdApp(appDetailData);">{{ $t('Click here') }}
+		$t('Please')
+	}}
+			<a @click="openApp(appDetailData);">{{ $t('Click here') }}
 			</a> {{ $t('to open the app. If it does not work, please restart or try again later.') }}
 		</span>
 	</div>
@@ -28,6 +29,7 @@
 
 <script>
 import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
+
 import qs from "qs";
 
 export default {
@@ -101,6 +103,14 @@ export default {
 				clearInterval(this.timer)
 			} else {
 				this.isCheckFailed = true
+			}
+		},
+
+		openApp: (item) => {
+			if (item.app_type === 'mircoApp') {
+					window.location.href = `/modules/${item.name}`;
+			} else {
+				this.openThirdApp(item)
 			}
 		}
 	},

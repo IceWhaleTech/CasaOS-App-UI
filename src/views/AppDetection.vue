@@ -62,7 +62,7 @@ import { useOpenApp } from "@/composables/useOpenApp";
 import { iceGpu } from "@/service/index.js";
 import { GPUApplicationStatusEnum } from "@icewhale/zimaos-openapi";
 import { ice_i18n } from "@/mixins/base/common-i18n";
-/* import { openDB } from "idb"; */
+import { openDB } from "idb";
 
 const openApp = useOpenApp();
 const { i18n: t } = usei18n();
@@ -76,6 +76,8 @@ const contentText = ref("Insufficient performance to run simultaneously");
 const remakeText = ref("Detected performance conflict");
 const isFailed = ref(false);
 const isPending = computed(() => isStoppingApp.value || isStarttingApp.value);
+
+let db;
 
 function closePage(appName) {
 	// 关闭当前页面
@@ -115,13 +117,15 @@ function startApp() {
 		.setGPUApplicationsStatus(appDetailData.value.name, {
 			status: GPUApplicationStatusEnum.Start,
 		})
-		.then((res) => {
+		.then(async (res) => {
 			if (res.status === 200) {
 				isStarttingApp.value = false;
-				openApp(appDetailData.value);
+				const targetApp = await db.get('app', appDetailData.value.name);
+				openApp(targetApp);
 			}
 		})
-		.catch(() => {
+		.catch((e) => {
+			console.error(e);
 			isStarttingApp.value = false;
 			contentText.value = "Cannot launch {name}";
 			remakeText.value = "Please right-click on the dashboard and try switching it again";
@@ -139,8 +143,7 @@ async function switchToApp(appName) {
 }
 
 onMounted(async () => {
-	/* const db = await openDB('casaos', 1);
-	const ice = await db.get('app', 'icewhale_chat') */
+	db = await openDB('casaos', 1);
 
 	iceGpu.getGPUApplications().then((res) => {
 		const appList = res.data.data || [];

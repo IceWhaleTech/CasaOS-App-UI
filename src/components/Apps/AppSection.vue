@@ -93,7 +93,7 @@ import business_LinkApp from "@/mixins/app/Business_LinkApp";
 import isEqual from "lodash/isEqual";
 import { ice_i18n } from "@/mixins/base/common-i18n";
 import { iceGpu } from "@/service/index.js";
-/* import { openDB } from 'idb'; */
+import { openDB } from 'idb';
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -110,7 +110,7 @@ const builtInApplications = [
 ];
 
 const orderConfig = "app_order";
-/* let db; */
+let db;
 
 export default {
 	mixins: [business_ShowNewAppTag, business_LinkApp],
@@ -159,14 +159,14 @@ export default {
 		},
 	},
 	async created() {
-		/* db = await openDB('casaos', '1', {
+		db = await openDB('casaos', '1', {
 			upgrade(db) {
 				db.createObjectStore('app', {
 					keyPath: 'name'
 				})
 
 			}
-		}); */
+		});
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
 
@@ -279,9 +279,9 @@ export default {
 					this.mircoAppList
 				);
 				// console.log(casaAppList, "casaAppList");
-				/* for (let app of casaAppList) {
-					await db.put('app', app);
-				} */
+				for (let app of casaAppList) {
+					db.put('app', app);
+				}
 				// await db.put('app', casaAppList, 'appList');
 				if (hasGpu) {
 					casaAppList = casaAppList.map((item) => {
