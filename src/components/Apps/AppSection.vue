@@ -179,7 +179,6 @@ export default {
 		}, 5000);
 	},
 	beforeDestroy() {
-		this.$EventBus.$off(events.OPEN_APP_STORE_AND_GOTO_SYNCTHING);
 		window.removeEventListener("resize", this.getSkCount);
 
 		clearInterval(this.ListRefreshTimer);
