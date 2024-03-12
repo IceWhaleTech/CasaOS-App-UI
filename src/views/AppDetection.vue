@@ -1,5 +1,6 @@
 <template>
-	<div class="hero is-fullheight has-background-black">
+	<b-loading v-if="isLoadingPage" :is-full-page="true" :value="true"></b-loading>
+	<div v-else class="hero is-fullheight has-background-black">
 		<div class="hero-body is-flex is-flex-direction-column">
 			<div
 				class="container has-text-white is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
@@ -24,25 +25,23 @@
 				</div>
 				<div class="has-text-full-02 mt-4 mb-2">
 					{{
-						isStoppingApp
-							? $t(contentText, { name: "" }) + ice_i18n(appDetailData.title)
-							: $t(contentText, {
-								name: "",
-							})
+					isStoppingApp
+					? $t(contentText, { name: "" }) + ice_i18n(activeAppData.title)
+					: $t(contentText, {
+					name: "",
+					})
 					}}
 				</div>
 				<div v-show="remakeText" class="has-text-full-04 op40 mb-5">
 					{{ $t(remakeText) }}
 				</div>
-				<div v-show="remakeText && isFailed" class="has-text-info cursor-pointer"
-					@click="closePage(appDetailData.name)">
+				<div v-show="remakeText && isFailed" class="has-text-info cursor-pointer" @click="closePage">
 					{{ $t("close") }}
 				</div>
 				<b-image v-if="isPending" :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
 					class="is-48x48 mt-6" />
 				<div v-else-if="!isFailed" class="mt-4 is-flex is-justify-content-space-between">
-					<b-button rounded class="has-text-white close-app-button mr-1"
-						@click="closePage(appDetailData.name)">
+					<b-button rounded class="has-text-white close-app-button mr-1" @click="closePage">
 						{{ $t("Continue {name}", { name: "" }) + ice_i18n(activeAppData.title) }}
 					</b-button>
 					<b-button type="is-primary" :loading="isLoading" rounded class="ml-1"
@@ -57,8 +56,9 @@
 
 <script setup>
 import { ref, computed, onMounted, reactive, nextTick } from "vue";
+import ProgressSpinner from 'primevue/progressspinner';
 import { useRoute } from "vue-router/composables";
-import { usei18n } from "@/composables/usei18n";
+// import { usei18n } from "@/composables/usei18n";
 import { useOpenApp } from "@/composables/useOpenApp";
 import { iceGpu } from "@/service/index.js";
 import { GPUApplicationStatusEnum } from "@icewhale/zimaos-openapi";
@@ -66,7 +66,7 @@ import { ice_i18n } from "@/mixins/base/common-i18n";
 import { openDB } from "idb";
 
 const openApp = useOpenApp();
-const { i18n: t } = usei18n();
+// const { i18n: t } = usei18n();
 const route = useRoute();
 const activeAppData = ref({ icon: "", name: "", title: {} });
 const appDetailData = ref({ icon: "", name: "", title: {} });
@@ -77,11 +77,12 @@ const contentText = ref("Insufficient performance to run simultaneously");
 const remakeText = ref("Detected performance conflict");
 const isFailed = ref(false);
 const isLoading = ref(false);
+const isLoadingPage = ref(true);
 const isPending = computed(() => isStoppingApp.value || isStarttingApp.value);
 
 let db;
 
-function closePage(appName) {
+function closePage() {
 	// 关闭当前页面
 	window.close();
 }
@@ -133,7 +134,6 @@ function startApp() {
 					})
 					await sleep(2000);
 					times++;
-					console.log('探测运行中的应用书目，第 * 次', times);
 				}
 				isLoading.value = false;
 				isStarttingApp.value = false;
@@ -166,9 +166,16 @@ async function switchToApp(appName) {
 onMounted(async () => {
 	db = await openDB('casaos', 1);
 
-	iceGpu.getGPUApplications().then((res) => {
+	iceGpu.getGPUApplications().then(async (res) => {
 		const appList = res.data.data || [];
-		// console.log(appList, appDetailData.name, 'appList');
+		const runningApps = appList.filter((item) => item.status === GPUApplicationStatusEnum.Running);
+		if (runningApps.length <= 1 && runningApps[0].name === currentAppName) {
+			const targetApp = await db.get('app', currentAppName);
+
+			openApp(targetApp);
+			return;
+		}
+		isLoadingPage.value = false;
 		// TODO: data model is not unified.
 		const app = appList.find(
 			(item) =>
