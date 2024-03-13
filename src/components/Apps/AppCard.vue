@@ -7,13 +7,23 @@
   * Copyright (c) 2022 by IceWhale, All Rights Reserved.
   -->
 <template>
-	<div class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card"
-		@mouseleave="hover = true" @mouseover="hover = true">
-
+	<div
+		class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card"
+		@mouseleave="hover = true"
+		@mouseover="hover = true"
+	>
 		<!-- Action Button Start -->
 		<div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling" class="action-btn">
-			<b-dropdown ref="dro" :mobile-modal="false" :triggers="['contextmenu', 'click']" animation="fade1"
-				aria-role="list" class="app-card-drop" position="is-bottom-left" @active-change="setDropState">
+			<b-dropdown
+				ref="dro"
+				:mobile-modal="false"
+				:triggers="['contextmenu', 'click']"
+				animation="fade1"
+				aria-role="list"
+				class="app-card-drop"
+				position="is-bottom-left"
+				@active-change="setDropState"
+			>
 				<template #trigger>
 					<p role="button" class="action-btn-trigger">
 						<b-icon class="is-clickable" icon="dots-vertical"></b-icon>
@@ -22,36 +32,46 @@
 
 				<b-dropdown-item :focusable="false" aria-role="menu-item" custom>
 					<b-button expanded tag="a" type="is-text" @click="openApp(item)">{{ $t('Open') }}</b-button>
-					<b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16"
-						type="is-text" @click="openTips(item.name)">
+					<b-button
+						v-if="isV2App"
+						expanded
+						icon-pack="casa"
+						icon-right="question-outline"
+						size="is-16"
+						type="is-text"
+						@click="openTips(item.name)"
+					>
 						{{ $t('Tips') }}
 					</b-button>
-					<b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()">{{
-						$t('Setting')
-					}}
+					<b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()"
+						>{{ $t('Setting') }}
 					</b-button>
-					<b-button v-if="false" :loading="isCloning" expanded type="is-text"
-						@click="appClone(item.appstore_id)">{{
-							$t('Clone')
-						}}
+					<b-button
+						v-if="false"
+						:loading="isCloning"
+						expanded
+						type="is-text"
+						@click="appClone(item.appstore_id)"
+						>{{ $t('Clone') }}
 					</b-button>
 
-					<b-button v-if="isV2App" expanded type="is-text" @click="checkAppVersion(item.name)">{{
-						$t('Check then update')
-					}}
+					<b-button v-if="isV2App" expanded type="is-text" @click="checkAppVersion(item.name)"
+						>{{ $t('Check then update') }}
 						<b-loading :active="isCheckThenUpdate || isUpdating" :is-full-page="false">
-							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending" class="ml-4 is-24x24" />
+							<img
+								:src="require('@/assets/img/loading/waiting.svg')"
+								alt="pending"
+								class="ml-4 is-24x24"
+							/>
 						</b-loading>
 					</b-button>
 
-					<b-button v-if="isV1App" expanded type="is-text" @click="exportYAML(item)">{{
-						$t('Export as Compose')
-					}}
+					<b-button v-if="isV1App" expanded type="is-text" @click="exportYAML(item)"
+						>{{ $t('Export as Compose') }}
 					</b-button>
 
-					<b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item)">{{
-						$t('Rebuild')
-					}}
+					<b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item)"
+						>{{ $t('Rebuild') }}
 					</b-button>
 
 					<b-dropdown v-if="false" :triggers="['click']" aria-role="list" class="is-right" expanded>
@@ -76,13 +96,21 @@
 					<b-button v-if="isLinkApp" class="mb-1" expanded type="is-text" @click="uninstallApp(true)">
 						{{ $t('Delete') }}
 						<b-loading v-model="isUninstalling" :is-full-page="false">
-							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending" class="ml-4 is-24x24" />
+							<img
+								:src="require('@/assets/img/loading/waiting.svg')"
+								alt="pending"
+								class="ml-4 is-24x24"
+							/>
 						</b-loading>
 					</b-button>
 					<b-button v-else class="has-text-red" expanded type="is-text" @click="uninstallConfirm">
 						{{ $t('Uninstall') }}
 						<b-loading v-model="isUninstalling" :is-full-page="false">
-							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending" class="ml-4 is-24x24" />
+							<img
+								:src="require('@/assets/img/loading/waiting.svg')"
+								alt="pending"
+								class="ml-4 is-24x24"
+							/>
 						</b-loading>
 					</b-button>
 
@@ -94,14 +122,19 @@
 								</b-button>
 							</div>
 							<div class="column is-flex is-justify-content-center is-align-items-center">
-								<b-button :class="item.status" :loading="isStarting" class="has-text-red" expanded
-									type="is-text" @click="toggle(item)">
+								<b-button
+									:class="item.status"
+									:loading="isStarting"
+									class="has-text-red"
+									expanded
+									type="is-text"
+									@click="toggle(item)"
+								>
 									<b-icon custom-size="is-size-20px" icon="power-standby" size="is-20"></b-icon>
 								</b-button>
 							</div>
 						</div>
 					</div>
-
 				</b-dropdown-item>
 			</b-dropdown>
 		</div>
@@ -109,65 +142,84 @@
 		<div class="blur-background"></div>
 		<div class="cards-content">
 			<!-- Card Content Start -->
-			<b-tooltip :always="isActiveTooltip" :animated="true" :label="tooltipLabel" :triggers="tooltipTriger"
-				animation="fade1" class="in-card" type="is-white">
-
-				<div class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3px img-c">
+			<b-tooltip
+				:always="isActiveTooltip"
+				:animated="true"
+				:label="tooltipLabel"
+				:triggers="tooltipTriger"
+				animation="fade1"
+				class="in-card"
+				type="is-white"
+			>
+				<div
+					class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3px img-c"
+				>
 					<div class="is-flex is-justify-content-center">
 						<div class="is-relative">
-							<b-image :class="dotClass(item.status, isLoading)" :src="item.icon"
-								:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64"
-								webp-fallback=".jpg" @click.native="openApp(item)"></b-image>
+							<b-image
+								:class="dotClass(item.status, isLoading)"
+								:src="item.icon"
+								:src-fallback="require('@/assets/img/app/default.svg')"
+								class="is-64x64"
+								webp-fallback=".jpg"
+								@click.native="openApp(item)"
+							></b-image>
 							<!-- Unstable-->
 							<cTooltip v-if="newAppIds.includes(item.name)" class="__position" content="NEW"></cTooltip>
 						</div>
 
 						<!-- Loading Bar Start -->
-						<b-loading :active="isLoading" :can-cancel="false" :is-full-page="false"
+						<b-loading
+							:active="isLoading"
+							:can-cancel="false"
+							:is-full-page="false"
 							class="has-background-gray-800 op80 is-64x64"
-							style="top: auto;bottom: auto; right: auto; left: auto; border-radius: 11.5px">
-							<img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading" class="is-20x20" />
+							style="top: auto; bottom: auto; right: auto; left: auto; border-radius: 11.5px"
+						>
+							<img
+								:src="require('@/assets/img/loading/waiting-white.svg')"
+								alt="loading"
+								class="is-20x20"
+							/>
 						</b-loading>
 						<!-- Loading Bar End -->
 					</div>
 
 					<p class="mt-3 one-line">
-						<a class="one-line" style="cursor:default">
+						<a class="one-line" style="cursor: default">
 							{{ i18n(item.title) }}
 						</a>
 					</p>
-
 				</div>
 			</b-tooltip>
 			<!-- Card Content End -->
-
 		</div>
 	</div>
 </template>
 
 <script>
-import events from '@/events/events';
-import cTooltip from '@/components/basicComponents/tooltip/tooltip.vue';
-import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
-import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
-import business_LinkApp from "@/mixins/app/Business_LinkApp";
-import isNull from "lodash/isNull";
-import tipEditorModal from "@/components/AppSetting/AppTipModal.vue";
-import YAML from "yaml";
-import commonI18n, { ice_i18n } from "@/mixins/base/common-i18n";
-import FileSaver from 'file-saver';
-import { MIRCO_APP_ACTION_ENUM } from "@/const";
-import apps from "../../service/apps.js";
+import events from '@/events/events'
+import cTooltip from '@/components/basicComponents/tooltip/tooltip.vue'
+import business_ShowNewAppTag from '@/mixins/app/Business_ShowNewAppTag'
+import business_OpenThirdApp from '@/mixins/app/Business_OpenThirdApp'
+import business_LinkApp from '@/mixins/app/Business_LinkApp'
+import isNull from 'lodash/isNull'
+import tipEditorModal from '@/components/AppSetting/AppTipModal.vue'
+import YAML from 'yaml'
+import commonI18n, { ice_i18n } from '@/mixins/base/common-i18n'
+import FileSaver from 'file-saver'
+import { MIRCO_APP_ACTION_ENUM } from '@/const'
+import apps from '../../service/apps.js'
 
 export default {
-	name: "app-card",
+	name: 'app-card',
 	components: {
 		cTooltip,
-		tipEditorModal,
+		tipEditorModal
 	},
 	mixins: [business_ShowNewAppTag, business_OpenThirdApp, business_LinkApp, commonI18n],
-	inject: ["openAppStore"],
-	data() {
+	inject: ['openAppStore'],
+	data () {
 		return {
 			hover: false,
 			dropState: false,
@@ -181,20 +233,20 @@ export default {
 			// isStoping: false,
 			// Public. Only changes the state of the card, not the state of the button.
 			isSaving: false,
-			isActiveTooltip: false,
+			isActiveTooltip: false
 		}
 	},
 	props: {
 		item: {
 			type: Object
-		},
+		}
 	},
 	computed: {
-		tooltipLabel() {
+		tooltipLabel () {
 			if (this.isContainerApp) {
 				return this.$t('Import to CasaOS')
 			} else {
-				if (this.item.app_type === "system") {
+				if (this.item.app_type === 'system') {
 					return this.$t('Open')
 				} else {
 					if (this.isUpdating) {
@@ -209,7 +261,8 @@ export default {
 						return this.$t('updateState')
 					} else if (this.isRebuilding) {
 						return this.$t('Rebuilding')
-					} else if (this.isCheckThenUpdate) { // this.isCheckThenUpdate !!!
+					} else if (this.isCheckThenUpdate) {
+						// this.isCheckThenUpdate !!!
 						return this.$t('CheckThenUpdate')
 					} else if (this.item.status === 'running') {
 						return this.$t('Open')
@@ -219,11 +272,11 @@ export default {
 				}
 			}
 		},
-		tooltipTriger() {
+		tooltipTriger () {
 			if (this.isContainerApp) {
 				return ['hover']
 			} else {
-				if (this.item.app_type === "system") {
+				if (this.item.app_type === 'system') {
 					return ['hover']
 				} else {
 					switch (this.item.status) {
@@ -235,48 +288,52 @@ export default {
 				}
 			}
 		},
-		isLoading() {
-			let active = this.isUninstalling || this.isUpdating || this.isRestarting || this.isStarting || this.isSaving || this.isRebuilding // || this.isStoping || this.isSaving
+		isLoading () {
+			let active =
+				this.isUninstalling ||
+				this.isUpdating ||
+				this.isRestarting ||
+				this.isStarting ||
+				this.isSaving ||
+				this.isRebuilding // || this.isStoping || this.isSaving
 			return active
 		},
-		isMircoApp() {
-			return this.item.app_type === "mircoApp"
+		isMircoApp () {
+			return this.item.app_type === 'mircoApp'
 		},
-		isV1App() {
-			return this.item.app_type === "v1app"
+		isV1App () {
+			return this.item.app_type === 'v1app'
 		},
-		isV2App() {
-			return this.item.app_type === "v2app"
+		isV2App () {
+			return this.item.app_type === 'v2app'
 		},
-		isContainerApp() {
-			return this.item.app_type === "container"
+		isContainerApp () {
+			return this.item.app_type === 'container'
 		},
-		isLinkApp() {
-			return this.item.app_type === "LinkApp"
-		},
-
+		isLinkApp () {
+			return this.item.app_type === 'LinkApp'
+		}
 	},
 
 	watch: {
-		hover(val) {
-			if (!val && this.dropState)
-				this.$refs.dro.toggle();
+		hover (val) {
+			if (!val && this.dropState) this.$refs.dro.toggle()
 		},
-		isLoading(active) {
+		isLoading (active) {
 			// design :: The first display is three seconds long
 			if (this.isCheckThenUpdate && this.activeTimer === undefined) {
 				this.activeTimer = setTimeout(() => {
-					this.isActiveTooltip = false;
-					clearTimeout(this.activeTimer);
-					this.activeTimer = undefined;
+					this.isActiveTooltip = false
+					clearTimeout(this.activeTimer)
+					this.activeTimer = undefined
 				}, 3000)
-				this.isActiveTooltip = true;
+				this.isActiveTooltip = true
 			} else if (active === false && this.isCheckThenUpdate === false && this.activeTimer) {
-				clearInterval(this.activeTimer);
-				this.activeTimer = undefined;
-				this.isActiveTooltip = false;
+				clearInterval(this.activeTimer)
+				this.activeTimer = undefined
+				this.isActiveTooltip = false
 			}
-		},
+		}
 	},
 
 	methods: {
@@ -287,14 +344,14 @@ export default {
 		 * @param {String} index App access index
 		 * @return {*} void
 		 */
-		openApp(item) {
+		openApp (item) {
 			if (this.isContainerApp) {
-				this.$emit("importApp", item, false)
+				this.$emit('importApp', item, false)
 				return false
 			}
 			// TODO: logic
 			if (item.requireGPU) {
-				console.log('enable GPU ::', item);
+				console.log('enable GPU ::', item)
 				let routeUrl = this.$router.resolve({
 					name: 'AppDetection',
 					path: '/detection',
@@ -302,26 +359,25 @@ export default {
 						// appDetailData: JSON.stringify(item),
 						name: item.name
 					}
-				});
-				window.open(routeUrl.href, '_blank');
+				})
+				window.open(routeUrl.href, '_blank')
 				return
 			}
-			if (item.app_type === "system") {
+			if (item.app_type === 'system') {
 				this.openSystemApps(item)
 			} else if (item.app_type === 'mircoApp') {
 				// this.showMircoApp(item);
-				if (item.open_type?.toLowerCase() === "newtab") {
-					window.open(`/modules/${item.name}`, '_blank');
+				if (item.open_type?.toLowerCase() === 'newtab') {
+					window.open(`/modules/${item.name}`, '_blank')
 				} else {
 					this.$messageBus('mircoapp_communicate', {
 						action: MIRCO_APP_ACTION_ENUM.OPEN,
 						name: item.name
 					})
 				}
-
 			} else if (this.isLinkApp) {
-				window.open(item.hostname, '_blank');
-				this.removeIdFromSessionStorage(item.name);
+				window.open(item.hostname, '_blank')
+				this.removeIdFromSessionStorage(item.name)
 			} else {
 				// type is one of 'official' or 'community'.
 				this.$refs.dro.isActive = false
@@ -331,11 +387,11 @@ export default {
 			}
 		},
 
-		openSystemApps(item) {
+		openSystemApps (item) {
 			switch (item.name) {
-				case "App Store":
-					this.openAppStore();
-					break;
+				case 'App Store':
+					this.openAppStore()
+					break
 				// case "Files":
 				// 	this.showMircoApp(item);
 				// 	break;
@@ -343,7 +399,7 @@ export default {
 				// 	this.showMircoApp(item);
 				// 	break;
 				default:
-					break;
+					break
 			}
 		},
 
@@ -352,7 +408,7 @@ export default {
 		 * @param {Boolean} e
 		 * @return {*} void
 		 */
-		setDropState(e) {
+		setDropState (e) {
 			this.dropState = e
 		},
 
@@ -360,65 +416,77 @@ export default {
 		 * @description: Restart Application
 		 * @return {*} void
 		 */
-		restartApp() {
-			this.$messageBus('apps_restart', this.item.name);
+		restartApp () {
+			this.$messageBus('apps_restart', this.item.name)
 			this.isRestarting = true
 			if (this.isV2App) {
-				this.restartAppV2();
+				this.restartAppV2()
 			} else if (this.isV1App) {
-				this.restartAppV1();
+				this.restartAppV1()
 			}
-			this.$refs.dro.isActive = false;
+			this.$refs.dro.isActive = false
 		},
 
-		restartAppV1() {
-			this.$api.container.updateState(this.item.name, "restart").then((res) => {
-				if (res.data.success === 200) {
+		restartAppV1 () {
+			this.$api.container
+				.updateState(this.item.name, 'restart')
+				.then(res => {
+					if (res.data.success === 200) {
+						this.updateState()
+					}
+				})
+				.catch(err => {
+					this.$buefy.toast.open({
+						message: err.response.data.data || err.response.data.message,
+						type: 'is-danger',
+						position: 'is-top',
+						duration: 5000
+					})
+				})
+				.finally(() => {
+					this.isRestarting = false
+				})
+		},
+
+		restartAppV2 () {
+			this.$openAPI.appManagement.compose
+				.setComposeAppStatus(this.item.name, 'restart')
+				.then(res => {
 					this.updateState()
-				}
-			}).catch((err) => {
-				this.$buefy.toast.open({
-					message: err.response.data.data || err.response.data.message,
-					type: 'is-danger',
-					position: 'is-top',
-					duration: 5000
 				})
-			}).finally(() => {
-				this.isRestarting = false;
-			})
-		},
-
-		restartAppV2() {
-			this.$openAPI.appManagement.compose.setComposeAppStatus(this.item.name, "restart").then((res) => {
-				this.updateState()
-			}).catch((err) => {
-				this.$buefy.toast.open({
-					message: err.response.data.data || err.response.data.message,
-					type: 'is-danger',
-					position: 'is-top',
-					duration: 5000
+				.catch(err => {
+					this.$buefy.toast.open({
+						message: err.response.data.data || err.response.data.message,
+						type: 'is-danger',
+						position: 'is-top',
+						duration: 5000
+					})
 				})
-			})
 		},
 
 		/**
 		 * @description: Confirm before uninstall
 		 * @return {*} void
 		 */
-		uninstallConfirm() {
-			this.$messageBus('apps_uninstall', this.item.name);
+		uninstallConfirm () {
+			this.$messageBus('apps_uninstall', this.item.name)
 			this.$refs.dro.isActive = false
 			this.$buefy.dialog.confirm({
 				title: this.$t('Attention'),
-				message: this.$t(`Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}`, {
-					divS: `<div class="is-flex is-align-items-center mt-4"><input type="checkbox" checked id="checkDelConfig">`,
-					divE: `</input></div>`
-				}),
+				message: this.$t(
+					`Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}`,
+					{
+						divS: `<div class="is-flex is-align-items-center mt-4"><input type="checkbox" checked id="checkDelConfig">`,
+						divE: `</input></div>`
+					}
+				),
 				type: 'is-dark',
 				confirmText: this.$t('Uninstall'),
 				cancelText: this.$t('Cancel'),
 				onConfirm: () => {
-					let checkDelConfig = document.getElementById("checkDelConfig") ? document.getElementById("checkDelConfig").checked : false;
+					let checkDelConfig = document.getElementById('checkDelConfig')
+						? document.getElementById('checkDelConfig').checked
+						: false
 					this.uninstallApp(checkDelConfig)
 				}
 			})
@@ -428,64 +496,71 @@ export default {
 		 * @description: Uninstall app
 		 * @return {*} void
 		 */
-		uninstallApp(checkDelConfig) {
+		uninstallApp (checkDelConfig) {
 			this.isUninstalling = true
-			this.removeIdFromSessionStorage(this.item.name);
+			this.removeIdFromSessionStorage(this.item.name)
 			if (this.isLinkApp) {
 				this.deleteLinkAppByName(this.item.name).then(res => {
 					if (res.data.success === 200) {
-						this.$EventBus.$emit(events.RELOAD_APP_LIST);
+						this.$EventBus.$emit(events.RELOAD_APP_LIST)
 					}
 				})
 			} else if (this.isV2App) {
-				this.$openAPI.appManagement.compose.uninstallComposeApp(this.item.name, checkDelConfig).then((res) => {
-					if (res.status === 200) {
-						this.$EventBus.$emit(events.UPDATE_SYNC_STATUS);
-					}
-				}).catch((err) => {
-					this.$buefy.toast.open({
-						message: err.response.data.data,
-						type: 'is-danger',
-						position: 'is-top',
-						duration: 5000
+				this.$openAPI.appManagement.compose
+					.uninstallComposeApp(this.item.name, checkDelConfig)
+					.then(res => {
+						if (res.status === 200) {
+							this.$EventBus.$emit(events.UPDATE_SYNC_STATUS)
+						}
 					})
-				})
+					.catch(err => {
+						this.$buefy.toast.open({
+							message: err.response.data.data,
+							type: 'is-danger',
+							position: 'is-top',
+							duration: 5000
+						})
+					})
 			} else {
 				// former app uninstall
-				this.$api.container.uninstall(this.item.name, { 'delete_config_folder': checkDelConfig }).then((res) => {
-					if (res.data.success === 200) {
-						this.$EventBus.$emit(events.UPDATE_SYNC_STATUS);
-					}
-				}).catch((err) => {
-					this.$buefy.toast.open({
-						message: err.response.data.data,
-						type: 'is-danger',
-						position: 'is-top',
-						duration: 5000
+				this.$api.container
+					.uninstall(this.item.name, { delete_config_folder: checkDelConfig })
+					.then(res => {
+						if (res.data.success === 200) {
+							this.$EventBus.$emit(events.UPDATE_SYNC_STATUS)
+						}
 					})
-				})
+					.catch(err => {
+						this.$buefy.toast.open({
+							message: err.response.data.data,
+							type: 'is-danger',
+							position: 'is-top',
+							duration: 5000
+						})
+					})
 			}
-
 		},
 
 		/**
 		 * @description: Emit the event that the app has been updated
 		 * @return {*} void
 		 */
-		updateState() {
+		updateState () {
 			this.$refs.dro.isActive = false
-			this.$emit("updateState")
-			this.$EventBus.$emit(events.UPDATE_SYNC_STATUS);
+			this.$emit('updateState')
+			this.$EventBus.$emit(events.UPDATE_SYNC_STATUS)
 		},
 
-		async openTips(name) {
+		async openTips (name) {
 			try {
-				const ret = await this.$openAPI.appManagement.compose.myComposeApp(name, {
-					headers: {
-						'content-type': 'application/yaml',
-						'accept': 'application/yaml'
-					}
-				}).then(res => res.data)
+				const ret = await this.$openAPI.appManagement.compose
+					.myComposeApp(name, {
+						headers: {
+							'content-type': 'application/yaml',
+							accept: 'application/yaml'
+						}
+					})
+					.then(res => res.data)
 				this.$refs.dro.isActive = false
 				this.$buefy.modal.open({
 					parent: this,
@@ -495,7 +570,7 @@ export default {
 					trapFocus: true,
 					canCancel: [],
 					// scroll: "keep",
-					animation: "zoom-in",
+					animation: 'zoom-in',
 					props: {
 						composeData: YAML.parse(ret),
 						name
@@ -510,10 +585,10 @@ export default {
 		 * @description: Emit the event that the app has been updated with custom_id
 		 * @return {*} void
 		 */
-		configApp() {
-			this.$messageBus('apps_setting', this.item.name);
-			this.$refs.dro.isActive = false;
-			this.$emit("configApp", this.item, this.isV2App);
+		configApp () {
+			this.$messageBus('apps_setting', this.item.name)
+			this.$refs.dro.isActive = false
+			this.$emit('configApp', this.item, this.isV2App)
 		},
 
 		/**
@@ -521,125 +596,141 @@ export default {
 		 * @param {Object} item the app info object
 		 * @return {*} void
 		 */
-		toggle(item) {
+		toggle (item) {
 			// only have 'apps_stop' event
-			this.$messageBus('apps_stop', item.name);
-			this.isStarting = true;
-			const status = item.status === "running" ? "stop" : "start"
+			this.$messageBus('apps_stop', item.name)
+			this.isStarting = true
+			const status = item.status === 'running' ? 'stop' : 'start'
 			if (this.isV2App) {
-				this.toggleAppV2(item, status);
+				this.toggleAppV2(item, status)
 			} else if (this.isV1App) {
-				this.toggleAppV1(item, status);
+				this.toggleAppV1(item, status)
 			}
 			this.$refs.dro.isActive = false
 		},
 
-		toggleAppV1(item, status) {
-			this.$api.container.updateState(item.name, status).then((res) => {
-				if (res.data.success === 200) {
-					item.status = res.data.data
+		toggleAppV1 (item, status) {
+			this.$api.container
+				.updateState(item.name, status)
+				.then(res => {
+					if (res.data.success === 200) {
+						item.status = res.data.data
+						this.updateState()
+					} else {
+						this.$buefy.dialog.alert({
+							title: 'Error',
+							message: res.data.data || res.data.message,
+							type: 'is-danger',
+							ariaRole: 'alertdialog',
+							ariaModal: true
+						})
+					}
+				})
+				.catch(err => {
+					this.$buefy.toast.open({
+						message: err.response.data.data || err.response.data.message,
+						type: 'is-danger',
+						position: 'is-top',
+						duration: 3000
+					})
+				})
+				.finally(() => {
+					this.isStarting = false
+				})
+		},
+
+		toggleAppV2 (item, status) {
+			this.$openAPI.appManagement.compose
+				.setComposeAppStatus(item.name, status)
+				.then(res => {
 					this.updateState()
-				} else {
+					item.status = status
+				})
+				.catch(err => {
 					this.$buefy.dialog.alert({
 						title: 'Error',
-						message: res.data.data || res.data.message,
+						message: err.response.data.data || err.response.data.message,
 						type: 'is-danger',
 						ariaRole: 'alertdialog',
 						ariaModal: true
 					})
-				}
-			}).catch((err) => {
-				this.$buefy.toast.open({
-					message: err.response.data.data || err.response.data.message,
-					type: 'is-danger',
-					position: 'is-top',
-					duration: 3000
 				})
-			}).finally(() => {
-				this.isStarting = false
-			})
 		},
 
-		toggleAppV2(item, status) {
-			this.$openAPI.appManagement.compose.setComposeAppStatus(item.name, status).then((res) => {
-				this.updateState()
-				item.status = status
-			}).catch((err) => {
-				this.$buefy.dialog.alert({
-					title: 'Error',
-					message: err.response.data.data || err.response.data.message,
-					type: 'is-danger',
-					ariaRole: 'alertdialog',
-					ariaModal: true
+		appClone (name) {
+			this.isCloning = true
+			this.$api.apps
+				.getAppInfo(name)
+				.then(resp => {
+					if (resp.data.success == 200) {
+						let respData = resp.data.data
+						// messageBus :: apps_clone
+						this.$messageBus('apps_clone', this.item.name.toString())
+
+						let initData = {}
+						initData.protocol = respData.protocol
+						initData.host = respData.host
+						initData.port_map = respData.port_map
+						initData.cpu_shares = 50
+						initData.memory = respData.max_memory
+						initData.restart = 'always'
+						initData.label = respData.title
+						initData.position = true
+						initData.index = respData.index
+						initData.icon = respData.icon
+						initData.network_model = respData.network_model
+						initData.image = respData.image
+						initData.description = respData.description
+						initData.origin = respData.origin
+						initData.ports = isNull(respData.ports) ? [] : respData.ports
+						initData.volumes = isNull(respData.volumes) ? [] : respData.volumes
+						initData.envs = isNull(respData.envs) ? [] : respData.envs
+						initData.devices = isNull(respData.devices) ? [] : respData.devices
+						initData.cap_add = isNull(respData.cap_add) ? [] : respData.cap_add
+						initData.cmd = isNull(respData.cmd) ? [] : respData.cmd
+						initData.privileged = respData.privileged
+						initData.host_name = respData.host_name
+						initData.appstore_id = name
+
+						this.$api.container
+							.install(initData)
+							.catch(err => {
+								this.$buefy.toast.open({
+									message: err.response.data.message,
+									type: 'is-warning'
+								})
+							})
+							.then(() => {
+								this.isCloning = false
+								this.$refs.dro.isActive = false
+							})
+					}
 				})
-			})
-		},
-
-		appClone(name) {
-			this.isCloning = true;
-			this.$api.apps.getAppInfo(name).then(resp => {
-				if (resp.data.success == 200) {
-					let respData = resp.data.data
-					// messageBus :: apps_clone
-					this.$messageBus('apps_clone', this.item.name.toString());
-
-					let initData = {}
-					initData.protocol = respData.protocol
-					initData.host = respData.host
-					initData.port_map = respData.port_map
-					initData.cpu_shares = 50
-					initData.memory = respData.max_memory
-					initData.restart = "always"
-					initData.label = respData.title
-					initData.position = true
-					initData.index = respData.index
-					initData.icon = respData.icon
-					initData.network_model = respData.network_model
-					initData.image = respData.image
-					initData.description = respData.description
-					initData.origin = respData.origin
-					initData.ports = isNull(respData.ports) ? [] : respData.ports
-					initData.volumes = isNull(respData.volumes) ? [] : respData.volumes
-					initData.envs = isNull(respData.envs) ? [] : respData.envs
-					initData.devices = isNull(respData.devices) ? [] : respData.devices
-					initData.cap_add = isNull(respData.cap_add) ? [] : respData.cap_add
-					initData.cmd = isNull(respData.cmd) ? [] : respData.cmd
-					initData.privileged = respData.privileged
-					initData.host_name = respData.host_name
-					initData.appstore_id = name
-
-					this.$api.container.install(initData).catch((err) => {
-						this.$buefy.toast.open({
-							message: err.response.data.message,
-							type: 'is-warning'
-						})
-					}).then(() => {
-						this.isCloning = false;
-						this.$refs.dro.isActive = false
+				.catch(() => {
+					this.$buefy.toast.open({
+						message: this.$t(`There was an error loading the data, please try again!`),
+						type: 'is-danger'
 					})
-				}
-			}).catch(() => {
-				this.$buefy.toast.open({
-					message: this.$t(`There was an error loading the data, please try again!`),
-					type: 'is-danger'
 				})
-			})
 		},
 
-		exportYAML(item) {
-			this.$api.container.exportAsCompose(item.name).then(res => {
-				const blob = new Blob([res.data], { type: '' });
-				FileSaver.saveAs(blob, `${item.image}.yaml`);
-			}).catch((err) => {
-				this.$buefy.toast.open({
-					message: err.response.data.message,
-					type: 'is-warning'
+		exportYAML (item) {
+			this.$api.container
+				.exportAsCompose(item.name)
+				.then(res => {
+					const blob = new Blob([res.data], { type: '' })
+					FileSaver.saveAs(blob, `${item.image}.yaml`)
 				})
-			})
+				.catch(err => {
+					this.$buefy.toast.open({
+						message: err.response.data.message,
+						type: 'is-warning'
+					})
+				})
 		},
 
-		async rebuild(app) {
-			this.isRebuilding = true;
+		async rebuild (app) {
+			this.isRebuilding = true
 			try {
 				// 1. get yaml
 				const file = await this.$api.container.exportAsCompose(app.name).then(res => res.data)
@@ -648,7 +739,7 @@ export default {
 				// 3.install compose
 				await this.$openAPI.appManagement.compose.installComposeApp(file, { name: app.name })
 			} catch (e) {
-				this.isRebuilding = false;
+				this.isRebuilding = false
 				console.error('rebuild Error:', e)
 				this.$buefy.toast.open({
 					message: this.$t(`Rebulid error`),
@@ -657,124 +748,125 @@ export default {
 			}
 			// 4.sockiet :: install-end :: change UI status.
 			// this.isRebuilding = false;
-			this.$refs.dro.isActive = false;
+			this.$refs.dro.isActive = false
 		},
 
-		checkAppVersion(name) {
-			this.isCheckThenUpdate = true;
+		checkAppVersion (name) {
+			this.isCheckThenUpdate = true
 			const params = `${this.item.name}?name=${this.item.name}&pull=true&cid=${this.item.name}`
-			this.$openAPI.appManagement.compose.updateComposeApp(name).then(resp => {
-				// 200:
-				if (resp.status === 200) {
-					// messageBus :: apps_checkThenUpdate
-					this.$messageBus('apps_checkupdate', this.item.name.toString());
-					this.$buefy.toast.open({
-						// value is `In the process of asynchronous updating.` or `compose app `app Name` is up to date`
-						message: resp.data.message,
-						type: 'is-success'
-					})
-
-				} else {
-					this.$buefy.toast.open({
-						message: this.$t(`No updates are currently available for the application.`),
-						type: 'is-success'
-					})
-				}
-			}).catch(() => {
-				this.$buefy.toast.open({
-					message: this.$t(`Unable to update at the moment!`),
-					type: 'is-danger'
+			this.$openAPI.appManagement.compose
+				.updateComposeApp(name)
+				.then(resp => {
+					// 200:
+					if (resp.status === 200) {
+						// messageBus :: apps_checkThenUpdate
+						this.$messageBus('apps_checkupdate', this.item.name.toString())
+						this.$buefy.toast.open({
+							// value is `In the process of asynchronous updating.` or `compose app `app Name` is up to date`
+							message: resp.data.message,
+							type: 'is-success'
+						})
+					} else {
+						this.$buefy.toast.open({
+							message: this.$t(`No updates are currently available for the application.`),
+							type: 'is-success'
+						})
+					}
 				})
-			}).finally(() => {
-				this.$refs.dro.isActive = false
-				this.isCheckThenUpdate = false;
-			})
+				.catch(() => {
+					this.$buefy.toast.open({
+						message: this.$t(`Unable to update at the moment!`),
+						type: 'is-danger'
+					})
+				})
+				.finally(() => {
+					this.$refs.dro.isActive = false
+					this.isCheckThenUpdate = false
+				})
 		},
 		/**
 		 * @description: Format Dot Class
 		 * @param {String} status
 		 * @return {String}
 		 */
-		dotClass(status, loadState) {
+		dotClass (status, loadState) {
 			// For updating
 			if (loadState) {
-				if (status === "0" || status === "running") {
+				if (status === '0' || status === 'running') {
 					return 'disabled start'
 				}
 				return 'disabled stop'
 			}
-			if (status === "0") {
-				return "start"
+			if (status === '0') {
+				return 'start'
 			} else {
 				return status === 'running' ? 'start' : 'stop'
 			}
-
-		},
-
+		}
 	},
 
 	sockets: {
-		"app:start-begin"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:start-begin' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 			}
 		},
-		"app:start-error"(res) {
+		'app:start-error' (res) {
 			// toast info.
 			this.$buefy.toast.open({
-				message: res.Properties["message"],
+				message: res.Properties['message'],
 				duration: 5000,
-				type: "is-danger",
+				type: 'is-danger'
 			})
 		},
-		"app:start-end"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:start-end' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		"app:stop-error"(res) {
+		'app:stop-error' (res) {
 			// toast info.
 			this.$buefy.toast.open({
-				message: res.Properties["message"],
+				message: res.Properties['message'],
 				duration: 5000,
-				type: "is-danger",
+				type: 'is-danger'
 			})
 		},
-		"app:stop-end"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:stop-end' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		"app:restart-error"(res) {
+		'app:restart-error' (res) {
 			// toast info.
 			this.$buefy.toast.open({
-				message: res.Properties["message"],
+				message: res.Properties['message'],
 				duration: 5000,
-				type: "is-danger",
+				type: 'is-danger'
 			})
 		},
-		"app:restart-end"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:restart-end' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		"app:apply-changes-begin"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:apply-changes-begin' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 				this.isSaving = true
 			}
 		},
-		"app:apply-changes-error"(res) {
+		'app:apply-changes-error' (res) {
 			// toast info.
 			this.$buefy.toast.open({
-				message: res.Properties["message"],
+				message: res.Properties['message'],
 				duration: 5000,
-				type: "is-danger",
+				type: 'is-danger'
 			})
 		},
-		"app:apply-changes-end"(res) {
-			if (res.Properties["app:name"] === this.item.name) {
+		'app:apply-changes-end' (res) {
+			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 				this.isSaving = false
@@ -785,24 +877,24 @@ export default {
 		 * @param {Object} data
 		 * @return {void}
 		 */
-		'app:update-begin'() {
+		'app:update-begin' () {
 			// if (data.Properties["app:name"] === this.item.id) {
 			// 	this.loadState = true;
 			// }
 		},
 
-		'docker:image:pull-end'(data) {
-			if (data.Properties["app:name"] === this.item.name) {
+		'docker:image:pull-end' (data) {
+			if (data.Properties['app:name'] === this.item.name) {
 				if (data.Properties['docker:image:updated'] === 'true') {
-					this.isUpdating = true;
+					this.isUpdating = true
 				}
-				this.isCheckThenUpdate = false;
+				this.isCheckThenUpdate = false
 			}
 		},
 
-		'docker:image:pull-error'(data) {
-			if (data.Properties["app:name"] === this.item.name) {
-				this.isCheckThenUpdate = false;
+		'docker:image:pull-error' (data) {
+			if (data.Properties['app:name'] === this.item.name) {
+				this.isCheckThenUpdate = false
 			}
 		},
 
@@ -811,23 +903,22 @@ export default {
 		 * @param {Object} data
 		 * @return {void}
 		 */
-		'app:update-end'(data) {
-			if (data.Properties["app:name"] !== this.item.name)
-				return
+		'app:update-end' (data) {
+			if (data.Properties['app:name'] !== this.item.name) return
 			if (data.Properties['docker:image:updated'] === 'true') {
 				return
 			}
-			this.isUpdating = false;
+			this.isUpdating = false
 			this.$buefy.toast.open({
 				message: this.$t(`{appName} is the latest version!`, { appName: this.item.name }),
 				type: 'is-success',
 				duration: 5000
 			})
 		},
-		"app:install-end"(res) {
-			if (res.Properties["dry_run.name"] === this.item.name) {
+		'app:install-end' (res) {
+			if (res.Properties['dry_run.name'] === this.item.name) {
 				// 4.sockiet :: install-end :: change UI status.
-				this.isRebuilding = false;
+				this.isRebuilding = false
 				// 5.message toast
 				this.$buefy.toast.open({
 					message: this.$t(`{title} rebulid completed`, { title: ice_i18n(this.item.title) }),
@@ -835,25 +926,24 @@ export default {
 				})
 			}
 		},
-		"app:install-error"(res) {
-			if (res.Properties["dry_run.name"] === this.item.name) {
+		'app:install-error' (res) {
+			if (res.Properties['dry_run.name'] === this.item.name) {
 				// 4.sockiet :: install-end :: change UI status.
-				this.isRebuilding = false;
+				this.isRebuilding = false
 				// 5.message toast
 				this.$buefy.toast.open({
-					message: res.Properties["message"],
+					message: res.Properties['message'],
 					type: 'is-warning'
 				})
 			}
 		},
-		"app:uninstall-error"(res) {
+		'app:uninstall-error' (res) {
 			// TODO verify
 			if (res.Properties['id'] === this.item.name) {
-				this.isUninstalling = false;
+				this.isUninstalling = false
 			}
-		},
+		}
 	}
-
 }
 </script>
 
@@ -877,7 +967,7 @@ export default {
 			.dropdown-item {
 				padding: 0;
 
-				&>* {
+				& > * {
 					margin: 1px 0;
 				}
 			}
@@ -893,7 +983,7 @@ export default {
 					height: 1.25rem !important;
 				}
 
-				span+span i {
+				span + span i {
 					color: hsla(208, 16%, 42%, 1);
 				}
 
@@ -981,12 +1071,10 @@ export default {
 				}
 			}
 
-
 			.is-24x24 {
 				width: 1.5rem;
 				height: 1.5rem;
 			}
-
 		}
 	}
 }
@@ -1014,9 +1102,7 @@ export default {
 		/* Gary/800 */
 
 		color: hsla(208, 20%, 20%, 1);
-
 	}
-
 }
 
 .__position {
