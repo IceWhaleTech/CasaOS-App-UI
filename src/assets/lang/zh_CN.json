@@ -417,7 +417,7 @@
   "Please right-click on the dashboard and try switching it again": "请在仪表盘右键开启后再次尝试",
   "Closing {name}": "正在关闭 {name}",
   "Cannot close {name}": "无法关闭 {name}",
-  "Launching {name} {name}": "正在启动 {name}",
+  "Launching {name}": "正在启动 {name}",
   "Cannot launch {name}": "无法启动 {name}",
   "Switch to {name}": "切换至 {name}",
   "Continue {name}": "继续运行 {name}"
