@@ -55,7 +55,7 @@ export default {
 		} else {
 			this.appDetailData = qs.parse(window.location.hash.split("?")[1])
 		}
-		console.log(this.appDetailData, "appDetailData in app launcher check");
+
 		const startRes = await this.startContainer()
 		this.timer && clearInterval(this.timer)
 		this.timer = setInterval(this.check, 1000)
