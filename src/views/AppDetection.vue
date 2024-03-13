@@ -172,14 +172,15 @@ onMounted(async () => {
 	db = await openDB('casaos', 1);
 
 	const [runningAppLength, runningAppName] = await getRunningGPUApps();
-	// running : 
+
 	if ((runningAppLength === 1 && runningAppName === currentAppName) || runningAppLength === 0) { 
 		const targetApp = await db.get('app', currentAppName); 
 		openApp(targetApp); 
 		return; 
 	}
 
-	isLoadingPage.value = false; // TODO: data model is not unified. 
+	isLoadingPage.value = false; 
+	// TODO: data model is not unified. 
 	const app = appList.find(
 		(item) => 
 			item.status === GPUApplicationStatusEnum.Running && item.name !== currentAppName 
