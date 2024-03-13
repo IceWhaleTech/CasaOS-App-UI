@@ -44,10 +44,8 @@
 				<div class="has-text-full-02 mt-4 mb-2">
 					{{
 						isStoppingApp
-							? $t(contentText, { name: '' }) + ice_i18n(activeAppData.title)
-							: $t(contentText, {
-									name: ''
-							  })
+							? $t(contentText, { name: ice_i18n(activeAppData.title) })
+							: $t(contentText, { name: ice_i18n(appDetailData.title) })
 					}}
 				</div>
 				<div v-show="remakeText" class="has-text-full-04 op40 mb-5">
@@ -157,13 +155,14 @@ function startApp () {
 				let runningAppLength = 2,
 					runningAppName,
 					times = 0
-				while ((runningAppLength === 1 && runningAppName === appDetailData.value.name) || times > 30) {
-					;[runningAppLength, runningAppName] = await getRunningGPUApps()
+
+				while (!(runningAppLength === 1 && runningAppName === appDetailData.value.name) && times <= 30) {
+					[runningAppLength, runningAppName] = await getRunningGPUApps()
 					await sleep(2000)
 					times++
 				}
-				isLoading.value = false
-				isStarttingApp.value = false
+				isLoading.value = true
+				isStarttingApp.value = true
 
 				runningAppLength === 1 && runningAppName === appDetailData.value.name && openApp(targetApp)
 			}
@@ -194,18 +193,22 @@ async function getRunningGPUApps () {
 	const res = await iceGpu.getGPUApplications()
 	const appList = res.data.data || []
 	const runningApps = appList.filter(item => item.status === GPUApplicationStatusEnum.Running)
-	return [runningApps.length, runningApps?.[0]?.name]
+	return [runningApps.length, runningApps?.[0]?.name, appList]
 }
 
 onMounted(async () => {
 	db = await openDB('casaos', 1)
 
-	const [runningAppLength, runningAppName] = await getRunningGPUApps()
+	const [runningAppLength, runningAppName, appList] = await getRunningGPUApps()
 
-	if ((runningAppLength === 1 && runningAppName === currentAppName) || runningAppLength === 0) {
+	if ((runningAppLength === 1 && runningAppName === currentAppName) || (runningAppLength === 0 && currentAppName === 'icewhale_chat')) {
 		const targetApp = await db.get('app', currentAppName)
 		openApp(targetApp)
 		return
+	}else if(runningAppLength === 0){
+		nextTick(() => { 
+			startApp() 
+		})
 	}
 
 	isLoadingPage.value = false
@@ -214,10 +217,6 @@ onMounted(async () => {
 	appDetailData.value = appList.find(item => item.name === currentAppName)
 	if (app) {
 		activeAppData.value = app
-	} else {
-		nextTick(() => {
-			startApp()
-		})
 	}
 })
 </script>
