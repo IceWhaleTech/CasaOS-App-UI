@@ -350,19 +350,7 @@ export default {
 				return false
 			}
 			// TODO: logic
-			if (item.requireGPU) {
-				console.log('enable GPU ::', item)
-				let routeUrl = this.$router.resolve({
-					name: 'AppDetection',
-					path: '/detection',
-					query: {
-						// appDetailData: JSON.stringify(item),
-						name: item.name
-					}
-				})
-				window.open(routeUrl.href, '_blank')
-				return
-			}
+
 			if (item.app_type === 'system') {
 				this.openSystemApps(item)
 			} else if (item.app_type === 'mircoApp') {
@@ -378,11 +366,22 @@ export default {
 			} else if (this.isLinkApp) {
 				window.open(item.hostname, '_blank')
 				this.removeIdFromSessionStorage(item.name)
+			} else if (item.requireGPU) {
+				console.log('enable GPU ::', item)
+				let routeUrl = this.$router.resolve({
+					name: 'AppDetection',
+					path: '/detection',
+					query: { name: item.name }
+				})
+				window.open(routeUrl.href, '_blank')
 			} else {
 				// type is one of 'official' or 'community'.
 				this.$refs.dro.isActive = false
 				if (item.status === 'running') {
 					this.openAppToNewWindow(item)
+				} else {
+					this.toggle(item)
+					this.firstOpenThirdApp(item)
 				}
 			}
 		},
@@ -601,12 +600,12 @@ export default {
 			this.$messageBus('apps_stop', item.name)
 			this.isStarting = true
 			const status = item.status === 'running' ? 'stop' : 'start'
+			this.$refs.dro.isActive = false
 			if (this.isV2App) {
 				this.toggleAppV2(item, status)
 			} else if (this.isV1App) {
 				this.toggleAppV1(item, status)
 			}
-			this.$refs.dro.isActive = false
 		},
 
 		toggleAppV1 (item, status) {
