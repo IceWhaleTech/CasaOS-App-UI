@@ -129,10 +129,7 @@ function startApp() {
 				const targetApp = await db.get('app', appDetailData.value.name);
 				let runningAppLength = 2, runningAppName, times = 0;
 				while ((runningAppLength === 1 && runningAppName === appDetailData.value.name) || times > 30) {
-					[runningAppLength, runningAppName] = await iceGpu.getGPUApplications().then(res => {
-						const runningApps = res.data.data.filter(item => item.status === 'running');
-						return [runningApps.length, runningApps[0]?.name];
-					})
+					[runningAppLength, runningAppName] = await getRunningGPUApps();
 					await sleep(2000);
 					times++;
 				}
@@ -164,36 +161,40 @@ async function switchToApp(appName) {
 	startApp();
 }
 
+async function getRunningGPUApps(){
+	const res = await iceGpu.getGPUApplications();
+	const appList = res.data.data || [];
+	const runningApps = appList.filter((item) => item.status === GPUApplicationStatusEnum.Running);
+	return [runningApps.length, runningApps?.[0]?.name];
+}
+
 onMounted(async () => {
 	db = await openDB('casaos', 1);
 
-	iceGpu.getGPUApplications().then(async (res) => {
-		const appList = res.data.data || [];
-		const runningApps = appList.filter((item) => item.status === GPUApplicationStatusEnum.Running);
-		if (runningApps.length <= 1 && runningApps[0].name === currentAppName) {
-			const targetApp = await db.get('app', currentAppName);
+	const [runningAppLength, runningAppName] = await getRunningGPUApps();
+	// running : 
+	if ((runningAppLength === 1 && runningAppName === currentAppName) || runningAppLength === 0) { 
+		const targetApp = await db.get('app', currentAppName); 
+		openApp(targetApp); 
+		return; 
+	}
 
-			openApp(targetApp);
-			return;
-		}
-		isLoadingPage.value = false;
-		// TODO: data model is not unified.
-		const app = appList.find(
-			(item) =>
-				item.status === GPUApplicationStatusEnum.Running &&
-				item.name !== currentAppName
-		);
-		appDetailData.value = appList.find(
-			(item) => item.name === currentAppName
-		);
-		if (app) {
-			activeAppData.value = app;
-		} else {
-			nextTick(() => {
-				startApp();
-			});
-		}
-	});
+	isLoadingPage.value = false; // TODO: data model is not unified. 
+	const app = appList.find(
+		(item) => 
+			item.status === GPUApplicationStatusEnum.Running && item.name !== currentAppName 
+	); 
+	appDetailData.value = appList.find( 
+		(item) => 
+			item.name === currentAppName 
+	); 
+	if (app) { 
+		activeAppData.value = app; 
+	} else { 
+		nextTick(() => { 
+			startApp();
+		}); 
+	}
 });
 </script>
 
