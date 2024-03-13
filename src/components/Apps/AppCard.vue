@@ -267,26 +267,27 @@ export default {
 					} else if (this.item.status === 'running') {
 						return this.$t('Open')
 					} else {
-						return ''
+						return this.$t('Launch & Open')
 					}
 				}
 			}
 		},
 		tooltipTriger () {
-			if (this.isContainerApp) {
-				return ['hover']
-			} else {
-				if (this.item.app_type === 'system') {
-					return ['hover']
-				} else {
-					switch (this.item.status) {
-						case 'running':
-							return ['hover']
-						default:
-							return []
-					}
-				}
-			}
+			return ['hover']
+			// if (this.isContainerApp) {
+			// 	return ['hover']
+			// } else {
+			// 	if (this.item.app_type === 'system') {
+			// 		return ['hover']
+			// 	} else {
+			// 		switch (this.item.status) {
+			// 			case 'running':
+			// 				return ['hover']
+			// 			default:
+			// 				return []
+			// 		}
+			// 	}
+			// }
 		},
 		isLoading () {
 			let active =
