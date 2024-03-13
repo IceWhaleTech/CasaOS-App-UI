@@ -128,7 +128,7 @@ function startApp() {
 			if (res.status === 200) {
 				const targetApp = await db.get('app', appDetailData.value.name);
 				let runningApps = 2, times = 0;
-				while (times > 10 || runningApps > 1) {
+				while (times > 30 || runningApps === 1) {
 					runningApps = await iceGpu.getGPUApplications().then(res => {
 						return res.data.data?.filter(item => item.status === 'running').length || 1;
 					})
@@ -138,7 +138,7 @@ function startApp() {
 				isLoading.value = false;
 				isStarttingApp.value = false;
 
-				runningApps < 2 && openApp(targetApp);
+				runningApps === 1 && openApp(targetApp);
 			}
 		})
 		.catch((e) => {
