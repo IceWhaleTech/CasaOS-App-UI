@@ -127,10 +127,11 @@ function startApp() {
 		.then(async (res) => {
 			if (res.status === 200) {
 				const targetApp = await db.get('app', appDetailData.value.name);
-				let runningApps = 2, times = 0;
-				while (times > 30 || runningApps === 1) {
-					runningApps = await iceGpu.getGPUApplications().then(res => {
-						return res.data.data?.filter(item => item.status === 'running').length || 1;
+				let runningAppLength = 2, runningAppName, times = 0;
+				while ((runningAppLength === 1 && runningAppName === appDetailData.value.name) || times > 30) {
+					[runningAppLength, runningAppName] = await iceGpu.getGPUApplications().then(res => {
+						const runningApps = res.data.data.filter(item => item.status === 'running');
+						return [runningApps.length, runningApps[0]?.name];
 					})
 					await sleep(2000);
 					times++;
@@ -138,7 +139,7 @@ function startApp() {
 				isLoading.value = false;
 				isStarttingApp.value = false;
 
-				runningApps === 1 && openApp(targetApp);
+				runningAppLength === 1 && runningAppName === appDetailData.value.name && openApp(targetApp);
 			}
 		})
 		.catch((e) => {
