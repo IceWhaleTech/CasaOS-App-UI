@@ -420,5 +420,6 @@
   "Launching {name}": "正在启动 {name}",
   "Cannot launch {name}": "无法启动 {name}",
   "Switch to {name}": "切换至 {name}",
-  "Continue {name}": "继续运行 {name}"
+  "Continue {name}": "继续运行 {name}",
+  "launch-and-open": "启动并打开"
 }

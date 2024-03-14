@@ -267,7 +267,7 @@ export default {
 					} else if (this.item.status === 'running') {
 						return this.$t('Open')
 					} else {
-						return this.$t('Launch & Open')
+						return this.$t('launch-and-open')
 					}
 				}
 			}

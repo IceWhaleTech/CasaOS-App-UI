@@ -417,7 +417,8 @@
   "Closing {name}": "Closing {name}",
   "Cannot close {name}": "Cannot close {name}",
   "Launching {name}": "Launching {name}",
-  "Cannot launch {name}" : "Cannot launch {name}",
+  "Cannot launch {name}": "Cannot launch {name}",
   "Switch to {name}": "Switch to {name}",
-  "Continue {name}": "Continue {name}"
+  "Continue {name}": "Continue {name}",
+  "launch-and-open": "Launch & Open"
 }
