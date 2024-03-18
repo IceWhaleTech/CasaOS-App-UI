@@ -422,5 +422,6 @@
   "Switch to {name}": "切换至 {name}",
   "Continue {name}": "继续运行 {name}",
   "launch-and-open": "启动并打开",
-  "Next Steps": "下一步"
+  "Next Steps": "下一步",
+  "The name already exists": "名字已经存在。"
 }

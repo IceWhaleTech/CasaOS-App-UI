@@ -187,8 +187,15 @@ export default {
 							status: "running",
 						})
 						this.addIdToSessionStorage(this.name);
+						this.saveLinkApp(listLinkApp)
+					} else {
+						this.$buefy.toast.open({
+							message: this.$t('The name already exists'),
+							type: 'is-danger',
+							position: 'is-top',
+							duration: 5000
+						})
 					}
-					this.saveLinkApp(listLinkApp)
 				}
 			}).finally(() => {
 				this.isLoading = false
