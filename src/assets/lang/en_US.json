@@ -420,5 +420,6 @@
   "Cannot launch {name}": "Cannot launch {name}",
   "Switch to {name}": "Switch to {name}",
   "Continue {name}": "Continue {name}",
-  "launch-and-open": "Launch & Open"
+  "launch-and-open": "Launch & Open",
+  "Next Steps": "Next Steps"
 }
