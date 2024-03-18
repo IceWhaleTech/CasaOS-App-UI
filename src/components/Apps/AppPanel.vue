@@ -33,13 +33,15 @@
 				</div>
 				<div class="is-flex is-align-items-center">
 					<b-button v-if="currentSlide == 0" :label="$t('Add a Containerized Application')" class="mr-2"
-						icon-left="view-grid-plus" rounded size="is-small" type="is-primary" @click="currentSlide = 1" />
+						icon-left="view-grid-plus" rounded size="is-small" type="is-primary"
+						@click="currentSlide = 1" />
 
 					<b-tooltip v-if="showImportButton" :label="$t('Import')" position="is-bottom" type="is-dark">
 						<button class="icon-button mdi mdi-import" type="button" @click="showImportPanel" />
 					</b-tooltip>
 
-					<b-tooltip v-if="showTerminalButton" :label="$t('Terminal & Logs')" position="is-bottom" type="is-dark">
+					<b-tooltip v-if="showTerminalButton" :label="$t('Terminal & Logs')" position="is-bottom"
+						type="is-dark">
 						<button class="icon-button mdi mdi-console" type="button" @click="showTerminalPanel" />
 					</b-tooltip>
 
@@ -99,8 +101,8 @@
 							</div>
 							<div class="mt-1 ml-7 is-flex is-align-items-center">
 								<div class="is-flex-grow-1 is-size-7 has-text-grey-light">{{
-									item.category
-								}}
+		item.category
+	}}
 								</div>
 								<b-button v-if="installedList.includes(item.id)" :loading="item.id == currentInstallId"
 									rounded size="is-small" type="is-primary is-light"
@@ -142,8 +144,9 @@
 			<template v-if="currentSlide == 1">
 				<!--:config-data="initConfigData"-->
 				<ComposeConfig v-if="isCasa" ref="compose" :cap-array="capArray"
-					:docker-compose-commands="dockerComposeConfig" :errInfo="errInfo" :networks="networks" :state="state"
-					:total-memory="totalMemory" @updateDockerComposeCommands="updateDockerComposeCommands"
+					:docker-compose-commands="dockerComposeConfig" :errInfo="errInfo" :networks="networks"
+					:state="state" :total-memory="totalMemory"
+					@updateDockerComposeCommands="updateDockerComposeCommands"
 					@updateDockerComposeServiceName="updateDockerComposeServiceName"
 					@updateMainName="name => currentInstallId = name"></ComposeConfig>
 
@@ -177,10 +180,10 @@
 							</b-select>
 							<b-input v-model="settingData.host" :placeholder="this.$baseHostname" expanded></b-input>
 							<b-autocomplete v-model="settingData.port_map" :data="(() => {
-								return (settingData.ports || []).map((item) => {
-									return item.host
-								})
-							})()" :open-on-focus="true" :placeholder="$t('Port')" class="has-colon" field="hostname"
+		return (settingData.ports || []).map((item) => {
+			return item.host
+		})
+	})()" :open-on-focus="true" :placeholder="$t('Port')" class="has-colon" field="hostname"
 								@select="option => (settingData.port_map = option)"></b-autocomplete>
 							<b-input v-model="settingData.index" :placeholder="'/index.html ' + $t('[Optional]')"
 								expanded></b-input>
@@ -659,36 +662,7 @@ export default {
 				}
 			}).then(res => {
 				if (res.status == 200) {
-					// checking
-					// if (!this.checkComposeApp(res.data, id)) {
-					// 	return
-					// }
-					let composeJSON = parse(res.data)
-					// warning
-					if (composeJSON["x-casaos"]?.tips?.before_install?.en_us) {
-						this.$buefy.modal.open({
-							parent: this,
-							component: () => import("@/components/AppSetting/AppTipModal.vue"),
-							hasModalCard: true,
-							customClass: '',
-							trapFocus: true,
-							canCancel: [''],
-							scroll: "keep",
-							animation: "zoom-in",
-							events: {
-								submit: () => {
-									this.currentInstallId = id
-									this.installComposeApp(res.data, id)
-								},
-							},
-							props: {
-								composeData: composeJSON
-							}
-						})
-					} else {
-						this.installComposeApp(res.data, id)
-					}
-
+					this.installComposeApp(res.data, id)
 				} else {
 					this.$buefy.toast.open({
 						message: this.$t(`There was an error installing the application, please try again!`),
