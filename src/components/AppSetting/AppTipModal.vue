@@ -16,7 +16,8 @@
 			</div>
 			<div>
 				<div class="is-flex is-align-items-center">
-					<b-icon class="_polymorphic close" icon="close-outline" pack="casa" @click.native="$emit('close')" />
+					<b-icon class="_polymorphic close" icon="close-outline" pack="casa"
+						@click.native="$emit('close')" />
 				</div>
 			</div>
 		</header>
@@ -39,8 +40,8 @@
 		<footer v-if="!name" class="modal-card-foot is-flex is-align-items-center">
 			<div class="is-flex-grow-1"></div>
 			<div class="is-flex is-flex-direction-row-reverse">
-				<b-button rounded size="is-small" type="is-primary" @click="$emit('submit') && $emit('close')">{{ $t('Next
-									Steps') }}
+				<b-button rounded size="is-small" type="is-primary" @click="$emit('submit') && $emit('close')">
+					{{ $t('Next Steps') }}
 				</b-button>
 			</div>
 		</footer>
