@@ -294,7 +294,7 @@ export default {
 				for (let app of casaAppList) {
 					db.put('app', app);
 				}
-				
+
 				// get app sort info.
 				let lateSortList = await this.$api.users
 					.getCustomStorage(orderConfig)
