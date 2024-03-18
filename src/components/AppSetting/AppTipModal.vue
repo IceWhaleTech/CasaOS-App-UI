@@ -16,8 +16,7 @@
 			</div>
 			<div>
 				<div class="is-flex is-align-items-center">
-					<b-icon class="_polymorphic close" icon="close-outline" pack="casa"
-						@click.native="$emit('close')" />
+					<b-icon class="_polymorphic" icon="close-outline" pack="casa" @click.native="$emit('close')" />
 				</div>
 			</div>
 		</header>
@@ -29,7 +28,7 @@
 				left-toolbar right-toolbar>
 			</VMdEditor>
 			<div v-if="name" class="is-flex is-flex-direction-row-reverse mt-2">
-				<b-icon
+				<b-icon class="_polymorphic"
 					:class="{ 'has-text-grey-800': !isEditing, 'has-text-green-default': isDifferentiation, 'has-text-grey-400': !isDifferentiation && isEditing }"
 					:icon="icon" pack="casa" @click.native="toggle"></b-icon>
 			</div>
@@ -205,12 +204,6 @@ export default {
 	.modal-card-head {
 		padding-top: 1.25rem;
 		border-bottom: 1px solid hsla(208, 16%, 94%, 1) !important;
-
-		.close {
-			height: 2rem;
-			width: 2rem;
-			border-radius: 0.375rem;
-		}
 	}
 
 	.modal-card-body {
@@ -266,6 +259,12 @@ export default {
 			background: white;
 		}
 	}
+}
+
+._polymorphic {
+	height: 2rem;
+	width: 2rem;
+	border-radius: 0.375rem;
 }
 
 ._polymorphic:hover {
