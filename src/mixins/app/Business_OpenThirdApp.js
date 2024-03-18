@@ -7,6 +7,8 @@
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
 
+import { parse } from "yaml";
+
 export default {
 	methods: {
 		openAppToNewWindow(appInfo) {
@@ -55,8 +57,49 @@ export default {
 			}
 
 		},
-		firstOpenThirdApp(appInfo) {
+		async firstOpenThirdApp(appInfo) {
 			this.removeIdFromSessionStorage(appInfo.name);
+			try {
+				const composeSourceDataYAML = await this.$openAPI.appManagement.compose.myComposeApp(appInfo.name, {
+					headers: {
+						'content-type': 'application/yaml',
+						'accept': 'application/yaml'
+					}
+				}).then(res => {
+					return res.data
+				})
+				const composeSourceData = parse(composeSourceDataYAML);
+				if (composeSourceData?.["x-casaos"]?.tips?.before_install?.en_us) {
+					this.$buefy.modal.open({
+						parent: this,
+						component: () => import("@/components/AppSetting/AppTipModal.vue"),
+						hasModalCard: true,
+						customClass: '',
+						trapFocus: true,
+						canCancel: [''],
+						scroll: "keep",
+						animation: "zoom-in",
+						events: {
+							submit: () => {
+								let routeUrl = this.$router.resolve({
+									name: 'AppLauncherCheck',
+									path: '/launch',
+									query: {
+										appDetailData: JSON.stringify(appInfo)
+									}
+								});
+								window.open(routeUrl.href, '_blank');
+							},
+						},
+						props: {
+							composeData: composeSourceData
+						}
+					})
+					return;
+				}
+			} catch (e) {
+				console.error(e);
+			}
 			let routeUrl = this.$router.resolve({
 				name: 'AppLauncherCheck',
 				path: '/launch',
