@@ -17,7 +17,7 @@
 				<h3 class="title is-3">{{ panelTitle }}</h3>
 			</div>
 			<div>
-				<button class="delete" type="button" @click="$emit('close')"/>
+				<button class="delete" type="button" @click="$emit('close')" />
 			</div>
 		</header>
 		<!-- Modal-Card Header End -->
@@ -28,15 +28,14 @@
 					<ValidationObserver ref="ob1">
 						<ValidationProvider v-slot="{ errors, valid }" rules="required">
 							<b-field :message="$t(errors)" :type="{ 'is-danger': errors[0], 'is-success': valid }"
-									 class="is-flex-wrap-nowrap">
+								class="is-flex-wrap-nowrap">
 								<template #label>
 									{{ $t('Address') }}
 									<label style="color:red">*</label>
 								</template>
 								<b-autocomplete ref="inputs" v-model="hostname" :data="filteredDataObj"
-												:placeholder="$t('Local URL,Pblic URL')" append-to-body field="hostname"
-												max-height="120px"
-												open-on-focus>
+									:placeholder="$t('Local URL,Pblic URL')" append-to-body field="hostname"
+									max-height="120px" open-on-focus>
 								</b-autocomplete>
 							</b-field>
 						</ValidationProvider>
@@ -52,25 +51,24 @@
 
 						<ValidationProvider v-slot="{ errors, valid }" rules="required">
 							<b-field :message="$t(errors)" :type="{ 'is-danger': errors[0], 'is-success': valid }"
-									 class="is-flex-wrap-nowrap">
+								class="is-flex-wrap-nowrap">
 								<template #label>
 									{{ $t('App Name') }}
 									<label style="color:red">*</label>
 								</template>
 								<b-input v-model="name" :disabled="disableEditName"
-										 :placeholder="$t('Customize your APP name')"
-										 max-height="120px">
+									:placeholder="$t('Customize your APP name')" max-height="120px">
 								</b-input>
 							</b-field>
 						</ValidationProvider>
 
 						<b-field :label="$t('Icon URL')">
 							<p class="control">
-				                <span class="button is-static container-icon">
-				                    <b-image :key="icon" :src="icon"
-											 :src-fallback="require('@/assets/img/app/default.svg')"
-											 class="is-32x32" ratio="1by1"></b-image>
-				                </span>
+								<span class="button is-static container-icon">
+									<b-image :key="icon" :src="icon"
+										:src-fallback="require('@/assets/img/app/default.svg')" class="is-32x32"
+										ratio="1by1"></b-image>
+								</span>
 							</p>
 							<b-input v-model="icon" :placeholder="$t('Your custom icon URL')" expanded></b-input>
 						</b-field>
@@ -87,7 +85,7 @@
 			<div class="is-flex-grow-1"></div>
 			<div>
 				<b-button :label="$t('Connect')" :loading="isLoading" expaned rounded type="is-primary"
-						  @click="connect"/>
+					@click="connect" />
 			</div>
 		</footer>
 		<!-- Modal-Card Footer End -->
@@ -95,16 +93,16 @@
 </template>
 
 <script>
-import smoothReflow                             from 'vue-smooth-reflow'
-import {ValidationObserver, ValidationProvider} from 'vee-validate'
+import smoothReflow from 'vue-smooth-reflow'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import "@/plugins/vee-validate";
-import Business_ShowNewAppTag                   from "@/mixins/app/Business_ShowNewAppTag";
-import Business_LinkApp                         from "@/mixins/app/Business_LinkApp";
+import Business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
+import Business_LinkApp from "@/mixins/app/Business_LinkApp";
 
 
 export default {
 	mixins: [smoothReflow, Business_ShowNewAppTag, Business_LinkApp],
-	components: {ValidationProvider, ValidationObserver},
+	components: { ValidationProvider, ValidationObserver },
 	props: {
 		linkName: {
 			type: String,
