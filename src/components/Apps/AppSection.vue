@@ -33,7 +33,7 @@
 
 		<!-- App List Start -->
 		<draggable v-model="appList" :draggable="draggable"
-			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas my-0" tag="div"
+			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas m-0" tag="div"
 			v-bind="dragOptions" @end="onSortEnd" @start="drag = true">
 			<!-- App Icon Card Start -->
 			<template v-if="!isLoading">
