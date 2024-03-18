@@ -7,23 +7,12 @@
   * Copyright (c) 2022 by IceWhale, All Rights Reserved.
   -->
 <template>
-	<div
-		class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card"
-		@mouseleave="hover = true"
-		@mouseover="hover = true"
-	>
+	<div class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card"
+		@mouseleave="hover = true" @mouseover="hover = true">
 		<!-- Action Button Start -->
 		<div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling" class="action-btn">
-			<b-dropdown
-				ref="dro"
-				:mobile-modal="false"
-				:triggers="['contextmenu', 'click']"
-				animation="fade1"
-				aria-role="list"
-				class="app-card-drop"
-				position="is-bottom-left"
-				@active-change="setDropState"
-			>
+			<b-dropdown ref="dro" :mobile-modal="false" :triggers="['contextmenu', 'click']" animation="fade1"
+				aria-role="list" class="app-card-drop" position="is-bottom-left" @active-change="setDropState">
 				<template #trigger>
 					<p role="button" class="action-btn-trigger">
 						<b-icon class="is-clickable" icon="dots-vertical"></b-icon>
@@ -31,47 +20,36 @@
 				</template>
 
 				<b-dropdown-item :focusable="false" aria-role="menu-item" custom>
-					<b-button expanded tag="a" type="is-text" @click="openApp(item)">{{ $t('Open') }}</b-button>
-					<b-button
-						v-if="isV2App"
-						expanded
-						icon-pack="casa"
-						icon-right="question-outline"
-						size="is-16"
-						type="is-text"
-						@click="openTips(item.name)"
-					>
+					<b-button expanded tag="a" type="is-text" @click="openApp(item)">
+						{{ $t('Open') }}
+					</b-button>
+					<b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16"
+						type="is-text" @click="openTips(item.name)">
 						{{ $t('Tips') }}
 					</b-button>
-					<b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()"
-						>{{ $t('Setting') }}
+					<b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()">
+						{{ $t('Setting')
+						}}
 					</b-button>
-					<b-button
-						v-if="false"
-						:loading="isCloning"
-						expanded
-						type="is-text"
-						@click="appClone(item.appstore_id)"
-						>{{ $t('Clone') }}
+					<b-button v-if="false" :loading="isCloning" expanded type="is-text"
+						@click="appClone(item.appstore_id)">
+						{{ $t('Clone') }}
 					</b-button>
 
-					<b-button v-if="isV2App" expanded type="is-text" @click="checkAppVersion(item.name)"
-						>{{ $t('Check then update') }}
+					<b-button v-if="isV2App" expanded type="is-text" @click="checkAppVersion(item.name)">
+						{{ $t('Check then update') }}
 						<b-loading :active="isCheckThenUpdate || isUpdating" :is-full-page="false">
-							<img
-								:src="require('@/assets/img/loading/waiting.svg')"
-								alt="pending"
-								class="ml-4 is-24x24"
-							/>
+							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
+								class="ml-4 is-24x24" />
 						</b-loading>
 					</b-button>
 
-					<b-button v-if="isV1App" expanded type="is-text" @click="exportYAML(item)"
-						>{{ $t('Export as Compose') }}
+					<b-button v-if="isV1App" expanded type="is-text" @click="exportYAML(item)">
+						{{ $t('Export as Compose') }}
 					</b-button>
 
-					<b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item)"
-						>{{ $t('Rebuild') }}
+					<b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item)">
+						{{ $t('Rebuild') }}
 					</b-button>
 
 					<b-dropdown v-if="false" :triggers="['click']" aria-role="list" class="is-right" expanded>
@@ -96,21 +74,15 @@
 					<b-button v-if="isLinkApp" class="mb-1" expanded type="is-text" @click="uninstallApp(true)">
 						{{ $t('Delete') }}
 						<b-loading v-model="isUninstalling" :is-full-page="false">
-							<img
-								:src="require('@/assets/img/loading/waiting.svg')"
-								alt="pending"
-								class="ml-4 is-24x24"
-							/>
+							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
+								class="ml-4 is-24x24" />
 						</b-loading>
 					</b-button>
 					<b-button v-else class="has-text-red" expanded type="is-text" @click="uninstallConfirm">
 						{{ $t('Uninstall') }}
 						<b-loading v-model="isUninstalling" :is-full-page="false">
-							<img
-								:src="require('@/assets/img/loading/waiting.svg')"
-								alt="pending"
-								class="ml-4 is-24x24"
-							/>
+							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
+								class="ml-4 is-24x24" />
 						</b-loading>
 					</b-button>
 
@@ -122,14 +94,8 @@
 								</b-button>
 							</div>
 							<div class="column is-flex is-justify-content-center is-align-items-center">
-								<b-button
-									:class="item.status"
-									:loading="isStarting"
-									class="has-text-red"
-									expanded
-									type="is-text"
-									@click="toggle(item)"
-								>
+								<b-button :class="item.status" :loading="isStarting" class="has-text-red" expanded
+									type="is-text" @click="toggle(item)">
 									<b-icon custom-size="is-size-20px" icon="power-standby" size="is-20"></b-icon>
 								</b-button>
 							</div>
@@ -142,45 +108,25 @@
 		<div class="blur-background"></div>
 		<div class="cards-content">
 			<!-- Card Content Start -->
-			<b-tooltip
-				:always="isActiveTooltip"
-				:animated="true"
-				:label="tooltipLabel"
-				:triggers="tooltipTriger"
-				animation="fade1"
-				class="in-card"
-				type="is-white"
-			>
+			<b-tooltip :always="isActiveTooltip" :animated="true" :label="tooltipLabel" :triggers="tooltipTriger"
+				animation="fade1" class="in-card" type="is-white">
 				<div
-					class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3px img-c"
-				>
+					class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3px img-c">
 					<div class="is-flex is-justify-content-center">
 						<div class="is-relative">
-							<b-image
-								:class="dotClass(item.status, isLoading)"
-								:src="item.icon"
-								:src-fallback="require('@/assets/img/app/default.svg')"
-								class="is-64x64"
-								webp-fallback=".jpg"
-								@click.native="openApp(item)"
-							></b-image>
+							<b-image :class="dotClass(item.status, isLoading)" :src="item.icon"
+								:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64"
+								webp-fallback=".jpg" @click.native="openApp(item)"></b-image>
 							<!-- Unstable-->
 							<cTooltip v-if="newAppIds.includes(item.name)" class="__position" content="NEW"></cTooltip>
 						</div>
 
 						<!-- Loading Bar Start -->
-						<b-loading
-							:active="isLoading"
-							:can-cancel="false"
-							:is-full-page="false"
+						<b-loading :active="isLoading" :can-cancel="false" :is-full-page="false"
 							class="has-background-gray-800 op80 is-64x64"
-							style="top: auto; bottom: auto; right: auto; left: auto; border-radius: 11.5px"
-						>
-							<img
-								:src="require('@/assets/img/loading/waiting-white.svg')"
-								alt="loading"
-								class="is-20x20"
-							/>
+							style="top: auto; bottom: auto; right: auto; left: auto; border-radius: 11.5px">
+							<img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading"
+								class="is-20x20" />
 						</b-loading>
 						<!-- Loading Bar End -->
 					</div>
@@ -219,7 +165,7 @@ export default {
 	},
 	mixins: [business_ShowNewAppTag, business_OpenThirdApp, business_LinkApp, commonI18n],
 	inject: ['openAppStore'],
-	data () {
+	data() {
 		return {
 			hover: false,
 			dropState: false,
@@ -242,7 +188,7 @@ export default {
 		}
 	},
 	computed: {
-		tooltipLabel () {
+		tooltipLabel() {
 			if (this.isContainerApp) {
 				return this.$t('Import to CasaOS')
 			} else {
@@ -272,7 +218,7 @@ export default {
 				}
 			}
 		},
-		tooltipTriger () {
+		tooltipTriger() {
 			return ['hover']
 			// if (this.isContainerApp) {
 			// 	return ['hover']
@@ -289,7 +235,7 @@ export default {
 			// 	}
 			// }
 		},
-		isLoading () {
+		isLoading() {
 			let active =
 				this.isUninstalling ||
 				this.isUpdating ||
@@ -299,28 +245,28 @@ export default {
 				this.isRebuilding // || this.isStoping || this.isSaving
 			return active
 		},
-		isMircoApp () {
+		isMircoApp() {
 			return this.item.app_type === 'mircoApp'
 		},
-		isV1App () {
+		isV1App() {
 			return this.item.app_type === 'v1app'
 		},
-		isV2App () {
+		isV2App() {
 			return this.item.app_type === 'v2app'
 		},
-		isContainerApp () {
+		isContainerApp() {
 			return this.item.app_type === 'container'
 		},
-		isLinkApp () {
+		isLinkApp() {
 			return this.item.app_type === 'LinkApp'
 		}
 	},
 
 	watch: {
-		hover (val) {
+		hover(val) {
 			if (!val && this.dropState) this.$refs.dro.toggle()
 		},
-		isLoading (active) {
+		isLoading(active) {
 			// design :: The first display is three seconds long
 			if (this.isCheckThenUpdate && this.activeTimer === undefined) {
 				this.activeTimer = setTimeout(() => {
@@ -345,7 +291,7 @@ export default {
 		 * @param {String} index App access index
 		 * @return {*} void
 		 */
-		openApp (item) {
+		openApp(item) {
 			if (this.isContainerApp) {
 				this.$emit('importApp', item, false)
 				return false
@@ -387,7 +333,7 @@ export default {
 			}
 		},
 
-		openSystemApps (item) {
+		openSystemApps(item) {
 			switch (item.name) {
 				case 'App Store':
 					this.openAppStore()
@@ -408,7 +354,7 @@ export default {
 		 * @param {Boolean} e
 		 * @return {*} void
 		 */
-		setDropState (e) {
+		setDropState(e) {
 			this.dropState = e
 		},
 
@@ -416,7 +362,7 @@ export default {
 		 * @description: Restart Application
 		 * @return {*} void
 		 */
-		restartApp () {
+		restartApp() {
 			this.$messageBus('apps_restart', this.item.name)
 			this.isRestarting = true
 			if (this.isV2App) {
@@ -427,7 +373,7 @@ export default {
 			this.$refs.dro.isActive = false
 		},
 
-		restartAppV1 () {
+		restartAppV1() {
 			this.$api.container
 				.updateState(this.item.name, 'restart')
 				.then(res => {
@@ -448,7 +394,7 @@ export default {
 				})
 		},
 
-		restartAppV2 () {
+		restartAppV2() {
 			this.$openAPI.appManagement.compose
 				.setComposeAppStatus(this.item.name, 'restart')
 				.then(res => {
@@ -468,7 +414,7 @@ export default {
 		 * @description: Confirm before uninstall
 		 * @return {*} void
 		 */
-		uninstallConfirm () {
+		uninstallConfirm() {
 			this.$messageBus('apps_uninstall', this.item.name)
 			this.$refs.dro.isActive = false
 			this.$buefy.dialog.confirm({
@@ -496,7 +442,7 @@ export default {
 		 * @description: Uninstall app
 		 * @return {*} void
 		 */
-		uninstallApp (checkDelConfig) {
+		uninstallApp(checkDelConfig) {
 			this.isUninstalling = true
 			this.removeIdFromSessionStorage(this.item.name)
 			if (this.isLinkApp) {
@@ -545,13 +491,13 @@ export default {
 		 * @description: Emit the event that the app has been updated
 		 * @return {*} void
 		 */
-		updateState () {
+		updateState() {
 			this.$refs.dro.isActive = false
 			this.$emit('updateState')
 			this.$EventBus.$emit(events.UPDATE_SYNC_STATUS)
 		},
 
-		async openTips (name) {
+		async openTips(name) {
 			try {
 				const ret = await this.$openAPI.appManagement.compose
 					.myComposeApp(name, {
@@ -585,7 +531,7 @@ export default {
 		 * @description: Emit the event that the app has been updated with custom_id
 		 * @return {*} void
 		 */
-		configApp () {
+		configApp() {
 			this.$messageBus('apps_setting', this.item.name)
 			this.$refs.dro.isActive = false
 			this.$emit('configApp', this.item, this.isV2App)
@@ -596,7 +542,7 @@ export default {
 		 * @param {Object} item the app info object
 		 * @return {*} void
 		 */
-		toggle (item) {
+		toggle(item) {
 			// only have 'apps_stop' event
 			this.$messageBus('apps_stop', item.name)
 			this.isStarting = true
@@ -609,7 +555,7 @@ export default {
 			}
 		},
 
-		toggleAppV1 (item, status) {
+		toggleAppV1(item, status) {
 			this.$api.container
 				.updateState(item.name, status)
 				.then(res => {
@@ -639,7 +585,7 @@ export default {
 				})
 		},
 
-		toggleAppV2 (item, status) {
+		toggleAppV2(item, status) {
 			this.$openAPI.appManagement.compose
 				.setComposeAppStatus(item.name, status)
 				.then(res => {
@@ -657,7 +603,7 @@ export default {
 				})
 		},
 
-		appClone (name) {
+		appClone(name) {
 			this.isCloning = true
 			this.$api.apps
 				.getAppInfo(name)
@@ -714,7 +660,7 @@ export default {
 				})
 		},
 
-		exportYAML (item) {
+		exportYAML(item) {
 			this.$api.container
 				.exportAsCompose(item.name)
 				.then(res => {
@@ -729,7 +675,7 @@ export default {
 				})
 		},
 
-		async rebuild (app) {
+		async rebuild(app) {
 			this.isRebuilding = true
 			try {
 				// 1. get yaml
@@ -751,7 +697,7 @@ export default {
 			this.$refs.dro.isActive = false
 		},
 
-		checkAppVersion (name) {
+		checkAppVersion(name) {
 			this.isCheckThenUpdate = true
 			const params = `${this.item.name}?name=${this.item.name}&pull=true&cid=${this.item.name}`
 			this.$openAPI.appManagement.compose
@@ -789,7 +735,7 @@ export default {
 		 * @param {String} status
 		 * @return {String}
 		 */
-		dotClass (status, loadState) {
+		dotClass(status, loadState) {
 			// For updating
 			if (loadState) {
 				if (status === '0' || status === 'running') {
@@ -806,11 +752,11 @@ export default {
 	},
 
 	sockets: {
-		'app:start-begin' (res) {
+		'app:start-begin'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 			}
 		},
-		'app:start-error' (res) {
+		'app:start-error'(res) {
 			// toast info.
 			this.$buefy.toast.open({
 				message: res.Properties['message'],
@@ -818,13 +764,13 @@ export default {
 				type: 'is-danger'
 			})
 		},
-		'app:start-end' (res) {
+		'app:start-end'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		'app:stop-error' (res) {
+		'app:stop-error'(res) {
 			// toast info.
 			this.$buefy.toast.open({
 				message: res.Properties['message'],
@@ -832,13 +778,13 @@ export default {
 				type: 'is-danger'
 			})
 		},
-		'app:stop-end' (res) {
+		'app:stop-end'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		'app:restart-error' (res) {
+		'app:restart-error'(res) {
 			// toast info.
 			this.$buefy.toast.open({
 				message: res.Properties['message'],
@@ -846,18 +792,18 @@ export default {
 				type: 'is-danger'
 			})
 		},
-		'app:restart-end' (res) {
+		'app:restart-end'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
 			}
 		},
-		'app:apply-changes-begin' (res) {
+		'app:apply-changes-begin'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 				this.isSaving = true
 			}
 		},
-		'app:apply-changes-error' (res) {
+		'app:apply-changes-error'(res) {
 			// toast info.
 			this.$buefy.toast.open({
 				message: res.Properties['message'],
@@ -865,7 +811,7 @@ export default {
 				type: 'is-danger'
 			})
 		},
-		'app:apply-changes-end' (res) {
+		'app:apply-changes-end'(res) {
 			if (res.Properties['app:name'] === this.item.name) {
 				this.isRestarting = false
 				this.isStarting = false
@@ -877,13 +823,13 @@ export default {
 		 * @param {Object} data
 		 * @return {void}
 		 */
-		'app:update-begin' () {
+		'app:update-begin'() {
 			// if (data.Properties["app:name"] === this.item.id) {
 			// 	this.loadState = true;
 			// }
 		},
 
-		'docker:image:pull-end' (data) {
+		'docker:image:pull-end'(data) {
 			if (data.Properties['app:name'] === this.item.name) {
 				if (data.Properties['docker:image:updated'] === 'true') {
 					this.isUpdating = true
@@ -892,7 +838,7 @@ export default {
 			}
 		},
 
-		'docker:image:pull-error' (data) {
+		'docker:image:pull-error'(data) {
 			if (data.Properties['app:name'] === this.item.name) {
 				this.isCheckThenUpdate = false
 			}
@@ -903,7 +849,7 @@ export default {
 		 * @param {Object} data
 		 * @return {void}
 		 */
-		'app:update-end' (data) {
+		'app:update-end'(data) {
 			if (data.Properties['app:name'] !== this.item.name) return
 			if (data.Properties['docker:image:updated'] === 'true') {
 				return
@@ -915,7 +861,7 @@ export default {
 				duration: 5000
 			})
 		},
-		'app:install-end' (res) {
+		'app:install-end'(res) {
 			if (res.Properties['dry_run.name'] === this.item.name) {
 				// 4.sockiet :: install-end :: change UI status.
 				this.isRebuilding = false
@@ -926,7 +872,7 @@ export default {
 				})
 			}
 		},
-		'app:install-error' (res) {
+		'app:install-error'(res) {
 			if (res.Properties['dry_run.name'] === this.item.name) {
 				// 4.sockiet :: install-end :: change UI status.
 				this.isRebuilding = false
@@ -937,7 +883,7 @@ export default {
 				})
 			}
 		},
-		'app:uninstall-error' (res) {
+		'app:uninstall-error'(res) {
 			// TODO verify
 			if (res.Properties['id'] === this.item.name) {
 				this.isUninstalling = false
@@ -967,7 +913,7 @@ export default {
 			.dropdown-item {
 				padding: 0;
 
-				& > * {
+				&>* {
 					margin: 1px 0;
 				}
 			}
@@ -983,7 +929,7 @@ export default {
 					height: 1.25rem !important;
 				}
 
-				span + span i {
+				span+span i {
 					color: hsla(208, 16%, 42%, 1);
 				}
 
