@@ -33,7 +33,7 @@
 							:loading="item.id == currentInstallId"
 							rounded size="is-small"
 							type="is-primary is-light"
-							@click="openThirdContainerByAppInfo(item)">{{ $t('Open') }}
+							@click="openThirdAppInStore(item)">{{ $t('Open') }}
 						</b-button>
 						<b-button v-else :disabled="!item.architectures?.includes(arch)"
 							:loading="item.id == currentInstallId"
@@ -59,7 +59,8 @@
 
 <script setup>
 import { defineProps,ref,reactive } from 'vue';
-import { Swiper, SwiperSlide }  from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import { useOpenThirdAppInStore} from '@/composables/useOpenApp'
 
 const disFeaturedPrev =ref(false)
 const disFeaturedNext =ref(false)
@@ -82,7 +83,7 @@ const featureSwiperOptions =reactive({
 	// 	slideChangeTransitionStart: this.handleFeaturedSlide
 	// },
 })
-
+const openThirdAppInStore = useOpenThirdAppInStore()
 
 const props = defineProps({
 	recommendList: {
