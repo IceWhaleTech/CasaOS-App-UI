@@ -14,22 +14,89 @@
 				@input="key=> $emit('updateDockerComposeServiceName', key)">
 			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key">
 				<ValidationObserver :ref="key + 'valida'">
-					<ValidationProvider v-slot="{ errors, valid }" name="Image" rules="required">
+					<b-field grouped>
+						
+					
+					<ValidationProvider v-slot="{ errors, valid }" name="Image" rules="required" class="is-flex-grow-1">
 						<b-field
-						:label="$t('Docker Image') + ' *'"
-						:message="$t(errors)"
-						:type="{ 'is-danger': errors[0], 'is-success': valid }"
-						class="mb-3"
-						>
+							:label="$t('Docker Image') + ' *'"
+							:message="$t(errors)"
+							:type="{ 'is-danger': errors[0], 'is-success': valid }"
+							class="mb-3"
+							>
 							<b-input
-							v-model="service.image"
-							:placeholder="$t('e.g.,hello-world:latest')"
-							:readonly="state == 'update'"
-							@input="changeIcon"
+								:key="service.image"
+								:readonly="state == 'update' || mainStableVersion !== ''"
+								:value="getFirstField(service.image)"
+								:placeholder="$t('e.g.,hello-world:latest')"
+								@input="
+									V => {
+										changeIcon(V)
+									}
+								"
+								@blur="
+									E =>
+										(service.image = E.target._value.split(':')[1]
+											? E.target._value
+											: service.image)
+								"
 							></b-input>
 						</b-field>
 					</ValidationProvider>
-
+					<ValidationProvider
+							v-slot="{ errors, valid }"
+							name="Image1"
+							rules="required"
+						>
+							<input type="text" :value="service.image.split(':')?.[1]" v-show="false" />
+							<b-dropdown aria-role="menu" expanded trap-focus>
+								<template #trigger>
+									<b-field
+										:label="$t('Tag')"
+										:message="$t(errors)"
+										:type="{ 'is-danger': errors[0], 'is-success': valid }"
+									>
+										<b-input
+											icon-pack="casa"
+											icon-right="down-outline"
+											class="is-flex-grow-1"
+											:value="getLateField(service.image)"
+											@input="
+												V => {
+													service.image = service.image.split(':')[0] + ':' + V
+													$emit('updateIsUncontrolledInstallParams', true)
+												}
+											"
+										>
+										</b-input>
+									</b-field>
+								</template>
+								<b-dropdown-item
+									key="latest"
+									@click="
+										() => {
+											service.image = service.image.split(':')[0] + ':latest'
+											$emit('updateIsUncontrolledInstallParams', false)
+										}
+									"
+								>
+									latest
+								</b-dropdown-item>
+								<b-dropdown-item
+									key="stable"
+									v-show="mainStableVersion !== ''"
+									@click="
+										() => {
+											service.image = service.image.split(':')[0] + ':' + mainStableVersion
+											$emit('updateIsUncontrolledInstallParams', false)
+										}
+									"
+								>
+									stable({{ mainStableVersion }})
+								</b-dropdown-item>
+							</b-dropdown>
+						</ValidationProvider>
+					</b-field>
 					<ValidationProvider v-slot="{ errors, valid }" name="composeAppName" rules="required">
 						<b-field
 						:label="$t('App Name') + ' *'"
@@ -276,7 +343,7 @@ export default {
 		return {
 			baseUrl: "",
 			portSelected: null,
-
+			mainStableVersion: '',
 			configData: {
 				services: {
 					main_app: {
@@ -396,12 +463,6 @@ export default {
 			handler(val) {
 				if (val != null) {
 					this.parseComposeYaml(val);
-				} else {
-					// let gg =
-					// 	find(this.networks, (o) => {
-					// 		return o.driver == "bridge";
-					// 	}) || [];
-					// this.configData.network_mode = gg.length > 0 ? gg[0].name : "bridge";
 				}
 			},
 			immediate: true,
@@ -493,7 +554,10 @@ export default {
 		 * @return {*} void
 		 */
 		changeIcon(image) {
-			this.configData["x-casaos"].icon = this.getIconFromImage(image);
+			// 1、set this.configData['x-casaos'].icon
+			this.configData['x-casaos'].icon = this.getIconFromImage(image)
+			// 2、emit updateIsUncontrolledInstallParams for is_uncontrolled
+			this.$emit('updateIsUncontrolledInstallParams', true)
 		},
 
 		/**
@@ -941,7 +1005,15 @@ export default {
 				const tempNetworks = merge(this.configData?.networks || {}, {[value]: {name: value}})
 				this.$set(this.configData, 'networks', tempNetworks);
 			}
-		}
+		},
+
+		getFirstField (image) {
+			return image?.split(':')[0]
+		},
+
+		getLateField (image) {
+			return image?.split(':')[1]
+		},
 
 	},
 	filters: {
