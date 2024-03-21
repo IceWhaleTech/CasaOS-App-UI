@@ -36,5 +36,15 @@ const zerotier = new ZerotierMethodsApi(config, '/v2/casaos/', instance)
 const iceFile = new FileApiFactory(config, '/v2', instance)
 const iceFolder = new FolderApiFactory(config, '/v2', instance)
 export const iceGpu = new GPUMethodsApi(config, '/v2/zimaos', instance)
+export const useOpenAPI = () => {
+	return {
+		appManagement,
+		appGrid,
+		appCompose,
+		zerotier,
+		iceFile,
+		iceFolder
+	}
+}
 
 export default { appManagement, appGrid, appCompose, zerotier, iceFile, iceFolder }

@@ -122,6 +122,9 @@ window.info = {
 	built: BUILT_TIME,
 };
 
+export {
+	baseHostname
+}
 
 
 
