@@ -148,7 +148,8 @@
 					:state="state" :total-memory="totalMemory"
 					@updateDockerComposeCommands="updateDockerComposeCommands"
 					@updateDockerComposeServiceName="updateDockerComposeServiceName"
-					@updateMainName="name => currentInstallId = name"></ComposeConfig>
+					@updateMainName="name => currentInstallId = name"
+					@updateIsUncontrolledInstallParams="updateIsUncontrolledInstallParams"></ComposeConfig>
 
 				<section v-else :class="{ '_hideOverflow': !isCasa }" class="modal-card-body pt-3">
 					<!--	导入"已存在的容器"，进行初始化操作	-->
@@ -210,7 +211,7 @@
 				:cancelButtonText="cancelButtonText" @close="$emit('close')" @back="prevStep" />
 
 			<AppSettingPanelFooter v-if="currentSlide == 1" :state="state" :isCasa="isCasa" :isLoading="isLoading"
-				@install="installApp()" @update="updateApp()" @updateContainer="updateContainer()" />
+				@install="checkComposeAppAndInstallComposeApp()" @update="updateApp()" @updateContainer="updateContainer()" />
 			<!-- Modal-Card Footer End -->
 		</template>
 	</div>
@@ -281,6 +282,11 @@ export default {
 	mixins: [business_ShowNewAppTag, business_OpenThirdApp],
 	directives: {
 		OnClickOutside: vOnClickOutside
+	},
+	provide() {
+		return {
+			switchAppPanelToAppConfigContent: this.switchAppPanelToAppConfigContent
+		}
 	},
 	props: {
 		id: String,
@@ -399,6 +405,7 @@ export default {
 			totalPercentage: 0,
 			installedList: [],
 			counterPatchGetStoreList: 0,
+			is_uncontrolled_install_params: false,
 		}
 	},
 
@@ -609,9 +616,12 @@ export default {
 		 */
 		async showAppDetial(id) {
 			this.isLoading = true;
-			let min_memory = await this.$openAPI.appManagement.appStore.composeApp(id).then(res => {
+			let { min_memory, compose } = await this.$openAPI.appManagement.appStore.composeApp(id).then(res => {
 				// A district that is reserved for resource.
-				return res.data.data.compose.services[id]?.deploy?.resources?.reservations?.memory || '0'
+				return {
+					min_memory: res.data.data.compose.services[id]?.deploy?.resources?.reservations?.memory || '0',
+					compose: res.data.data.compose
+				}
 			})
 
 			if (min_memory.includes('GB')) {
@@ -626,6 +636,7 @@ export default {
 				this.appDetailData = res.data.data
 				this.appDetailData.id = id
 				this.appDetailData.min_memory = min_memory
+				this.appDetailData.compose = compose
 				this.architectures = res.data.data.architectures || [];
 			}).catch((e) => {
 				this.$buefy.toast.open({
@@ -710,7 +721,7 @@ export default {
 		 * @description: Submit datas after valid
 		 * @return {*} void
 		 */
-		installApp() {
+		checkComposeAppAndInstallComposeApp() {
 			this.$refs.compose.checkStep().then((valid) => {
 				if (valid.every(v => v === true)) {
 					this.installComposeApp(this.dockerComposeCommands, this.currentInstallId)
@@ -725,7 +736,7 @@ export default {
 			})
 		},
 		installComposeApp(dockerComposeCommands, appName) {
-			return this.$openAPI.appManagement.compose.installComposeApp(dockerComposeCommands, false, true).then(res => {
+			return this.$openAPI.appManagement.compose.installComposeApp(dockerComposeCommands, false, true, this.is_uncontrolled_install_params).then(res => {
 				if (res.status === 200) {
 				} else {
 					this.dockerComposeConfig = dockerComposeCommands;
@@ -950,6 +961,16 @@ export default {
 
 		updateDockerComposeServiceName(val) {
 			this.dockerComposeServiceName = val
+		},
+
+		updateIsUncontrolledInstallParams (is_uncontrolled_install_params) {
+			this.is_uncontrolled_install_params = is_uncontrolled_install_params
+		},
+
+		switchAppPanelToAppConfigContent(composeCommands) {
+			this.currentSlide = 1
+			this.sidebarOpen = false
+			this.dockerComposeConfig = composeCommands
 		},
 	},
 

@@ -422,5 +422,6 @@
   "Continue {name}": "Continue {name}",
   "launch-and-open": "Launch & Open",
   "Next Steps": "Next Steps",
-  "The name already exists": "The name already exists."
+  "The name already exists": "The name already exists.",
+  "Custom Install": "Custom Install"
 }

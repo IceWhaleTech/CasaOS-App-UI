@@ -2,64 +2,81 @@
 	<div class="app-header is-flex pb-4">
 		<div class="header-icon mr-5">
 			<b-image :key="appDetailData.icon" :src="appDetailData.icon"
-				:src-fallback="require('@/assets/img/app/default.svg')"
-				class="is-128x128 icon-shadow"
+				:src-fallback="require('@/assets/img/app/default.svg')" class="is-128x128 icon-shadow"
 				webp-fallback=".jpg">
 			</b-image>
 		</div>
-		
+
 		<div class="is-flex-grow-1 is-flex is-align-items-center">
 			<div>
-				<h4 class="title store-title is-4 ">{{ i18n(appDetailData.title) }}</h4>
-				<p class="subtitle is-size-14px two-line mb-3">{{
-						i18n(appDetailData.tagline)
-					}}</p>
+				<h4 class="title store-title is-4">{{ i18n(appDetailData.title) }}</h4>
+				<p class="subtitle is-size-14px two-line mb-3">{{ i18n(appDetailData.tagline) }}</p>
 				<p class="description mb-2">
 					<b-button v-if="installedList.includes(appDetailData.id)"
-						:loading="appDetailData.id == currentInstallId" 
-						rounded size="is-normal" type="is-primary"
+						:loading="appDetailData.id == currentInstallId" rounded size="is-normal" type="is-primary"
 						@click="openThirdContainerByAppInfo(appDetailData)">
 						{{ $t('Open') }}
 					</b-button>
-					<b-button v-else :disabled="unusable"
+					<b-button 
+						v-else
+						class="pr-0"
+						:disabled="unusable"
 						:loading="appDetailData.id == currentInstallId"
-						rounded size="is-normal" type="is-primary"
-						@click="handleInstallBtnClick">
+						rounded
+						size="is-normal"
+						type="is-primary"
+						@click.self="
+							$emit('install', appDetailData.id, appDetailData)
+							$messageBus('appstore_install', i18n(appDetailData.title))
+						">
 						{{ $t('Install') }}
+						<b-dropdown :triggers="['hover', 'click']">
+							<template #trigger>
+								<div class="casa-down-outline custom-install-dropdown-trigger"></div>
+							</template>
+							<b-button
+								:disabled="unusable"
+								:loading="appDetailData.id == currentInstallId"
+								rounded
+								size="is-normal"
+								type="is-primary"
+								@click="openConfigPanle"
+							>
+								{{ $t('Custom Install') }}
+							</b-button>
+						</b-dropdown>
 					</b-button>
 				</p>
 
 				<p v-if="unusable"
 					class="has-background-red-tertiary has-text-red has-text-full-04 _is-normal is-flex is-align-items-center font pr-2"
-					style="width: fit-content;height: 1.5rem;border-radius: 0.25rem">
+					style="width: fit-content; height: 1.5rem; border-radius: 0.25rem">
 					<label class="is-flex ml-2 mr-1">
-						<b-icon class="is-16x16" custom-size="casa-19px" icon="close"
-							pack="casa"></b-icon>
+						<b-icon class="is-16x16" custom-size="casa-19px" icon="close" pack="casa"></b-icon>
 					</label>
-					{{ $t('Not compatible with {arch} devices.', {arch: archTitle}) }}
+					{{ $t('Not compatible with {arch} devices.', { arch: archTitle }) }}
 				</p>
-
 			</div>
 		</div>
 	</div>
-
 </template>
 
 <script setup>
-import { defineProps, defineExpose, defineEmits } from 'vue';
-import { usei18n } from '@/composables/usei18n';
-import messageBus from '@/events';
+import { defineProps, defineExpose, defineEmits, inject } from 'vue'
+import { usei18n } from '@/composables/usei18n'
+import messageBus from '@/events'
+import YAML from 'yaml'
+
+const switchAppPanelToAppConfigContent = inject('switchAppPanelToAppConfigContent')
 
 const props = defineProps({
 	appDetailData: {
 		type: Object,
-		default: () => {
-		}
+		default: () => { }
 	},
 	installedList: {
 		type: Array,
-		default: () => {
-		}
+		default: () => { }
 	},
 	unusable: {
 		type: Boolean,
@@ -73,38 +90,49 @@ const props = defineProps({
 		type: String,
 		default: ''
 	}
-});
+})
 
-const emit = defineEmits(['install']);
+const emit = defineEmits(['install'])
 
-const { i18n } = usei18n();
+const { i18n } = usei18n()
 
-const handleInstallBtnClick = ()=>{
-	emit('install');
-	messageBus('appstore_install', i18n(props.appDetailData.title));
+const handleInstallBtnClick = () => {
+	emit('install')
+	messageBus('appstore_install', i18n(props.appDetailData.title))
+}
+
+function openConfigPanle() {
+	// this.$emit('switchAppPanelToAppConfigContent', YAML.stringify(this.appDetailData.compose))
+	console.log('openConfigPanle', props.appDetailData);
+	switchAppPanelToAppConfigContent(YAML.stringify(props.appDetailData.compose))
 }
 
 defineExpose({
 	i18n
 })
-
 </script>
-
 
 <style scoped>
 .app-header {
 	position: relative;
 }
 
+::v-deep .dropdown-content {
+	box-shadow: none;
+	padding: 0;
+}
+
 @media screen and (max-width: 480px) {
 	.app-header {
 		position: relative;
+
 		.header-icon {
 			.is-128x128 {
 				height: 96px;
 				width: 96px;
 			}
 		}
+
 		.store-title {
 			font-size: 1.125rem;
 		}
@@ -120,5 +148,26 @@ defineExpose({
 			}
 		}
 	}
+}
+
+.custom-install-dropdown-trigger{
+	width: 3rem;
+	height: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+</style>
+<style>
+/* // version dropdown css */
+.dropdown.is-hoverable:hover .dropdown-menu{
+	display: block;
+}
+.dropdown-menu,.dropdown-content{
+	box-shadow: none;
+}
+.dropdown-content .button{
+	display: flex;
 }
 </style>
