@@ -100,9 +100,8 @@
 
 							</div>
 							<div class="mt-1 ml-7 is-flex is-align-items-center">
-								<div class="is-flex-grow-1 is-size-7 has-text-grey-light">{{
-		item.category
-	}}
+								<div class="is-flex-grow-1 is-size-7 has-text-grey-light">
+									{{ item.category }}
 								</div>
 								<b-button v-if="installedList.includes(item.id)" :loading="item.id == currentInstallId"
 									rounded size="is-small" type="is-primary is-light"

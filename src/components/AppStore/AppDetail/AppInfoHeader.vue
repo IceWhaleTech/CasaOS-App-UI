@@ -14,7 +14,7 @@
 				<p class="description mb-2">
 					<b-button v-if="installedList.includes(appDetailData.id)"
 						:loading="appDetailData.id == currentInstallId" rounded size="is-normal" type="is-primary"
-						@click="openThirdContainerByAppInfo(appDetailData)">
+						@click="openThirdAppInStore(appDetailData)">
 						{{ $t('Open') }}
 					</b-button>
 					<b-button 
@@ -66,9 +66,10 @@ import { defineProps, defineExpose, defineEmits, inject } from 'vue'
 import { usei18n } from '@/composables/usei18n'
 import messageBus from '@/events'
 import YAML from 'yaml'
+import { useOpenThirdAppInStore } from '@/composables/useOpenApp'
 
 const switchAppPanelToAppConfigContent = inject('switchAppPanelToAppConfigContent')
-
+const openThirdAppInStore = useOpenThirdAppInStore();
 const props = defineProps({
 	appDetailData: {
 		type: Object,

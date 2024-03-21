@@ -21,7 +21,7 @@
 					<b-icon class="polymorphic is-clickable has-text-grey-100" icon="plus-outline" pack="casa"
 						size="is-24"></b-icon>
 				</template>
-				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel(0, 'custom')">
+				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel('', 'custom')">
 					{{ $t("Add a Containerized Application APP") }}
 				</b-dropdown-item>
 				<b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
