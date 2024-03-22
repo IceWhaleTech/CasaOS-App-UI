@@ -424,5 +424,6 @@
   "launch-and-open": "启动并打开",
   "Next Steps": "下一步",
   "The name already exists": "名字已经存在。",
-  "Custom Install": "自定义安装"
+  "Custom Install": "自定义安装",
+  "The information filled in needs to be corrected": "请正确填写所需要的信息。"
 }
