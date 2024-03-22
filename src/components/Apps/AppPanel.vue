@@ -148,7 +148,7 @@
 					@updateDockerComposeCommands="updateDockerComposeCommands"
 					@updateDockerComposeServiceName="updateDockerComposeServiceName"
 					@updateMainName="name => currentInstallId = name"
-					@updateIsUncontrolledInstallParams="updateIsUncontrolledInstallParams"></ComposeConfig>
+					></ComposeConfig>
 
 				<section v-else :class="{ '_hideOverflow': !isCasa }" class="modal-card-body pt-3">
 					<!--	导入"已存在的容器"，进行初始化操作	-->
@@ -404,7 +404,6 @@ export default {
 			totalPercentage: 0,
 			installedList: [],
 			counterPatchGetStoreList: 0,
-			is_uncontrolled_install_params: false,
 		}
 	},
 
@@ -735,7 +734,7 @@ export default {
 			})
 		},
 		installComposeApp(dockerComposeCommands, appName) {
-			return this.$openAPI.appManagement.compose.installComposeApp(dockerComposeCommands, false, true, this.is_uncontrolled_install_params).then(res => {
+			return this.$openAPI.appManagement.compose.installComposeApp(dockerComposeCommands, false, true).then(res => {
 				if (res.status === 200) {
 				} else {
 					this.dockerComposeConfig = dockerComposeCommands;
@@ -960,10 +959,6 @@ export default {
 
 		updateDockerComposeServiceName(val) {
 			this.dockerComposeServiceName = val
-		},
-
-		updateIsUncontrolledInstallParams (is_uncontrolled_install_params) {
-			this.is_uncontrolled_install_params = is_uncontrolled_install_params
 		},
 
 		switchAppPanelToAppConfigContent(composeCommands) {

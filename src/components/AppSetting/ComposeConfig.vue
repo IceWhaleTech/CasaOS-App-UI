@@ -64,7 +64,6 @@
 											@input="
 												V => {
 													service.image = service.image.split(':')[0] + ':' + V
-													$emit('updateIsUncontrolledInstallParams', true)
 												}
 											"
 										>
@@ -76,7 +75,6 @@
 									@click="
 										() => {
 											service.image = service.image.split(':')[0] + ':latest'
-											$emit('updateIsUncontrolledInstallParams', false)
 										}
 									"
 								>
@@ -88,7 +86,6 @@
 									@click="
 										() => {
 											service.image = service.image.split(':')[0] + ':' + mainStableVersion
-											$emit('updateIsUncontrolledInstallParams', false)
 										}
 									"
 								>
@@ -554,10 +551,8 @@ export default {
 		 * @return {*} void
 		 */
 		changeIcon(image) {
-			// 1、set this.configData['x-casaos'].icon
+			// set this.configData['x-casaos'].icon
 			this.configData['x-casaos'].icon = this.getIconFromImage(image)
-			// 2、emit updateIsUncontrolledInstallParams for is_uncontrolled
-			this.$emit('updateIsUncontrolledInstallParams', true)
 		},
 
 		/**
