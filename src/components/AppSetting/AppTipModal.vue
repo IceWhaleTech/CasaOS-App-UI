@@ -16,7 +16,7 @@
 			</div>
 			<div>
 				<div class="is-flex is-align-items-center">
-					<b-icon class="_polymorphic" icon="close-outline" pack="casa" @click.native="$emit('close')" />
+					<b-icon v-if="name" class="_polymorphic" icon="close-outline" pack="casa" @click.native="$emit('close')" />
 				</div>
 			</div>
 		</header>
