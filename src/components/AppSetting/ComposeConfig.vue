@@ -257,13 +257,19 @@
 						</b-taginput>
 					</b-field>
 
-					<b-field :label="$t('Container Hostname')">
-						<b-input
-							v-model="service.container_name"
-							:placeholder="$t('Hostname of app container')"
-							value="">
-						</b-input>
-					</b-field>
+					<ValidationProvider v-slot="{ errors, valid }" name="ContainerName" rules="ContainerName">
+						<b-field
+							:label="$t('Container Name')"
+							:message="$t(errors)"
+							:type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }"
+						>
+							<b-input
+								v-model="service.container_name"
+								:placeholder="$t('Name of app container')"
+								value=""
+							></b-input>
+						</b-field>
+					</ValidationProvider>
 				</ValidationObserver>
 			</b-tab-item>
 		</b-tabs>
