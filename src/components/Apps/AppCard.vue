@@ -328,7 +328,7 @@ export default {
 					this.openAppToNewWindow(item)
 				} else {
 					this.toggle(item)
-					this.firstOpenThirdApp(item)
+					this.checkAndOpenThirdApp(item)
 				}
 			}
 		},

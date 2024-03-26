@@ -100,6 +100,10 @@ export default {
 			} catch (e) {
 				console.error(e);
 			}
+			this.checkAndOpenThirdApp(appInfo);
+		},
+		checkAndOpenThirdApp(appInfo) {
+			this.removeIdFromSessionStorage(appInfo.name);
 			let routeUrl = this.$router.resolve({
 				name: 'AppLauncherCheck',
 				path: '/launch',

@@ -105,7 +105,7 @@
   "Privileged": "特权",
   "Container Command": "容器命令",
   "Container Capabilities (cap-add)": "容器能力 (cap-add)",
-  "Container Hostname": "容器主机名",
+  "Container Name": "容器主机名",
   "Hostname of app container": "App容器的主机名",
   "Ports": "端口",
   "Volumes": "卷",
@@ -425,5 +425,6 @@
   "Next Steps": "下一步",
   "The name already exists": "名字已经存在。",
   "Custom Install": "自定义安装",
-  "The information filled in needs to be corrected": "请正确填写所需要的信息。"
+  "The information filled in needs to be corrected": "请正确填写所需要的信息。",
+  "Name of app container": "Name of app container."
 }

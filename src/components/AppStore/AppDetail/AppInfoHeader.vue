@@ -1,9 +1,13 @@
 <template>
 	<div class="app-header is-flex pb-4">
 		<div class="header-icon mr-5">
-			<b-image :key="appDetailData.icon" :src="appDetailData.icon"
-				:src-fallback="require('@/assets/img/app/default.svg')" class="is-128x128 icon-shadow"
-				webp-fallback=".jpg">
+			<b-image
+				:key="appDetailData.icon"
+				:src="appDetailData.icon"
+				:src-fallback="require('@/assets/img/app/default.svg')"
+				class="is-128x128 icon-shadow"
+				webp-fallback=".jpg"
+			>
 			</b-image>
 		</div>
 
@@ -12,27 +16,37 @@
 				<h4 class="title store-title is-4">{{ i18n(appDetailData.title) }}</h4>
 				<p class="subtitle is-size-14px two-line mb-3">{{ i18n(appDetailData.tagline) }}</p>
 				<p class="description mb-2">
-					<b-button v-if="installedList.includes(appDetailData.id)"
-						:loading="appDetailData.id == currentInstallId" rounded size="is-normal" type="is-primary"
-						@click="openThirdAppInStore(appDetailData)">
+					<b-button
+						v-if="installedList.includes(appDetailData.id)"
+						:loading="appDetailData.id == currentInstallId"
+						rounded
+						size="is-normal"
+						type="is-primary"
+						@click="openThirdAppInStore(appDetailData)"
+					>
 						{{ $t('Open') }}
 					</b-button>
-					<b-button 
+					<b-button
 						v-else
-						class="pr-0"
+						class="p-0 custom-install-button"
 						:disabled="unusable"
 						:loading="appDetailData.id == currentInstallId"
 						rounded
 						size="is-normal"
 						type="is-primary"
-						@click="
-							$emit('install', appDetailData.id, appDetailData)				
-							$messageBus('appstore_install', i18n(appDetailData.title))
-						">
-						{{ $t('Install') }}
-						<b-dropdown :triggers="['hover', 'click']">
+					>
+						<div
+							@click.self="
+								$emit('install', appDetailData.id, appDetailData)
+								$messageBus('appstore_install', i18n(appDetailData.title))
+							"
+							class="custom-install-button-content"
+						>
+							{{ $t('Install') }}
+						</div>
+						<b-dropdown :triggers="['hover', 'click']" @click.stop>
 							<template #trigger>
-								<div class="casa-down-outline custom-install-dropdown-trigger" @click.stop></div>
+								<div class="casa-down-outline custom-install-dropdown-trigger"></div>
 							</template>
 							<b-button
 								:disabled="unusable"
@@ -48,9 +62,11 @@
 					</b-button>
 				</p>
 
-				<p v-if="unusable"
+				<p
+					v-if="unusable"
 					class="has-background-red-tertiary has-text-red has-text-full-04 _is-normal is-flex is-align-items-center font pr-2"
-					style="width: fit-content; height: 1.5rem; border-radius: 0.25rem">
+					style="width: fit-content; height: 1.5rem; border-radius: 0.25rem"
+				>
 					<label class="is-flex ml-2 mr-1">
 						<b-icon class="is-16x16" custom-size="casa-19px" icon="close" pack="casa"></b-icon>
 					</label>
@@ -69,15 +85,15 @@ import YAML from 'yaml'
 import { useOpenThirdAppInStore } from '@/composables/useOpenApp'
 
 const switchAppPanelToAppConfigContent = inject('switchAppPanelToAppConfigContent')
-const openThirdAppInStore = useOpenThirdAppInStore();
+const openThirdAppInStore = useOpenThirdAppInStore()
 const props = defineProps({
 	appDetailData: {
 		type: Object,
-		default: () => { }
+		default: () => {}
 	},
 	installedList: {
 		type: Array,
-		default: () => { }
+		default: () => {}
 	},
 	unusable: {
 		type: Boolean,
@@ -102,9 +118,9 @@ const handleInstallBtnClick = () => {
 	messageBus('appstore_install', i18n(props.appDetailData.title))
 }
 
-function openConfigPanle() {
+function openConfigPanle () {
 	// this.$emit('switchAppPanelToAppConfigContent', YAML.stringify(this.appDetailData.compose))
-	console.log('openConfigPanle', props.appDetailData);
+	console.log('openConfigPanle', props.appDetailData)
 	switchAppPanelToAppConfigContent(YAML.stringify(props.appDetailData.compose))
 }
 
@@ -151,24 +167,45 @@ defineExpose({
 	}
 }
 
-.custom-install-dropdown-trigger{
+.custom-install-dropdown-trigger {
 	width: 3rem;
 	height: 1.5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-
 </style>
 <style>
 /* // version dropdown css */
-.dropdown.is-hoverable:hover .dropdown-menu{
+.dropdown.is-hoverable:hover .dropdown-menu {
 	display: block;
 }
-.dropdown-menu,.dropdown-content{
+
+.dropdown-menu,
+.dropdown-content {
 	box-shadow: none;
 }
-.dropdown-content .button{
+
+.dropdown-content .button {
 	display: flex;
+}
+.custom-install-button {
+	span {
+		display: flex;
+		.custom-install-button-content {
+			display: flex;
+			flex-shrink: 0;
+			padding-left: 1.25rem;
+			padding-top: 0.25rem;
+			padding-bottom: 0.25rem;
+		}
+		.custom-install-dropdown-trigger {
+			width: 3rem;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }
 </style>
