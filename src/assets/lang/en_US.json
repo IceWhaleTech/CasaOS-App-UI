@@ -105,7 +105,7 @@
   "Privileged": "Privileges",
   "Container Command": "Container Command",
   "Container Capabilities (cap-add)": "Container Capabilities (cap-add)",
-  "Container Hostname": "Container Hostname",
+  "Container Name": "Container Name",
   "Hostname of app container": "Hostname of app container",
   "Ports": "Port",
   "Volumes": "Volumes",
@@ -424,5 +424,6 @@
   "Next Steps": "Next Steps",
   "The name already exists": "The name already exists.",
   "Custom Install": "Custom Install",
-  "The information filled in needs to be corrected": "The information filled in needs to be corrected."
+  "The information filled in needs to be corrected": "The information filled in needs to be corrected.",
+  "Name of app container": "Name of app container."
 }
