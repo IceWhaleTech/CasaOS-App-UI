@@ -37,8 +37,8 @@
 								@blur="
 									E =>
 										(service.image = E.target._value.split(':')[1]
-											? E.target._value
-											: service.image)
+											? E.target._value + ':' + service.image.split(':')[1]
+											: E.target._value)
 								"
 							></b-input>
 						</b-field>
