@@ -144,18 +144,18 @@
 </template>
 
 <script>
-import events from '@/events/events'
-import cTooltip from '@/components/basicComponents/tooltip/tooltip.vue'
-import business_ShowNewAppTag from '@/mixins/app/Business_ShowNewAppTag'
-import business_OpenThirdApp from '@/mixins/app/Business_OpenThirdApp'
-import business_LinkApp from '@/mixins/app/Business_LinkApp'
-import isNull from 'lodash/isNull'
-import tipEditorModal from '@/components/AppSetting/AppTipModal.vue'
-import YAML from 'yaml'
-import commonI18n, { ice_i18n } from '@/mixins/base/common-i18n'
-import FileSaver from 'file-saver'
+import events                    from '@/events/events'
+import cTooltip                  from '@/components/basicComponents/tooltip/tooltip.vue'
+import business_ShowNewAppTag    from '@/mixins/app/Business_ShowNewAppTag'
+import business_OpenThirdApp     from '@/mixins/app/Business_OpenThirdApp'
+import business_LinkApp          from '@/mixins/app/Business_LinkApp'
+import isNull                    from 'lodash/isNull'
+import tipEditorModal            from '@/components/AppSetting/AppTipModal.vue'
+import YAML                      from 'yaml'
+import commonI18n, { ice_i18n }  from '@/mixins/base/common-i18n'
+import FileSaver                 from 'file-saver'
 import { MIRCO_APP_ACTION_ENUM } from '@/const'
-import apps from '../../service/apps.js'
+import apps                      from '../../service/apps.js'
 
 export default {
 	name: 'app-card',
