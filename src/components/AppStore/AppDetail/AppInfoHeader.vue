@@ -177,18 +177,6 @@ defineExpose({
 </style>
 <style>
 /* // version dropdown css */
-.dropdown.is-hoverable:hover .dropdown-menu {
-	display: block;
-}
-
-.dropdown-menu,
-.dropdown-content {
-	box-shadow: none;
-}
-
-.dropdown-content .button {
-	display: flex;
-}
 .custom-install-button {
 	span {
 		display: flex;
@@ -205,6 +193,14 @@ defineExpose({
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+		.dropdown-menu,
+		.dropdown-content {
+			box-shadow: none;
+		}
+
+		.dropdown-content .button {
+			display: flex;
 		}
 	}
 }
