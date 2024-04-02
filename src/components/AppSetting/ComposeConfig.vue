@@ -43,17 +43,16 @@
 									"
 									@blur="
 										(E) =>
-											(service.image = E.target._value.split(':')[1]
+											(service.image = service.image.split(':')[1]
 												? E.target._value + ':' + service.image.split(':')[1]
 												: E.target._value)
 									"
 								></b-input>
 							</b-field>
 						</ValidationProvider>
-						<ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
-							<input type="text" :value="service.image.split(':')?.[1]" v-show="false" />
-							<b-dropdown aria-role="menu" expanded trap-focus>
-								<template #trigger>
+						<b-dropdown aria-role="menu" trap-focus>
+							<template #trigger>
+								<ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
 									<b-field
 										:label="$t('Tag')"
 										:message="$t(errors)"
@@ -72,30 +71,30 @@
 										>
 										</b-input>
 									</b-field>
-								</template>
-								<b-dropdown-item
-									key="latest"
-									@click="
-										() => {
-											service.image = service.image.split(':')[0] + ':latest';
-										}
-									"
-								>
-									latest
-								</b-dropdown-item>
-								<b-dropdown-item
-									key="stable"
-									v-show="mainStableVersion !== ''"
-									@click="
-										() => {
-											service.image = service.image.split(':')[0] + ':' + mainStableVersion;
-										}
-									"
-								>
-									stable({{ mainStableVersion }})
-								</b-dropdown-item>
-							</b-dropdown>
-						</ValidationProvider>
+								</ValidationProvider>
+							</template>
+							<b-dropdown-item
+								key="latest"
+								@click="
+									() => {
+										service.image = service.image.split(':')[0] + ':latest';
+									}
+								"
+							>
+								latest
+							</b-dropdown-item>
+							<b-dropdown-item
+								key="stable"
+								v-show="mainStableVersion !== ''"
+								@click="
+									() => {
+										service.image = service.image.split(':')[0] + ':' + mainStableVersion;
+									}
+								"
+							>
+								stable({{ mainStableVersion }})
+							</b-dropdown-item>
+						</b-dropdown>
 					</b-field>
 					<ValidationProvider v-slot="{ errors, valid }" name="composeAppName" rules="required">
 						<b-field
@@ -282,27 +281,27 @@
 </template>
 
 <script>
-import debounce from "lodash/debounce";
-import axios from "axios";
+import debounce                                   from "lodash/debounce";
+import axios                                      from "axios";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import "@/plugins/vee-validate";
-import Ports from "../forms/Ports.vue";
-import EnvInputGroup from "../forms/EnvInputGroup.vue";
-import CommandsInput from "../forms/CommandsInput.vue";
-import InputGroup from "../forms/InputGroup.vue";
-import VolumesInputGroup from "@/components/forms/VolumesInputGroup.vue";
-import VueSlider from "vue-slider-component";
+import Ports                                      from "../forms/Ports.vue";
+import EnvInputGroup                              from "../forms/EnvInputGroup.vue";
+import CommandsInput                              from "../forms/CommandsInput.vue";
+import InputGroup                                 from "../forms/InputGroup.vue";
+import VolumesInputGroup                          from "@/components/forms/VolumesInputGroup.vue";
+import VueSlider                                  from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
-import YAML from "yaml";
-import lowerFirst from "lodash/lowerFirst";
-import isNil from "lodash/isNil";
-import { isNumber, isString } from "lodash/lang";
-import cloneDeep from "lodash/cloneDeep";
-import merge from "lodash/merge";
-import i18n from "@/mixins/base/common-i18n";
-import { nanoid } from "nanoid";
-import find from "lodash/find";
-import isArray from "lodash/isArray";
+import YAML                                       from "yaml";
+import lowerFirst                                 from "lodash/lowerFirst";
+import isNil                                      from "lodash/isNil";
+import { isNumber, isString }                     from "lodash/lang";
+import cloneDeep                                  from "lodash/cloneDeep";
+import merge                                      from "lodash/merge";
+import i18n                                       from "@/mixins/base/common-i18n";
+import { nanoid }                                 from "nanoid";
+import find                                       from "lodash/find";
+import isArray                                    from "lodash/isArray";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -1027,6 +1026,7 @@ export default {
 		getLateField(image) {
 			return image?.split(":")[1];
 		},
+		
 	},
 	filters: {
 		duplexDisplay(val) {
