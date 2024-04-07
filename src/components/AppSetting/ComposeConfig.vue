@@ -333,6 +333,8 @@ const data = [
 	"WAKE_ALARM",
 ];
 
+const MAIN_APP_KEY = "main_app";
+
 export default {
 	name: "ComposeConfig.vue",
 	components: {
@@ -348,7 +350,7 @@ export default {
 	mixins: [i18n],
 	data() {
 		return {
-			current_service: "",
+			current_service: MAIN_APP_KEY,
 			baseUrl: "",
 			portSelected: null,
 			serviceStableVersion: "",
@@ -642,7 +644,7 @@ export default {
 				this.configData.name = yaml?.name || "";
 				this.configData.services = {};
 				// 删除掉原默认主应用。
-				this.$delete(this.configData.services, "main_app");
+				this.$delete(this.configData.services, MAIN_APP_KEY);
 				// this.current_service = yaml["x-casaos"].main;
 				this.current_service = Object.keys(yaml.services)[0];
 				// 解析 services，并将其赋值到 configData.services中。
