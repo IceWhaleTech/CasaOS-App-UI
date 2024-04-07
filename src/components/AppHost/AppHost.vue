@@ -63,41 +63,6 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-/* import { defineProps }                            from 'vue';
-defineProps({
-	settingData: {
-		type: Object,
-		default: () => {
-			return {
-				label: "",
-				icon: "",
-				protocol: "http",
-				host: "",
-				port_map: "",
-				index: "",
-			};
-		},
-	},
-	isCasa: {
-		type: Boolean,
-		default: false,
-	},
-});
-async function updateAppHost() {
-	try {
-		const is_validate = await $refs.containerValida.validate();
-		if (is_validate === true) {
-			const result = await $api.container.update(id, settingData);
-			if (result.data.success == 200) {
-				return true;
-			} else {
-				return new Error(result.data.message.data);
-			}
-		}
-	} catch (error) {
-		return error;
-	}
-} */
 export default {
 	name: "AppHost",
 	components: {
