@@ -229,71 +229,7 @@
 					@updateMainName="(name) => (currentInstallId = name)"
 				></ComposeConfig>
 
-				<section v-else :class="{ _hideOverflow: !isCasa }" class="modal-card-body pt-3">
-					<!--	导入"已存在的容器"，进行初始化操作	-->
-					<ValidationObserver ref="containerValida">
-						<ValidationProvider v-slot="{ errors, valid }" name="appName" rules="required">
-							<b-field
-								:label="$t('App name') + ' *'"
-								:message="$t(errors)"
-								:type="{ 'is-danger': errors[0], 'is-success': valid }"
-							>
-								<b-input
-									v-model="settingData.label"
-									:placeholder="$t('Your custom App Name')"
-									maxlength="40"
-								></b-input>
-							</b-field>
-						</ValidationProvider>
-
-						<b-field :label="$t('Icon URL')">
-							<p class="control">
-								<span class="button is-static container-icon">
-									<b-image
-										:key="settingData.icon"
-										:src="settingData.icon"
-										:src-fallback="require('@/assets/img/app/default.svg')"
-										class="is-32x32"
-										ratio="1by1"
-									></b-image>
-								</span>
-							</p>
-							<b-input
-								v-model="settingData.icon"
-								:placeholder="$t('Your custom icon URL')"
-								expanded
-							></b-input>
-						</b-field>
-
-						<b-field label="Web UI">
-							<b-select v-model="settingData.protocol">
-								<option value="http">http://</option>
-								<option value="https">https://</option>
-							</b-select>
-							<b-input v-model="settingData.host" :placeholder="this.$baseHostname" expanded></b-input>
-							<b-autocomplete
-								v-model="settingData.port_map"
-								:data="
-									(() => {
-										return (settingData.ports || []).map((item) => {
-											return item.host;
-										});
-									})()
-								"
-								:open-on-focus="true"
-								:placeholder="$t('Port')"
-								class="has-colon"
-								field="hostname"
-								@select="(option) => (settingData.port_map = option)"
-							></b-autocomplete>
-							<b-input
-								v-model="settingData.index"
-								:placeholder="'/index.html ' + $t('[Optional]')"
-								expanded
-							></b-input>
-						</b-field>
-					</ValidationObserver>
-				</section>
+				<AppHost ref="apphost" v-else :isCasa="isCasa" :appId="id" :settingData="settingData"></AppHost>
 			</template>
 			<!-- App Install Form End -->
 
@@ -334,6 +270,7 @@
 </template>
 
 <script>
+// import { AppHost } from "@/components/AppHost";
 import AppSideBar from "./AppSideBar.vue";
 import ImportPanel from "../forms/ImportPanel.vue";
 import AppTerminalPanel from "./AppTerminalPanel.vue";
@@ -352,6 +289,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { AppConditionSelector, AppDetail, AppRecommend } from "@/components/AppStore";
 import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
 import { AppSettingPanelFooter } from "@/components/AppSetting";
+import { AppHost } from "@/components/AppHost";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -385,6 +323,7 @@ const data = [
 
 export default {
 	components: {
+		AppHost,
 		AppSideBar,
 		AppsInstallationLocation,
 		ComposeConfig,
@@ -937,34 +876,24 @@ export default {
 			});
 		},
 
-		updateContainer() {
-			this.$refs.containerValida.validate().then((valid) => {
-				if (valid) {
-					this.isLoading = true;
-					this.$api.container
-						.update(this.id, this.settingData)
-						.then((res) => {
-							if (res.data.success == 200) {
-								this.$emit("updateState");
-							} else {
-								this.$buefy.toast.open({
-									message: res.data.message.data,
-									type: "is-warning",
-								});
-							}
-							this.$emit("close");
-						})
-						.catch((err) => {
-							this.$buefy.toast.open({
-								message: err.response.data.message,
-								type: "is-warning",
-							});
-						})
-						.finally(() => {
-							this.isLoading = false;
-						});
-				}
-			});
+		async updateContainer() {
+			this.isLoading = true;
+			try {
+				console.log(0);
+				await this.$refs.apphost.updateAppHost();
+				this.$emit("updateState");
+				this.$emit("close");
+				console.log(3);
+			}catch (e) {
+				this.$buefy
+					.toast
+					.open({
+						message: err.response.data.message,
+						type: "is-warning",
+					});
+			}
+			this.isLoading = false;
+			
 		},
 
 		/**
