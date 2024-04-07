@@ -223,7 +223,6 @@
 </template>
 
 <script>
-// import { AppHost } from "@/components/AppHost";
 import AppSideBar from "./AppSideBar.vue";
 import ImportPanel from "../forms/ImportPanel.vue";
 import AppTerminalPanel from "./AppTerminalPanel.vue";
@@ -340,7 +339,6 @@ export default {
 			isLoading: true,
 			isFetching: false,
 			isLoadError: false,
-			// loadErrorStep: 0,
 			isFirst: true,
 			errorType: 1,
 			currentInstallAppName: null,
@@ -368,10 +366,7 @@ export default {
 			pageSize: 5,
 			listTotal: 0,
 			pageList: [],
-			// communityList: {},
 			recommendList: {},
-			// Q: currentSlide 是什么功能？
-			// A: currentSlide 是一个变量，用于控制页面的显示。0：显示应用商店列表；1：显示应用Setting 界面；2：显示应用安装进度界面。
 			currentSlide: 0,
 			currentInstallId: "",
 
@@ -379,12 +374,6 @@ export default {
 			searchKey: "",
 			currentAuthor: { count: 0, font: "author", id: 0, name: "All" },
 			cateMenu: [],
-			// currentSort: {},
-			// sortMenu: [
-			// 	{icon: "", slash: "rank", name: "Popular"},
-			// 	{icon: "", slash: "new", name: "New"},
-			// 	{icon: "", slash: "name", name: "Name"},
-			// ],
 			storeQueryData: {
 				index: 1,
 				category: "All",
@@ -400,30 +389,8 @@ export default {
 				description: { en_us: "" },
 			},
 			arch: "",
-			// unusable: false, // computer unusable
 			architectures: [],
-
-			// APPs Installation Location - requirement document
-			// not be used.
-			/*storageData: [{
-				name: 12,
-				isSystem: true,
-				fsType: 'fsType',
-				diskName: 'diakname',
-				availSize: '1024',
-				disk_type: 'type',
-				path: 'path',
-				mount_point: 'mount_point',
-				usePercent: 20,
-				model: 'model',
-				size: 123,
-				health: true,
-				temperature: 100,
-			}],*/
-			/*storage_item_scence: 'select installation location',*/
-			// isFirstInstall: false,
 			installationLocation: "",
-			// dockerProgress: null,
 			totalPercentage: 0,
 			installedList: [],
 			counterPatchGetStoreList: 0,
@@ -471,13 +438,6 @@ export default {
 				this.showAppDetial(this.storeId);
 			});
 		}
-
-		// 这是 选择应用安装位置。 这块功能不被使用，暂且保留。
-		// close the function - APPs Installation Location
-		// prepare data - APPs Installation Location requirement document
-		// this.getDiskList();
-		// close the function - APPs Installation Location
-		// this.askInstallationLocation();
 
 		// get architecture
 		this.arch = localStorage.getItem("arch");
@@ -545,11 +505,6 @@ export default {
 	},
 	watch: {
 		// Watch if Section index changes
-		/*
-		 *  === 0 App Store Panel.
-		 *  === 1 Setting Panel.	(Importing、Update Setting)
-		 *  === 2 Other Panel. (Installing)
-		 * */
 		currentSlide(val) {
 			if (val == APP_SETTING_PANEL || val == APP_INSTALLING_PANEL) {
 				this.isLoading = false;
@@ -585,22 +540,14 @@ export default {
 		 * @return {*} void
 		 */
 		async getCategoryList() {
-			// this.isLoading = true
 			try {
 				this.cateMenu = await this.$openAPI.appManagement.appStore.categoryList().then((res) =>
 					res.data.data.filter((item) => {
 						return item.count > 0;
 					})
 				);
-				// this.currentCate = this.cateMenu[0]
-				// this.currentSort = this.sortMenu[0]
-				// if (this.isFirst) {
-				// 	this.isFirst = false
-				// }
 			} catch (error) {
-				// this.loadErrorStep = 1
-				// this.isLoading = false;
-				// this.isLoadError = true;
+				console.error('getCategoryList', error);
 			}
 		},
 
@@ -623,9 +570,6 @@ export default {
 						title: ice_i18n(main_app_info.title),
 						state: 0,
 						architectures: main_app_info.architectures,
-						// scheme: main_app_info.apps[id].scheme,
-						// port: main_app_info.apps[id].port_map,
-						// index: main_app_info.apps[id].index,
 					};
 				});
 			} catch (error) {
@@ -668,22 +612,12 @@ export default {
 				.catch((e) => {
 					this.$buefy.toast.open({
 						message: e.response.data.message,
-						// message: this.$t(`There was an error loading the data, please try again!`),
 						type: "is-danger",
 					});
 				})
 				.finally(() => {
 					this.isLoading = false;
 				});
-		},
-
-		retry() {
-			// TODO the function will reImplement in next refactor
-			// if (this.loadErrorStep === 1) {
-			// 	this.getCategoryList()
-			// } else if (this.loadErrorStep === 2) {
-			// 	this.getStoreList()
-			// }
 		},
 
 		/**
@@ -807,8 +741,6 @@ export default {
 							if (res.status == 200) {
 								this.$emit("updateState");
 							} else {
-								// this.dockerComposeConfig = dockerComposeCommands;
-								// this.currentSlide = 1;
 								this.errInfo = res.data;
 
 								this.$buefy.toast.open({
@@ -831,7 +763,6 @@ export default {
 							});
 						});
 				} else {
-					// toast info error.
 					this.$buefy.toast.open({
 						message: this.$t("Please confirm the input content."),
 						duration: 5000,
@@ -997,8 +928,6 @@ export default {
 			} else {
 				localStorage.removeItem("app_data");
 				// business :: Tagging of new app / scrollIntoView
-				// this.addIdToSessionStorage(resData.name)
-
 				setTimeout(() => {
 					this.$emit("updateState");
 					this.$emit("close");
@@ -1032,7 +961,6 @@ export default {
 			this.currentSlide = APP_INSTALLING_PANEL;
 			this.currentInstallAppText = "Start Installation...";
 			this.cancelButtonText = "Continue in background";
-			// this.dockerProgress = new DockerProgress();
 			this.installAppProgress({
 				finished: false,
 				name: res.Properties["app:name"],
@@ -1071,16 +999,6 @@ export default {
 				message: res.Properties["app:progress"],
 			});
 		},
-		// "docker:image:pull-progress"(res) {
-		// 	this.installAppProgress({
-		// 		finished: false,
-		// 		name: res.Properties["app:name"],
-		// 		id: res.Properties["docker:container:id"],
-		// 		success: true,
-		// 		type: "pull",
-		// 		message: res.Properties["message"]
-		// 	});
-		// },
 	},
 };
 </script>
@@ -1140,10 +1058,6 @@ export default {
 
 .app-panel {
 	.modal-card {
-		//width: 81.25rem;
-		//.app-store{
-		//	width: 81.25rem;
-		//}
 		&.pop-small {
 			width: 424px;
 
@@ -1161,21 +1075,11 @@ export default {
 
 @media screen and (min-width: 769px) {
 	.app-panel {
-		// .animation-content {
-		// 	max-width: 48rem !important;
-		// }
-
 		.modal-card {
-			//width: 90vw;
 			transition: all 0.3s;
-
-			// &.narrow {
-			// 	width: 50rem !important;
-			// }
 
 			._pl {
 				margin-right: 0;
-				//margin-left: calc(90vw - 100%);
 			}
 		}
 	}
@@ -1184,11 +1088,9 @@ export default {
 @media screen and (min-width: 1440px) {
 	.app-panel {
 		.modal-card {
-			//width: 81rem !important;
 
 			._pl {
 				margin-right: 0;
-				//margin-left: calc(81rem - 100%);
 			}
 		}
 	}
@@ -1213,14 +1115,6 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
-	// .modal-card{
-	// 	max-height: calc(var(--vh, 1vh) * 100);
-	// 	border-radius: 0;
-	// 	._pl {
-	// 		margin-right: 0;
-	// 		margin-left: calc(100vw - 100%);
-	// 	}
-	// }
 	.app-panel {
 		.modal-card {
 			min-width: 100%;
@@ -1255,15 +1149,7 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
-	// .modal-card {
-	// 	max-height: calc(var(--vh, 1vh) * 100);
-	// 	border-radius: 0;
 
-	// 	._pl {
-	// 		margin-right: 0;
-	// 		margin-left: calc(100vw - 100%);
-	// 	}
-	// }
 }
 
 @media screen and (max-width: 480px) {
@@ -1289,9 +1175,7 @@ export default {
 }
 
 .pri-message-alert {
-	//padding: 0.4rem 1rem;
 	height: 2rem;
-	//text-align: center;
 	margin-top: 0.5rem;
 	margin-bottom: 1rem;
 	background: #fff6e5;
@@ -1322,19 +1206,12 @@ export default {
 }
 
 ._title {
-	/* Text 500Medium/Text02 */
-
 	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 1rem;
 	line-height: 1.5rem;
-	/* identical to box height, or 150% */
-
 	font-feature-settings: "pnum" on, "lnum" on;
-
-	/* Gary/800 */
-
 	color: #29343d;
 }
 
