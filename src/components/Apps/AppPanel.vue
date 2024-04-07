@@ -12,10 +12,10 @@
 <template>
 	<div
 		:class="{
-			narrow: currentSlide > 0,
-			_stepStoreList: currentSlide === 0,
-			'pop-max': currentSlide === 0,
-			'pop-small': currentSlide === 2,
+			narrow: currentSlide !== APP_STORE_PANEL,
+			_stepStoreList: currentSlide === APP_STORE_PANEL,
+			'pop-max': currentSlide === APP_STORE_PANEL,
+			'pop-small': currentSlide === APP_INSTALLING_PANEL,
 		}"
 		class="app-card modal-card"
 	>
@@ -40,20 +40,20 @@
 		</template>
 		<template v-else>
 			<!-- Modal-Card Header Start -->
-			<header :class="{ 'setting-compose-panel': currentSlide == 1 && isCasa }" class="modal-card-head b-line">
+			<header :class="{ 'setting-compose-panel': currentSlide == APP_SETTING_PANEL && isCasa }" class="modal-card-head b-line">
 				<div class="is-flex-grow-1">
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
 				<div class="is-flex is-align-items-center">
 					<b-button
-						v-if="currentSlide == 0"
+						v-if="currentSlide == APP_STORE_PANEL"
 						:label="$t('Add a Containerized Application')"
 						class="mr-2"
 						icon-left="view-grid-plus"
 						rounded
 						size="is-small"
 						type="is-primary"
-						@click="currentSlide = 1"
+						@click="currentSlide = APP_SETTING_PANEL"
 					/>
 
 					<b-tooltip v-if="showImportButton" :label="$t('Import')" position="is-bottom" type="is-dark">
@@ -78,7 +78,7 @@
 						<button class="icon-button mdi mdi-export-variant" type="button" @click="exportYAML" />
 					</b-tooltip>
 					<div
-						v-if="currentSlide < 2"
+						v-if="currentSlide !== APP_INSTALLING_PANEL"
 						class="is-flex is-align-items-center modal-close-container modal-close-container-line"
 					>
 						<b-icon
@@ -88,7 +88,7 @@
 							@click.native="$emit('close')"
 						/>
 					</div>
-					<div v-else-if="currentSlide === 2" class="is-flex is-align-items-center">
+					<div v-else-if="currentSlide === APP_INSTALLING_PANEL" class="is-flex is-align-items-center">
 						<b-icon
 							class="_polymorphic close"
 							icon="close-outline"
@@ -103,7 +103,7 @@
 			<!-- Modal-Card Body Start -->
 			<!-- App Store List Start -->
 			<section
-				v-if="currentSlide == 0"
+				v-if="currentSlide == APP_STORE_PANEL"
 				:class="{ _hideOverflow: !isCasa }"
 				class="modal-card-body pt-3 _pl app-store"
 			>
@@ -134,7 +134,7 @@
 						@update-searchKey="updateSearchKey"
 					/>
 					<!-- List condition End -->
-					
+
 					<!-- App list Start-->
 					<AppStoreContent 
 						:filteredPageList="filteredPageList" 
@@ -160,7 +160,7 @@
 			<!-- App Store List End -->
 
 			<!-- App Install Form Start -->
-			<template v-if="currentSlide == 1">
+			<template v-if="currentSlide == APP_SETTING_PANEL">
 				<!--:config-data="initConfigData"-->
 				<ComposeConfig
 					v-if="isCasa"
@@ -187,7 +187,7 @@
 			<!-- App Install Form End -->
 
 			<!-- App Install Process Start -->
-			<section v-if="currentSlide == 2" class="app-installing">
+			<section v-if="currentSlide == APP_INSTALLING_PANEL" class="app-installing">
 				<AppInstallLoadingPanel
 					:currentInstallAppText="currentInstallAppText"
 					:currentInstallAppTextClass="currentInstallAppTextClass"
@@ -201,7 +201,7 @@
 
 			<!-- Modal-Card Footer Start-->
 			<AppInstallLoadingFooter
-				v-if="currentSlide == 2"
+				v-if="currentSlide == APP_INSTALLING_PANEL"
 				:currentInstallAppError="currentInstallAppError"
 				:cancelButtonText="cancelButtonText"
 				@close="$emit('close')"
@@ -209,7 +209,7 @@
 			/>
 
 			<AppSettingPanelFooter
-				v-if="currentSlide == 1"
+				v-if="currentSlide == APP_SETTING_PANEL"
 				:state="state"
 				:isCasa="isCasa"
 				:isLoading="isLoading"
@@ -273,6 +273,15 @@ const data = [
 	"SYSLOG",
 	"WAKE_ALARM",
 ];
+
+/*
+*  === 0 App Store Panel.
+*  === 1 Setting Panel.	(Importing、Update Setting)
+*  === 2 Other Panel. (Installing)
+* */
+const APP_STORE_PANEL = 0;
+const APP_SETTING_PANEL = 1;
+const APP_INSTALLING_PANEL = 2;
 
 export default {
 	components: {
@@ -451,7 +460,7 @@ export default {
 		if (this.settingData != undefined || this.settingComposeData != undefined) {
 			this.isLoading = false;
 			this.dockerComposeConfig = this.settingComposeData;
-			this.currentSlide = 1;
+			this.currentSlide = APP_SETTING_PANEL;
 		} else {
 			this.getCategoryList();
 		}
@@ -483,18 +492,18 @@ export default {
 	},
 	computed: {
 		showImportButton() {
-			return this.currentSlide == 1 && this.state == "install";
+			return this.currentSlide == APP_SETTING_PANEL && this.state == "install";
 		},
 		showExportButton() {
-			return this.currentSlide == 1 && this.state == "update";
+			return this.currentSlide == APP_SETTING_PANEL && this.state == "update";
 		},
 		showTerminalButton() {
-			return this.currentSlide == 1 && this.state == "update" && this.runningStatus == "running";
+			return this.currentSlide == APP_SETTING_PANEL && this.state == "update" && this.runningStatus == "running";
 		},
 		panelTitle() {
-			if (this.currentSlide == 0) {
+			if (this.currentSlide == APP_STORE_PANEL) {
 				return this.$t("App Store");
-			} else if (this.currentSlide == 1) {
+			} else if (this.currentSlide == APP_SETTING_PANEL) {
 				if (!this.isCasa) {
 					return this.$t("Import") + " " + this.currentInstallId;
 				} else {
@@ -542,7 +551,7 @@ export default {
 		 *  === 2 Other Panel. (Installing)
 		 * */
 		currentSlide(val) {
-			if (val == 1 || val == 2) {
+			if (val == APP_SETTING_PANEL || val == APP_INSTALLING_PANEL) {
 				this.isLoading = false;
 			}
 		},
@@ -763,7 +772,7 @@ export default {
 					if (res.status === 200) {
 					} else {
 						this.dockerComposeConfig = dockerComposeCommands;
-						this.currentSlide = 1;
+						this.currentSlide = APP_SETTING_PANEL;
 						this.errInfo = res.data;
 
 						this.$buefy.toast.open({
@@ -775,7 +784,7 @@ export default {
 				.catch((e) => {
 					if (e.response.status === 400) {
 						this.dockerComposeConfig = dockerComposeCommands;
-						this.currentSlide = 1;
+						this.currentSlide = APP_SETTING_PANEL;
 						this.errInfo = e.response.data.data;
 					}
 					this.$buefy.toast.open({
@@ -1006,7 +1015,7 @@ export default {
 		},
 
 		switchAppPanelToAppConfigContent(composeCommands) {
-			this.currentSlide = 1;
+			this.currentSlide = APP_SETTING_PANEL;
 			this.sidebarOpen = false;
 			this.dockerComposeConfig = composeCommands;
 		},
@@ -1020,7 +1029,7 @@ export default {
 	sockets: {
 		"app:install-begin"(res) {
 			this.currentInstallAppName = res.Properties["app:name"];
-			this.currentSlide = 2;
+			this.currentSlide = APP_INSTALLING_PANEL;
 			this.currentInstallAppText = "Start Installation...";
 			this.cancelButtonText = "Continue in background";
 			// this.dockerProgress = new DockerProgress();
