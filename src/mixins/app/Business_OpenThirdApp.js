@@ -7,9 +7,11 @@
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
 
-import { parse } from "yaml";
+import { parse }              from "yaml";
+import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 
 export default {
+	mixins: [business_ShowNewAppTag],
 	methods: {
 		openAppToNewWindow(appInfo) {
 			this.hasNewTag(appInfo.name) ? this.firstOpenThirdApp(appInfo) : this.openThirdApp(appInfo, true);

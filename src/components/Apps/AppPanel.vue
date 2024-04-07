@@ -136,7 +136,7 @@
 
 					<!-- List condition End -->
 					<!-- App list Start-->
-					<div class="columns f-list is-multiline is-mobile pb-3 mb-5">
+					<!-- <div class="columns f-list is-multiline is-mobile pb-3 mb-5">
 						<div
 							v-for="(item, index) in filteredPageList"
 							:key="index + item.title + item.id"
@@ -193,8 +193,14 @@
 								</b-button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
+					<AppStoreContent 
+						:filteredPageList="filteredPageList" 
+						:installedList="installedList"
+						:currentInstallId="currentInstallId"
+						:arch="arch"
+					></AppStoreContent>
 					<!-- App list End-->
 				</template>
 				<template v-else>
@@ -286,7 +292,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { ice_i18n } from "@/mixins/base/common-i18n";
 import { parse } from "yaml";
 import { vOnClickOutside } from "@vueuse/components";
-import { AppConditionSelector, AppDetail, AppRecommend } from "@/components/AppStore";
+import { AppConditionSelector, AppDetail, AppRecommend, AppStoreContent } from "@/components/AppStore";
 import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
 import { AppSettingPanelFooter } from "@/components/AppSetting";
 import { AppHost } from "@/components/AppHost";
@@ -331,6 +337,7 @@ export default {
 		ValidationProvider,
 		AppDetail,
 		AppRecommend,
+		AppStoreContent,
 		AppConditionSelector,
 		AppInstallLoadingPanel,
 		AppInstallLoadingFooter,
@@ -343,6 +350,8 @@ export default {
 	provide() {
 		return {
 			switchAppPanelToAppConfigContent: this.switchAppPanelToAppConfigContent,
+			showAppDetial: this.showAppDetial,
+			quickInstall: this.quickInstall,
 		};
 	},
 	props: {
