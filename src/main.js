@@ -8,13 +8,13 @@
  */
 
 import 'intersection-observer'
-import Vue     from 'vue'
-import App     from '@/App.vue'
-import router  from '@/router'
-import store   from '@/store'
-import i18n    from '@/plugins/i18n'
-import api     from '@/service/api.js'
-import openAPI from '@/service/index.js'
+import Vue              from 'vue'
+import App              from '@/App.vue'
+import router           from '@/router'
+import store            from '@/store'
+import i18n             from '@/plugins/i18n'
+import api              from '@/service/api.js'
+import openAPI          from '@/service/index.js'
 import {
 	Icon,
 	Field,
@@ -39,7 +39,7 @@ import {
 	Dialog,
 	Message
 }              from 'buefy/src/index.js'
-import 'buefy/dist/buefy.css'
+// import 'buefy/dist/buefy.css'
 
 Vue.use(Icon)
 Vue.use(Field)

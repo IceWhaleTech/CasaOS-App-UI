@@ -394,6 +394,15 @@ export default {
 			totalPercentage: 0,
 			installedList: [],
 			counterPatchGetStoreList: 0,
+
+			/*
+			*  === 0 App Store Panel.
+			*  === 1 Setting Panel.	(Importing、Update Setting)
+			*  === 2 Other Panel. (Installing)
+			* */
+			APP_STORE_PANEL,
+			APP_SETTING_PANEL,
+			APP_INSTALLING_PANEL,
 		};
 	},
 

@@ -10,7 +10,8 @@
     "test:e2e:headless": "vue-cli-service test:e2e --headless",
     "lint": "vue-cli-service lint",
     "build:messagebus": "node message_bus.build.js",
-    "test:mocha": "mochapack --webpack-config webpack.test.config.js --require tests/unit/setup.js tests/**/*.spec.js"
+    "test:mocha": "mochapack --webpack-config webpack.test.config.js --require tests/unit/setup.js tests/**/*.spec.js",
+    "examine:config": "npx vue-cli-service inspect --mode=dev > webpack.dev.js"
   },
   "installConfig": {
     "hoistingLimits": "workspaces"
@@ -27,7 +28,7 @@
     "@smartbear/browser-info": "^1.5.0",
     "@vueuse/components": "^10.9.0",
     "axios": "^0.26.1",
-    "buefy": "0.9.23",
+    "buefy": "^0.9.23",
     "bulma": "0.9.4",
     "clipboard-copy": "^4.0.1",
     "composerize": "^1.6.8",
@@ -73,6 +74,7 @@
     "@vue/cli-plugin-vuex": "4.5.13",
     "@vue/cli-service": "4.5.13",
     "@vue/test-utils": "^1.3.6",
+    "autoprefixer": "^10.4.19",
     "babel-loader": "^8.3.0",
     "chai": "^4.4.1",
     "core-js": "^3.36.1",
@@ -86,12 +88,15 @@
     "mochapack": "^1.1.15",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "patch-package": "^7.0.2",
+    "postcss": "^8.1",
+    "postcss-loader": "^4.0.3",
     "postinstall-postinstall": "^2.1.0",
     "rss-parser": "^3.13.0",
     "sass": "^1.72.0",
     "sass-loader": "10.1.1",
     "style-resources-loader": "^1.5.0",
     "swiper": "^5.4.5",
+    "tailwindcss": "^2.0.1",
     "vue-loader": "^15.11.1",
     "vue-server-renderer": "^2.7.16",
     "vue-style-loader": "^4.1.3",

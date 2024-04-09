@@ -49,6 +49,10 @@ module.exports = {
 					]
 				})
 				.end()
+			.use('postcss-loader').loader('postcss-loader').end()
+		})
+		config.module.rule('css').oneOfs.store.forEach(item => {
+			item.use('postcss-loader').loader('postcss-loader')
 		})
 		config.plugin('ignore')
 			.use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));

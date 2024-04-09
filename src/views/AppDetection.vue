@@ -80,15 +80,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, reactive, nextTick } from 'vue'
-import ProgressSpinner from 'primevue/progressspinner'
-import { useRoute } from 'vue-router/composables'
-// import { usei18n } from "@/composables/usei18n";
-import { useOpenApp } from '@/composables/useOpenApp'
-import { iceGpu } from '@/service/index.js'
-import { GPUApplicationStatusEnum } from '@icewhale/zimaos-openapi'
-import { ice_i18n } from '@/mixins/base/common-i18n'
-import { openDB } from 'idb'
+import { ref, computed, onMounted, nextTick }           from 'vue'
+import { useRoute }                                     from 'vue-router/composables'
+import { useOpenApp }                                   from '@/composables/useOpenApp'
+import { iceGpu }                                       from '@/service/index.js'
+import { GPUApplicationStatusEnum }                     from '@icewhale/zimaos-openapi'
+import { ice_i18n }                                     from '@/mixins/base/common-i18n'
+import { openDB }                                       from 'idb'
 
 const openApp = useOpenApp()
 // const { i18n: t } = usei18n();
