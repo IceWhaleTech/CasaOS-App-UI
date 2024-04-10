@@ -40,7 +40,10 @@
 		</template>
 		<template v-else>
 			<!-- Modal-Card Header Start -->
-			<header :class="{ 'setting-compose-panel': currentSlide == APP_SETTING_PANEL && isCasa }" class="modal-card-head b-line">
+			<header
+				:class="{ 'setting-compose-panel': currentSlide == APP_SETTING_PANEL && isCasa }"
+				class="modal-card-head b-line"
+			>
 				<div class="is-flex-grow-1">
 					<h3 class="_title is-5">{{ panelTitle }}</h3>
 				</div>
@@ -136,8 +139,8 @@
 					<!-- List condition End -->
 
 					<!-- App list Start-->
-					<AppStoreContent 
-						:filteredPageList="filteredPageList" 
+					<AppStoreContent
+						:filteredPageList="filteredPageList"
 						:installedList="installedList"
 						:currentInstallId="currentInstallId"
 						:arch="arch"
@@ -176,13 +179,7 @@
 					@updateMainName="(name) => (currentInstallId = name)"
 				></ComposeConfig>
 
-				<AppHost
-					v-else 
-					ref="apphost" 
-					:isCasa="isCasa" 
-					:appId="id" 
-					:settingData="settingData"
-				></AppHost>
+				<AppHost v-else ref="apphost" :isCasa="isCasa" :appId="id" :settingData="settingData"></AppHost>
 			</template>
 			<!-- App Install Form End -->
 
@@ -222,7 +219,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import AppSideBar from "./AppSideBar.vue";
 import ImportPanel from "../forms/ImportPanel.vue";
 import AppTerminalPanel from "./AppTerminalPanel.vue";
@@ -274,10 +271,10 @@ const data = [
 ];
 
 /*
-*  === 0 App Store Panel.
-*  === 1 Setting Panel.	(Importing、Update Setting)
-*  === 2 Other Panel. (Installing)
-* */
+ *  === 0 App Store Panel.
+ *  === 1 Setting Panel.	(Importing、Update Setting)
+ *  === 2 Other Panel. (Installing)
+ * */
 const APP_STORE_PANEL = 0;
 const APP_SETTING_PANEL = 1;
 const APP_INSTALLING_PANEL = 2;
@@ -396,10 +393,10 @@ export default {
 			counterPatchGetStoreList: 0,
 
 			/*
-			*  === 0 App Store Panel.
-			*  === 1 Setting Panel.	(Importing、Update Setting)
-			*  === 2 Other Panel. (Installing)
-			* */
+			 *  === 0 App Store Panel.
+			 *  === 1 Setting Panel.	(Importing、Update Setting)
+			 *  === 2 Other Panel. (Installing)
+			 * */
 			APP_STORE_PANEL,
 			APP_SETTING_PANEL,
 			APP_INSTALLING_PANEL,
@@ -556,7 +553,7 @@ export default {
 					})
 				);
 			} catch (error) {
-				console.error('getCategoryList', error);
+				console.error("getCategoryList", error);
 			}
 		},
 
@@ -789,16 +786,13 @@ export default {
 				this.$emit("updateState");
 				this.$emit("close");
 				console.log(3);
-			}catch (e) {
-				this.$buefy
-					.toast
-					.open({
-						message: err.response.data.message,
-						type: "is-warning",
-					});
+			} catch (e) {
+				this.$buefy.toast.open({
+					message: err.response.data.message,
+					type: "is-warning",
+				});
 			}
 			this.isLoading = false;
-			
 		},
 
 		/**
@@ -1097,7 +1091,6 @@ export default {
 @media screen and (min-width: 1440px) {
 	.app-panel {
 		.modal-card {
-
 			._pl {
 				margin-right: 0;
 			}
@@ -1158,7 +1151,6 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
-
 }
 
 @media screen and (max-width: 480px) {

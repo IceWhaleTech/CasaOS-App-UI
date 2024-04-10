@@ -36,7 +36,7 @@ dependencies:
     specifier: ^0.26.1
     version: 0.26.1
   buefy:
-    specifier: ^0.9.23
+    specifier: ^0.9.29
     version: 0.9.29(vue@2.7.16)
   bulma:
     specifier: 0.9.4
