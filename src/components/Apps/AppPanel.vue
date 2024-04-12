@@ -219,26 +219,26 @@
 	</div>
 </template>
 
-<script lang="ts">
-import AppSideBar from "./AppSideBar.vue";
-import ImportPanel from "../forms/ImportPanel.vue";
-import AppTerminalPanel from "./AppTerminalPanel.vue";
+<script>
+import AppSideBar                                                         from "./AppSideBar.vue";
+import ImportPanel                                                        from "../forms/ImportPanel.vue";
+import AppTerminalPanel                                                   from "./AppTerminalPanel.vue";
 import "@/plugins/vee-validate";
-import uniq from "lodash/uniq";
-import orderBy from "lodash/orderBy";
-import FileSaver from "file-saver";
-import AppsInstallationLocation from "@/components/AppSetting/AppInstallationLocation.vue";
-import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
-import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
-import ComposeConfig from "@/components/AppSetting/ComposeConfig.vue";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import { ice_i18n } from "@/mixins/base/common-i18n";
-import { parse } from "yaml";
-import { vOnClickOutside } from "@vueuse/components";
+import uniq                                                               from "lodash/uniq";
+import orderBy                                                            from "lodash/orderBy";
+import FileSaver                                                          from "file-saver";
+import AppsInstallationLocation                                           from "@/components/AppSetting/AppInstallationLocation.vue";
+import business_ShowNewAppTag                                             from "@/mixins/app/Business_ShowNewAppTag";
+import business_OpenThirdApp                                              from "@/mixins/app/Business_OpenThirdApp";
+import ComposeConfig                                                      from "@/components/AppSetting/ComposeConfig.vue";
+import { ValidationObserver, ValidationProvider }                         from "vee-validate";
+import { ice_i18n }                                                       from "@/mixins/base/common-i18n";
+import { parse }                                                          from "yaml";
+import { vOnClickOutside }                                                from "@vueuse/components";
 import { AppConditionSelector, AppDetail, AppRecommend, AppStoreContent } from "@/components/AppStore";
-import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
-import { AppSettingPanelFooter } from "@/components/AppSetting";
-import { AppHost } from "@/components/AppHost";
+import { AppInstallLoadingFooter, AppInstallLoadingPanel }                from "@/components/AppInstallLoadingPanel";
+import { AppSettingPanelFooter }                                          from "@/components/AppSetting";
+import { AppHost }                                                        from "@/components/AppHost";
 
 const data = [
 	"AUDIT_CONTROL",
