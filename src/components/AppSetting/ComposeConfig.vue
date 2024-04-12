@@ -14,9 +14,8 @@
 			:value="firstAppName"
 			class="has-text-full-03"
 			style="height: 100%"
-			v-model="current_service"
 		>
-			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key">
+			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key" @click="current_service = key">
 				<ValidationObserver :ref="key + 'valida'">
 					<b-field grouped>
 						<ValidationProvider
@@ -460,9 +459,9 @@ export default {
 		current_service: {
 			handler(val) {
 				this.$emit("updateDockerComposeServiceName", val);
-				if (this.configData.name) {
+				if (this.configData.name && val) {
 					this.$openAPI.appManagement.appStore
-					.composeAppServiceStableTag(this.configData.name, this.current_service)
+					.composeAppServiceStableTag(this.configData.name, val)
 					.then((res) => {
 						this.serviceStableVersion = res.data.data.tag;
 					})
@@ -647,6 +646,7 @@ export default {
 				this.$delete(this.configData.services, MAIN_APP_KEY);
 				// this.current_service = yaml["x-casaos"].main;
 				this.current_service = Object.keys(yaml.services)[0];
+				console.log(Object.keys(yaml.services)[0] , 'parseComposeYaml', this.configData.name);
 				// 解析 services，并将其赋值到 configData.services中。
 				for (const serviceKey in yaml.services) {
 					this.$set(this.configData.services, serviceKey, this.parseComposeItem(yaml.services[serviceKey]));
