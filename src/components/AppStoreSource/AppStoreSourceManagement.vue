@@ -76,16 +76,15 @@ function changeInputState(alwaysNotDisplay = false) {
 function registerAppStore(url) {
 	if (url) {
 		addLoadingState.value = true
-		app.$openAPI.appManagement.appStore.registerAppStore(url).then(res => {
-			if (res.status === 409) {
-				this.$buefy.toast.open({
-					message: res.data.message,
+		app.$openAPI.appManagement.appStore.registerAppStore(url)
+			.catch(err => {
+			if(err.response.status === 409) {
+				app.$buefy.toast.open({
+					message: err.response.data.message,
 					duration: 5000,
 					type: 'is-warning'
 				})
 			}
-		}).catch(err => {
-			console.log(err)
 			addLoadingState.value = false
 		})
 	}
