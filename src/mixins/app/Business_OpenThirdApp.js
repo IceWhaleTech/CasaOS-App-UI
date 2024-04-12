@@ -53,7 +53,13 @@ export default {
 					index: containerInfoV2.index,
 					image: allinfo.compose.services[appInfo.id].image,
 				}
-				this.openAppToNewWindow(app)
+				
+				if (allinfo.status.indexOf('running') === -1) { 
+					await this.$openAPI.appManagement.compose.setComposeAppStatus(allinfo.compose.name, 'start')
+					this.firstOpenThirdApp(app)
+				}else{
+					this.openAppToNewWindow(app)
+				}
 			} catch (e) {
 				console.error(e);
 			}
