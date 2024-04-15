@@ -785,7 +785,6 @@ export default {
 				await this.$refs.apphost.updateAppHost();
 				this.$emit("updateState");
 				this.$emit("close");
-				console.log(3);
 			} catch (e) {
 				this.$buefy.toast.open({
 					message: err.response.data.message,
