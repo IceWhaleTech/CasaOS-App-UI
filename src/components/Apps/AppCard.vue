@@ -36,7 +36,7 @@
 						{{ $t('Clone') }}
 					</b-button>
 
-					<b-button v-if="isV2App && !is_uncontrolled" expanded type="is-text" @click="checkAppVersion(item.name)">
+					<b-button v-if="isV2App && !item.is_uncontrolled" expanded type="is-text" @click="checkAppVersion(item.name)">
 						{{ $t('Check then update') }}
 						<b-loading :active="isCheckThenUpdate || isUpdating" :is-full-page="false">
 							<img :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
