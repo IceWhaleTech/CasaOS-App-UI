@@ -95,7 +95,6 @@ export default {
 	methods: {
 		async updateAppHost() {
 			try {
-				console.log(1);
 				const is_validate = await this.$refs.containerValida.validate();
 				if (is_validate === true) {
 					const result = await this.$api.container.update(this.appId, this.settingData);
