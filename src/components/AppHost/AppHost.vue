@@ -98,9 +98,7 @@ export default {
 				const is_validate = await this.$refs.containerValida.validate();
 				if (is_validate === true) {
 					const result = await this.$api.container.update(this.appId, this.settingData);
-					if (result.data.success == 200) {
-						console.log(2);
-					} else {
+					if (result.data.success !== 200) {
 						return new Error(result.data.message.data);
 					}
 				}
