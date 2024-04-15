@@ -99,7 +99,7 @@ export default {
 				if (is_validate === true) {
 					const result = await this.$api.container.update(this.appId, this.settingData);
 					if (result.data.success !== 200) {
-						return new Error(result.data.message.data);
+						return new Error(result.data.message);
 					}
 				}
 			} catch (error) {
