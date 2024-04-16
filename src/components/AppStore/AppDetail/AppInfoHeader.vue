@@ -82,10 +82,10 @@ import { defineProps, defineExpose, defineEmits, inject } from 'vue'
 import { usei18n }                                        from '@/composables/usei18n'
 import messageBus                                         from '@/events'
 import YAML                                               from 'yaml'
-import { useOpenThirdAppInStore }                         from '@/composables/useOpenApp'
+import { useOpenAppInStore }                         from '@/composables/useOpenApp'
 
 const switchAppPanelToAppConfigContent = inject('switchAppPanelToAppConfigContent')
-const openThirdAppInStore = useOpenThirdAppInStore()
+const openThirdAppInStore = useOpenAppInStore()
 const props = defineProps({
 	appDetailData: {
 		type: Object,

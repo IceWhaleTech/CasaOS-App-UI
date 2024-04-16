@@ -38,7 +38,7 @@ export default {
 				}
 			}
 		},
-		async openThirdContainerByAppInfo(appInfo) {
+		async openAppInStore(appInfo) {
 			try {
 				let allinfo = await this.$openAPI.appManagement.compose.myComposeApp(appInfo.id).then(res => {
 					return res.data.data

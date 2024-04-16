@@ -1,7 +1,7 @@
-import messageBus from '@/events/index.js'
-import qs from 'qs'
-import {useOpenAPI} from '@/service/index.js'
-import {baseHostname} from '@/main.js'
+import messageBus       from '@/events/index.js'
+import qs               from 'qs'
+import { useOpenAPI }   from '@/service/index.js'
+import { baseHostname } from '@/main.js'
 const openAPI = useOpenAPI()
 
 export const useOpenThirdApp = (appInfo, isNewWindows) => {
@@ -57,8 +57,8 @@ export const useOpenApp = () => {
 	}
 }
 
-export const useOpenThirdAppInStore = ()=>{
-	return async (appInfoInStore) =>{
+export const useOpenAppInStore = () => {
+	return async (appInfoInStore) => {
 		try {
 			let allinfo = await openAPI.appManagement.compose.myComposeApp(appInfoInStore.id).then(res => {
 				return res.data.data
@@ -73,7 +73,12 @@ export const useOpenThirdAppInStore = ()=>{
 				index: store_info.index,
 				image: allinfo.compose.services[appInfoInStore.id].image,
 			}
-			openThirdApp(app, true)
+			if (allinfo.status.indexOf('running') === -1) {
+				await openAPI.appManagement.compose.setComposeAppStatus(allinfo.compose.name, 'start')
+				openAppToNewWindow(app)
+			} else {
+				openAppToNewWindow(app)
+			}
 		} catch (e) {
 			console.error(e);
 		}

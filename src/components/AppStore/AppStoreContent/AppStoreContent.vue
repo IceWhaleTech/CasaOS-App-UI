@@ -36,7 +36,7 @@
 					rounded
 					size="is-small"
 					type="is-primary is-light"
-					@click="openThirdContainerByAppInfo(item)"
+					@click="openAppInStore(item)"
 				>
 					{{ $t("Open") }}
 				</b-button>

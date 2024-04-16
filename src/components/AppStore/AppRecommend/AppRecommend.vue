@@ -59,8 +59,8 @@
 
 <script setup>
 import { defineProps,ref,reactive } from 'vue';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import { useOpenThirdAppInStore} from '@/composables/useOpenApp'
+import { Swiper, SwiperSlide }      from 'vue-awesome-swiper'
+import { useOpenAppInStore}    from '@/composables/useOpenApp'
 
 const disFeaturedPrev =ref(false)
 const disFeaturedNext =ref(false)
@@ -83,7 +83,7 @@ const featureSwiperOptions =reactive({
 	// 	slideChangeTransitionStart: this.handleFeaturedSlide
 	// },
 })
-const openThirdAppInStore = useOpenThirdAppInStore()
+const openThirdAppInStore = useOpenAppInStore()
 
 const props = defineProps({
 	recommendList: {
