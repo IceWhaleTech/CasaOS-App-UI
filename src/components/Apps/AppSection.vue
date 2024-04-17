@@ -78,22 +78,22 @@
 </template>
 
 <script>
-import AppCard from "./AppCard.vue";
-import AppCardSkeleton from "./AppCardSkeleton.vue";
-import AppPanel from "./AppPanel.vue";
-import ExternalLinkPanel from "@/components/Apps/ExternalLinkPanel";
-import AppSectionTitleTip from "./AppSectionTitleTip.vue";
-import draggable from "vuedraggable";
-import xor from "lodash/xor";
-import concat from "lodash/concat";
-import events from "@/events/events";
-import last from "lodash/last";
+import AppCard                from "./AppCard.vue";
+import AppCardSkeleton        from "./AppCardSkeleton.vue";
+import AppPanel               from "./AppPanel.vue";
+import ExternalLinkPanel      from "@/components/Apps/ExternalLinkPanel";
+import AppSectionTitleTip     from "./AppSectionTitleTip.vue";
+import draggable              from "vuedraggable";
+import xor                    from "lodash/xor";
+import concat                 from "lodash/concat";
+import events                 from "@/events/events";
+import last                   from "lodash/last";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
-import business_LinkApp from "@/mixins/app/Business_LinkApp";
-import isEqual from "lodash/isEqual";
-import { ice_i18n } from "@/mixins/base/common-i18n";
-import { iceGpu } from "@/service/index.js";
-import { openDB } from 'idb';
+import business_LinkApp       from "@/mixins/app/Business_LinkApp";
+import isEqual                from "lodash/isEqual";
+import { ice_i18n }           from "@/mixins/base/common-i18n";
+import { iceGpu }             from "@/service/index.js";
+import { openDB }             from 'idb';
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -287,7 +287,8 @@ export default {
 					});
 				} else {
 					casaAppList = casaAppList.filter((item) => {
-						return !this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
+						return item.name != "icewhale_chat"
+						// return !this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
 					});
 				}
 
