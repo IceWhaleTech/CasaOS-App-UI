@@ -52,6 +52,7 @@ export default {
 					port: containerInfoV2.port_map,
 					index: containerInfoV2.index,
 					image: allinfo.compose.services[appInfo.id].image,
+					icon: containerInfoV2.icon,
 				}
 				
 				if (allinfo.status.indexOf('running') === -1) { 

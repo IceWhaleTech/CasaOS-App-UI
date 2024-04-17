@@ -72,10 +72,12 @@ export const useOpenAppInStore = () => {
 				port: store_info.port_map,
 				index: store_info.index,
 				image: allinfo.compose.services[appInfoInStore.id].image,
+				icon: store_info.icon,
 			}
 			if (allinfo.status.indexOf('running') === -1) {
+				// TODO: started app in launch-page.
 				await openAPI.appManagement.compose.setComposeAppStatus(allinfo.compose.name, 'start')
-				openAppToNewWindow(app)
+				window.open(`${window.location.href}launch?${qs.stringify(app)}`, '_blank')
 			} else {
 				openAppToNewWindow(app)
 			}
