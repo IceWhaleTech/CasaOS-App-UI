@@ -8,6 +8,48 @@
  *
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
+
+export interface User {
+	avatar: string;
+	created_at: string;
+	description: string;
+	email: string;
+	id: number;
+	nickname: string;
+	role: string;
+	updated_at: string;
+	username: string;
+}
+
+export interface State {
+	access_token: string;
+	refresh_token: string;
+	user: User;
+	initKey: string;
+	sidebarOpen: boolean;
+	searchEngine: string;
+	searchEngineSwitch: boolean;
+	tutorialSwitch: string[];
+	rssSwitch: boolean;
+	siteLoading: boolean;
+	needInitialization: boolean;
+	hardwareInfo: Record<string, unknown>;
+	isMobile: boolean;
+	operateObject: any;
+	currentPath: string;
+	isViewGird: boolean;
+	wallpaperObject: {
+		path: string | null;
+		from: string;
+	};
+	networkStorage: any[];
+	shortcutData: any[];
+	device_id: string;
+	access_id: string;
+	casaos_lang: string;
+	notImportList: any[];
+}
+
 const state = {
 	// User
 	access_token: "",
@@ -51,7 +93,7 @@ const state = {
 	},
 
 	// Samba and nfs data
-	networkStorage: JSON.parse(localStorage.getItem('networkStorage')) || [],
+	networkStorage: JSON.parse(localStorage.getItem('networkStorage') as string) || [],
 
 	// shortcut data
 	shortcutData: [],

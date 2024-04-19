@@ -8,9 +8,9 @@
 
  */
 
-import Vue      from 'vue'
-import VueI18n  from 'vue-i18n'
-import messages from '@/assets/lang'
+import Vue        from 'vue'
+import VueI18n    from 'vue-i18n'
+import messages   from '@/assets/lang'
 
 Vue.use(VueI18n)
 

@@ -9,7 +9,17 @@
 
 import Vue       from 'vue'
 import VueRouter from 'vue-router'
-import route     from './route.js'
+import route     from './route'
+
+declare global {
+	interface Window {
+		$wujie?: {
+			props: {
+				jump: (options: { path: string }) => void;
+			};
+		};
+	}
+}
 
 Vue.use(VueRouter)
 
@@ -38,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
 
 	if (!accessToken) {
 		window.$wujie?.props.jump({ path: "/logout" });
-	}else{
+	} else {
 		next()
 	}
 })

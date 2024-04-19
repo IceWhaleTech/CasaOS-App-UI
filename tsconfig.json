@@ -6,20 +6,22 @@
     "useDefineForClassFields": true,
     // Required in Vue projects
     "jsx": "preserve",
-
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     // `"noImplicitThis": true` is part of `strict`
     // Added again here in case some users decide to disable `strict`.
     // This enables stricter inference for data properties on `this`.
     "noImplicitThis": true,
     "strict": true,
-
     // Required in Vite
     "isolatedModules": true,
     // For `<script setup>`
     // See <https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/#preserve-value-imports>
     // Enforce using `import type` instead of `import` for types
     "verbatimModuleSyntax": true,
-
     // A few notes:
     // - Vue 3 supports ES2016+
     // - For Vite, the actual compilation target is determined by the
@@ -28,23 +30,27 @@
     //   at least `ES2020` for dynamic `import()`s and `import.meta` to work correctly.
     // - If you are not using Vite, feel free to override the `target` field.
     "target": "ESNext",
-
     // Recommended
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     // See <https://github.com/vuejs/vue-cli/pull/5688>
     "skipLibCheck": true,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationDir": "types",
   },
   // "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
-    "src/**/*",
+    "src/**/*.ts",
     // "tests/**/*",
     "src/**/*.vue",
+    "vue-shim.d.ts", "src/router/index.d.ts1",
   ],
   "exclude": [
     "node_modules",
     "src/types/*",
-    "src/**/*.spec.*"
+    "src/**/*.spec.*",
+    "src/**/*.test.*",
   ],
   "vueCompilerOptions": {
     "target": 2.7,

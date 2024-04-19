@@ -114,10 +114,10 @@ new Vue({
 	router,
 	i18n,
 	store,
-	render: h => h(App)
+	render: (h:any) => h(App)
 }).$mount('#app')
 
-window.info = {
+(window as any).info = {
 	version: MAIN_APP_VERSION_ID,
 	built: BUILT_TIME,
 };

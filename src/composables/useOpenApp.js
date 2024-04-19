@@ -1,7 +1,7 @@
 import messageBus       from '@/events/index.js'
 import qs               from 'qs'
 import { useOpenAPI }   from '@/service/index.js'
-import { baseHostname } from '@/main.js'
+import { baseHostname } from '@/main.ts'
 const openAPI = useOpenAPI()
 
 export const useOpenThirdApp = (appInfo, isNewWindows) => {
