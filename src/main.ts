@@ -8,13 +8,13 @@
  */
 
 import 'intersection-observer'
-import Vue              from 'vue'
-import App              from '@/App.vue'
-import router           from '@/router'
-import store            from '@/store'
-import i18n             from '@/plugins/i18n'
-import api              from '@/service/api.js'
-import openAPI          from '@/service/index.js'
+import Vue                          from 'vue'
+import App                          from '@/App.vue'
+import router                       from '@/router'
+import store                        from '@/store'
+import i18n                         from '@/plugins/i18n'
+import api                          from '@/service/api.js'
+import openAPI                      from '@/service/index.js'
 import {
 	Icon,
 	Field,
@@ -64,14 +64,14 @@ Vue.use(Notification)
 Vue.use(Dialog)
 Vue.use(Message)
 
-import VueFullscreen    from 'vue-fullscreen'
-import Vue2TouchEvents  from 'vue2-touch-events'
-import VueSocialSharing from 'vue-social-sharing'
-import VueSocketIOExt   from 'vue-socket.io-extended';
-import messageBus       from '@/events/index.js'
+import VueFullscreen                from 'vue-fullscreen'
+import Vue2TouchEvents              from 'vue2-touch-events'
+import VueSocialSharing             from 'vue-social-sharing'
+import VueSocketIOExt               from 'vue-socket.io-extended';
+import messageBus                   from '@/events/index.js'
 
 import '@/assets/scss/app.scss'
-import VAnimateCss      from 'v-animate-css';
+import VAnimateCss                  from 'v-animate-css';
 
 const io = require("socket.io-client");
 
@@ -112,10 +112,11 @@ Vue.prototype.$messageBus = messageBus;
 
 new Vue({
 	router,
+	// @ts-ignore
 	i18n,
 	store,
-	render: (h:any) => h(App)
-}).$mount('#app')
+	render: (h: any) => h(App)
+}).$mount('#app');
 
 (window as any).info = {
 	version: MAIN_APP_VERSION_ID,
