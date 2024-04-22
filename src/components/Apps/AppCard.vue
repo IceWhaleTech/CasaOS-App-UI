@@ -16,6 +16,7 @@
 		<div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling" class="action-btn">
 			<b-dropdown
 				ref="dro"
+				v-on-click-outside="() => ($refs.dro.isActive = false)"
 				:mobile-modal="false"
 				:triggers="['contextmenu', 'click']"
 				animation="fade1"
@@ -217,12 +218,16 @@ import YAML                      from "yaml";
 import commonI18n, { ice_i18n }  from "@/mixins/base/common-i18n";
 import FileSaver                 from "file-saver";
 import { MIRCO_APP_ACTION_ENUM } from "@/const";
+import { vOnClickOutside }       from '@vueuse/components'
 
 export default {
 	name: "app-card",
 	components: {
 		cTooltip,
 		tipEditorModal,
+	},
+	directives: {
+		onClickOutside: vOnClickOutside,
 	},
 	mixins: [business_ShowNewAppTag, business_OpenThirdApp, business_LinkApp, commonI18n],
 	inject: ["openAppStore"],
