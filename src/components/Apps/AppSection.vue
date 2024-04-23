@@ -209,6 +209,23 @@ export default {
 		},
 
 		/**
+		 * @description: Get the module UI entry
+		 * @return {*} module
+		 */
+		async getModuleUIEntries() {
+			const moduleList = await this.$openAPI.modManagement
+			const entries = []
+			moduleList?.data?.data?.forEach((module) => {
+				if(module.ui)
+				entries.push({
+					name: module.name,
+					...module.ui,
+				})
+			})
+			return entries
+		},
+
+		/**
 		 * @description: Fetch the list of installed apps
 		 * @return {*} void
 		 */
@@ -249,9 +266,7 @@ export default {
 				});
 				// mirco app list
 				if (this.mircoAppList.length === 0) {
-					const mircoAppListRaw = await this.$api.sys
-						.getEntry()
-						.then((res) => res.data.data || []);
+					const mircoAppListRaw = await this.getModuleUIEntries()
 					this.mircoAppList = mircoAppListRaw
 						.filter((item) => item?.show ?? true)
 						.map((item) => {

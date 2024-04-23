@@ -57,7 +57,7 @@ jobs:
             -   run: pnpm install
             -   run: pnpm build:raw
             -   run: |
-                    mksquashfs raw/ icewhale-app.raw
+                    mksquashfs raw/ icewhale_app.raw
             -   name: '更新 Update release'
                 uses: zhanghengxin/git-release-private@ice
                 with:
@@ -77,4 +77,4 @@ jobs:
                     region: oss-cn-shanghai
                     bucket: casaos
                     assets: |
-                        ./icewhale-app.raw:/IceWhaleTech/IceWhale-App-UI/releases/download/${{ steps.get_version.outputs.VERSION }}/icewhale-app.raw
+                        ./icewhale_app.raw:/IceWhaleTech/IceWhale-App-UI/releases/download/${{ steps.get_version.outputs.VERSION }}/icewhale_app.raw
