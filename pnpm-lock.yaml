@@ -10,13 +10,16 @@ dependencies:
     version: 4.5.8
   '@icewhale/casaos-appmanagement-openapi':
     specifier: latest
-    version: 0.4.7-alpha1
+    version: 0.4.8-alpha4
   '@icewhale/casaos-openapi':
     specifier: latest
-    version: 0.4.7-53c3879
+    version: 0.4.8-36dda53
   '@icewhale/icewhale-files-openapi':
     specifier: latest
-    version: 0.4.9-alpha3
+    version: 1.2.0-alpha4
+  '@icewhale/zimaos-modmanagement-openapi':
+    specifier: ^0.0.13
+    version: 0.0.13
   '@icewhale/zimaos-openapi':
     specifier: 1.1.0-alpha13
     version: 1.1.0-alpha13
@@ -55,7 +58,7 @@ dependencies:
     version: 2.0.5
   iconfonts-casaos:
     specifier: latest
-    version: 1.0.6
+    version: 1.0.9
   intersection-observer:
     specifier: ^0.12.2
     version: 0.12.2
@@ -1583,24 +1586,32 @@ packages:
       '@hapi/hoek': 8.5.1
     dev: true
 
-  /@icewhale/casaos-appmanagement-openapi@0.4.7-alpha1:
-    resolution: {integrity: sha512-l/AIrUoxtSHYECoYftQ7E9bMiam8udw2ubDk4nxEf90WuCgRSXrEMQTiAS7W0OgloNja+iOAHVeMNf6Ag+7uRw==}
+  /@icewhale/casaos-appmanagement-openapi@0.4.8-alpha4:
+    resolution: {integrity: sha512-MoA/znXD1VuTbwvJmzizi3A5RxLwidzNKD+bdtbDkLsIeosJOEWHy4CJ0t+3qbN+Ex8iKT2yhJVWPj6riZwxog==}
     dependencies:
       axios: 1.6.7
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@icewhale/casaos-openapi@0.4.7-53c3879:
-    resolution: {integrity: sha512-8PDOA7FTAScoh6uMSlaYmJMJ3usXZs8xoSxPnwCpbWIzFOjvbu5+PctLCr0Uy4JDI2FYqLpcssC6dtXe2lI8dQ==}
+  /@icewhale/casaos-openapi@0.4.8-36dda53:
+    resolution: {integrity: sha512-bK46UWkCbA1lEP+0C1qxY7NTCR+kI5SvuLkdmfFpsNLfXkBJTz1haiyIKS0Zqj/Z+M1KDdFc1AKVvLoP1gya0A==}
     dependencies:
       axios: 1.6.7
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@icewhale/icewhale-files-openapi@0.4.9-alpha3:
-    resolution: {integrity: sha512-LoldrP8T2g4H2gfRxhoY289uwHn0nbwZOPIuc92dZ2161dcgeOtCuyRUpcNtl/10/Qw9Da9MbAku6JDD0DboAQ==}
+  /@icewhale/icewhale-files-openapi@1.2.0-alpha4:
+    resolution: {integrity: sha512-8zblLKDhUWC5mFq3ZAimqX2CYpqoQjPxKvwFunhfNZ+BxmzNoK2U7nlw6MEMFET1MEfhY4c5uW/fBpanpKU04A==}
+    dependencies:
+      axios: 1.6.7
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@icewhale/zimaos-modmanagement-openapi@0.0.13:
+    resolution: {integrity: sha512-kaWcuHuNSB2osVeiN2xeCDhIDKB/0kW+84KlTOXPmlwNdklcDCFTWkgjikQFhBgcmP851KhaGMh6+OLLMZPHVg==}
     dependencies:
       axios: 1.6.7
     transitivePeerDependencies:
@@ -4002,7 +4013,7 @@ packages:
     resolution: {integrity: sha512-ZvnntVZvz4VzMSmxDc/BF+l5ra7pMAUDxDrljTosVCKhIFKR3mBVVKRJrne3Dx9xIDyvVwA1pRhmrAq+JGJX4g==}
     hasBin: true
     dependencies:
-      composeverter: 1.7.1
+      composeverter: 1.7.2
       core-js: 2.6.12
       deepmerge: 2.2.1
       invariant: 2.2.4
@@ -4010,8 +4021,8 @@ packages:
       yargs-parser: 13.1.2
     dev: false
 
-  /composeverter@1.7.1:
-    resolution: {integrity: sha512-XmmUTKxiCnqDdFSvTJGUlFSvPaSiY06q1Ngnme5NhVjCcJG9vi7DlSlsh+xXtkXMfwtCFaatqcTljpl0LKFweg==}
+  /composeverter@1.7.2:
+    resolution: {integrity: sha512-gRSCkSU8wJQvmTHQ23wBd2gCdUsns95k3lL7YszZBu5EyA3eac46mI7nVgvk1pZTM0mOmj/E5yurtdYkuVNZRA==}
     dependencies:
       ajv: 8.12.0
       ajv-errors: 3.0.0(ajv@8.12.0)
@@ -7143,8 +7154,8 @@ packages:
     engines: {node: '>=8.12.0'}
     dev: true
 
-  /iconfonts-casaos@1.0.6:
-    resolution: {integrity: sha512-linlteVvt7wwP1AmFFhTNLuO9ipGh30HuvT71z+4E6qIaYis3B/ENpAtzcHEZ+9GeLvyuKjcHxrJjt3axUJq2g==}
+  /iconfonts-casaos@1.0.9:
+    resolution: {integrity: sha512-zCavJ0IoiptFRWnxp7lr+oGUTXy2a9I+Bqj0oi56iyFlWKTVSkFA8QwB/Qzqv2GkejAJpPnOkICHgQ+rT+Z7hQ==}
     dev: false
 
   /iconv-lite@0.4.24:

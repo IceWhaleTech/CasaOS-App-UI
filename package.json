@@ -20,6 +20,7 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
     "@icewhale/casaos-appmanagement-openapi": "latest",
+    "@icewhale/zimaos-modmanagement-openapi": "^0.0.13",
     "@icewhale/casaos-openapi": "latest",
     "@icewhale/icewhale-files-openapi": "latest",
     "@icewhale/zimaos-openapi": "1.1.0-alpha13",

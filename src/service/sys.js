@@ -133,8 +133,5 @@ const sys = {
 		return api.put(`${PREFIX}/state/${data}`);
 	},
 
-	getEntry() {
-		return api.get(`${PREFIX}/entry`);
-	},
 }
 export default sys;
