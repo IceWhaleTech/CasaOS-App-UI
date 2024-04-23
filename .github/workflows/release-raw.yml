@@ -66,7 +66,7 @@ jobs:
                     gzip: false
                     prerelease: true
                     tag: ${{ steps.get_version.outputs.VERSION }}
-                    files: ./icewhale-app.raw
+                    files: ./icewhale_app.raw
 
             -   name: Upload to oss
                 id: upload_to_oss
