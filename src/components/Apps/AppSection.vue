@@ -213,7 +213,7 @@ export default {
 		 * @return {*} module
 		 */
 		async getModuleUIEntries() {
-			const moduleList = await this.$openAPI.modManagement
+			const moduleList = await this.$openAPI.modManagement.moduleList()
 			const entries = []
 			moduleList?.data?.data?.forEach((module) => {
 				if(module.ui)
@@ -266,7 +266,10 @@ export default {
 				});
 				// mirco app list
 				if (this.mircoAppList.length === 0) {
+					console.log("拿 ui")
 					const mircoAppListRaw = await this.getModuleUIEntries()
+					console.log(mircoAppListRaw)
+
 					this.mircoAppList = mircoAppListRaw
 						.filter((item) => item?.show ?? true)
 						.map((item) => {
