@@ -213,7 +213,7 @@ export default {
 		 * @return {*} module
 		 */
 		async getModuleUIEntries() {
-			const moduleList = await this.$openAPI.modManagement
+			const moduleList = await this.$openAPI.modManagement.moduleList()
 			const entries = []
 			moduleList?.data?.data?.forEach((module) => {
 				if(module.ui)
