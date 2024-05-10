@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode dev && tsc",
     "build": "node message_bus.build.js && vue-cli-service build --dest ./build/sysroot/usr/share/casaos/www/modules/icewhale_app --mode production",
+    "build:raw": "node message_bus.build.js && vue-cli-service build --dest ./raw/usr/share/casaos/www/modules/icewhale_app --mode production",
     "test:unit:mocha": "vue-cli-service test:unit --require tests/unit/setup.js tests/**/*.spec.js",
     "test:e2e": "vue-cli-service test:e2e --mode dev",
     "test:e2e:headless": "vue-cli-service test:e2e --headless",
@@ -20,6 +21,7 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
     "@icewhale/casaos-appmanagement-openapi": "latest",
+    "@icewhale/zimaos-modmanagement-openapi": "^0.0.13",
     "@icewhale/casaos-openapi": "latest",
     "@icewhale/icewhale-files-openapi": "latest",
     "@icewhale/zimaos-openapi": "1.1.0-alpha13",

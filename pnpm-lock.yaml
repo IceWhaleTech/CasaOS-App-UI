@@ -17,6 +17,9 @@ dependencies:
   '@icewhale/icewhale-files-openapi':
     specifier: latest
     version: 1.2.0-alpha1
+  '@icewhale/zimaos-modmanagement-openapi':
+    specifier: ^0.0.13
+    version: 0.0.13
   '@icewhale/zimaos-openapi':
     specifier: 1.1.0-alpha13
     version: 1.1.0-alpha13
@@ -1666,6 +1669,14 @@ packages:
 
   /@icewhale/icewhale-files-openapi@1.2.0-alpha1:
     resolution: {integrity: sha512-avLuEQLihmzMWjlsw/LyB7u9cYz0P2FbbcAdBWyrK4JGi4y0kFMC/FTIgzSg5Pq1KDNpD3XfCGLRj7dYvT6XsQ==}
+    dependencies:
+      axios: 1.6.8
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@icewhale/zimaos-modmanagement-openapi@0.0.13:
+    resolution: {integrity: sha512-kaWcuHuNSB2osVeiN2xeCDhIDKB/0kW+84KlTOXPmlwNdklcDCFTWkgjikQFhBgcmP851KhaGMh6+OLLMZPHVg==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
