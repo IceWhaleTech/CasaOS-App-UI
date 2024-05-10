@@ -16,17 +16,17 @@ const actions = {
 	//     context.commit("GET_HARDWARE_INFO",val)
 	// },
 	// set shortcut data
-	async SET_SHORTCUT_DATA(context, val) {
+	async SET_SHORTCUT_DATA(context: { commit: (arg0: string, arg1: any) => void; }, val: any[]) {
 		try {
 			// Changing the shortcut data structure
-			val.forEach((item) => {
+			val.forEach((item: { icon: string; pack: string; visible: boolean; selected: boolean; extensions: null; }) => {
 				item.icon = 'folder'
 				item.pack = 'casa'
 				item.visible = true
 				item.selected = true
 				item.extensions = null
 			})
-			let data = await $api.users.saveShutcutDetail(val).then(v => v.data.data);
+			let data = await $api.users.saveShutcutDetail(val).then((v: { data: { data: any; }; }) => v.data.data);
 			context.commit("SET_SHORTCUT_DATA", data)
 		} catch (e) {
 			console.log(e)
@@ -34,9 +34,9 @@ const actions = {
 	},
 
 	//get shortcut data
-	async GET_SHORTCUT_DATA(context, val) {
+	async GET_SHORTCUT_DATA(context: { commit: (arg0: string, arg1: any) => void; }, val: any) {
 		try {
-			let data = await $api.users.getShutcutDetail(val).then(v => v.data.data);
+			let data = await $api.users.getShutcutDetail(val).then((v: { data: { data: any; }; }) => v.data.data);
 			if (!data) {
 				data = []
 			}

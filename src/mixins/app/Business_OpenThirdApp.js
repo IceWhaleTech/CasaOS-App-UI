@@ -7,9 +7,11 @@
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
 
-import { parse } from "yaml";
+import { parse }              from "yaml";
+import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 
 export default {
+	mixins: [business_ShowNewAppTag],
 	methods: {
 		openAppToNewWindow(appInfo) {
 			this.hasNewTag(appInfo.name) ? this.firstOpenThirdApp(appInfo) : this.openThirdApp(appInfo, true);
@@ -36,7 +38,7 @@ export default {
 				}
 			}
 		},
-		async openThirdContainerByAppInfo(appInfo) {
+		async openAppInStore(appInfo) {
 			try {
 				let allinfo = await this.$openAPI.appManagement.compose.myComposeApp(appInfo.id).then(res => {
 					return res.data.data
@@ -50,8 +52,15 @@ export default {
 					port: containerInfoV2.port_map,
 					index: containerInfoV2.index,
 					image: allinfo.compose.services[appInfo.id].image,
+					icon: containerInfoV2.icon,
 				}
-				this.openAppToNewWindow(app)
+				
+				if (allinfo.status.indexOf('running') === -1) { 
+					await this.$openAPI.appManagement.compose.setComposeAppStatus(allinfo.compose.name, 'start')
+					this.firstOpenThirdApp(app)
+				}else{
+					this.openAppToNewWindow(app)
+				}
 			} catch (e) {
 				console.error(e);
 			}
@@ -100,6 +109,10 @@ export default {
 			} catch (e) {
 				console.error(e);
 			}
+			this.checkAndOpenThirdApp(appInfo);
+		},
+		checkAndOpenThirdApp(appInfo) {
+			this.removeIdFromSessionStorage(appInfo.name);
 			let routeUrl = this.$router.resolve({
 				name: 'AppLauncherCheck',
 				path: '/launch',

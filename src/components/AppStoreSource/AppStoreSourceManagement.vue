@@ -77,6 +77,16 @@ function registerAppStore(url) {
 	if (url) {
 		addLoadingState.value = true
 		app.$openAPI.appManagement.appStore.registerAppStore(url)
+			.catch(err => {
+			if(err.response.status === 409) {
+				app.$buefy.toast.open({
+					message: err.response.data.message,
+					duration: 5000,
+					type: 'is-warning'
+				})
+			}
+			addLoadingState.value = false
+		})
 	}
 }
 

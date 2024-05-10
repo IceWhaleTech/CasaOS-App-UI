@@ -10,47 +10,48 @@
 
 <template>
 	<section style="height: calc(100vh - 12.8125rem)">
-		<b-tabs :value="firstAppName" class="has-text-full-03" style="height:100%"
-				@input="key=> $emit('updateDockerComposeServiceName', key)">
-			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key">
+		<b-tabs
+			:value="firstAppName"
+			class="has-text-full-03"
+			style="height: 100%"
+		>
+			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key" @click="current_service = key">
 				<ValidationObserver :ref="key + 'valida'">
 					<b-field grouped>
-						
-					
-					<ValidationProvider v-slot="{ errors, valid }" name="Image" rules="required" class="is-flex-grow-1">
-						<b-field
-							:label="$t('Docker Image') + ' *'"
-							:message="$t(errors)"
-							:type="{ 'is-danger': errors[0], 'is-success': valid }"
-							class="mb-3"
-							>
-							<b-input
-								:key="service.image"
-								:readonly="state == 'update' || mainStableVersion !== ''"
-								:value="getFirstField(service.image)"
-								:placeholder="$t('e.g.,hello-world:latest')"
-								@input="
-									V => {
-										changeIcon(V)
-									}
-								"
-								@blur="
-									E =>
-										(service.image = E.target._value.split(':')[1]
-											? E.target._value
-											: service.image)
-								"
-							></b-input>
-						</b-field>
-					</ValidationProvider>
-					<ValidationProvider
+						<ValidationProvider
 							v-slot="{ errors, valid }"
-							name="Image1"
+							name="Image"
 							rules="required"
+							class="is-flex-grow-1"
 						>
-							<input type="text" :value="service.image.split(':')?.[1]" v-show="false" />
-							<b-dropdown aria-role="menu" expanded trap-focus>
-								<template #trigger>
+							<b-field
+								:label="$t('Docker Image') + ' *'"
+								:message="$t(errors)"
+								:type="{ 'is-danger': errors[0], 'is-success': valid }"
+								class="mb-3"
+							>
+								<b-input
+									:key="service.image"
+									:readonly="state == 'update' || serviceStableVersion !== ''"
+									:value="getFirstField(service.image)"
+									:placeholder="$t('e.g.,hello-world:latest')"
+									@input="
+										(V) => {
+											changeIcon(V);
+										}
+									"
+									@blur="
+										(E) =>
+											(service.image = service.image.split(':')[1]
+												? E.target._value + ':' + service.image.split(':')[1]
+												: E.target._value)
+									"
+								></b-input>
+							</b-field>
+						</ValidationProvider>
+						<b-dropdown aria-role="menu" trap-focus>
+							<template #trigger>
+								<ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
 									<b-field
 										:label="$t('Tag')"
 										:message="$t(errors)"
@@ -62,48 +63,48 @@
 											class="is-flex-grow-1"
 											:value="getLateField(service.image)"
 											@input="
-												V => {
-													service.image = service.image.split(':')[0] + ':' + V
+												(V) => {
+													service.image = service.image.split(':')[0] + ':' + V;
 												}
 											"
 										>
 										</b-input>
 									</b-field>
-								</template>
-								<b-dropdown-item
-									key="latest"
-									@click="
-										() => {
-											service.image = service.image.split(':')[0] + ':latest'
-										}
-									"
-								>
-									latest
-								</b-dropdown-item>
-								<b-dropdown-item
-									key="stable"
-									v-show="mainStableVersion !== ''"
-									@click="
-										() => {
-											service.image = service.image.split(':')[0] + ':' + mainStableVersion
-										}
-									"
-								>
-									stable({{ mainStableVersion }})
-								</b-dropdown-item>
-							</b-dropdown>
-						</ValidationProvider>
+								</ValidationProvider>
+							</template>
+							<b-dropdown-item
+								key="latest"
+								@click="
+									() => {
+										service.image = service.image.split(':')[0] + ':latest';
+									}
+								"
+							>
+								latest
+							</b-dropdown-item>
+							<b-dropdown-item
+								key="stable"
+								v-show="serviceStableVersion !== ''"
+								@click="
+									() => {
+										service.image = service.image.split(':')[0] + ':' + serviceStableVersion;
+									}
+								"
+							>
+								stable({{ serviceStableVersion }})
+							</b-dropdown-item>
+						</b-dropdown>
 					</b-field>
 					<ValidationProvider v-slot="{ errors, valid }" name="composeAppName" rules="required">
 						<b-field
-						:label="$t('App Name') + ' *'"
-						:message="$t(errors)"
-						:type="{ 'is-danger': errors[0], 'is-success': valid }"
+							:label="$t('App Name') + ' *'"
+							:message="$t(errors)"
+							:type="{ 'is-danger': errors[0], 'is-success': valid }"
 						>
 							<b-input
-							:placeholder="$t('e.g.,Your App Name')"
-							:value="i18n(configData['x-casaos'].title)"
-							@blur="E=>configData['x-casaos'].title.custom = E.target._value"
+								:placeholder="$t('e.g.,Your App Name')"
+								:value="i18n(configData['x-casaos'].title)"
+								@blur="(E) => (configData['x-casaos'].title.custom = E.target._value)"
 							></b-input>
 						</b-field>
 					</ValidationProvider>
@@ -112,18 +113,18 @@
 						<p class="control">
 							<span class="button is-static container-icon">
 								<b-image
-								:key="appIcon"
-								:src="appIcon"
-								:src-fallback="require('@/assets/img/app/default.svg')"
-								class="is-32x32"
-								ratio="1by1"
+									:key="appIcon"
+									:src="appIcon"
+									:src-fallback="require('@/assets/img/app/default.svg')"
+									class="is-32x32"
+									ratio="1by1"
 								></b-image>
 							</span>
 						</p>
 						<b-input
-						v-model="configData['x-casaos'].icon"
-						:placeholder="$t('Your custom icon URL')"
-						expanded
+							v-model="configData['x-casaos'].icon"
+							:placeholder="$t('Your custom icon URL')"
+							expanded
 						></b-input>
 					</b-field>
 
@@ -132,33 +133,35 @@
 							<option value="http">http://</option>
 							<option value="https">https://</option>
 						</b-select>
-						<b-input v-model="configData['x-casaos'].hostname" :placeholder="baseUrl"
-								 expanded></b-input>
+						<b-input v-model="configData['x-casaos'].hostname" :placeholder="baseUrl" expanded></b-input>
 						<b-autocomplete
-						v-model="configData['x-casaos'].port_map"
-						:data="bridgePorts(configData.services)"
-						:open-on-focus="true"
-						:placeholder="$t('Port')"
-						class="has-colon"
-						field="hostname"
-						@select="(option) => (portSelected = option)"
+							v-model="configData['x-casaos'].port_map"
+							:data="bridgePorts(configData.services)"
+							:open-on-focus="true"
+							:placeholder="$t('Port')"
+							class="has-colon"
+							field="hostname"
+							@select="(option) => (portSelected = option)"
 						></b-autocomplete>
 						<b-input
-						v-model="configData['x-casaos'].index"
-						:placeholder="'/index.html ' + $t('[Optional]')"
-						expanded
+							v-model="configData['x-casaos'].index"
+							:placeholder="'/index.html ' + $t('[Optional]')"
+							expanded
 						></b-input>
 					</b-field>
 
 					<b-field :label="$t('Network')">
-						<b-select :value="service.network_mode || service?.networks?.[0]" expanded
-								  placeholder="Select"
-								  @input="v=> patchNetworkValue(v, service)">
+						<b-select
+							:value="service.network_mode || service?.networks?.[0]"
+							expanded
+							placeholder="Select"
+							@input="(v) => patchNetworkValue(v, service)"
+						>
 							<optgroup v-for="net in appendNetworks" :key="net.driver" :label="net.driver">
 								<option
-								v-for="(option, index) in net.networks"
-								:key="option.name + index"
-								:value="option.name"
+									v-for="(option, index) in net.networks"
+									:key="option.name + index"
+									:value="option.name"
 								>
 									{{ option.name }}
 								</option>
@@ -167,36 +170,36 @@
 					</b-field>
 
 					<ports
-					v-if="showPorts(service)"
-					v-model="service.ports"
-					:ports_in_use="ports_in_use"
-					:showHostPost="showHostPort(service)"
+						v-if="showPorts(service)"
+						v-model="service.ports"
+						:ports_in_use="ports_in_use"
+						:showHostPost="showHostPort(service)"
 					></ports>
 
 					<volumes-input-group
-					v-model="service.volumes"
-					:label="$t('Volumes')"
-					:message="$t('No volumes now, click “+” to add one.')"
-					type="volume"
+						v-model="service.volumes"
+						:label="$t('Volumes')"
+						:message="$t('No volumes now, click “+” to add one.')"
+						type="volume"
 					>
 					</volumes-input-group>
 					<env-input-group
-					v-model="service.environment"
-					:label="$t('Environment Variables')"
-					:message="$t('No environment variables now, click “+” to add one.')"
+						v-model="service.environment"
+						:label="$t('Environment Variables')"
+						:message="$t('No environment variables now, click “+” to add one.')"
 					>
 					</env-input-group>
 					<input-group
-					:devices="service.devices"
-					:label="$t('Devices')"
-					:message="$t('No devices now, click “+” to add one.')"
-					type="device"
+						:devices="service.devices"
+						:label="$t('Devices')"
+						:message="$t('No devices now, click “+” to add one.')"
+						type="device"
 					>
 					</input-group>
 					<commands-input
-					v-model="service.command"
-					:label="$t('Container Command')"
-					:message="$t('No commands now, click “+” to add one.')"
+						v-model="service.command"
+						:label="$t('Container Command')"
+						:message="$t('No commands now, click “+” to add one.')"
 					>
 					</commands-input>
 
@@ -206,10 +209,10 @@
 
 					<b-field :label="$t('Memory Limit')">
 						<vue-slider
-						:max="totalMemory"
-						:min="memory_min"
-						:value="service.deploy.resources.limits.memory | duplexDisplay"
-						@change="(v) => service.deploy.resources.limits.memory = v"
+							:max="totalMemory"
+							:min="memory_min"
+							:value="service.deploy.resources.limits.memory | duplexDisplay"
+							@change="(v) => (service.deploy.resources.limits.memory = v)"
 						></vue-slider>
 					</b-field>
 
@@ -231,13 +234,13 @@
 
 					<b-field :label="$t('Container Capabilities (cap-add)')">
 						<b-taginput
-						ref="taginput"
-						v-model="service.cap_add"
-						:allow-new="false"
-						:data="capArray"
-						:open-on-focus="false"
-						autocomplete
-						@typing="getFilteredTags"
+							ref="taginput"
+							v-model="service.cap_add"
+							:allow-new="false"
+							:data="capArray"
+							:open-on-focus="false"
+							autocomplete
+							@typing="getFilteredTags"
 						>
 							<template slot-scope="props">
 								{{ props.option }}
@@ -245,11 +248,11 @@
 							<template #empty> There are no items</template>
 							<template #portSelected="props">
 								<b-tag
-								v-for="(tag, index) in props.tags"
-								:key="index"
-								:tabstop="false"
-								closable
-								@close="$refs.taginput.removeTag(index, $event)"
+									v-for="(tag, index) in props.tags"
+									:key="index"
+									:tabstop="false"
+									closable
+									@close="$refs.taginput.removeTag(index, $event)"
 								>
 									{{ tag }}
 								</b-tag>
@@ -257,13 +260,19 @@
 						</b-taginput>
 					</b-field>
 
-					<b-field :label="$t('Container Hostname')">
-						<b-input
-							v-model="service.container_name"
-							:placeholder="$t('Hostname of app container')"
-							value="">
-						</b-input>
-					</b-field>
+					<ValidationProvider v-slot="{ errors, valid }" name="ContainerName" rules="ContainerName">
+						<b-field
+							:label="$t('Container Name')"
+							:message="$t(errors)"
+							:type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }"
+						>
+							<b-input
+								v-model="service.container_name"
+								:placeholder="$t('Name of app container')"
+								value=""
+							></b-input>
+						</b-field>
+					</ValidationProvider>
 				</ValidationObserver>
 			</b-tab-item>
 		</b-tabs>
@@ -271,27 +280,27 @@
 </template>
 
 <script>
-import debounce                                 from "lodash/debounce";
-import axios                                    from "axios";
-import {ValidationObserver, ValidationProvider} from "vee-validate";
+import debounce                                   from "lodash/debounce";
+import axios                                      from "axios";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 import "@/plugins/vee-validate";
-import Ports                                    from "../forms/Ports.vue";
-import EnvInputGroup                            from "../forms/EnvInputGroup.vue";
-import CommandsInput                            from "../forms/CommandsInput.vue";
-import InputGroup                               from "../forms/InputGroup.vue";
-import VolumesInputGroup                        from "@/components/forms/VolumesInputGroup.vue";
-import VueSlider                                from "vue-slider-component";
+import Ports                                      from "../forms/Ports.vue";
+import EnvInputGroup                              from "../forms/EnvInputGroup.vue";
+import CommandsInput                              from "../forms/CommandsInput.vue";
+import InputGroup                                 from "../forms/InputGroup.vue";
+import VolumesInputGroup                          from "@/components/forms/VolumesInputGroup.vue";
+import VueSlider                                  from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
-import YAML                                     from "yaml";
-import lowerFirst                               from "lodash/lowerFirst";
-import isNil                                    from "lodash/isNil";
-import {isNumber, isString}                     from "lodash/lang";
-import cloneDeep                                from "lodash/cloneDeep";
-import merge                                    from "lodash/merge";
-import i18n                                     from "@/mixins/base/common-i18n";
-import {nanoid}                                 from "nanoid";
-import find                                     from "lodash/find";
-import isArray                                  from "lodash/isArray";
+import YAML                                       from "yaml";
+import lowerFirst                                 from "lodash/lowerFirst";
+import isNil                                      from "lodash/isNil";
+import { isNumber, isString }                     from "lodash/lang";
+import cloneDeep                                  from "lodash/cloneDeep";
+import merge                                      from "lodash/merge";
+import i18n                                       from "@/mixins/base/common-i18n";
+import { nanoid }                                 from "nanoid";
+import find                                       from "lodash/find";
+import isArray                                    from "lodash/isArray";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -323,6 +332,8 @@ const data = [
 	"WAKE_ALARM",
 ];
 
+const MAIN_APP_KEY = "main_app";
+
 export default {
 	name: "ComposeConfig.vue",
 	components: {
@@ -338,9 +349,10 @@ export default {
 	mixins: [i18n],
 	data() {
 		return {
+			current_service: MAIN_APP_KEY,
 			baseUrl: "",
 			portSelected: null,
-			mainStableVersion: '',
+			serviceStableVersion: "",
 			configData: {
 				services: {
 					main_app: {
@@ -375,17 +387,16 @@ export default {
 					category: "self",
 					icon: "",
 					title: {
-						"custom": ""
+						custom: "",
 					},
 				},
 			},
 			// error info
-			ports_in_use: {udp: [], tcp: []},
+			ports_in_use: { udp: [], tcp: [] },
 
 			memory_min: 256,
 			// other level_config
 			volumes: [],
-
 		};
 	},
 	props: {
@@ -440,11 +451,30 @@ export default {
 		errInfo: {
 			type: Object,
 			default: {
-				ports_in_use: {udp: [], tcp: []},
-			}
+				ports_in_use: { udp: [], tcp: [] },
+			},
 		},
 	},
 	watch: {
+		current_service: {
+			handler(val) {
+				this.$emit("updateDockerComposeServiceName", val);
+				if (this.configData.name && val) {
+					this.$openAPI.appManagement.appStore
+					.composeAppServiceStableTag(this.configData.name, val)
+					.then((res) => {
+						this.serviceStableVersion = res.data.data.tag;
+					})
+					.catch((e) => {
+						this.serviceStableVersion = "";
+					});
+				}else{
+					this.serviceStableVersion = "";
+				}
+				
+			},
+			immediate: true,
+		},
 		// Watch if configData changes
 		configData: {
 			handler(val, newVal) {
@@ -465,45 +495,45 @@ export default {
 			immediate: true,
 		},
 		"configData.name": {
-			handler(name = '') {
+			handler(name = "") {
 				this.$emit("updateMainName", name);
 			},
 			immediate: true,
 		},
 		"errInfo.ports_in_use": {
 			handler(val) {
-				this.ports_in_use = val
+				this.ports_in_use = val;
 			},
-			immediate: true
-		}
+			immediate: true,
+		},
 	},
 	computed: {
 		firstAppName() {
-			return Object.keys(this.configData.services)[0]
+			return Object.keys(this.configData.services)[0];
 		},
 		appIcon() {
-			return this.configData["x-casaos"].icon
+			return this.configData["x-casaos"].icon;
 		},
 		appendNetworks() {
 			return this.networks.map((item) => {
-				if (item.driver == 'bridge') {
-					if (find(item.networks, ['name', this.firstAppName])) {
-						return item
+				if (item.driver == "bridge") {
+					if (find(item.networks, ["name", this.firstAppName])) {
+						return item;
 					} else {
 						return {
-							driver: 'bridge',
+							driver: "bridge",
 							networks: [
 								{
-									driver: 'bridge',
+									driver: "bridge",
 									id: nanoid(),
-									name: this.firstAppName
+									name: this.firstAppName,
 								},
-								...item.networks
-							]
-						}
+								...item.networks,
+							],
+						};
 					}
 				} else {
-					return item
+					return item;
 				}
 			});
 		},
@@ -512,7 +542,7 @@ export default {
 		// Set Front-end base url
 		this.baseUrl = `${document.domain}`;
 		// update Service Name.
-		this.$emit('updateDockerComposeServiceName', this.firstAppName)
+		this.$emit("updateDockerComposeServiceName", this.firstAppName);
 	},
 
 	methods: {
@@ -529,20 +559,20 @@ export default {
 			}
 			this.isFetching = true;
 			axios
-			.get(
-			`https://hub.docker.com/api/content/v1/products/search?source=community&q=${name}&page=1&page_size=4`
-			)
-			.then(({data}) => {
-				this.data = [];
-				data.summaries.forEach((item) => this.data.push(item.name));
-			})
-			.catch((error) => {
-				this.data = [];
-				throw error;
-			})
-			.finally(() => {
-				this.isFetching = false;
-			});
+				.get(
+					`https://hub.docker.com/api/content/v1/products/search?source=community&q=${name}&page=1&page_size=4`
+				)
+				.then(({ data }) => {
+					this.data = [];
+					data.summaries.forEach((item) => this.data.push(item.name));
+				})
+				.catch((error) => {
+					this.data = [];
+					throw error;
+				})
+				.finally(() => {
+					this.isFetching = false;
+				});
 		}, 500),
 
 		/**
@@ -552,7 +582,7 @@ export default {
 		 */
 		changeIcon(image) {
 			// set this.configData['x-casaos'].icon
-			this.configData['x-casaos'].icon = this.getIconFromImage(image)
+			this.configData["x-casaos"].icon = this.getIconFromImage(image);
 		},
 
 		/**
@@ -613,7 +643,10 @@ export default {
 				this.configData.name = yaml?.name || "";
 				this.configData.services = {};
 				// 删除掉原默认主应用。
-				this.$delete(this.configData.services, "main_app");
+				this.$delete(this.configData.services, MAIN_APP_KEY);
+				// this.current_service = yaml["x-casaos"].main;
+				this.current_service = Object.keys(yaml.services)[0];
+				console.log(Object.keys(yaml.services)[0] , 'parseComposeYaml', this.configData.name);
 				// 解析 services，并将其赋值到 configData.services中。
 				for (const serviceKey in yaml.services) {
 					this.$set(this.configData.services, serviceKey, this.parseComposeItem(yaml.services[serviceKey]));
@@ -621,7 +654,6 @@ export default {
 
 				// set top level x-casaos data
 				this.configData["x-casaos"] = merge(this.configData["x-casaos"], yaml["x-casaos"]);
-
 			} catch (error) {
 				console.log(error);
 			}
@@ -634,14 +666,14 @@ export default {
 			let composeServicesItem = {};
 			// Image
 			composeServicesItem.image = composeServicesItemInput.image;
-			
+
 			// Envs
 			// @environment is an object or an array -- TO be arry.
 			// value@item@environment for Boolean, String and Number
 			if (composeServicesItemInput.environment) {
 				let envArray = Array.isArray(composeServicesItemInput.environment)
-				? composeServicesItemInput.environment
-				: Object.entries(composeServicesItemInput.environment);
+					? composeServicesItemInput.environment
+					: Object.entries(composeServicesItemInput.environment);
 				composeServicesItem.environment = envArray.map((item) => {
 					let ii = typeof item === "object" ? Array.from(item) : item.split("=");
 					return {
@@ -669,7 +701,7 @@ export default {
 			composeServicesItem.ports = this.makeArray(composeServicesItemInput.ports).map((item) => {
 				if (isString(item)) {
 					const regex =
-					/(^(?<host>(\d{1,3}\.){1,3}\d{1,3}):?)?(?<published>(\d{1,5})(-(\d{1,5}))?)(:(?<target>(\d{1,5})(-(\d{1,5}))?))?(\/(?<protocol>.*)$)?/;
+						/(^(?<host>(\d{1,3}\.){1,3}\d{1,3}):?)?(?<published>(\d{1,5})(-(\d{1,5}))?)(:(?<target>(\d{1,5})(-(\d{1,5}))?))?(\/(?<protocol>.*)$)?/;
 					const match = item.match(regex).groups;
 					const host_ip = match.host;
 					const target = Number(match.target?.split("-")?.[0]);
@@ -717,7 +749,7 @@ export default {
 					// 1\ replace value in object for example: {type: 'bind', source: '${VOLUME_PATH}', target: '/data'}
 					Object.keys(this.volumes || {}).map((key) => {
 						item.source = item?.source.replace(key, this?.volumes[key] || "");
-						item.target = item?.target
+						item.target = item?.target;
 					});
 
 					return item;
@@ -741,13 +773,13 @@ export default {
 			if (networks) {
 				composeServicesItem.networks = isArray(networks) ? networks : Object.keys(networks);
 			} else if (network_mode == "bridge" || network_mode == undefined) {
-				composeServicesItem.network_mode = "bridge"
+				composeServicesItem.network_mode = "bridge";
 			} else if (network_mode == "host") {
-				composeServicesItem.network_mode = "host"
+				composeServicesItem.network_mode = "host";
 			} else if (network_mode == "physical") {
-				composeServicesItem.network_mode = "macvlan"
+				composeServicesItem.network_mode = "macvlan";
 			} else {
-				composeServicesItem.network_mode = network_mode
+				composeServicesItem.network_mode = network_mode;
 			}
 
 			//hostname
@@ -756,31 +788,34 @@ export default {
 			// privileged
 			// relation issue: https://github.com/IceWhaleTech/CasaOS/issues/1264
 			// if privileged is undefined or false, set it to false.
-			composeServicesItem.privileged = (composeServicesItemInput.privileged === true);
+			composeServicesItem.privileged = composeServicesItemInput.privileged === true;
 
 			//cap-add
 			if (composeServicesItemInput.cap_add != undefined) {
 				composeServicesItem.cap_add = composeServicesItemInput.cap_add;
 			} else {
-				composeServicesItem.cap_add = []
+				composeServicesItem.cap_add = [];
 			}
 			//Restart
 			if (composeServicesItemInput.restart != undefined) {
 				composeServicesItem.restart = composeServicesItemInput.restart;
 			}
-			composeServicesItem.restart = (composeServicesItem.restart === "no" || !composeServicesItem.restart) ? "unless-stopped" : composeServicesItem.restart;
+			composeServicesItem.restart =
+				composeServicesItem.restart === "no" || !composeServicesItem.restart
+					? "unless-stopped"
+					: composeServicesItem.restart;
 
 			// command
-			composeServicesItem.command = this.makeArray(composeServicesItemInput.command)
+			composeServicesItem.command = this.makeArray(composeServicesItemInput.command);
 
 			// container_name
-			composeServicesItem.container_name = composeServicesItemInput?.container_name || ""
+			composeServicesItem.container_name = composeServicesItemInput?.container_name || "";
 			// this.$set(composeServicesItem, "container_name", composeServicesItemInput?.container_name);
 
 			if (
-			composeServicesItemInput.cpu_shares === 0 ||
-			composeServicesItemInput.cpu_shares > 99 ||
-			isNil(composeServicesItemInput.cpu_shares)
+				composeServicesItemInput.cpu_shares === 0 ||
+				composeServicesItemInput.cpu_shares > 99 ||
+				isNil(composeServicesItemInput.cpu_shares)
 			) {
 				this.$set(composeServicesItem, "cpu_shares", 90);
 			} else {
@@ -789,7 +824,7 @@ export default {
 
 			// 判断是否存在
 			const memory = composeServicesItemInput?.deploy?.resources?.limits?.memory ?? 0;
-			let newMemory = 0
+			let newMemory = 0;
 			if (memory) {
 				// In the presence of a unit, detect whether there is a unit
 				// Detect the absence of units
@@ -802,10 +837,12 @@ export default {
 				}
 				// Detect if the maximum value is exceeded
 				if (newMemory > this.totalMemory) {
-					newMemory = this.totalMemory
+					newMemory = this.totalMemory;
 				}
 			}
-			let ob = merge(composeServicesItemInput?.deploy, {resources: {limits: {memory: newMemory || this.totalMemory}}})
+			let ob = merge(composeServicesItemInput?.deploy, {
+				resources: { limits: { memory: newMemory || this.totalMemory } },
+			});
 			this.$set(composeServicesItem, "deploy", ob);
 
 			return composeServicesItem;
@@ -847,9 +884,9 @@ export default {
 
 			checkArray.forEach((item) => {
 				if (
-				item.keywords.some((keywordsItem) => {
-					return containerPath.includes(keywordsItem);
-				})
+					item.keywords.some((keywordsItem) => {
+						return containerPath.includes(keywordsItem);
+					})
 				) {
 					finalHostPath = rootDir + item.value;
 				}
@@ -879,26 +916,30 @@ export default {
 				let outputService = ConfigData.services[servicesKey];
 				// memory
 				outputService.deploy.resources.limits.memory = service.deploy.resources.limits.memory + "M";
-				outputService.devices = service.devices.filter(device => {
-					if (device.container || device.host) {
-						return true
-					}
-					return false
-				}).map((device) => {
-					return `${device.host}:${device.container}`;
-				});
-				outputService.environment = service.environment.filter(env => {
-					if (env.container || env.host) {
-						return true
-					}
-					return false
-				}).map((env) => {
-					return `${env.container}=${env.host}`;
-				});
+				outputService.devices = service.devices
+					.filter((device) => {
+						if (device.container || device.host) {
+							return true;
+						}
+						return false;
+					})
+					.map((device) => {
+						return `${device.host}:${device.container}`;
+					});
+				outputService.environment = service.environment
+					.filter((env) => {
+						if (env.container || env.host) {
+							return true;
+						}
+						return false;
+					})
+					.map((env) => {
+						return `${env.container}=${env.host}`;
+					});
 			}
 			if (this.dockerComposeCommands) {
 				let yaml = YAML.parse(this.dockerComposeCommands);
-				Object.keys(yaml.services).map(key => {
+				Object.keys(yaml.services).map((key) => {
 					yaml.services[key].ports = [];
 					yaml.services[key].volumes = [];
 					yaml.services[key].devices = [];
@@ -906,9 +947,9 @@ export default {
 					yaml.services[key].command = [];
 					delete yaml.services[key]?.network_mode;
 					delete yaml.services[key]?.networks;
-				})
+				});
 
-				ConfigData = merge(yaml, ConfigData)
+				ConfigData = merge(yaml, ConfigData);
 			}
 
 			// check
@@ -922,15 +963,15 @@ export default {
 
 		showPorts(service) {
 			if (service.networks) {
-				return true
+				return true;
 			}
 			if (!service?.network_mode) {
 				return true;
 			}
 			// 存在
 			if (
-			service.network_mode.toLowerCase().indexOf("macvlan") > -1 ||
-			service.network_mode.indexOf("host") > -1
+				service.network_mode.toLowerCase().indexOf("macvlan") > -1 ||
+				service.network_mode.indexOf("host") > -1
 			) {
 				return false;
 			} else {
@@ -957,9 +998,9 @@ export default {
 			 */
 
 			let published,
-			result = [];
+				result = [];
 			for (let key in services) {
-				let service = services[key]
+				let service = services[key];
 				service.ports.map(function (item) {
 					// TODO 需要健壮一下
 					const TEMPORARY_PORT_INFORMATION = item.published?.toString()?.split(":");
@@ -991,25 +1032,25 @@ export default {
 		},
 		// networks or network_mode
 		patchNetworkValue(value, service) {
-			if (value === 'host' || value === 'bridge') {
-				this.$delete(service, 'networks')
-				this.$set(service, 'network_mode', value)
+			if (value === "host" || value === "bridge") {
+				this.$delete(service, "networks");
+				this.$set(service, "network_mode", value);
 			} else {
-				this.$delete(service, 'network_mode')
-				this.$set(service, 'networks', [value])
-				const tempNetworks = merge(this.configData?.networks || {}, {[value]: {name: value}})
-				this.$set(this.configData, 'networks', tempNetworks);
+				this.$delete(service, "network_mode");
+				this.$set(service, "networks", [value]);
+				const tempNetworks = merge(this.configData?.networks || {}, { [value]: { name: value } });
+				this.$set(this.configData, "networks", tempNetworks);
 			}
 		},
 
-		getFirstField (image) {
-			return image?.split(':')[0]
+		getFirstField(image) {
+			return image?.split(":")[0];
 		},
 
-		getLateField (image) {
-			return image?.split(':')[1]
+		getLateField(image) {
+			return image?.split(":")[1];
 		},
-
+		
 	},
 	filters: {
 		duplexDisplay(val) {
@@ -1023,7 +1064,7 @@ export default {
 .app-card .modal-card-head.setting-compose-panel {
 	background-color: hsla(208, 16%, 94%, 1);
 }
-// 滚动条背景, 
+// 滚动条背景,
 .b-tabs .tab-content::-webkit-scrollbar {
 	background-color: rgba(255, 255, 255, 0);
 }
@@ -1033,7 +1074,6 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-
 .b-tabs {
 	margin-bottom: 0;
 

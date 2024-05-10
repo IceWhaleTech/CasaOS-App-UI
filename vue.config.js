@@ -9,27 +9,25 @@
  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
 
-const webpack = require('webpack')
-const path = require("path")
+const webpack = require("webpack");
 
-const commitHash = require('child_process')
-	.execSync('git describe --always')
-	.toString()
-	.trim();
-
+const commitHash = require("child_process").execSync("git describe --always").toString().trim();
 
 module.exports = {
-	publicPath: '/modules/icewhale_app',
+	publicPath: "/modules/icewhale_app",
 	runtimeCompiler: true,
 	lintOnSave: false,
 	productionSourceMap: true,
 	pluginOptions: {},
 	css: {
-		extract: process.env.NODE_ENV === "prod" ? {
-			ignoreOrder: true
-		} : false
+		extract:
+			process.env.NODE_ENV === "prod"
+				? {
+					ignoreOrder: true,
+				}
+				: false,
 	},
-	chainWebpack: config => {
+	chainWebpack: (config) => {
 		config.module
 			.rule("mjs")
 			.test(/\.mjs$/)
@@ -38,41 +36,43 @@ module.exports = {
 			.end();
 
 		const oneOfsMap = config.module.rule("scss").oneOfs.store;
-		oneOfsMap.forEach(item => {
-			item
-				.use("style-resources-loader")
+		oneOfsMap.forEach((item) => {
+			item.use("style-resources-loader")
 				.loader("style-resources-loader")
 				.options({
-					patterns: [
-						"./src/assets/scss/common/_variables.scss",
-						"./src/assets/scss/common/_color.scss"
-					]
+					patterns: ["./src/assets/scss/common/_variables.scss", "./src/assets/scss/common/_color.scss"],
 				})
 				.end()
-		})
-		config.plugin('ignore')
-			.use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
-		config.plugin('define')
-			.use(require('webpack/lib/DefinePlugin'), [{
-				'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-				'process.env.VUE_APP_DEV_IP': JSON.stringify(process.env.VUE_APP_DEV_IP),
-				'process.env.VUE_APP_DEV_PORT': JSON.stringify(process.env.VUE_APP_DEV_PORT),
-				'process.env.VUE_APP_BASE_URL': JSON.stringify(process.env.VUE_APP_BASE_URL),
+				.use("postcss-loader")
+				.loader("postcss-loader")
+				.end();
+		});
+		config.module.rule("css").oneOfs.store.forEach((item) => {
+			item.use("postcss-loader").loader("postcss-loader");
+		});
+		config.plugin("ignore").use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
+		config.plugin("define").use(require("webpack/lib/DefinePlugin"), [
+			{
+				"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+				"process.env.VUE_APP_DEV_IP": JSON.stringify(process.env.VUE_APP_DEV_IP),
+				"process.env.VUE_APP_DEV_PORT": JSON.stringify(process.env.VUE_APP_DEV_PORT),
+				"process.env.VUE_APP_BASE_URL": JSON.stringify(process.env.VUE_APP_BASE_URL),
 				MAIN_APP_VERSION_ID: JSON.stringify(commitHash),
 				BUILT_TIME: JSON.stringify(Date()),
-			}]);
+			},
+		]);
 		// Production only
 		if (process.env.NODE_ENV === "prod") {
-			config.output.filename('[name].[hash:8].js').end()
-			config.output.chunkFilename('[name].[hash:8].js').end()
+			config.output.filename("[name].[hash:8].js").end();
+			config.output.chunkFilename("[name].[hash:8].js").end();
 			config.optimization.minimize(true);
 			config.optimization.splitChunks({
-				chunks: 'all'
-			})
+				chunks: "all",
+			});
 
 			config.optimization
-				.minimizer('css')
-				.use(require.resolve('optimize-css-assets-webpack-plugin'), [{cssProcessorOptions: {safe: true}}])
+				.minimizer("css")
+				.use(require.resolve("optimize-css-assets-webpack-plugin"), [{ cssProcessorOptions: { safe: true } }]);
 		} else {
 			// Development only
 			// config.plugin('webpack-bundle-analyzer')
@@ -87,10 +87,10 @@ module.exports = {
 		hot: true,
 		// contentBase: publicPath,
 		proxy: {
-			'/': {
+			"/": {
 				target: `http://${process.env.VUE_APP_DEV_IP}:${process.env.VUE_APP_DEV_PORT}`,
 				changeOrigin: true,
-			}
-		}
-	}
-}
+			},
+		},
+	},
+};

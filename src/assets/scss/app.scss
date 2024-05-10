@@ -6,6 +6,10 @@
  *
  *  Copyright (c) 2022 by IceWhale, All Rights Reserved.
  */
+// Import CasaOS Style with TailiwindCSS
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 // Import Font
 @import '~@fontsource/roboto/300.css';

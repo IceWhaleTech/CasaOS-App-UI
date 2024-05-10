@@ -9,7 +9,7 @@
 <template>
 	<div v-if="isCheckFailed"
 		class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-fullheight">
-		<b-image :key="appDetailData.icon" :src="appDetailData.icon"
+		<b-image :key="appDetailData.icon" :src="appDetailData?.icon"
 			:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64 icon-shadow"
 			webp-fallback=".jpg"></b-image>
 		<h2 class="has-text-emphasis-01 has-text-white mt-2">{{ i18n(appDetailData.title) }}</h2>
@@ -29,8 +29,8 @@
 
 <script>
 import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
-import ice_i18n from "@/mixins/base/common-i18n";
-import qs from "qs";
+import ice_i18n              from "@/mixins/base/common-i18n";
+import qs                    from "qs";
 
 export default {
 	name: "AppLauncherCheck",
@@ -58,7 +58,7 @@ export default {
 
 		const startRes = await this.startContainer()
 		this.timer && clearInterval(this.timer)
-		this.timer = setInterval(this.check, 1000)
+		this.timer = setInterval(this.check, 10000)
 		this.check()
 	},
 

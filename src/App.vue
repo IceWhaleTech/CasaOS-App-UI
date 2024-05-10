@@ -17,8 +17,6 @@
 
 <script>
 import {mixin}              from './mixins/mixin';
-import axios                from "axios";
-import {computed}           from 'vue'
 import {ConfigProgrammatic} from 'buefy/src/index.js'
 
 const customIconConfig = {
