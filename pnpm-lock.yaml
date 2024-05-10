@@ -16,7 +16,7 @@ dependencies:
     version: 0.4.8-36dda53
   '@icewhale/icewhale-files-openapi':
     specifier: latest
-    version: 1.2.0-alpha1
+    version: 1.2.0-alpha4
   '@icewhale/zimaos-modmanagement-openapi':
     specifier: ^0.0.13
     version: 0.0.13
@@ -64,7 +64,7 @@ dependencies:
     version: 2.0.5
   iconfonts-casaos:
     specifier: latest
-    version: 1.0.8
+    version: 1.0.9
   intersection-observer:
     specifier: ^0.12.2
     version: 0.12.2
@@ -1667,8 +1667,16 @@ packages:
       - debug
     dev: false
 
-  /@icewhale/icewhale-files-openapi@1.2.0-alpha1:
-    resolution: {integrity: sha512-avLuEQLihmzMWjlsw/LyB7u9cYz0P2FbbcAdBWyrK4JGi4y0kFMC/FTIgzSg5Pq1KDNpD3XfCGLRj7dYvT6XsQ==}
+  /@icewhale/icewhale-files-openapi@1.2.0-alpha4:
+    resolution: {integrity: sha512-8zblLKDhUWC5mFq3ZAimqX2CYpqoQjPxKvwFunhfNZ+BxmzNoK2U7nlw6MEMFET1MEfhY4c5uW/fBpanpKU04A==}
+    dependencies:
+      axios: 1.6.7
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@icewhale/zimaos-modmanagement-openapi@0.0.13:
+    resolution: {integrity: sha512-kaWcuHuNSB2osVeiN2xeCDhIDKB/0kW+84KlTOXPmlwNdklcDCFTWkgjikQFhBgcmP851KhaGMh6+OLLMZPHVg==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
@@ -7539,8 +7547,8 @@ packages:
     engines: {node: '>=8.12.0'}
     dev: true
 
-  /iconfonts-casaos@1.0.8:
-    resolution: {integrity: sha512-X4KeK48eadGiurj3w45erkU5ndKulyPe95LoLSYY8ok8Sb96OwvKe7hroTWjyNe3YQrG8nuMLvn4Z6hdD11psQ==}
+  /iconfonts-casaos@1.0.9:
+    resolution: {integrity: sha512-zCavJ0IoiptFRWnxp7lr+oGUTXy2a9I+Bqj0oi56iyFlWKTVSkFA8QwB/Qzqv2GkejAJpPnOkICHgQ+rT+Z7hQ==}
     dev: false
 
   /iconv-lite@0.4.24:
