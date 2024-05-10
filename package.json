@@ -21,10 +21,10 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
     "@icewhale/casaos-appmanagement-openapi": "latest",
-    "@icewhale/zimaos-modmanagement-openapi": "^0.0.13",
     "@icewhale/casaos-openapi": "latest",
     "@icewhale/icewhale-files-openapi": "latest",
-    "@icewhale/zimaos-openapi": "1.1.0-alpha13",
+    "@icewhale/zimaos-modmanagement-openapi": "^0.0.13",
+    "@icewhale/zimaos-openapi": "1.2.0-alpha12",
     "@kangc/v-md-editor": "^1.7.12",
     "@mdi/font": "^6.9.96",
     "@smartbear/browser-info": "^1.5.0",
@@ -119,5 +119,6 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "node-version": "^16.13.0"
 }
