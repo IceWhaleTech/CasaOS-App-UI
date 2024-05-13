@@ -231,7 +231,7 @@ export default {
 		 */
 		async getList() {
 			try {
-				const hasGpu = await iceGpu.getGPUList(8*1024*1024, true).then((res) => {
+				const hasGpu = await iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
 					return res.data.data.length > 0;
 				});
 				if (this.gpuAppList.length === 0) {
