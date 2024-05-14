@@ -230,21 +230,20 @@ export default {
 		 * @return {*} void
 		 */
 		async getList() {
+			const hasGpu = iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
+				return res.data.data.length > 0;
+			}).catch(() => {
+				return false;
+			});
+			if (this.gpuAppList.length === 0) {
+				this.gpuAppList = iceGpu
+					.getGPUApplications()
+					.then((res) => res.data.data || [])
+					.catch(() => {
+						return [];
+					});
+			}
 			try {
-				const hasGpu = await iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
-					return res.data.data.length > 0;
-				}).catch(() => {
-					return false;
-				});
-				if (this.gpuAppList.length === 0) {
-					this.gpuAppList = await iceGpu
-						.getGPUApplications()
-						.then((res) => res.data.data || [])
-						.catch(() => {
-							return [];
-						});
-				}
-
 				const orgAppList = await this.$openAPI.appGrid
 					.getAppGrid()
 					.then((res) => res.data.data || []);
