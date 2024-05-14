@@ -77,4 +77,4 @@ jobs:
                     region: oss-cn-shanghai
                     bucket: casaos
                     assets: |
-                        ./icewhale_app.raw:/IceWhaleTech/IceWhale-App-UI/releases/download/${{ steps.get_version.outputs.VERSION }}/icewhale_app.raw
+                        ./icewhale_app.raw:/IceWhaleTech/IceWhale-App-UI/releases/download/${{ steps.get_version.outputs.VERSION }}/icewhale_app-${{ steps.get_version.outputs.VERSION }}.raw
