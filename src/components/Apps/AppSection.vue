@@ -230,13 +230,13 @@ export default {
 		 * @return {*} void
 		 */
 		async getList() {
-			const hasGpu = iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
+			const hasGpu = await iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
 				return res.data.data.length > 0;
 			}).catch(() => {
 				return false;
 			});
 			if (this.gpuAppList.length === 0) {
-				this.gpuAppList = iceGpu
+				this.gpuAppList = await iceGpu
 					.getGPUApplications()
 					.then((res) => res.data.data || [])
 					.catch(() => {
