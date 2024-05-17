@@ -6,6 +6,7 @@
 				:src="appDetailData.icon"
 				:src-fallback="require('@/assets/img/app/default.svg')"
 				class="is-128x128 icon-shadow"
+				custom-class="image is-128x128"
 				webp-fallback=".jpg"
 			>
 			</b-image>
