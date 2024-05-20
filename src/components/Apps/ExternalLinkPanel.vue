@@ -34,7 +34,7 @@
 									<label style="color:red">*</label>
 								</template>
 								<b-autocomplete ref="inputs" v-model="hostname" :data="filteredDataObj"
-									:placeholder="$t('Local URL,Pblic URL')" append-to-body field="hostname"
+									:placeholder="$t('Local URL,Public URL')" append-to-body field="hostname"
 									max-height="120px" open-on-focus>
 								</b-autocomplete>
 							</b-field>

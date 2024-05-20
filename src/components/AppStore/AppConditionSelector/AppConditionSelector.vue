@@ -1,12 +1,3 @@
-<!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/7/31 上午11:56
-  * @FilePath: /CasaOS-UI/main/src/components/AppStore/AppConditionSelector/AppConditionSelector.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
 <template>
 	<div class="is-flex mt-5 mb-5 is-justify-content-center app-condition-selector">
 		<ListBox
