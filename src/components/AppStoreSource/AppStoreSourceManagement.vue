@@ -1,18 +1,9 @@
-<!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/6/21 下午3:18
-  * @FilePath: /CasaOS-UI/main/src/components/Apps/AppStoreSourceManagement.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
 <script setup>
-import {getCurrentInstance, onBeforeUnmount, onMounted, ref} from "vue";
-import {vOnClickOutside}                                     from '@vueuse/components'
+import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from "vue";
+import { vOnClickOutside } from "@vueuse/components";
 
 const emit = defineEmits(["refreshAppStore", "refreshSize"]);
-const props = defineProps(['totalApps']);
+const props = defineProps(["totalApps"]);
 /*
 const stateBox = {
 	init: "init",
@@ -25,42 +16,42 @@ const stateBox = {
 * */
 
 /* 1. First open, add a button，
-* While click
-* @The input box appears
-* @Adding this.$openAPI.appManagement.appStore.registerAppStore(url).then(res=>{})
-* @Finish adding and wait for the resulting socketIO notification
-*
-* @After the results are returned, change the status
-*
-* */
+ * While click
+ * @The input box appears
+ * @Adding this.$openAPI.appManagement.appStore.registerAppStore(url).then(res=>{})
+ * @Finish adding and wait for the resulting socketIO notification
+ *
+ * @After the results are returned, change the status
+ *
+ * */
 
 /*
-* 2.Open the second time for the drop-down list
-* @Query the list: this.$openAPI.appManagement.appStore.appStoreList().then(res => {})
-*
-* */
-const app = getCurrentInstance().proxy
-const subscribe = app.$socket.$subscribe
-const unsubscribe = app.$socket.$unsubscribe
-const componentState = ref("init")
-const ignoreElRef = ref(null)
+ * 2.Open the second time for the drop-down list
+ * @Query the list: this.$openAPI.appManagement.appStore.appStoreList().then(res => {})
+ *
+ * */
+const app = getCurrentInstance().proxy;
+const subscribe = app.$socket.$subscribe;
+const unsubscribe = app.$socket.$unsubscribe;
+const componentState = ref("init");
+const ignoreElRef = ref(null);
 const onClickOutsideHandler = [
 	(ev) => {
-		changeInputState(true)
+		changeInputState(true);
 	},
-	{ignore: [ignoreElRef]}
-]
+	{ ignore: [ignoreElRef] },
+];
 
-const addLoadingState = ref(false)
-const removeLoadingState = ref(false)
-const sourceList = ref([])
+const addLoadingState = ref(false);
+const removeLoadingState = ref(false);
+const sourceList = ref([]);
 const url = ref("");
 const operationSourceName = ref(-1);
 
 function changeInputState(alwaysNotDisplay = false) {
-	if (componentState.value !== 'active_input_state') {
+	if (componentState.value !== "active_input_state") {
 		if (alwaysNotDisplay === true) {
-			return
+			return;
 		}
 		componentState.value = "active_input_state";
 		emit("refreshSize", "active_input_state");
@@ -75,32 +66,34 @@ function changeInputState(alwaysNotDisplay = false) {
 
 function registerAppStore(url) {
 	if (url) {
-		addLoadingState.value = true
-		app.$openAPI.appManagement.appStore.registerAppStore(url)
-			.catch(err => {
-			if(err.response.status === 409) {
+		addLoadingState.value = true;
+		app.$openAPI.appManagement.appStore.registerAppStore(url).catch((err) => {
+			if (err.response.status === 409) {
 				app.$buefy.toast.open({
 					message: err.response.data.message,
 					duration: 5000,
-					type: 'is-warning'
-				})
+					type: "is-warning",
+				});
 			}
-			addLoadingState.value = false
-		})
+			addLoadingState.value = false;
+		});
 	}
 }
 
 function unregisterAppStore(id) {
 	removeLoadingState.value = true;
-	app.$openAPI.appManagement.appStore.unregisterAppStore(id).then(res => {
-		if (res.status === 200) {
-			emit("refreshAppStore");
-			getSourceList();
-		}
-	}).finally(() => {
-		operationSourceName.value = -1;
-		removeLoadingState.value = false;
-	})
+	app.$openAPI.appManagement.appStore
+		.unregisterAppStore(id)
+		.then((res) => {
+			if (res.status === 200) {
+				emit("refreshAppStore");
+				getSourceList();
+			}
+		})
+		.finally(() => {
+			operationSourceName.value = -1;
+			removeLoadingState.value = false;
+		});
 }
 
 function redirectURL() {
@@ -109,137 +102,159 @@ function redirectURL() {
 
 function activeInput() {
 	if (componentState.value === "active_input_state") {
-		app.$refs.inputSourceURL.focus()
+		app.$refs.inputSourceURL.focus();
 	}
 }
 
 function getSourceList() {
-	app.$openAPI.appManagement.appStore.appStoreList().then(res => {
+	app.$openAPI.appManagement.appStore.appStoreList().then((res) => {
 		if (res.status === 200) {
-			const storeList = res.data.data.filter(item => {
+			const storeList = res.data.data.filter((item) => {
 				const isHttp = item.url.includes("http");
 				const pathname = isHttp ? new URL(item.url).pathname : item.url;
 				const pathnameList = pathname.split("/");
-				const sourceName = isHttp ? pathnameList[1] : pathnameList[pathnameList.length - 1].split('.').slice(0, -1).join('.');
+				const sourceName = isHttp
+					? pathnameList[1]
+					: pathnameList[pathnameList.length - 1].split(".").slice(0, -1).join(".");
 
 				if (pathnameList[1] === "IceWhaleTech") {
-					return false
+					return false;
 				} else {
-					item.name = sourceName
-					return true
+					item.name = sourceName;
+					return true;
 				}
-			})
-			sourceList.value = storeList.map(item => {
+			});
+			sourceList.value = storeList.map((item) => {
 				return {
 					id: item.id,
 					url: item.url,
-					name: item.name
-				}
-			})
+					name: item.name,
+				};
+			});
 			switch (storeList.length) {
 				case 0:
-					componentState.value = 'first_add_state';
+					componentState.value = "first_add_state";
 					break;
 				default:
-					componentState.value = 'second_list_state';
+					componentState.value = "second_list_state";
 					break;
 			}
 		}
-	})
+	});
 }
 
 onMounted(() => {
-	getSourceList()
-	subscribe("app-store:register-end", res => {
-		console.log(res)
+	getSourceList();
+	subscribe("app-store:register-end", (res) => {
+		console.log(res);
 		app.$buefy.toast.open({
 			message: "Updating the information source of the app store is complete.",
 			duration: 5000,
-			type: 'is-success'
-		})
+			type: "is-success",
+		});
 		getSourceList();
 		emit("refreshAppStore");
 		url.value = "";
 		addLoadingState.value = false;
-	})
-	subscribe("app-store:register-error", res => {
+	});
+	subscribe("app-store:register-error", (res) => {
 		app.$buefy.toast.open({
 			message: "Failed to update the information source of the app store.",
 			duration: 5000,
-			type: 'is-warning'
-		})
+			type: "is-warning",
+		});
 		url.value = "";
 		addLoadingState.value = false;
-	})
-})
+	});
+});
 
 onBeforeUnmount(() => {
 	unsubscribe("app-store:register-end");
 	unsubscribe("app-store:register-error");
-})
+});
 </script>
 
 <template>
 	<div v-on-click-outside="onClickOutsideHandler">
 		<Transition mode="out-in" name="management-change" @after-enter="activeInput">
-			<div v-if="componentState==='first_add_state'" key="1" class="one-line polymorphic" @click="changeInputState">+ {{
-					$t("Add a Repository")
-				}}
+			<div
+				v-if="componentState === 'first_add_state'"
+				key="1"
+				class="one-line polymorphic"
+				@click="changeInputState"
+			>
+				+ {{ $t("Add a Repository") }}
 			</div>
 			<div v-else-if="componentState === 'second_list_state'" key="2">
-				<b-dropdown aria-role="menu" position="is-bottom-left" style="height: 2rem;">
+				<b-dropdown aria-role="menu" position="is-bottom-left" style="height: 2rem">
 					<template #trigger>
 						<b-button icon-pack="casa" icon-right="down-outline">
-							{{ props.totalApps }} APPS
+							{{ $tc("numApps", props.totalApps) }}
 						</b-button>
 					</template>
 
-					<b-dropdown-item
-						v-for="item in sourceList" :key="item.id" aria-role="menu-item"
-						custom>
+					<b-dropdown-item v-for="item in sourceList" :key="item.id" aria-role="menu-item" custom>
 						<p :ref="`removeButton${item.id}`" class="is-flex is-align-items-center">
 							<span class="has-text-full-04 is-flex-grow-1 one-line">{{ item.name }}</span>
-							<b-button v-if="operationSourceName !== item.id" class="is-flex-shrink-0 _button-icon"
-									  icon-pack="casa" icon-right="trash-outline"
-									  type="is-text" @click.native="operationSourceName = item.id"></b-button>
+							<b-button
+								v-if="operationSourceName !== item.id"
+								class="is-flex-shrink-0 _button-icon"
+								icon-pack="casa"
+								icon-right="trash-outline"
+								type="is-text"
+								@click.native="operationSourceName = item.id"
+							></b-button>
 							<template v-else>
-								<b-button class="is-flex-shrink-0 _button-icon" icon-pack="casa"
-										  icon-right="close-outline"
-										  type="is-text" @click.native="operationSourceName = -1"></b-button>
-								<b-button :loading="removeLoadingState" class="is-flex-shrink-0 _button-icon"
-										  icon-pack="casa"
-										  icon-right="check-outline" type="is-text"
-										  @click.native="unregisterAppStore(item.id)"></b-button>
+								<b-button
+									class="is-flex-shrink-0 _button-icon"
+									icon-pack="casa"
+									icon-right="close-outline"
+									type="is-text"
+									@click.native="operationSourceName = -1"
+								></b-button>
+								<b-button
+									:loading="removeLoadingState"
+									class="is-flex-shrink-0 _button-icon"
+									icon-pack="casa"
+									icon-right="check-outline"
+									type="is-text"
+									@click.native="unregisterAppStore(item.id)"
+								></b-button>
 							</template>
 						</p>
 					</b-dropdown-item>
-					<hr class="mt-1 mb-1"/>
+					<hr class="mt-1 mb-1" />
 					<b-dropdown-item @click="changeInputState">
-						<a :ref="ignoreElRef" class="one-line"> {{
-								$t("Add a Repository")
-							}}
-						</a>
+						<a :ref="ignoreElRef" class="one-line"> {{ $t("Add a Repository") }} </a>
 					</b-dropdown-item>
 					<b-dropdown-item @click="redirectURL">
-						<a class="one-line"> {{
-								$t("More")
-							}}
-						</a>
+						<a class="one-line"> {{ $t("More") }} </a>
 					</b-dropdown-item>
 				</b-dropdown>
 			</div>
 			<div v-else-if="componentState === 'active_input_state'" key="3" class="is-flex is-align-items-center">
-				<b-input ref="inputSourceURL" v-model="url" :disabled="addLoadingState"
-						 class="is-flex-grow-1 _sources_input" icon-pack="casa" icon-right="question-outline"
-						 icon-right-clickable @icon-right-click="redirectURL"></b-input>
-				<b-button :loading="addLoadingState" class="is-flex-shrink-0 _button-icon"
-						  icon-pack="casa" icon-right="plus-outline"
-						  @click="registerAppStore(url)">add
+				<b-input
+					ref="inputSourceURL"
+					v-model="url"
+					:disabled="addLoadingState"
+					class="is-flex-grow-1 _sources_input"
+					icon-pack="casa"
+					icon-right="question-outline"
+					icon-right-clickable
+					@icon-right-click="redirectURL"
+				></b-input>
+				<b-button
+					:loading="addLoadingState"
+					class="is-flex-shrink-0 _button-icon"
+					icon-pack="casa"
+					icon-right="plus-outline"
+					@click="registerAppStore(url)"
+				>
+					{{ $t("Add") }}
 				</b-button>
 			</div>
 		</Transition>
 	</div>
-
 </template>
 
 <style lang="scss" scoped>
@@ -266,7 +281,7 @@ onBeforeUnmount(() => {
 }
 
 .management-change-enter-active {
-	transition: all .3s ease;
+	transition: all 0.3s ease;
 }
 
 //.slide-fade-leave-active {
