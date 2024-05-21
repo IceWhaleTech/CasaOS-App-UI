@@ -25,42 +25,53 @@
 						type="is-primary"
 						@click="openThirdAppInStore(appDetailData)"
 					>
-						{{ $t('Open') }}
+						{{ $t("Open") }}
 					</b-button>
-					<b-button
-						v-else
-						class="p-0 custom-install-button"
-						:disabled="unusable"
-						:loading="appDetailData.id == currentInstallId"
-						rounded
-						size="is-normal"
-						type="is-primary"
-					>
-						<div
-							@click.self="
-								$emit('install', appDetailData.id, appDetailData)
-								$messageBus('appstore_install', i18n(appDetailData.title))
-							"
-							class="custom-install-button-content"
+
+					<b-dropdown v-else :disabled="unusable" :triggers="['click']" @click.stop>
+						<template #trigger>
+							<div>
+								<b-button
+									class="pr-2"
+									style="border-top-right-radius: 0px; border-bottom-right-radius: 0px"
+									:disabled="unusable"
+									:loading="appDetailData.id == currentInstallId"
+									rounded
+									size="is-normal"
+									type="is-primary"
+								>
+									<div
+										@click.self="
+											$emit('install', appDetailData.id, appDetailData);
+											$messageBus('appstore_install', i18n(appDetailData.title));
+										"
+										class="custom-install-button-content"
+									>
+										{{ $t("Install") }}
+									</div>
+								</b-button>
+								<b-button
+									class="pl-2 pr-3"
+									style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+									rounded
+									size="is-normal"
+									type="is-primary"
+								>
+									<div class="casa-down-outline custom-install-dropdown-trigger"></div>
+								</b-button>
+							</div>
+						</template>
+						<b-button
+							:disabled="unusable"
+							:loading="appDetailData.id == currentInstallId"
+							rounded
+							size="is-normal"
+							type="is-primary"
+							@click="openConfigPanle"
 						>
-							{{ $t('Install') }}
-						</div>
-						<b-dropdown :triggers="['hover', 'click']" @click.stop>
-							<template #trigger>
-								<div class="casa-down-outline custom-install-dropdown-trigger"></div>
-							</template>
-							<b-button
-								:disabled="unusable"
-								:loading="appDetailData.id == currentInstallId"
-								rounded
-								size="is-normal"
-								type="is-primary"
-								@click="openConfigPanle"
-							>
-								{{ $t('Custom Install') }}
-							</b-button>
-						</b-dropdown>
-					</b-button>
+							{{ $t("Custom Install") }}
+						</b-button>
+					</b-dropdown>
 				</p>
 
 				<p
@@ -71,7 +82,7 @@
 					<label class="is-flex ml-2 mr-1">
 						<b-icon class="is-16x16" custom-size="casa-19px" icon="close" pack="casa"></b-icon>
 					</label>
-					{{ $t('Not compatible with {arch} devices.', { arch: archTitle }) }}
+					{{ $t("Not compatible with {arch} devices.", { arch: archTitle }) }}
 				</p>
 			</div>
 		</div>
@@ -79,55 +90,55 @@
 </template>
 
 <script setup>
-import { defineProps, defineExpose, defineEmits, inject } from 'vue'
-import { usei18n }                                        from '@/composables/usei18n'
-import messageBus                                         from '@/events'
-import YAML                                               from 'yaml'
-import { useOpenAppInStore }                              from '@/composables/useOpenApp'
+import { defineProps, defineExpose, defineEmits, inject } from "vue";
+import { usei18n } from "@/composables/usei18n";
+import messageBus from "@/events";
+import YAML from "yaml";
+import { useOpenAppInStore } from "@/composables/useOpenApp";
 
-const switchAppPanelToAppConfigContent = inject('switchAppPanelToAppConfigContent')
-const openThirdAppInStore = useOpenAppInStore()
+const switchAppPanelToAppConfigContent = inject("switchAppPanelToAppConfigContent");
+const openThirdAppInStore = useOpenAppInStore();
 const props = defineProps({
 	appDetailData: {
 		type: Object,
-		default: () => {}
+		default: () => {},
 	},
 	installedList: {
 		type: Array,
-		default: () => {}
+		default: () => {},
 	},
 	unusable: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
 	currentInstallId: {
 		type: String,
-		default: ''
+		default: "",
 	},
 	archTitle: {
 		type: String,
-		default: ''
-	}
-})
+		default: "",
+	},
+});
 
-const emit = defineEmits(['install'])
+const emit = defineEmits(["install"]);
 
-const { i18n } = usei18n()
+const { i18n } = usei18n();
 
 const handleInstallBtnClick = () => {
-	emit('install')
-	messageBus('appstore_install', i18n(props.appDetailData.title))
-}
+	emit("install");
+	messageBus("appstore_install", i18n(props.appDetailData.title));
+};
 
-function openConfigPanle () {
+function openConfigPanle() {
 	// this.$emit('switchAppPanelToAppConfigContent', YAML.stringify(this.appDetailData.compose))
-	console.log('openConfigPanle', props.appDetailData)
-	switchAppPanelToAppConfigContent(YAML.stringify(props.appDetailData.compose))
+	console.log("openConfigPanle", props.appDetailData);
+	switchAppPanelToAppConfigContent(YAML.stringify(props.appDetailData.compose));
 }
 
 defineExpose({
-	i18n
-})
+	i18n,
+});
 </script>
 
 <style scoped>
@@ -169,7 +180,7 @@ defineExpose({
 }
 
 .custom-install-dropdown-trigger {
-	width: 3rem;
+	/* width: 3rem; */
 	height: 1.5rem;
 	display: flex;
 	justify-content: center;
@@ -189,7 +200,7 @@ defineExpose({
 			padding-bottom: 0.25rem;
 		}
 		.custom-install-dropdown-trigger {
-			width: 3rem;
+			/* width: 3rem; */
 			height: 100%;
 			display: flex;
 			justify-content: center;

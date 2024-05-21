@@ -1,21 +1,13 @@
-<!--
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-15 17:57:28
- * @FilePath: /CasaOS-App-UI/src/components/AppSetting/ComposeConfig.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
-
 <template>
 	<section style="height: calc(100vh - 12.8125rem)">
-		<b-tabs
-			:value="firstAppName"
-			class="has-text-full-03"
-			style="height: 100%"
-		>
-			<b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key" @click="current_service = key">
+		<b-tabs :value="firstAppName" class="has-text-full-03" style="height: 100%">
+			<b-tab-item
+				v-for="(service, key) in configData.services"
+				:key="key"
+				:label="key"
+				:value="key"
+				@click="current_service = key"
+			>
 				<ValidationObserver :ref="key + 'valida'">
 					<b-field grouped>
 						<ValidationProvider
@@ -49,18 +41,20 @@
 								></b-input>
 							</b-field>
 						</ValidationProvider>
-						<b-dropdown aria-role="menu" trap-focus>
-							<template #trigger>
-								<ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
-									<b-field
-										:label="$t('Tag')"
-										:message="$t(errors)"
-										:type="{ 'is-danger': errors[0], 'is-success': valid }"
-									>
+
+						<ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
+							<b-field
+								class="ml-2"
+								:label="$t('Tag')"
+								:message="$t(errors)"
+								:type="{ 'is-danger': errors[0], 'is-success': valid }"
+							>
+								<b-dropdown aria-role="menu" trap-focus>
+									<template #trigger>
 										<b-input
 											icon-pack="casa"
 											icon-right="down-outline"
-											class="is-flex-grow-1"
+											class="is-flex-grow-1 w-48"
 											:value="getLateField(service.image)"
 											@input="
 												(V) => {
@@ -69,31 +63,32 @@
 											"
 										>
 										</b-input>
-									</b-field>
-								</ValidationProvider>
-							</template>
-							<b-dropdown-item
-								key="latest"
-								@click="
-									() => {
-										service.image = service.image.split(':')[0] + ':latest';
-									}
-								"
-							>
-								latest
-							</b-dropdown-item>
-							<b-dropdown-item
-								key="stable"
-								v-show="serviceStableVersion !== ''"
-								@click="
-									() => {
-										service.image = service.image.split(':')[0] + ':' + serviceStableVersion;
-									}
-								"
-							>
-								stable({{ serviceStableVersion }})
-							</b-dropdown-item>
-						</b-dropdown>
+									</template>
+									<b-dropdown-item
+										key="latest"
+										@click="
+											() => {
+												service.image = service.image.split(':')[0] + ':latest';
+											}
+										"
+									>
+										latest
+									</b-dropdown-item>
+									<b-dropdown-item
+										key="stable"
+										v-show="serviceStableVersion !== ''"
+										@click="
+											() => {
+												service.image =
+													service.image.split(':')[0] + ':' + serviceStableVersion;
+											}
+										"
+									>
+										stable({{ serviceStableVersion }})
+									</b-dropdown-item>
+								</b-dropdown>
+							</b-field>
+						</ValidationProvider>
 					</b-field>
 					<ValidationProvider v-slot="{ errors, valid }" name="composeAppName" rules="required">
 						<b-field
@@ -280,27 +275,27 @@
 </template>
 
 <script>
-import debounce                                   from "lodash/debounce";
-import axios                                      from "axios";
+import debounce from "lodash/debounce";
+import axios from "axios";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import "@/plugins/vee-validate";
-import Ports                                      from "../forms/Ports.vue";
-import EnvInputGroup                              from "../forms/EnvInputGroup.vue";
-import CommandsInput                              from "../forms/CommandsInput.vue";
-import InputGroup                                 from "../forms/InputGroup.vue";
-import VolumesInputGroup                          from "@/components/forms/VolumesInputGroup.vue";
-import VueSlider                                  from "vue-slider-component";
+import Ports from "../forms/Ports.vue";
+import EnvInputGroup from "../forms/EnvInputGroup.vue";
+import CommandsInput from "../forms/CommandsInput.vue";
+import InputGroup from "../forms/InputGroup.vue";
+import VolumesInputGroup from "@/components/forms/VolumesInputGroup.vue";
+import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
-import YAML                                       from "yaml";
-import lowerFirst                                 from "lodash/lowerFirst";
-import isNil                                      from "lodash/isNil";
-import { isNumber, isString }                     from "lodash/lang";
-import cloneDeep                                  from "lodash/cloneDeep";
-import merge                                      from "lodash/merge";
-import i18n                                       from "@/mixins/base/common-i18n";
-import { nanoid }                                 from "nanoid";
-import find                                       from "lodash/find";
-import isArray                                    from "lodash/isArray";
+import YAML from "yaml";
+import lowerFirst from "lodash/lowerFirst";
+import isNil from "lodash/isNil";
+import { isNumber, isString } from "lodash/lang";
+import cloneDeep from "lodash/cloneDeep";
+import merge from "lodash/merge";
+import i18n from "@/mixins/base/common-i18n";
+import { nanoid } from "nanoid";
+import find from "lodash/find";
+import isArray from "lodash/isArray";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -461,17 +456,16 @@ export default {
 				this.$emit("updateDockerComposeServiceName", val);
 				if (this.configData.name && val) {
 					this.$openAPI.appManagement.appStore
-					.composeAppServiceStableTag(this.configData.name, val)
-					.then((res) => {
-						this.serviceStableVersion = res.data.data.tag;
-					})
-					.catch((e) => {
-						this.serviceStableVersion = "";
-					});
-				}else{
+						.composeAppServiceStableTag(this.configData.name, val)
+						.then((res) => {
+							this.serviceStableVersion = res.data.data.tag;
+						})
+						.catch((e) => {
+							this.serviceStableVersion = "";
+						});
+				} else {
 					this.serviceStableVersion = "";
 				}
-				
 			},
 			immediate: true,
 		},
@@ -646,7 +640,7 @@ export default {
 				this.$delete(this.configData.services, MAIN_APP_KEY);
 				// this.current_service = yaml["x-casaos"].main;
 				this.current_service = Object.keys(yaml.services)[0];
-				console.log(Object.keys(yaml.services)[0] , 'parseComposeYaml', this.configData.name);
+				console.log(Object.keys(yaml.services)[0], "parseComposeYaml", this.configData.name);
 				// 解析 services，并将其赋值到 configData.services中。
 				for (const serviceKey in yaml.services) {
 					this.$set(this.configData.services, serviceKey, this.parseComposeItem(yaml.services[serviceKey]));
@@ -1050,7 +1044,6 @@ export default {
 		getLateField(image) {
 			return image?.split(":")[1];
 		},
-		
 	},
 	filters: {
 		duplexDisplay(val) {
