@@ -69,5 +69,5 @@ export default {
 		currentInstallId: String,
 		arch: String,
 	},
-}
+};
 </script>

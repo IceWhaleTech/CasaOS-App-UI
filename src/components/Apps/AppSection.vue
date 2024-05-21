@@ -1,25 +1,22 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2022-02-18 10:20:10
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-20 11:19:54
- * @FilePath: /CasaOS-App-UI/src/components/Apps/AppSection.vue
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
--->
-
 <template>
 	<div class="home-section has-text-left">
 		<!-- Title Bar Start -->
 		<div class="is-flex is-align-items-center mb-1">
-			<app-section-title-tip id="appTitle1" class="is-flex-grow-1 has-text-sub-04" label="Drag icons to sort."
-				title="Apps"></app-section-title-tip>
+			<app-section-title-tip
+				id="appTitle1"
+				class="is-flex-grow-1 has-text-sub-04"
+				:label="$t('DragIconsToSort')"
+				:title="$t('Apps')"
+			></app-section-title-tip>
 
 			<b-dropdown animation="fade1" aria-role="menu" position="is-bottom-left">
 				<template #trigger>
-					<b-icon class="polymorphic is-clickable has-text-grey-100" icon="plus-outline" pack="casa"
-						size="is-24"></b-icon>
+					<b-icon
+						class="polymorphic is-clickable has-text-grey-100"
+						icon="plus-outline"
+						pack="casa"
+						size="is-24"
+					></b-icon>
 				</template>
 				<b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel('', 'custom')">
 					{{ $t("Add a Containerized Application APP") }}
@@ -32,20 +29,38 @@
 		<!-- Title Bar End -->
 
 		<!-- App List Start -->
-		<draggable v-model="appList" :draggable="draggable"
-			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas m-0" tag="div"
-			v-bind="dragOptions" @end="onSortEnd" @start="drag = true">
+		<draggable
+			v-model="appList"
+			:draggable="draggable"
+			class="columns is-variable is-2 is-multiline app-list contextmenu-canvas m-0"
+			tag="div"
+			v-bind="dragOptions"
+			@end="onSortEnd"
+			@start="drag = true"
+		>
 			<!-- App Icon Card Start -->
 			<template v-if="!isLoading">
-				<div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name"
-					class="column is-narrow is-3 handle">
-					<app-card :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
-						@updateState="getList"></app-card>
+				<div
+					v-for="item in appList"
+					:id="'app-' + item.name"
+					:key="'app-' + item.name"
+					class="column is-narrow is-3 handle"
+				>
+					<app-card
+						:item="item"
+						@configApp="showConfigPanel"
+						@importApp="showContainerPanel"
+						@updateState="getList"
+					></app-card>
 				</div>
 			</template>
 			<template v-else>
-				<div v-for="index in skCount" :id="'app-' + index" :key="'app-' + index"
-					class="column is-narrow is-3 handle">
+				<div
+					v-for="index in skCount"
+					:id="'app-' + index"
+					:key="'app-' + index"
+					class="column is-narrow is-3 handle"
+				>
 					<app-card-skeleton :index="index"></app-card-skeleton>
 				</div>
 			</template>
@@ -56,8 +71,12 @@
 		<template v-if="oldAppList.length > 0">
 			<!-- Title Bar Start -->
 			<div class="title-bar is-flex is-align-items-center mt-2rem mb-5">
-				<app-section-title-tip id="appTitle2" class="is-flex-grow-1 has-text-sub-04" label="To be rebuilt."
-					title="Legacy app(To be rebuilt).">
+				<app-section-title-tip
+					id="appTitle2"
+					class="is-flex-grow-1 has-text-sub-04"
+					label="To be rebuilt."
+					title="Legacy app(To be rebuilt)."
+				>
 				</app-section-title-tip>
 			</div>
 			<!-- Title Bar End -->
@@ -65,10 +84,19 @@
 			<!-- App List Start -->
 			<div class="columns is-variable is-2 is-multiline app-list contextmenu-canvas">
 				<!-- Application not imported Start -->
-				<div v-for="item in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name"
-					class="column is-narrow is-3">
-					<app-card :isCasa="false" :item="item" @configApp="showConfigPanel" @importApp="showContainerPanel"
-						@updateState="getList"></app-card>
+				<div
+					v-for="item in oldAppList"
+					:id="'app-' + item.name"
+					:key="'app-' + item.name"
+					class="column is-narrow is-3"
+				>
+					<app-card
+						:isCasa="false"
+						:item="item"
+						@configApp="showConfigPanel"
+						@importApp="showContainerPanel"
+						@updateState="getList"
+					></app-card>
 				</div>
 				<!-- Application not imported End -->
 			</div>
@@ -78,22 +106,22 @@
 </template>
 
 <script>
-import AppCard                from "./AppCard.vue";
-import AppCardSkeleton        from "./AppCardSkeleton.vue";
-import AppPanel               from "./AppPanel.vue";
-import ExternalLinkPanel      from "@/components/Apps/ExternalLinkPanel";
-import AppSectionTitleTip     from "./AppSectionTitleTip.vue";
-import draggable              from "vuedraggable";
-import xor                    from "lodash/xor";
-import concat                 from "lodash/concat";
-import events                 from "@/events/events";
-import last                   from "lodash/last";
+import AppCard from "./AppCard.vue";
+import AppCardSkeleton from "./AppCardSkeleton.vue";
+import AppPanel from "./AppPanel.vue";
+import ExternalLinkPanel from "@/components/Apps/ExternalLinkPanel";
+import AppSectionTitleTip from "./AppSectionTitleTip.vue";
+import draggable from "vuedraggable";
+import xor from "lodash/xor";
+import concat from "lodash/concat";
+import events from "@/events/events";
+import last from "lodash/last";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
-import business_LinkApp       from "@/mixins/app/Business_LinkApp";
-import isEqual                from "lodash/isEqual";
-import { ice_i18n }           from "@/mixins/base/common-i18n";
-import { iceGpu }             from "@/service/index.js";
-import { openDB }             from 'idb';
+import business_LinkApp from "@/mixins/app/Business_LinkApp";
+import isEqual from "lodash/isEqual";
+import { ice_i18n } from "@/mixins/base/common-i18n";
+import { iceGpu } from "@/service/index.js";
+import { openDB } from "idb";
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -159,13 +187,12 @@ export default {
 		},
 	},
 	async created() {
-		db = await openDB('casaos', '1', {
+		db = await openDB("casaos", "1", {
 			upgrade(db) {
-				db.createObjectStore('app', {
-					keyPath: 'name'
-				})
-
-			}
+				db.createObjectStore("app", {
+					keyPath: "name",
+				});
+			},
 		});
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
@@ -213,16 +240,16 @@ export default {
 		 * @return {*} module
 		 */
 		async getModuleUIEntries() {
-			const moduleList = await this.$openAPI.modManagement.moduleList()
-			const entries = []
+			const moduleList = await this.$openAPI.modManagement.moduleList();
+			const entries = [];
 			moduleList?.data?.data?.forEach((module) => {
-				if(module.ui)
-				entries.push({
-					name: module.name,
-					...module.ui,
-				})
-			})
-			return entries
+				if (module.ui)
+					entries.push({
+						name: module.name,
+						...module.ui,
+					});
+			});
+			return entries;
 		},
 
 		/**
@@ -230,11 +257,14 @@ export default {
 		 * @return {*} void
 		 */
 		async getList() {
-			const hasGpu = await iceGpu.getGPUList(10*1024*1024*1024, true).then((res) => {
-				return res.data.data.length > 0;
-			}).catch(() => {
-				return false;
-			});
+			const hasGpu = await iceGpu
+				.getGPUList(10 * 1024 * 1024 * 1024, true)
+				.then((res) => {
+					return res.data.data.length > 0;
+				})
+				.catch(() => {
+					return false;
+				});
 			if (this.gpuAppList.length === 0) {
 				this.gpuAppList = await iceGpu
 					.getGPUApplications()
@@ -244,9 +274,7 @@ export default {
 					});
 			}
 			try {
-				const orgAppList = await this.$openAPI.appGrid
-					.getAppGrid()
-					.then((res) => res.data.data || []);
+				const orgAppList = await this.$openAPI.appGrid.getAppGrid().then((res) => res.data.data || []);
 				let orgOldAppList = [],
 					orgNewAppList = [];
 				orgAppList.forEach((item) => {
@@ -270,7 +298,7 @@ export default {
 				});
 				// mirco app list
 				if (this.mircoAppList.length === 0) {
-					const mircoAppListRaw = await this.getModuleUIEntries()
+					const mircoAppListRaw = await this.getModuleUIEntries();
 					this.mircoAppList = mircoAppListRaw
 						.filter((item) => item?.show ?? true)
 						.map((item) => {
@@ -290,29 +318,22 @@ export default {
 						});
 				}
 				// all app list
-				let casaAppList = concat(
-					builtInApplications,
-					orgNewAppList,
-					linkAppList,
-					this.mircoAppList
-				);
+				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList);
 
 				if (hasGpu) {
 					casaAppList = casaAppList.map((item) => {
-						item.requireGPU = this.gpuAppList.find(
-							(gpuItem) => gpuItem.name === item.name
-						);
+						item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
 						return item;
 					});
 				} else {
 					casaAppList = casaAppList.filter((item) => {
-						return item.name != "icewhale_chat"
+						return item.name != "icewhale_chat";
 						// return !this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
 					});
 				}
 
 				for (let app of casaAppList) {
-					db.put('app', app);
+					db.put("app", app);
 				}
 
 				// get app sort info.
