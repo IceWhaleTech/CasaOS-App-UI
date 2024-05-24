@@ -49,7 +49,7 @@
 								:message="$t(errors)"
 								:type="{ 'is-danger': errors[0], 'is-success': valid }"
 							>
-								<b-dropdown aria-role="menu" trap-focus>
+								<b-dropdown :value="getLateField(service.image)" aria-role="menu" trap-focus>
 									<template #trigger>
 										<b-input
 											icon-pack="casa"
