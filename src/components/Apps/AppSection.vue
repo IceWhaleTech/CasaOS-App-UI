@@ -654,9 +654,10 @@ export default {
 				});
 			}
 		},
-		"casaos-ui:app:openme"(data) {
-			console.log(data, "casaos-ui:app:mircoapp_communicate");
-			this.showAppSettingPanel("chatgpt-next-web");
+		// Open App Detail Panel
+		"casaos-ui:app:open-app-detail"(data) {
+			console.log("casaos-ui:app:open-app-detail", data);
+			this.showAppSettingPanel(data.Properties["storeId"] ?? "");
 		},
 	},
 };
