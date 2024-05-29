@@ -9,14 +9,14 @@ dependencies:
     specifier: ^4.5.8
     version: 4.5.8
   '@icewhale/casaos-appmanagement-openapi':
-    specifier: latest
-    version: 0.4.8-alpha4
+    specifier: ^0.4.9-alpha4
+    version: 0.4.9-alpha4
   '@icewhale/casaos-openapi':
     specifier: latest
-    version: 0.4.8-36dda53
+    version: 0.4.9-0883f5f
   '@icewhale/icewhale-files-openapi':
     specifier: latest
-    version: 1.2.0-alpha1
+    version: 1.2.0-alpha24
   '@icewhale/zimaos-modmanagement-openapi':
     specifier: ^0.0.13
     version: 0.0.13
@@ -64,7 +64,7 @@ dependencies:
     version: 2.0.5
   iconfonts-casaos:
     specifier: latest
-    version: 1.0.8
+    version: 1.0.10
   intersection-observer:
     specifier: ^0.12.2
     version: 0.12.2
@@ -1651,24 +1651,24 @@ packages:
       '@hapi/hoek': 8.5.1
     dev: true
 
-  /@icewhale/casaos-appmanagement-openapi@0.4.8-alpha4:
-    resolution: {integrity: sha512-MoA/znXD1VuTbwvJmzizi3A5RxLwidzNKD+bdtbDkLsIeosJOEWHy4CJ0t+3qbN+Ex8iKT2yhJVWPj6riZwxog==}
+  /@icewhale/casaos-appmanagement-openapi@0.4.9-alpha4:
+    resolution: {integrity: sha512-IvA9u1Tky7kEeZdB9/cSioElSSn5ChIjlqw0ca4w9H0fZvlZtHIGEDxf5atoSzg4DY8bFy0cKoH6wr3yeeUc2A==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@icewhale/casaos-openapi@0.4.8-36dda53:
-    resolution: {integrity: sha512-bK46UWkCbA1lEP+0C1qxY7NTCR+kI5SvuLkdmfFpsNLfXkBJTz1haiyIKS0Zqj/Z+M1KDdFc1AKVvLoP1gya0A==}
+  /@icewhale/casaos-openapi@0.4.9-0883f5f:
+    resolution: {integrity: sha512-GRf+D3rTPo6OLHzbNGOEPHEavBru7xu4ii2hDQW28YgYy9cues6lxHRXnvocDHvG6y44cC3lpv2xoecNvarZzA==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@icewhale/icewhale-files-openapi@1.2.0-alpha1:
-    resolution: {integrity: sha512-avLuEQLihmzMWjlsw/LyB7u9cYz0P2FbbcAdBWyrK4JGi4y0kFMC/FTIgzSg5Pq1KDNpD3XfCGLRj7dYvT6XsQ==}
+  /@icewhale/icewhale-files-openapi@1.2.0-alpha24:
+    resolution: {integrity: sha512-9C76pUjbVf33tV2ypZ7qPSwaNqS/mXAU+hbr6/ogEAsoqPE991qhnQqfzOTUgYfSirT7BQBBJKwcMDA7rkyhMw==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
@@ -7539,8 +7539,8 @@ packages:
     engines: {node: '>=8.12.0'}
     dev: true
 
-  /iconfonts-casaos@1.0.8:
-    resolution: {integrity: sha512-X4KeK48eadGiurj3w45erkU5ndKulyPe95LoLSYY8ok8Sb96OwvKe7hroTWjyNe3YQrG8nuMLvn4Z6hdD11psQ==}
+  /iconfonts-casaos@1.0.10:
+    resolution: {integrity: sha512-SaWpdjoh5hVmFd3z55wxMiXXqo+bWMGR74fXelQaievubheFT/dafhEK8383Rq+iPc5XjOvPGcc4S0MFwXrB8A==}
     dev: false
 
   /iconv-lite@0.4.24:
@@ -11152,6 +11152,7 @@ packages:
 
   /rimraf@2.6.3:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
     dependencies:
       glob: 7.2.3

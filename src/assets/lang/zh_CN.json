@@ -142,5 +142,6 @@
   "The name already exists": "名字已经存在。",
   "Custom Install": "自定义安装",
   "The information filled in needs to be corrected": "请正确填写所需要的信息。",
-  "Name of app container": "Name of app container."
+  "Name of app container": "Name of app container.",
+  "newAppRepoAdded": "新软件源已添加。"
 }

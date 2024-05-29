@@ -1,6 +1,7 @@
 <script setup>
 import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
+import i18n from "@/plugins/i18n";
 
 const emit = defineEmits(["refreshAppStore", "refreshSize"]);
 const props = defineProps(["totalApps"]);
@@ -64,19 +65,45 @@ function changeInputState(alwaysNotDisplay = false) {
 	}
 }
 
-function registerAppStore(url) {
-	if (url) {
+function registerAppStore(repoUrl) {
+	if (repoUrl) {
 		addLoadingState.value = true;
-		app.$openAPI.appManagement.appStore.registerAppStore(url).catch((err) => {
-			if (err.response.status === 409) {
-				app.$buefy.toast.open({
-					message: err.response.data.message,
-					duration: 5000,
-					type: "is-warning",
-				});
-			}
-			addLoadingState.value = false;
-		});
+		// app.$openAPI.appManagement.appStore.registerAppStore(repoUrl).catch((err) => {
+		// 	if (err.response.status === 409) {
+		// 		app.$buefy.toast.open({
+		// 			message: err.response.data.message,
+		// 			duration: 5000,
+		// 			type: "is-warning",
+		// 		});
+		// 	}
+		// 	addLoadingState.value = false;
+		// });
+		app.$openAPI.appManagement.appStore
+			.registerAppStoreSync(repoUrl)
+			.then((res) => {
+				if (res.status == 200) {
+					app.$buefy.toast.open({
+						message: i18n.t("newAppRepoAdded"),
+						duration: 5000,
+						type: "is-success",
+					});
+					emit("refreshAppStore");
+					getSourceList();
+					url.value = "";
+				}
+			})
+			.catch((err) => {
+				if ([400, 409, 500].includes(err.response.status)) {
+					app.$buefy.toast.open({
+						message: err.response.data.message,
+						duration: 5000,
+						type: "is-warning",
+					});
+				}
+			})
+			.finally(() => {
+				addLoadingState.value = false;
+			});
 	}
 }
 
@@ -109,7 +136,7 @@ function activeInput() {
 function getSourceList() {
 	app.$openAPI.appManagement.appStore.appStoreList().then((res) => {
 		if (res.status === 200) {
-			const storeList = res.data.data.filter((item) => {
+			const storeList = res.data.data.filter((item, i) => {
 				const isHttp = item.url.includes("http");
 				const pathname = isHttp ? new URL(item.url).pathname : item.url;
 				const pathnameList = pathname.split("/");
@@ -117,7 +144,7 @@ function getSourceList() {
 					? pathnameList[1]
 					: pathnameList[pathnameList.length - 1].split(".").slice(0, -1).join(".");
 
-				if (pathnameList[1] === "IceWhaleTech") {
+				if (i === 0) {
 					return false;
 				} else {
 					item.name = sourceName;
@@ -145,32 +172,32 @@ function getSourceList() {
 
 onMounted(() => {
 	getSourceList();
-	subscribe("app-store:register-end", (res) => {
-		console.log(res);
-		app.$buefy.toast.open({
-			message: "Updating the information source of the app store is complete.",
-			duration: 5000,
-			type: "is-success",
-		});
-		getSourceList();
-		emit("refreshAppStore");
-		url.value = "";
-		addLoadingState.value = false;
-	});
-	subscribe("app-store:register-error", (res) => {
-		app.$buefy.toast.open({
-			message: "Failed to update the information source of the app store.",
-			duration: 5000,
-			type: "is-warning",
-		});
-		url.value = "";
-		addLoadingState.value = false;
-	});
+	// subscribe("app-store:register-end", (res) => {
+	// 	console.log(res);
+	// 	app.$buefy.toast.open({
+	// 		message: "Updating the information source of the app store is complete.",
+	// 		duration: 5000,
+	// 		type: "is-success",
+	// 	});
+	// 	getSourceList();
+	// 	emit("refreshAppStore");
+	// 	url.value = "";
+	// 	addLoadingState.value = false;
+	// });
+	// subscribe("app-store:register-error", (res) => {
+	// 	app.$buefy.toast.open({
+	// 		message: "Failed to update the information source of the app store.",
+	// 		duration: 5000,
+	// 		type: "is-warning",
+	// 	});
+	// 	url.value = "";
+	// 	addLoadingState.value = false;
+	// });
 });
 
 onBeforeUnmount(() => {
-	unsubscribe("app-store:register-end");
-	unsubscribe("app-store:register-error");
+	// unsubscribe("app-store:register-end");
+	// unsubscribe("app-store:register-error");
 });
 </script>
 
