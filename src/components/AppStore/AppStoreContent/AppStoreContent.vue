@@ -10,7 +10,7 @@
 					<b-image
 						:src="item.icon"
 						:src-fallback="require('@/assets/img/app/default.svg')"
-						class="is-64x64 icon-shadow"
+						class="is-64x64 icon-shadow app-icon"
 						style="display: flex; align-items: center"
 						webp-fallback=".jpg"
 					></b-image>
