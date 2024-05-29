@@ -142,5 +142,6 @@
   "The name already exists": "The name already exists.",
   "Custom Install": "Custom Install",
   "The information filled in needs to be corrected": "The information filled in needs to be corrected.",
-  "Name of app container": "Name of app container."
+  "Name of app container": "Name of app container.",
+  "newAppRepoAdded": "New App repo added."
 }

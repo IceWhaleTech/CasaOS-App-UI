@@ -654,10 +654,14 @@ export default {
 				});
 			}
 		},
-		// Open App Detail Panel
-		"casaos-ui:app:open-app-detail"(data) {
-			console.log("casaos-ui:app:open-app-detail", data);
-			this.showAppSettingPanel(data.Properties["storeId"] ?? "");
+		"casaos-ui:app:mircoapp_communicate"(data) {
+			const access_id = this.$store.state.access_id;
+			if (data.Properties.access_id === access_id) {
+				// Open App Detail Panel
+				if (data.Properties.action === "open_appstore_detail" && data.Properties.storeId) {
+					this.showAppSettingPanel(data.Properties.storeId);
+				}
+			}
 		},
 	},
 };
