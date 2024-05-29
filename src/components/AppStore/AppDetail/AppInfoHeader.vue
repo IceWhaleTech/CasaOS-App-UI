@@ -5,7 +5,7 @@
 				:key="appDetailData.icon"
 				:src="appDetailData.icon"
 				:src-fallback="require('@/assets/img/app/default.svg')"
-				class="is-128x128 icon-shadow"
+				class="is-128x128 icon-shadow app-icon"
 				custom-class="image is-128x128"
 				webp-fallback=".jpg"
 			>
@@ -141,7 +141,7 @@ defineExpose({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .app-header {
 	position: relative;
 }
@@ -187,7 +187,7 @@ defineExpose({
 	align-items: center;
 }
 </style>
-<style>
+<style lang="scss">
 /* // version dropdown css */
 .custom-install-button {
 	span {
