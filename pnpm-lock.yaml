@@ -9,14 +9,14 @@ dependencies:
     specifier: ^4.5.8
     version: 4.5.8
   '@icewhale/casaos-appmanagement-openapi':
-    specifier: ^0.4.9-alpha4
-    version: 0.4.9-alpha4
+    specifier: ^0.4.9-alpha7
+    version: 0.4.9-alpha7
   '@icewhale/casaos-openapi':
     specifier: latest
     version: 0.4.9-0883f5f
   '@icewhale/icewhale-files-openapi':
     specifier: latest
-    version: 1.2.0-alpha24
+    version: 1.2.1-alpha1
   '@icewhale/zimaos-modmanagement-openapi':
     specifier: ^0.0.13
     version: 0.0.13
@@ -1651,8 +1651,8 @@ packages:
       '@hapi/hoek': 8.5.1
     dev: true
 
-  /@icewhale/casaos-appmanagement-openapi@0.4.9-alpha4:
-    resolution: {integrity: sha512-IvA9u1Tky7kEeZdB9/cSioElSSn5ChIjlqw0ca4w9H0fZvlZtHIGEDxf5atoSzg4DY8bFy0cKoH6wr3yeeUc2A==}
+  /@icewhale/casaos-appmanagement-openapi@0.4.9-alpha7:
+    resolution: {integrity: sha512-Zad1OywXEGUpyEPqaxLZ3M0PBMUt1hpPXMMO11HQvv+39V4OtI2V8oWqoyryo1LbTkrMqRl55ji50PxbPpyHYQ==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
@@ -1667,8 +1667,8 @@ packages:
       - debug
     dev: false
 
-  /@icewhale/icewhale-files-openapi@1.2.0-alpha24:
-    resolution: {integrity: sha512-9C76pUjbVf33tV2ypZ7qPSwaNqS/mXAU+hbr6/ogEAsoqPE991qhnQqfzOTUgYfSirT7BQBBJKwcMDA7rkyhMw==}
+  /@icewhale/icewhale-files-openapi@1.2.1-alpha1:
+    resolution: {integrity: sha512-GNiIGzVJQW/otf41Ncy73c87B43yj8H4iqm5338YuSmQmtSNbG0BJF3VChKK++3inJdF3+Zigzjc7H3QBf51Wg==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:
@@ -5914,7 +5914,7 @@ packages:
       '@one-ini/wasm': 0.1.1
       commander: 10.0.1
       minimatch: 9.0.1
-      semver: 7.6.0
+      semver: 7.6.2
     dev: true
 
   /ee-first@1.1.1:
@@ -7051,7 +7051,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -11395,7 +11395,6 @@ packages:
     hasBin: true
     requiresBuild: true
     dev: true
-    optional: true
 
   /send@0.18.0(supports-color@6.1.0):
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
