@@ -20,7 +20,7 @@
   "packageManager": "pnpm@8.7.0",
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
-    "@icewhale/casaos-appmanagement-openapi": "^0.4.9-alpha4",
+    "@icewhale/casaos-appmanagement-openapi": "^0.4.9-alpha7",
     "@icewhale/casaos-openapi": "latest",
     "@icewhale/icewhale-files-openapi": "latest",
     "@icewhale/zimaos-modmanagement-openapi": "^0.0.13",
