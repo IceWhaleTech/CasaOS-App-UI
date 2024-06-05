@@ -158,6 +158,7 @@ export default {
 			appListErrorMessage: "",
 			skCount: 0,
 			ListRefreshTimer: null,
+			hasGpu: null,
 			gpuAppList: [],
 			mircoAppList: [],
 		};
@@ -194,6 +195,8 @@ export default {
 				});
 			},
 		});
+
+		this.isLoading = true;
 		this.getList();
 		this.draggable = this.isMobile() ? "" : ".handle";
 
@@ -253,26 +256,65 @@ export default {
 		},
 
 		/**
+		 * @description: Check if the GPU is available
+		 * @return {*} void
+		 */
+		checkGpu() {
+			iceGpu
+				.getGPUList(10 * 1024 * 1024 * 1024, true)
+				.then((res) => {
+					this.hasGpu = res.data.data.length > 0;
+				})
+				.catch(() => {
+					this.hasGpu = false;
+				});
+		},
+
+		/**
+		 * @description: Get the list of GPU applications
+		 * @return {*} void
+		 */
+		getGpuAppList() {
+			iceGpu
+				.getGPUApplications()
+				.then((res) => {
+					this.gpuAppList = res.data.data || [];
+				})
+				.catch(() => {
+					this.gpuAppList = [];
+				});
+		},
+
+		/**
 		 * @description: Fetch the list of installed apps
 		 * @return {*} void
 		 */
 		async getList() {
-			const hasGpu = await iceGpu
-				.getGPUList(10 * 1024 * 1024 * 1024, true)
-				.then((res) => {
-					return res.data.data.length > 0;
-				})
-				.catch(() => {
-					return false;
-				});
-			if (this.gpuAppList.length === 0) {
-				this.gpuAppList = await iceGpu
-					.getGPUApplications()
-					.then((res) => res.data.data || [])
-					.catch(() => {
-						return [];
-					});
+			// this.hasGpu = await iceGpu
+			// 	.getGPUList(10 * 1024 * 1024 * 1024, true)
+			// 	.then((res) => {
+			// 		return res.data.data.length > 0;
+			// 	})
+			// 	.catch(() => {
+			// 		return false;
+			// 	});
+			// if (this.gpuAppList.length === 0) {
+			// 	this.gpuAppList = await iceGpu
+			// 		.getGPUApplications()
+			// 		.then((res) => res.data.data || [])
+			// 		.catch(() => {
+			// 			return [];
+			// 		});
+			// }
+
+			if (this.hasGpu === null) {
+				this.checkGpu();
 			}
+
+			if (this.gpuAppList.length === 0) {
+				this.getGpuAppList();
+			}
+
 			try {
 				const orgAppList = await this.$openAPI.appGrid.getAppGrid().then((res) => res.data.data || []);
 				let orgOldAppList = [],
@@ -320,12 +362,12 @@ export default {
 				// all app list
 				let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList);
 
-				if (hasGpu) {
+				if (this.hasGpu) {
 					casaAppList = casaAppList.map((item) => {
 						item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
 						return item;
 					});
-				} else {
+				} else if (this.hasGpu === false) {
 					casaAppList = casaAppList.filter((item) => {
 						return item.name != "icewhale_chat";
 						// return !this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
