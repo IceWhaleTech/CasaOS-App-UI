@@ -143,5 +143,6 @@
   "Custom Install": "Custom Install",
   "The information filled in needs to be corrected": "The information filled in needs to be corrected.",
   "Name of app container": "Name of app container.",
-  "newAppRepoAdded": "New App repo added."
+  "newAppRepoAdded": "New App repo added.",
+  "appIsLatestVersion": "{appName} is the latest version!"
 }

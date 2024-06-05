@@ -207,18 +207,18 @@
 </template>
 
 <script>
-import events                    from "@/events/events";
-import cTooltip                  from "@/components/basicComponents/tooltip/tooltip.vue";
-import business_ShowNewAppTag    from "@/mixins/app/Business_ShowNewAppTag";
-import business_OpenThirdApp     from "@/mixins/app/Business_OpenThirdApp";
-import business_LinkApp          from "@/mixins/app/Business_LinkApp";
-import isNull                    from "lodash/isNull";
-import tipEditorModal            from "@/components/AppSetting/AppTipModal.vue";
-import YAML                      from "yaml";
-import commonI18n, { ice_i18n }  from "@/mixins/base/common-i18n";
-import FileSaver                 from "file-saver";
+import events from "@/events/events";
+import cTooltip from "@/components/basicComponents/tooltip/tooltip.vue";
+import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
+import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
+import business_LinkApp from "@/mixins/app/Business_LinkApp";
+import isNull from "lodash/isNull";
+import tipEditorModal from "@/components/AppSetting/AppTipModal.vue";
+import YAML from "yaml";
+import commonI18n, { ice_i18n } from "@/mixins/base/common-i18n";
+import FileSaver from "file-saver";
 import { MIRCO_APP_ACTION_ENUM } from "@/const";
-import { vOnClickOutside }       from '@vueuse/components'
+import { vOnClickOutside } from "@vueuse/components";
 
 export default {
 	name: "app-card",
@@ -923,7 +923,7 @@ export default {
 			}
 			this.isUpdating = false;
 			this.$buefy.toast.open({
-				message: this.$t(`{appName} is the latest version!`, { appName: this.item.name }),
+				message: this.$t("appIsLatestVersion", { appName: this.item.name }),
 				type: "is-success",
 				duration: 5000,
 			});
@@ -934,7 +934,7 @@ export default {
 				this.isRebuilding = false;
 				// 5.message toast
 				this.$buefy.toast.open({
-					message: this.$t(`{title} rebulid completed`, { title: ice_i18n(this.item.title) }),
+					message: this.$t("{title} rebulid completed", { title: ice_i18n(this.item.title) }),
 					type: "is-success",
 				});
 			}

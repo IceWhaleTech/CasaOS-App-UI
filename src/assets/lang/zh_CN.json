@@ -128,7 +128,7 @@
   "Something to remember eg. password": "帮助记住一些内容。比如：密码。",
   "Rebuilding": "重建中",
   "Rebuild": "重建",
-  "{title} rebulid completed": "{title} rebulid completed",
+  "{title} rebulid completed": "{title} 重建完成",
   "Rebulid error": "重建错误",
   "Installing {title}": "安装 {title}",
   "All": "全部",
@@ -142,6 +142,7 @@
   "The name already exists": "名字已经存在。",
   "Custom Install": "自定义安装",
   "The information filled in needs to be corrected": "请正确填写所需要的信息。",
-  "Name of app container": "Name of app container.",
-  "newAppRepoAdded": "新软件源已添加。"
+  "Name of app container": "应用容器名称",
+  "newAppRepoAdded": "新软件源已添加。",
+  "appIsLatestVersion": "{appName} 是最新版本！"
 }
