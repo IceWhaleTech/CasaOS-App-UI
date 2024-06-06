@@ -697,8 +697,7 @@ export default {
 			}
 		},
 		"casaos-ui:app:mircoapp_communicate"(data) {
-			const access_id = this.$store.state.access_id;
-			if (data.Properties.access_id === access_id) {
+			if (data.Properties.access_id === window.$wujie.props?.access_id) {
 				// Open App Detail Panel
 				if (data.Properties.action === "open_appstore_detail" && data.Properties.storeId) {
 					this.showAppSettingPanel(data.Properties.storeId);
