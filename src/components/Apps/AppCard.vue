@@ -411,6 +411,12 @@ export default {
 				// case "Remote Access":
 				// 	this.showMircoApp(item);
 				// 	break;
+				case "Settings":
+					this.$messageBus("mircoapp_communicate", {
+						action: "open",
+						name: "icewhale_settings",
+					});
+					break;
 				default:
 					break;
 			}
