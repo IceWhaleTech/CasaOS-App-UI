@@ -1,12 +1,3 @@
-<!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/3/22 上午11:17
-  * @FilePath: /CasaOS-UI/src/components/Apps/TipEditorModal
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
 <template>
 	<div class="modal-card">
 		<!-- Modal-Card Header Start -->
@@ -24,7 +15,7 @@
 
 		<!-- Modal-Card Body Start -->
 		<section class="modal-card-body">
-			<VMdEditor v-model="tips" :mode="controlEditorState" :placeholder="$t('Something to remember eg. password')"
+			<VMdEditor ref="editor" v-model="tips" :mode="controlEditorState" :placeholder="$t('Something to remember eg. password')"
 				left-toolbar right-toolbar>
 			</VMdEditor>
 			<div v-if="name" class="is-flex is-flex-direction-row-reverse mt-2">
@@ -134,6 +125,15 @@ export default {
 		}
 	},
 	mounted() {
+		// if tips is empty, then set the editor to edit mode and focus
+		if (!this.tips) {
+			// set to edit mode
+			this.isEditing = true
+			// focus
+			this.$nextTick(() => {
+				this.$refs.editor.focus()
+			})
+		}
 	},
 	methods: {
 		/*
