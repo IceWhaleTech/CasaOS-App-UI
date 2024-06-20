@@ -227,7 +227,6 @@ import "@/plugins/vee-validate";
 import uniq                                                               from "lodash/uniq";
 import orderBy                                                            from "lodash/orderBy";
 import FileSaver                                                          from "file-saver";
-import AppsInstallationLocation                                           from "@/components/AppSetting/AppInstallationLocation.vue";
 import business_ShowNewAppTag                                             from "@/mixins/app/Business_ShowNewAppTag";
 import business_OpenThirdApp                                              from "@/mixins/app/Business_OpenThirdApp";
 import ComposeConfig                                                      from "@/components/AppSetting/ComposeConfig.vue";
@@ -283,7 +282,6 @@ export default {
 	components: {
 		AppHost,
 		AppSideBar,
-		AppsInstallationLocation,
 		ComposeConfig,
 		ValidationObserver,
 		ValidationProvider,
