@@ -1,11 +1,3 @@
-<!--
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-18 13:44:44
- * @FilePath: /CasaOS-App-UI/src/components/Apps/AppCard.vue
-  * @Description:
-  *
-  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
-  -->
 <template>
 	<div
 		class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card"
@@ -780,21 +772,22 @@ export default {
 					if (resp.status === 200) {
 						// messageBus :: apps_checkThenUpdate
 						this.$messageBus("apps_checkupdate", this.item.name.toString());
+						// toast info.
 						this.$buefy.toast.open({
 							// value is `In the process of asynchronous updating.` or `compose app `app Name` is up to date`
-							message: resp.data.message,
-							type: "is-success",
-						});
-					} else {
-						this.$buefy.toast.open({
-							message: this.$t(`No updates are currently available for the application.`),
+							message: resp.data.message.includes("up to date")
+								? this.$t("appIsLatestVersion", { appName: ice_i18n(this.item.title) })
+								: resp.data.message.includes("asynchronously")
+								? this.$t("appUpdatingAsynchronously", { appName: ice_i18n(this.item.title) })
+								: resp.data.message,
 							type: "is-success",
 						});
 					}
 				})
-				.catch(() => {
+				.catch((res) => {
+					console.log("checkAppVersion Error:", res);
 					this.$buefy.toast.open({
-						message: this.$t(`Unable to update at the moment!`),
+						message: this.$t("appUnableToUpdateNow", { appName: ice_i18n(this.item.title) }),
 						type: "is-danger",
 					});
 				})

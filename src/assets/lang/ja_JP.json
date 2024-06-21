@@ -144,5 +144,12 @@
   "The information filled in needs to be corrected": "記入された情報を修正する必要があります。",
   "Name of app container": "アプリコンテナの名前",
   "newAppRepoAdded": "新しいアプリリポジトリが追加されました。",
-  "appIsLatestVersion": "{appName}は最新バージョンです！"
+  "appIsLatestVersion": "{appName}は最新バージョンです！",
+  "appUpdatingAsynchronously": "{appName} は非同期で更新されています。",
+  "appUnableToUpdateNow": "現在 {appName} を更新できません。後でもう一度お試しください。",
+  "appSettingsUpdated": "{appName} の設定が更新されました。",
+  "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} と UDP {udpPorts} ポートが使用中です。別のポートをお試しください。",
+  "appSettingsTcpPortsInUse": "TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。 | TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。 | TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。",
+  "appSettingsUdpPortsInUse": "UDP {udpPorts} ポートが使用中です。別のポートをお試しください。 | UDP {udpPorts} ポートが使用中です。別のポートをお試しください。 | UDP {udpPorts} ポートが使用中です。別のポートをお試しください。",
+  "Please confirm the input content": "入力内容を確認してください。"
 }

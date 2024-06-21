@@ -144,5 +144,12 @@
   "The information filled in needs to be corrected": "请正确填写所需要的信息。",
   "Name of app container": "应用容器名称",
   "newAppRepoAdded": "新软件源已添加。",
-  "appIsLatestVersion": "{appName} 是最新版本！"
+  "appIsLatestVersion": "{appName} 是最新版本！",
+  "appUpdatingAsynchronously": "{appName} 正在异步更新。",
+  "appUnableToUpdateNow": "暂时无法更新 {appName}。请稍后再试。",
+  "appSettingsUpdated": "{appName} 设置已更新。",
+  "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} 和 UDP {udpPorts} 端口正在使用中。请尝试其他端口。",
+  "appSettingsTcpPortsInUse": "TCP {tcpPorts} 端口正在使用中。请尝试其他端口。 | TCP {tcpPorts} 端口正在使用中。请尝试其他端口。 | TCP {tcpPorts} 端口正在使用中。请尝试其他端口。",
+  "appSettingsUdpPortsInUse": "UDP {udpPorts} 端口正在使用中。请尝试其他端口。 | UDP {udpPorts} 端口正在使用中。请尝试其他端口。 | UDP {udpPorts} 端口正在使用中。请尝试其他端口。",
+  "Please confirm the input content": "请确认输入内容。"
 }

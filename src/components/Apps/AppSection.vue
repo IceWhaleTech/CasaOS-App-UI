@@ -667,7 +667,7 @@ export default {
 			let languages = JSON.parse(res.Properties["app:title"]);
 			const title = ice_i18n(languages);
 			// toast info
-			this.messageBusToast(title + " is OK", "is-success");
+			this.messageBusToast(this.$t("appSettingsUpdated", { appName: title }), "is-success");
 
 			// business :: Tagging of new app / scrollIntoView
 			this.addIdToSessionStorage(res.Properties["app:name"]);
