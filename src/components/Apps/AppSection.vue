@@ -135,6 +135,16 @@ const builtInApplications = [
 		status: "running",
 		app_type: "system",
 	},
+	{
+		id: "2",
+		name: "Settings",
+		title: {
+			en_us: "Settings",
+		},
+		icon: require(`@/assets/img/app/settings.svg`),
+		status: "running",
+		app_type: "system",
+	},
 ];
 
 const orderConfig = "app_order";
@@ -657,7 +667,7 @@ export default {
 			let languages = JSON.parse(res.Properties["app:title"]);
 			const title = ice_i18n(languages);
 			// toast info
-			this.messageBusToast(title + " is OK", "is-success");
+			this.messageBusToast(this.$t("appSettingsUpdated", { appName: title }), "is-success");
 
 			// business :: Tagging of new app / scrollIntoView
 			this.addIdToSessionStorage(res.Properties["app:name"]);

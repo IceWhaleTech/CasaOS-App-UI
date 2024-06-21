@@ -220,25 +220,24 @@
 </template>
 
 <script>
-import AppSideBar                                                         from "./AppSideBar.vue";
-import ImportPanel                                                        from "../forms/ImportPanel.vue";
-import AppTerminalPanel                                                   from "./AppTerminalPanel.vue";
+import AppSideBar from "./AppSideBar.vue";
+import ImportPanel from "../forms/ImportPanel.vue";
+import AppTerminalPanel from "./AppTerminalPanel.vue";
 import "@/plugins/vee-validate";
-import uniq                                                               from "lodash/uniq";
-import orderBy                                                            from "lodash/orderBy";
-import FileSaver                                                          from "file-saver";
-import AppsInstallationLocation                                           from "@/components/AppSetting/AppInstallationLocation.vue";
-import business_ShowNewAppTag                                             from "@/mixins/app/Business_ShowNewAppTag";
-import business_OpenThirdApp                                              from "@/mixins/app/Business_OpenThirdApp";
-import ComposeConfig                                                      from "@/components/AppSetting/ComposeConfig.vue";
-import { ValidationObserver, ValidationProvider }                         from "vee-validate";
-import { ice_i18n }                                                       from "@/mixins/base/common-i18n";
-import { parse }                                                          from "yaml";
-import { vOnClickOutside }                                                from "@vueuse/components";
+import uniq from "lodash/uniq";
+import orderBy from "lodash/orderBy";
+import FileSaver from "file-saver";
+import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
+import business_OpenThirdApp from "@/mixins/app/Business_OpenThirdApp";
+import ComposeConfig from "@/components/AppSetting/ComposeConfig.vue";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ice_i18n } from "@/mixins/base/common-i18n";
+import { parse } from "yaml";
+import { vOnClickOutside } from "@vueuse/components";
 import { AppConditionSelector, AppDetail, AppRecommend, AppStoreContent } from "@/components/AppStore";
-import { AppInstallLoadingFooter, AppInstallLoadingPanel }                from "@/components/AppInstallLoadingPanel";
-import { AppSettingPanelFooter }                                          from "@/components/AppSetting";
-import { AppHost }                                                        from "@/components/AppHost";
+import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
+import { AppSettingPanelFooter } from "@/components/AppSetting";
+import { AppHost } from "@/components/AppHost";
 
 const data = [
 	"AUDIT_CONTROL",
@@ -283,7 +282,6 @@ export default {
 	components: {
 		AppHost,
 		AppSideBar,
-		AppsInstallationLocation,
 		ComposeConfig,
 		ValidationObserver,
 		ValidationProvider,
@@ -762,15 +760,29 @@ export default {
 								console.log("Get ERROR:", err.response.data);
 								this.errInfo = err.response.data;
 							}
+							const ports = err.response.data.data.ports_in_use;
+							const tcpPorts = ports.TCP.length > 0 ? `${ports.TCP.join(", ")}` : "";
+							const udpPorts = ports.UDP.length > 0 ? `${ports.UDP.join(", ")}` : "";
+
 							this.$buefy.toast.open({
-								message: err.response.data.message,
+								message:
+									tcpPorts && udpPorts
+										? this.$t("appSettingsTcpAndUdpPortsInUse", {
+												tcpPorts: tcpPorts,
+												udpPorts: udpPorts,
+										  })
+										: tcpPorts
+										? this.$tc("appSettingsTcpPortsInUse", ports.TCP.length, { tcpPorts: tcpPorts })
+										: udpPorts
+										? this.$tc("appSettingsUdpPortsInUse", ports.UDP.length, { udpPorts: udpPorts })
+										: this.$t("The information filled in needs to be corrected"),
 								duration: 5000,
 								type: "is-warning",
 							});
 						});
 				} else {
 					this.$buefy.toast.open({
-						message: this.$t("Please confirm the input content."),
+						message: this.$t("Please confirm the input content"),
 						duration: 5000,
 						type: "is-danger",
 					});
