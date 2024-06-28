@@ -1214,7 +1214,7 @@ export default {
 }
 
 .button[disabled] {
-	opactiy: 0.3;
+	opacity: 0.3;
 }
 
 ._title {
