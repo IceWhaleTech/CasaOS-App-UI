@@ -391,7 +391,18 @@ export default {
 				// get app sort info.
 				let lateSortList = await this.$api.users
 					.getCustomStorage(orderConfig)
-					.then((res) => res.data.data.data || []);
+					.then(
+						(res) =>
+							res.data.data.data || [
+								"App Store",
+								"icewhale_files",
+								"zimaos_zvm",
+								"icewhale_chat",
+								"icewhale_peerdrop",
+								"Settings",
+								"IceWhale Community",
+							]
+					);
 
 				// filter anything not in casaAppList.
 				const propList = casaAppList.map((obj) => obj.name);
