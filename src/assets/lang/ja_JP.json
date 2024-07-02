@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} と UDP {udpPorts} ポートが使用中です。別のポートをお試しください。",
   "appSettingsTcpPortsInUse": "TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。 | TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。 | TCP {tcpPorts} ポートが使用中です。別のポートをお試しください。",
   "appSettingsUdpPortsInUse": "UDP {udpPorts} ポートが使用中です。別のポートをお試しください。 | UDP {udpPorts} ポートが使用中です。別のポートをお試しください。 | UDP {udpPorts} ポートが使用中です。別のポートをお試しください。",
-  "Please confirm the input content": "入力内容を確認してください。"
+  "Please confirm the input content": "入力内容を確認してください。",
+  "Favorites": "お気に入り",
+  "noFavorites": "お気に入りはありません。",
+  "Storage": "ストレージ"
 }

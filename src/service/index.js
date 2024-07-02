@@ -16,9 +16,11 @@ import {
 	InternalMethodsApiFactory
 } from '@icewhale/casaos-appmanagement-openapi'
 import { ZerotierMethodsApi } from '@icewhale/casaos-openapi'
-import { FileApiFactory, FolderApiFactory } from '@icewhale/icewhale-files-openapi'
+import { FileApiFactory, FolderApiFactory, PinMethodsApi } from '@icewhale/icewhale-files-openapi'
 import { GPUMethodsApi } from '@icewhale/zimaos-openapi'
 import { ModuleMethodsApi } from "@icewhale/zimaos-modmanagement-openapi"
+import { StorageMethodsApi } from '@icewhale/zimaos-localstorage-openapi'
+
 
 const axiosBaseURL =
 	process.env.NODE_ENV === 'dev'
@@ -36,6 +38,8 @@ const appCompose = new ComposeMethodsApiFactory(config, '/v2/app_management', in
 const zerotier = new ZerotierMethodsApi(config, '/v2/casaos/', instance)
 const iceFile = new FileApiFactory(config, '/v2', instance)
 const iceFolder = new FolderApiFactory(config, '/v2', instance)
+const filesPin = new PinMethodsApi(config, '/v2_1/files', instance)
+const storage = new StorageMethodsApi(config, '/v2/local_storage', instance)
 const modManagement = new ModuleMethodsApi(config, '/v2/mod_management', instance)
 export const iceGpu = new GPUMethodsApi(config, '/v2/zimaos', instance)
 export const useOpenAPI = () => {
@@ -45,8 +49,11 @@ export const useOpenAPI = () => {
 		appCompose,
 		zerotier,
 		iceFile,
-		iceFolder
+		iceFolder,
+		modManagement,
+		filesPin,
+		storage
 	}
 }
 
-export default { appManagement, appGrid, appCompose, zerotier, iceFile, iceFolder, modManagement }
+export default { appManagement, appGrid, appCompose, zerotier, iceFile, iceFolder, modManagement, filesPin, storage}

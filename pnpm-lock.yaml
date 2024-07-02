@@ -15,8 +15,11 @@ dependencies:
     specifier: latest
     version: 0.4.9-0883f5f
   '@icewhale/icewhale-files-openapi':
-    specifier: latest
-    version: 1.2.1-alpha1
+    specifier: 1.2.2-alpha4
+    version: 1.2.2-alpha4
+  '@icewhale/zimaos-localstorage-openapi':
+    specifier: 1.2.2-alpha7
+    version: 1.2.2-alpha7
   '@icewhale/zimaos-modmanagement-openapi':
     specifier: ^0.0.13
     version: 0.0.13
@@ -1667,8 +1670,16 @@ packages:
       - debug
     dev: false
 
-  /@icewhale/icewhale-files-openapi@1.2.1-alpha1:
-    resolution: {integrity: sha512-GNiIGzVJQW/otf41Ncy73c87B43yj8H4iqm5338YuSmQmtSNbG0BJF3VChKK++3inJdF3+Zigzjc7H3QBf51Wg==}
+  /@icewhale/icewhale-files-openapi@1.2.2-alpha4:
+    resolution: {integrity: sha512-zWl1cDwJvcth51+aIFMHjMOYtKg9n86KzmLUKzZ2jVLaHujpmiKJgiuzfylHwwkAUOL3m7b448gj2P3xW3UcpA==}
+    dependencies:
+      axios: 1.6.8
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@icewhale/zimaos-localstorage-openapi@1.2.2-alpha7:
+    resolution: {integrity: sha512-ebZgdrn75k8qx7GWGVGZelf0kbyNarm7E/vxfqvaZ2fqXSF7WmufTdBSGxnC9uejuatv/nPOXbzmPBbm+UR72w==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:

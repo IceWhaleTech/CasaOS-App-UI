@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} and UDP {udpPorts} ports are in use. Please try another port.",
   "appSettingsTcpPortsInUse": "TCP {tcpPorts} ports are in use. Please try another port. | TCP {tcpPorts} port is in use. Please try another port. | TCP {tcpPorts} ports are in use. Please try another port.",
   "appSettingsUdpPortsInUse": "UDP {udpPorts} ports are in use. Please try another port. | UDP {udpPorts} port is in use. Please try another port. | UDP {udpPorts} ports are in use. Please try another port.",
-  "Please confirm the input content": "Please confirm the input content."
+  "Please confirm the input content": "Please confirm the input content.",
+  "Favorites": "Favourites",
+  "noFavorites": "No favourites now.",
+  "Storage": "Storage"
 }

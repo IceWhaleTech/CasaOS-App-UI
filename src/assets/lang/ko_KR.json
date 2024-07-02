@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} 및 UDP {udpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오.",
   "appSettingsTcpPortsInUse": "TCP {tcpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오. | TCP {tcpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오. | TCP {tcpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오.",
   "appSettingsUdpPortsInUse": "UDP {udpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오. | UDP {udpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오. | UDP {udpPorts} 포트가 사용 중입니다. 다른 포트를 시도해 보십시오.",
-  "Please confirm the input content": "입력 내용을 확인하십시오."
+  "Please confirm the input content": "입력 내용을 확인하십시오.",
+  "Favorites": "즐겨찾기",
+  "noFavorites": "즐겨찾기가 없습니다.",
+  "Storage": "저장소"
 }
