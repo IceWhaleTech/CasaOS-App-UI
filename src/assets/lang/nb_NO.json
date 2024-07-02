@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} og UDP {udpPorts} porter er i bruk. Vennligst prøv en annen port.",
   "appSettingsTcpPortsInUse": "TCP {tcpPorts} porter er i bruk. Vennligst prøv en annen port. | TCP {tcpPorts} port er i bruk. Vennligst prøv en annen port. | TCP {tcpPorts} porter er i bruk. Vennligst prøv en annen port.",
   "appSettingsUdpPortsInUse": "UDP {udpPorts} porter er i bruk. Vennligst prøv en annen port. | UDP {udpPorts} port er i bruk. Vennligst prøv en annen port. | UDP {udpPorts} porter er i bruk. Vennligst prøv en annen port.",
-  "Please confirm the input content": "Vennligst bekreft innholdet."
+  "Please confirm the input content": "Vennligst bekreft innholdet.",
+  "Favorites": "Favoritter",
+  "noFavorites": "Ingen favoritter nå.",
+  "Storage": "Lagring"
 }

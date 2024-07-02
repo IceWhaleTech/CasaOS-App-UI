@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "TCP {tcpPorts} 和 UDP {udpPorts} 端口正在使用中。请尝试其他端口。",
   "appSettingsTcpPortsInUse": "TCP {tcpPorts} 端口正在使用中。请尝试其他端口。 | TCP {tcpPorts} 端口正在使用中。请尝试其他端口。 | TCP {tcpPorts} 端口正在使用中。请尝试其他端口。",
   "appSettingsUdpPortsInUse": "UDP {udpPorts} 端口正在使用中。请尝试其他端口。 | UDP {udpPorts} 端口正在使用中。请尝试其他端口。 | UDP {udpPorts} 端口正在使用中。请尝试其他端口。",
-  "Please confirm the input content": "请确认输入内容。"
+  "Please confirm the input content": "请确认输入内容。",
+  "Favorites": "收藏",
+  "noFavorites": "目前没有收藏的文件夹。",
+  "Storage": "存储"
 }

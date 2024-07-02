@@ -151,5 +151,8 @@
   "appSettingsTcpAndUdpPortsInUse": "Le porte TCP {tcpPorts} e UDP {udpPorts} sono in uso. Si prega di provare un'altra porta.",
   "appSettingsTcpPortsInUse": "Le porte TCP {tcpPorts} sono in uso. Si prega di provare un'altra porta. | La porta TCP {tcpPorts} è in uso. Si prega di provare un'altra porta. | Le porte TCP {tcpPorts} sono in uso. Si prega di provare un'altra porta.",
   "appSettingsUdpPortsInUse": "Le porte UDP {udpPorts} sono in uso. Si prega di provare un'altra porta. | La porta UDP {udpPorts} è in uso. Si prega di provare un'altra porta. | Le porte UDP {udpPorts} sono in uso. Si prega di provare un'altra porta.",
-  "Please confirm the input content": "Si prega di confermare il contenuto inserito."
+  "Please confirm the input content": "Si prega di confermare il contenuto inserito.",
+  "Favorites": "Preferiti",
+  "noFavorites": "Nessun preferito ora.",
+  "Storage": "Memoria"
 }
