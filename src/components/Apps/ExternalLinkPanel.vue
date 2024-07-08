@@ -186,7 +186,7 @@ export default {
 							app_type: "LinkApp",
 							status: "running",
 						})
-						this.addIdToSessionStorage(this.name);
+						this.addIdToNewAppIds(this.name);
 						this.saveLinkApp(listLinkApp)
 					} else {
 						this.$buefy.toast.open({

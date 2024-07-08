@@ -970,7 +970,6 @@ export default {
 
 		.dropdown-content {
 			padding: 4px !important;
-			width: 160px;
 			background: none;
 			padding: 0;
 			background: hsla(0, 0%, 100%, 1);
