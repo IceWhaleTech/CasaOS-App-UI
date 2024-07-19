@@ -370,9 +370,10 @@ export default {
 					});
 				}
 			} else if (this.isLinkApp) {
+        this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
 				window.open(item.hostname, "_blank");
-				this.removeIdFromSessionStorage(item.name);
 			} else if (item.requireGPU) {
+        this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
 				console.log("enable GPU ::", item);
 				let routeUrl = this.$router.resolve({
 					name: "AppDetection",
