@@ -11,6 +11,13 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+	@font-face {
+		font-family: 'BrittiSans';
+		src: url(/font/britti-sans-regular.woff) format('woff');
+	  }
+}
+
 // Import Font
 @import '~@fontsource/roboto/300.css';
 @import '~@fontsource/roboto/400.css';
