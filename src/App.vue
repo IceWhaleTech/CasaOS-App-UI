@@ -8,7 +8,7 @@
   -->
 
 <template>
-	<div id="app">
+	<div id="app" class="font-sans">
 		<!-- Router View Start -->
 		<router-view/>
 		<!-- Router View End -->
