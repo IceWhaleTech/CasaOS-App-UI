@@ -154,5 +154,7 @@
   "Please confirm the input content": "入力内容を確認してください。",
   "Favorites": "お気に入り",
   "noFavorites": "お気に入りはありません。",
-  "Storage": "ストレージ"
+  "Storage": "ストレージ",
+  "Migration": "移行",
+  "migrationTips": "ユーザーデータを別の場所に移行します。"
 }
