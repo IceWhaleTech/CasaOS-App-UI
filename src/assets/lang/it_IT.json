@@ -154,5 +154,7 @@
   "Please confirm the input content": "Si prega di confermare il contenuto inserito.",
   "Favorites": "Preferiti",
   "noFavorites": "Nessun preferito ora.",
-  "Storage": "Memoria"
+  "Storage": "Memoria",
+  "Migration": "Migrazione",
+  "migrationTips": "Migra i dati utente in un altro spazio."
 }

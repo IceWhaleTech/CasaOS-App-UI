@@ -154,5 +154,7 @@
   "Please confirm the input content": "请确认输入内容。",
   "Favorites": "收藏",
   "noFavorites": "目前没有收藏的文件夹。",
-  "Storage": "存储"
+  "Storage": "存储",
+  "Migration": "迁移",
+  "migrationTips": "将用户数据迁移到另一个空间。"
 }

@@ -1,5 +1,5 @@
 <template>
-  <b-tooltip type="is-black" position="is-right" :label="$t('Migrate user data to another space.')">
+  <b-tooltip type="is-black" position="is-right" :label="$t('migrationTips')">
     <b-button
       rounded
       type="is-info is-light"

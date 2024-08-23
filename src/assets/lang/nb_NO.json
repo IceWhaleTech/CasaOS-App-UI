@@ -154,5 +154,7 @@
   "Please confirm the input content": "Vennligst bekreft innholdet.",
   "Favorites": "Favoritter",
   "noFavorites": "Ingen favoritter nå.",
-  "Storage": "Lagring"
+  "Storage": "Lagring",
+  "Migration": "Migrering",
+  "migrationTips": "Migrer brukerdata til et annet sted."
 }
