@@ -18,7 +18,8 @@
 			<VMdEditor ref="editor" v-model="tips" :mode="controlEditorState" :placeholder="$t('Something to remember eg. password')"
 				left-toolbar right-toolbar>
 			</VMdEditor>
-			<div v-if="name" class="is-flex is-flex-direction-row-reverse mt-2">
+			<div v-if="name" class="flex justify-between items-center mt-2">
+        <AppMigrationBtn />
 				<b-icon class="_polymorphic"
 					:class="{ 'has-text-grey-800': !isEditing, 'has-text-green-default': isDifferentiation, 'has-text-grey-400': !isDifferentiation && isEditing }"
 					:icon="icon" pack="casa" @click.native="toggle"></b-icon>
@@ -28,7 +29,9 @@
 
 		<!-- Modal-Card Footer Start-->
 		<footer v-if="!name" class="modal-card-foot is-flex is-align-items-center">
-			<div class="is-flex-grow-1"></div>
+			<div class="is-flex-grow-1">
+        
+      </div>
 			<div class="is-flex is-flex-direction-row-reverse">
 				<b-button rounded size="is-small" type="is-primary" @click="$emit('submit') && $emit('close')">
 					{{ $t('Next Steps') }}
@@ -48,6 +51,7 @@ import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 // import hljs        from 'highlight.js';
 import { ice_i18n } from "@/mixins/base/common-i18n";
+import AppMigrationBtn from "@/components/AppSetting/AppMigrationBtn.vue";
 
 VMdEditor.use(githubTheme, {
 	// Hljs: hljs,
@@ -57,7 +61,8 @@ VMdEditor.use(githubTheme, {
 export default {
 	name: "TipEditorModal",
 	components: {
-		VMdEditor
+		VMdEditor,
+    AppMigrationBtn,
 	},
 	data() {
 		return {
