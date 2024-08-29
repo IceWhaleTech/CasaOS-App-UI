@@ -13,7 +13,7 @@ dependencies:
     version: 0.4.9-alpha7
   '@icewhale/casaos-openapi':
     specifier: latest
-    version: 0.4.9-0883f5f
+    version: 0.4.11-3a835c0
   '@icewhale/icewhale-files-openapi':
     specifier: 1.2.2-alpha4
     version: 1.2.2-alpha4
@@ -1662,8 +1662,8 @@ packages:
       - debug
     dev: false
 
-  /@icewhale/casaos-openapi@0.4.9-0883f5f:
-    resolution: {integrity: sha512-GRf+D3rTPo6OLHzbNGOEPHEavBru7xu4ii2hDQW28YgYy9cues6lxHRXnvocDHvG6y44cC3lpv2xoecNvarZzA==}
+  /@icewhale/casaos-openapi@0.4.11-3a835c0:
+    resolution: {integrity: sha512-bwyYfxuvIvoa5xm5hAQmETeoNqAdGdmdp0yQYu+AkxoC1M8A23b4ZfL4Uh/hKki7FzCU2EtW8Mv4h2SZ5fG5Hw==}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:

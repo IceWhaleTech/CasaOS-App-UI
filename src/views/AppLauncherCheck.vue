@@ -16,7 +16,7 @@
 		<h1 v-if="status === 'pending'" class="has-text-sub-03 has-text-white mt-6">{{ $t('Preparing for launch') }}
 		</h1>
 		<h1 v-else class="has-text-sub-03 has-text-white mt-6">{{ $t('APP may not be available') }}</h1>
-		<b-image v-if="status === 'pending'" :src="require('@/assets/img/loading/waiting.svg')" alt="pending"
+		<b-image v-if="status === 'pending'" :src="require('@/assets/img/loading/waiting-white.svg')" alt="pending"
 			class="is-48x48 mt-6" />
 		<span v-else class="has-text-full-03 has-text-grey-600 mt-6">{{
 			$t('Please')
