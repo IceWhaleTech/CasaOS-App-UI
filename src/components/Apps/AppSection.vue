@@ -369,12 +369,15 @@ export default {
         this.oldAppList = orgOldAppList;
 
         let linkAppList = await this.getLinkAppList();
-        linkAppList.forEach((item) => {
+        linkAppList.forEach((item, i) => {
           // linkApp does not have title.
           item.title = {
             en_us: item.name,
           };
+          item.linkId = i;
         });
+        console.log("linkAppList", linkAppList);
+        
         // mirco app list
         if (this.mircoAppList.length === 0) {
           const mircoAppListRaw = await this.getModuleUIEntries();
@@ -455,7 +458,7 @@ export default {
           );
         });
 
-        const sortedList = sortedAppList.map((obj) => obj.name);
+        const sortedList = sortedAppList.map((obj) => obj.name);      
         this.appList = sortedAppList;
         if (!isEqual(lateSortList, sortedList)) {
           this.saveSortData();
@@ -677,6 +680,7 @@ export default {
           linkName: item.name,
           linkHost: item.hostname,
           linkIcon: item.icon,
+          linkId: item.linkId?.toString() ?? "",
         },
       });
     },

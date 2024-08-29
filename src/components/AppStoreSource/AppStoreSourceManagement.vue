@@ -2,6 +2,7 @@
 import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import i18n from "@/plugins/i18n";
+import DOMPurify from 'dompurify';
 
 const emit = defineEmits(["refreshAppStore", "refreshSize"]);
 const props = defineProps(["totalApps"]);
@@ -95,7 +96,7 @@ function registerAppStore(repoUrl) {
 			.catch((err) => {
 				if ([400, 409, 500].includes(err.response.status)) {
 					app.$buefy.toast.open({
-						message: err.response.data.message,
+						message: new Option(err.response.data.message).innerHTML,
 						duration: 5000,
 						type: "is-warning",
 					});

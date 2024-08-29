@@ -178,6 +178,8 @@
           <input-group
             :devices="service.devices"
             :label="$t('Devices')"
+            name2="ZimaOS"
+            :name1="i18n(configData['x-casaos'].title)"
             :message="$t('No devices now, click “+” to add one.')"
             type="device"
           >

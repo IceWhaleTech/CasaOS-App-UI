@@ -56,7 +56,7 @@
 				</div>
 				<b-image
 					v-if="isPending"
-					:src="require('@/assets/img/loading/waiting.svg')"
+					:src="require('@/assets/img/loading/waiting-white.svg')"
 					alt="pending"
 					class="is-48x48 mt-6"
 				/>
