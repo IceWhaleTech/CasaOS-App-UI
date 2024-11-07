@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineExpose, ref, reactive, getCurrentInstance } from "vue";
+import { ref, reactive, getCurrentInstance } from "vue";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 
 const {proxy} = getCurrentInstance();

@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import {defineEmits, defineProps, nextTick, onMounted, ref, watch} from 'vue';
+import {nextTick, onMounted, ref, watch} from 'vue';
 
 // TODO import ListBox from kit not a file.
 import ListBox                                                     from "@/kit/ListBox/ListBox.vue";

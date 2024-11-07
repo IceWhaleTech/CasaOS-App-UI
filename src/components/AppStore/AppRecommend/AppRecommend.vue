@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { defineProps,ref,reactive } from 'vue';
+import { ref,reactive } from 'vue';
 import { Swiper, SwiperSlide }      from 'vue-awesome-swiper'
 import { useOpenAppInStore}    from '@/composables/useOpenApp'
 

@@ -52,7 +52,7 @@
 	</transition>
 </template>
 <script name="ListBox" setup>
-import { computed, defineProps } from "vue";
+import { computed } from "vue";
 
 const emit = defineEmits(["update-current-option"]);
 

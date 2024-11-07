@@ -20,7 +20,6 @@
 
 <script setup>
 import VMdEditor   		from '@kangc/v-md-editor';
-import { defineProps } 	from 'vue';
 import { usei18n } 		from '@/composables/usei18n';
 
 const { i18n } = usei18n();

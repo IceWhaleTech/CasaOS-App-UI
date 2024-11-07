@@ -8,7 +8,6 @@
 
   -->
 <script setup>
-import {defineProps} from 'vue'
 
 const props = defineProps({
 	noticeData: Object

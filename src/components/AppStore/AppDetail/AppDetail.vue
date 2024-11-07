@@ -48,7 +48,7 @@ import AppDetailHeader        from './AppDetailHeader'
 import AppDescription         from './AppDescription';
 import SpiltLine              from './SpiltLine';
 
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
 	appDetailData: {
