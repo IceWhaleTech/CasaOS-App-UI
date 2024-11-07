@@ -38,6 +38,11 @@
 	&.is-64x64 {
 		height: 64px;
 		width: 64px;
+		img {
+			object-fit: contain;
+			width: 64px;
+			height: 64px;
+		}
 	}
 	
 	&.is-68x68 {

@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineExpose, defineEmits, inject } from "vue";
+import { inject } from "vue";
 import { usei18n } from "@/composables/usei18n";
 import messageBus from "@/events";
 import YAML from "yaml";
