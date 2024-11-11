@@ -47,16 +47,7 @@
 			&::placeholder {
 				color: hsla(208, 16%, 72%, 1);
 			}
-			
-			&[type="password"] {
-				//font-family: "Courier New", monospace;
-				//-webkit-text-security: disc;
-				//-moz-text-security: disc;
-				//text-security: disc;
-				//font-weight: bold;
-				//text-shadow: white 0 0 4px;
-			}
-			
+
 			&.is-success {
 				border: 1px solid hsla(208, 16%, 72%, 1);
 				box-shadow: none;

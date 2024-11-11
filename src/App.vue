@@ -67,16 +67,6 @@ export default {
 	beforeCreate() {
 	},
 	created() {
-		console.log(`
-MicroApp is created!
-
-┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐   ┌─┐┌─┐┌─┐   ┬ ┬┬
-│  ├─┤└─┐├─┤│ │└─┐───├─┤├─┘├─┘───│ ││
-└─┘┴ ┴└─┘┴ ┴└─┘└─┘   ┴ ┴┴  ┴     └─┘┴
-
--- Made by IceWhale with YOU --
-`, `font-family: monospace`);
-
 		// this.$buefy.config.setOptions(customIconConfig)
 		ConfigProgrammatic.setOptions(customIconConfig);
 	},
