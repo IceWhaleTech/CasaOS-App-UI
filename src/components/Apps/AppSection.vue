@@ -1,7 +1,7 @@
 <template>
   <div class="home-section has-text-left">
     <!-- Title Bar Start -->
-    <div class="is-flex is-align-items-center mb-1">
+    <div class="mb-1 is-flex is-align-items-center">
       <app-section-title-tip
         id="appTitle1"
         class="is-flex-grow-1 has-text-sub-04"
@@ -35,7 +35,7 @@
     <draggable
       v-model="appList"
       :draggable="draggable"
-      class="columns is-variable is-2 is-multiline app-list contextmenu-canvas m-0"
+      class="m-0 columns is-variable is-2 is-multiline app-list contextmenu-canvas"
       tag="div"
       v-bind="dragOptions"
       @end="onSortEnd"
@@ -51,6 +51,7 @@
         >
           <app-card
             :item="item"
+            :appIds="newAppIds"
             @configApp="showConfigPanel"
             @importApp="showContainerPanel"
             @updateState="getList"
@@ -73,7 +74,7 @@
 
     <template v-if="oldAppList.length > 0">
       <!-- Title Bar Start -->
-      <div class="title-bar is-flex is-align-items-center mt-2rem mb-5">
+      <div class="mb-5 title-bar is-flex is-align-items-center mt-2rem">
         <app-section-title-tip
           id="appTitle2"
           class="is-flex-grow-1 has-text-sub-04"
@@ -210,6 +211,7 @@ export default {
         });
       },
     });
+    this.getNewAppIdsFromCustomStorage();
 
     this.isLoading = true;
     this.draggable = this.isMobile() ? "" : ".handle";
@@ -376,8 +378,6 @@ export default {
           };
           item.linkId = i;
         });
-        console.log("linkAppList", linkAppList);
-        
         // mirco app list
         if (this.mircoAppList.length === 0) {
           const mircoAppListRaw = await this.getModuleUIEntries();

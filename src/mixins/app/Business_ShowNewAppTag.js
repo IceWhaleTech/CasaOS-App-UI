@@ -7,7 +7,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.getNewAppIdsFromCustomStorage();
+		// this.getNewAppIdsFromCustomStorage();
 	},
 	methods: {
 		// getSessionStorageOutputArray() {

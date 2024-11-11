@@ -153,7 +153,7 @@
 				type="is-white"
 			>
 				<div
-					class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3px img-c"
+					class="pt-5 has-text-centered is-flex is-justify-content-center is-flex-direction-column pb-3px img-c"
 				>
 					<div class="is-flex is-justify-content-center">
 						<div class="is-relative">
@@ -166,7 +166,7 @@
 								@click.native="openApp(item)"
 							></b-image>
 							<!-- Unstable-->
-							<cTooltip v-if="newAppIds.includes(item.name)" class="__position" content="NEW"></cTooltip>
+							<cTooltip v-if="appIds.includes(item.name)" class="__position" content="NEW"></cTooltip>
 						</div>
 
 						<!-- Loading Bar Start -->
@@ -245,6 +245,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+    appIds: {
+      type: Array,
+      required: true,
+    },
 	},
 	computed: {
 		tooltipLabel() {
@@ -488,7 +492,7 @@ export default {
 				message: this.$t(
 					`Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}`,
 					{
-						divS: `<div class="is-flex is-align-items-center mt-4"><input type="checkbox" checked id="checkDelConfig">`,
+						divS: `<div class="mt-4 is-flex is-align-items-center"><input type="checkbox" checked id="checkDelConfig">`,
 						divE: `</input></div>`,
 					}
 				),
