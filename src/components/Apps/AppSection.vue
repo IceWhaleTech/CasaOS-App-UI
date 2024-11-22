@@ -99,6 +99,7 @@
           <app-card
             :isCasa="false"
             :item="item"
+            :appIds="newAppIds"
             @configApp="showConfigPanel"
             @importApp="showContainerPanel"
             @updateState="getList"
