@@ -83,6 +83,7 @@ export default {
 		setInitLang() {
 			let lang = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.getLangFromBrowser()
 			lang = lang.includes("_") ? lang : "en_us";
+      lang = lang.toLowerCase();
 			this.setLang(lang)
 		},
 		/**
@@ -99,7 +100,8 @@ export default {
 			console.log('socket connected');
 		},
 		"casaos-ui:topbar:dashboardsetting_language"(res) {
-			this.setLang(res.Properties.casaos_lang)
+      const lang = res.Properties.casaos_lang.toLowerCase();
+			this.setLang(lang)
 		},
 	},
 }
