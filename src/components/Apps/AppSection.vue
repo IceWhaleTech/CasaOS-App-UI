@@ -55,6 +55,7 @@
             @configApp="showConfigPanel"
             @importApp="showContainerPanel"
             @updateState="getList"
+            @updateAppIds="getNewAppIdsFromCustomStorage"
           ></app-card>
         </div>
       </template>

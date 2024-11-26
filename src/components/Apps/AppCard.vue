@@ -211,6 +211,7 @@ import commonI18n, { ice_i18n } from "@/mixins/base/common-i18n";
 import FileSaver from "file-saver";
 import { MIRCO_APP_ACTION_ENUM } from "@/const";
 import { vOnClickOutside } from "@vueuse/components";
+import { set } from "vue/types/umd";
 
 export default {
 	name: "app-card",
@@ -347,6 +348,11 @@ export default {
 	},
 
 	methods: {
+
+    hasNewTagLabel(name) {
+      return this.appIds.includes(name) >= 0;
+    },
+
 		/**
 		 * @description: Open app in new windows
 		 * @param {String} status App status
@@ -355,6 +361,8 @@ export default {
 		 * @return {*} void
 		 */
 		openApp(item) {
+      
+      
 			if (this.isContainerApp) {
 				this.$emit("importApp", item, false);
 				return false;
@@ -374,10 +382,10 @@ export default {
 					});
 				}
 			} else if (this.isLinkApp) {
-        this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
+        // this.hasNewTagLabel(item.name) && this.removeIdFromNewAppIds(item.name);
 				window.open(item.hostname, "_blank");
 			} else if (item.requireGPU) {
-        this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
+        
 				console.log("enable GPU ::", item);
 				let routeUrl = this.$router.resolve({
 					name: "AppDetection",
@@ -395,6 +403,10 @@ export default {
 					this.checkAndOpenThirdApp(item);
 				}
 			}
+      this.hasNewTagLabel(item.name) && this.removeIdFromNewAppIds(item.name);
+      setTimeout(() => {
+        this.$emit("updateAppIds");
+      }, 200);
 		},
 
 		openSystemApps(item) {
