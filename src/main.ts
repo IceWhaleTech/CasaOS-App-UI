@@ -97,6 +97,7 @@ Vue.use(Vue2TouchEvents)
 Vue.use(VueSocketIOExt, socket);
 Vue.use(VueSocialSharing);
 
+
 Vue.config.productionTip = false
 Vue.prototype.$api = api;
 Vue.prototype.$openAPI = openAPI;
@@ -108,7 +109,6 @@ Vue.prototype.$wsProtocol = wsProtocol;
 // Create an EventBus
 Vue.prototype.$EventBus = new Vue();
 Vue.prototype.$messageBus = messageBus;
-
 
 new Vue({
 	router,
