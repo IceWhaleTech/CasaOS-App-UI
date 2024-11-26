@@ -35,7 +35,7 @@
     <draggable
       v-model="appList"
       :draggable="draggable"
-      class="m-0 columns is-variable is-2 is-multiline app-list contextmenu-canvas"
+      class="columns is-variable is-2 is-multiline app-list contextmenu-canvas"
       tag="div"
       v-bind="dragOptions"
       @end="onSortEnd"

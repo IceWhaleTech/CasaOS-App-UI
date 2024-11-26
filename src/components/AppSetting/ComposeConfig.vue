@@ -609,9 +609,9 @@ export default {
       isNil(composeServicesItem.ports) && this.$set(composeServicesItem, "ports", []);
 
       // set first port to port_map
-      // if (composeServicesItem.ports.length > 0 && !this.configData["x-casaos"].port_map) {
-      //   this.configData["x-casaos"].port_map = composeServicesItem.ports[0].published;
-      // }
+      if (composeServicesItem.ports.length > 0 && !this.configData["x-casaos"].port_map) {
+        this.configData["x-casaos"].port_map = composeServicesItem.ports[0].published;
+      }
 
       //Volume
       // https://yeasy.gitbook.io/docker_practice/compose/compose_file#volumes
