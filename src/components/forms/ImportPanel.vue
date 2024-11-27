@@ -81,7 +81,7 @@
 <script>
 
 import { parse ,stringify } from "yaml"
-import composerize from "composerize";
+import Composerize from "composerize";
 
 export default {
   data() {
@@ -112,7 +112,7 @@ export default {
     emitSubmit() {
       if (this.activeTab == 1) {
         const cleanedCommand = this.dockerCliCommands.replace(/`#.*?`/g, '').replace(/#.*$/gm, '').trim();
-        this.dockerComposeCommands = composerize(cleanedCommand);
+        this.dockerComposeCommands = Composerize(cleanedCommand,null, 'v3x');
         this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
         this.$emit('update', this.dockerComposeCommands)
         this.$emit('close')
