@@ -23,11 +23,6 @@ declare module '@/events/index.js' {
 	export default value;
 }
 
-declare module 'v-animate-css' {
-	const value: any;
-	export default value;
-}
-
 declare module "buefy/src/index.js";
 
 declare var MAIN_APP_VERSION_ID: string;

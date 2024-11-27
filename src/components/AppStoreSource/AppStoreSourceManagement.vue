@@ -2,7 +2,6 @@
 import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import i18n from "@/plugins/i18n";
-import DOMPurify from 'dompurify';
 
 const emit = defineEmits(["refreshAppStore", "refreshSize"]);
 const props = defineProps(["totalApps"]);

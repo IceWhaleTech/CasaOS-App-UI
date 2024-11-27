@@ -11,7 +11,6 @@
 import {confirmed, email, length, min, required} from "vee-validate/dist/rules";
 import {isURL}                                   from 'validator';
 import {extend}                                  from "vee-validate";
-import isValidHostname                           from 'is-valid-hostname';
 import validate                                  from 'uuid-validate';
 
 function isValidContainerName(value) {
