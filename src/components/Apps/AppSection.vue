@@ -9,7 +9,8 @@
         :title="$t('Apps')"
       ></app-section-title-tip>
 
-      <b-dropdown animation="fade1" aria-role="menu" position="is-bottom-left">
+      <b-dropdown ref="cdro" animation="fade1" aria-role="menu" position="is-bottom-left"
+      v-on-click-outside="() => ($refs.cdro.isActive = false)">
         <template #trigger>
           <b-icon
             class="polymorphic is-clickable has-text-grey-100"
@@ -22,7 +23,8 @@
           aria-role="menuitem"
           @click="showAppSettingPanel('', 'custom')"
         >
-          {{ $t("Add a Containerized Application APP") }}
+        {{ $t("Add a Containerized Application APP") }}
+          
         </b-dropdown-item>
         <b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
           {{ $t("Add external link/APP") }}
@@ -130,6 +132,7 @@ import isEqual from "lodash/isEqual";
 import { ice_i18n } from "@/mixins/base/common-i18n";
 import { iceGpu } from "@/service/index.js";
 import { openDB } from "idb";
+import { vOnClickOutside } from "@vueuse/components";
 
 // meta_data :: build-in app
 const builtInApplications = [
@@ -159,6 +162,9 @@ const orderConfig = "app_order";
 let db;
 
 export default {
+  directives: {
+		onClickOutside: vOnClickOutside,
+	},
   mixins: [business_ShowNewAppTag, business_LinkApp],
   data() {
     return {
@@ -229,9 +235,9 @@ export default {
             this.getList();
           });
           // refresh app list every 5 seconds
-          this.ListRefreshTimer = setInterval(() => {
-            this.getList();
-          }, 5000);
+          // this.ListRefreshTimer = setInterval(() => {
+          //   this.getList();
+          // }, 5000);
         },
         catch: () => {
           // retry

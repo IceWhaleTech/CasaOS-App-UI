@@ -520,9 +520,12 @@ export default {
     parseComposeYaml(val) {
       try {
         const yaml = YAML.parse(val);
-
+        if (!yaml) {
+          return;
+        }
+        
         // 其他配置
-        this.volumes = yaml.volumes || {};
+        this.volumes = yaml?.volumes || {};
 
         // set main app name
         this.configData.name = yaml?.name || "";

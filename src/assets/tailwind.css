@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: 'BrittiSans';
+		src: url(/modules/icewhale_app/font/britti-sans-regular.woff) format('woff');
+	  }
+}

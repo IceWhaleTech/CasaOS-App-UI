@@ -58,7 +58,7 @@ export default {
 ._is-normal {
 	/* Text 400Regular/Text04 */
 
-	font-family: 'Roboto';
+	font-family: 'BrittiSans';
 	font-style: normal;
 	font-weight: 400;
 	font-size: 0.75rem;

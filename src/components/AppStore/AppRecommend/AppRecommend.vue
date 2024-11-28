@@ -15,17 +15,17 @@
 						ratio="16by9">
 					</b-image>
 				</div>
-				<div class="is-flex pt-5 is-align-items-center">
-					<div class=" mr-3" @click="showAppDetial(item.id)">
+				<div class="pt-5 is-flex is-align-items-center">
+					<div class="mr-3 " @click="showAppDetial(item.id)">
 						<b-image :placeholder="require('@/assets/img/app/default.svg')"
 							:src="item.icon"
 							:src-fallback="require('@/assets/img/app/default.svg')"
 							class="is-64x64 is-clickable icon-shadow">
 						</b-image>
 					</div>
-					<div class="is-flex-grow-1 mr-4 is-clickable"
+					<div class="mr-4 is-flex-grow-1 is-clickable"
 						@click="showAppDetial(item.id);$messageBus('appstore_detail', item.title)">
-						<h6 class="title is-6 mb-2 ">{{ item.title }}</h6>
+						<h6 class="mb-2 title is-6 ">{{ item.title }}</h6>
 						<p class="is-size-7 two-line">{{ item.tagline }}</p>
 					</div>
 					<div>
@@ -116,19 +116,19 @@ const props = defineProps({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .featured-app {
 	.swiper-button-next,
 	.swiper-rtl .swiper-button-prev {
 		right: -20px;
-		top: calc(50% - 2.25rem);
+		top: calc(50% - 3.5rem);
 		left: auto;
 	}
 
 	.swiper-button-prev,
 	.swiper-rtl .swiper-button-next {
 		left: -20px;
-		top: calc(50% - 2.25rem);
+		top: calc(50% - 3.5rem);
 		right: auto;
 	}
 
