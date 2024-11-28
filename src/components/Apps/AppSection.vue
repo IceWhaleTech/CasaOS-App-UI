@@ -235,9 +235,9 @@ export default {
             this.getList();
           });
           // refresh app list every 5 seconds
-          // this.ListRefreshTimer = setInterval(() => {
-          //   this.getList();
-          // }, 5000);
+          this.ListRefreshTimer = setInterval(() => {
+            this.getList();
+          }, 5000);
         },
         catch: () => {
           // retry
