@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
 	<div v-if="noticeData.contentType === 'list'"
 		 class="info is-flex is-flex-direction-column is-justify-content-space-around is-flex-grow-1">
-		<div class="_widget-body is-flex mr-0">
+		<div class="mr-0 _widget-body is-flex">
 			<div class="image is-24x24 is-flex-shrink-0">
 				<img v-if="!noticeData.content[Object.keys(noticeData.content)[0]].icon"
 					 :src="require(`@/assets/img/logo/casa-white.svg`)" alt=""/>
@@ -25,7 +25,7 @@ const props = defineProps({
 					 :src="require(`@/assets/img${noticeData.content[Object.keys(noticeData.content)[0]].icon}`)"
 					 alt=""/>
 			</div>
-			<div class="body-title is-flex-grow-1 _nowrap ml-2">
+			<div class="ml-2 body-title is-flex-grow-1 _nowrap">
 				{{ $t(noticeData.content[Object.keys(noticeData.content)[0]].title) }}
 			</div>
 			<div class="has-text-left is-size-14px _nowrap">
@@ -33,7 +33,7 @@ const props = defineProps({
 			</div>
 		</div>
 		<div v-if="Object.keys(noticeData.content).length > 1" class="line _ml-2rem"></div>
-		<div v-if="Object.keys(noticeData.content).length > 1" class="_widget-body is-flex mr-0">
+		<div v-if="Object.keys(noticeData.content).length > 1" class="mr-0 _widget-body is-flex">
 			<div class="image is-24x24 is-flex-shrink-0">
 				<img v-if="!noticeData.content[Object.keys(noticeData.content)[1]].icon"
 					 :src="require(`@/assets/img/logo/casa-white.svg`)" alt=""/>
@@ -41,7 +41,7 @@ const props = defineProps({
 					 :src="require(`@/assets/img${noticeData.content[Object.keys(noticeData.content)[1]].icon}`)"
 					 alt=""/>
 			</div>
-			<div class="body-title is-flex-grow-1 _nowrap ml-2">
+			<div class="ml-2 body-title is-flex-grow-1 _nowrap">
 				{{ $t(noticeData.content[Object.keys(noticeData.content)[1]].title) }}
 			</div>
 			<p class="has-text-left is-size-14px _nowrap">
@@ -57,7 +57,7 @@ const props = defineProps({
 	position: relative;
 
 	.body-title {
-		font-family: 'Roboto';
+		font-family: 'BrittiSans';
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;

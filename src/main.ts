@@ -61,7 +61,7 @@ import VueSocketIOExt               from 'vue-socket.io-extended';
 import messageBus                   from '@/events/index.js'
 
 import '@/assets/scss/app.scss'
-
+import "@/assets/tailwind.css";
 const io = require("socket.io-client");
 
 const isDev = process.env.NODE_ENV === 'dev';

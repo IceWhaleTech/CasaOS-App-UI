@@ -18,7 +18,7 @@
 			<VMdEditor ref="editor" v-model="tips" :mode="controlEditorState" :placeholder="$t('Something to remember eg. password')"
 				left-toolbar right-toolbar>
 			</VMdEditor>
-			<div v-if="name" class="flex justify-between items-center mt-2">
+			<div v-if="name" class="flex items-center justify-between mt-2">
         <AppMigrationBtn />
 				<b-icon class="_polymorphic"
 					:class="{ 'has-text-grey-800': !isEditing, 'has-text-green-default': isDifferentiation, 'has-text-grey-400': !isDifferentiation && isEditing }"
@@ -246,7 +246,7 @@ export default {
 						padding: 0.75rem 1rem;
 						/* Text 400Regular/Text03 */
 
-						font-family: 'Roboto';
+						font-family: 'BrittiSans';
 						font-style: normal;
 						font-weight: 400;
 						font-size: 14px;

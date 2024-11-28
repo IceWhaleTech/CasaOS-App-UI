@@ -108,7 +108,7 @@
 			<section
 				v-if="currentSlide == APP_STORE_PANEL"
 				:class="{ _hideOverflow: !isCasa }"
-				class="modal-card-body pt-3 _pl app-store"
+				class="pt-3 modal-card-body _pl app-store"
 			>
 				<template v-if="!isLoadError">
 					<AppRecommend
@@ -148,9 +148,9 @@
 					<!-- App list End-->
 				</template>
 				<template v-else>
-					<div class="is-flex is-align-items-center is-justify-content-center mt-6 mb-6">
-						<div class="has-text-centered mt-6 mb-6">
-							<div class="is-flex is-align-items-center mb-5">
+					<div class="mt-6 mb-6 is-flex is-align-items-center is-justify-content-center">
+						<div class="mt-6 mb-6 has-text-centered">
+							<div class="mb-5 is-flex is-align-items-center">
 								<b-icon class="mr-2" icon="alert-circle" type="is-danger"></b-icon>
 								{{ $t("There was an error loading the data, please try again!") }}
 							</div>
@@ -1218,7 +1218,7 @@ export default {
 }
 
 ._title {
-	font-family: "Roboto";
+	font-family: "BrittiSans";
 	font-style: normal;
 	font-weight: 500;
 	font-size: 1rem;

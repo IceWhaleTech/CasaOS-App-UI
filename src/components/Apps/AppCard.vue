@@ -187,7 +187,7 @@
 					</div>
 
 					<p class="mt-3">
-						<a class="one-line max-w-9" style="cursor: default">
+						<a class="block one-line max-w-36" style="cursor: default">
 							{{ i18n(item.title) }}
 						</a>
 					</p>
@@ -211,7 +211,6 @@ import commonI18n, { ice_i18n } from "@/mixins/base/common-i18n";
 import FileSaver from "file-saver";
 import { MIRCO_APP_ACTION_ENUM } from "@/const";
 import { vOnClickOutside } from "@vueuse/components";
-import { set } from "vue/types/umd";
 
 export default {
 	name: "app-card",
@@ -1120,7 +1119,7 @@ export default {
 
 		/* Text 400Regular/Text03 */
 
-		font-family: "Roboto";
+		font-family: "BrittiSans";
 		font-style: normal;
 		line-height: 1.25rem;
 		/* identical to box height, or 143% */
@@ -1181,7 +1180,7 @@ export default {
 		padding-right: 1.5rem;
 
 		//styleName: Text 400Regular/Text03;
-		font-family: Roboto;
+		font-family: "BrittiSans";
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 20px;

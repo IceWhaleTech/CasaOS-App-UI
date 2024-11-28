@@ -20,7 +20,7 @@
 					<img v-if="noticeData?.icon" :src="noticeData.icon" alt=""/>
 					<img v-else :src="require('@/assets/img/logo/casa-white.svg')" alt=""/>
 				</div>
-				<div class="header-title pl-2 is-flex-grow-1">
+				<div class="pl-2 header-title is-flex-grow-1">
 					{{ $t(noticeData.title) }}
 				</div>
 				<div class="is-flex-shrink-0 _close-polymorphic" style="height: 1.5rem" @click="close">
@@ -172,7 +172,7 @@ export default {
 
 	.widget-header {
 		.header-title {
-			font-family: 'Roboto';
+
 			font-style: normal;
 			font-weight: 500;
 			font-size: 1.125rem;
@@ -183,7 +183,7 @@ export default {
 
 	.footer-hint {
 		height: 16px;
-		font-family: 'Roboto';
+		font-family: 'BrittiSans';
 		font-style: normal;
 		font-weight: 400;
 		font-size: 0.75rem;
