@@ -71,7 +71,7 @@ export const useOpenAppInStore = () => {
 				hostname: store_info.hostname || baseHostname,
 				port: store_info.port_map,
 				index: store_info.index,
-				image: allinfo.compose.services[appInfoInStore.id].image,
+				image: allinfo.compose.services[appInfoInStore.id]?.image,
 				icon: store_info.icon,
 			}
 			if (allinfo.status.indexOf('running') === -1) {
