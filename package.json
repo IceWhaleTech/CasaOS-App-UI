@@ -47,7 +47,7 @@
     "uuid-validate": "^0.0.3",
     "validator": "^13.12.0",
     "vee-validate": "^3.4.15",
-    "vue": "^2.7.16",
+    "vue": "^3.0.0",
     "vue-awesome-swiper": "^4.1.1",
     "vue-fullscreen": "^2.6.1",
     "vue-i18n": "^8.28.2",
