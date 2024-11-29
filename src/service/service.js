@@ -1,12 +1,3 @@
-/*
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-18 19:03:16
- * @FilePath: \CasaOS-UI-0.4.2\src\service\service.js
- * @Description:
- *
- * Copyright (c) 2023 by IceWhale, All Rights Reserved.
- */
-
 import axios  from 'axios'
 import router from '@/router'
 import store  from '@/store'

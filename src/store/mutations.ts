@@ -52,13 +52,6 @@ const mutations: MutationTree<State> = {
 		state.wallpaperObject = wallpaper;
 	},
 
-	SET_DEFAULT_WALLPAPER(state) {
-		state.wallpaperObject = {
-			path: require('@/assets/background/default_wallpaper1.jpg'),
-			from: "Built-in" //Built-in, Upload, Files
-		};
-	},
-
 	SET_IS_MOBILE(state, val: boolean) {
 		state.isMobile = val;
 	},
