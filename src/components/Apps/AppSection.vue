@@ -1,7 +1,7 @@
 <template>
   <div class="home-section has-text-left">
     <!-- Title Bar Start -->
-    <div class="mb-1 is-flex is-align-items-center">
+    <div class="pt-1 pb-2 is-flex is-align-items-center">
       <app-section-title-tip
         id="appTitle1"
         class="is-flex-grow-1 has-text-sub-04"
@@ -34,6 +34,7 @@
     <!-- Title Bar End -->
 
     <!-- App List Start -->
+    <transition name="fade">
     <draggable
       v-model="appList"
       :draggable="draggable"
@@ -42,9 +43,10 @@
       v-bind="dragOptions"
       @end="onSortEnd"
       @start="drag = true"
+      v-if="!isLoading"
     >
       <!-- App Icon Card Start -->
-      <template v-if="!isLoading">
+      <template  >
         <div
           v-for="item in appList"
           :id="'app-' + item.name"
@@ -61,18 +63,9 @@
           ></app-card>
         </div>
       </template>
-      <template v-else>
-        <div
-          v-for="index in skCount"
-          :id="'app-' + index"
-          :key="'app-' + index"
-          class="column is-narrow is-3 handle"
-        >
-          <app-card-skeleton :index="index"></app-card-skeleton>
-        </div>
-      </template>
       <!-- App Icon Card End -->
     </draggable>
+  </transition>
     <!-- App List End -->
 
     <template v-if="oldAppList.length > 0">

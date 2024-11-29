@@ -5,7 +5,7 @@
 			<div
 				class="container has-text-white is-flex is-flex-direction-column is-justify-content-center is-align-items-center"
 			>
-				<div class="is-flex is-align-items-center mb-3">
+				<div class="mb-3 is-flex is-align-items-center">
 					<b-image
 						:key="activeAppData.icon + 1"
 						:src="activeAppData.icon"
@@ -38,30 +38,30 @@
 						webp-fallback=".jpg"
 					></b-image>
 				</div>
-				<div class="has-text-full-02 mb-5">
+				<div class="mb-5 has-text-full-02">
 					{{ ice_i18n(appDetailData.title) }}
 				</div>
-				<div class="has-text-full-02 mt-4 mb-2">
+				<div class="mt-4 mb-2 has-text-full-02">
 					{{
 						isStoppingApp
 							? $t(contentText, { name: ice_i18n(activeAppData.title) })
 							: $t(contentText, { name: ice_i18n(appDetailData.title) })
 					}}
 				</div>
-				<div v-show="remakeText" class="has-text-full-04 op40 mb-5">
+				<div v-show="remakeText" class="mb-5 has-text-full-04 op40">
 					{{ $t(remakeText) }}
 				</div>
-				<div v-show="remakeText && isFailed" class="has-text-info cursor-pointer" @click="closePage">
+				<div v-show="remakeText && isFailed" class="cursor-pointer has-text-info" @click="closePage">
 					{{ $t('close') }}
 				</div>
 				<b-image
 					v-if="isPending"
 					:src="require('@/assets/img/loading/waiting-white.svg')"
 					alt="pending"
-					class="is-48x48 mt-6"
+					class="mt-6 is-48x48"
 				/>
 				<div v-else-if="!isFailed" class="mt-4 is-flex is-justify-content-space-between">
-					<b-button rounded class="has-text-white close-app-button mr-1" @click="closePage">
+					<b-button rounded class="mr-1 has-text-white close-app-button" @click="closePage">
 						{{ $t('Continue {name}', { name: '' }) + ice_i18n(activeAppData.title) }}
 					</b-button>
 					<b-button
@@ -127,7 +127,7 @@ async function stopApp () {
 			})
 		return true
 	} catch (error) {
-		console.error('close error', error)
+		console.error('close error', error) 
 		isStoppingApp.value = false
 		contentText.value = 'Cannot close {name}'
 		remakeText.value = 'Please right-click on the dashboard and try closing it again'
