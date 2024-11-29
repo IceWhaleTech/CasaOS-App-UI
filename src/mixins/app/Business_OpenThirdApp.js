@@ -51,7 +51,7 @@ export default {
 					hostname: containerInfoV2.hostname || this.$baseHostname,
 					port: containerInfoV2.port_map,
 					index: containerInfoV2.index,
-					image: allinfo.compose.services[appInfo.id].image,
+					image: allinfo.compose.services[appInfo.id]?.image,
 					icon: containerInfoV2.icon,
 				}
 				
