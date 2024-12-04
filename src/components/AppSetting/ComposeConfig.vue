@@ -1,5 +1,5 @@
 <template>
-  <section style="height: calc(100vh - 12.8125rem)">
+  <section style="height: calc(100dvh - 12rem)">
     <b-tabs :value="firstAppName" class="has-text-full-03" style="height: 100%">
       <b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key"
         @click="current_service = key">
@@ -523,7 +523,7 @@ export default {
         if (!yaml) {
           return;
         }
-        
+
         // 其他配置
         this.volumes = yaml?.volumes || {};
 
@@ -951,18 +951,10 @@ export default {
 };
 </script>
 <style lang="scss">
-.app-card .modal-card-head.setting-compose-panel {
-  background-color: hsla(208, 16%, 94%, 1);
-}
-
-// 滚动条背景,
-.b-tabs .tab-content::-webkit-scrollbar {
-  background-color: rgba(255, 255, 255, 0);
-}
-
-// 滚动条颜色
-.b-tabs .tab-content::-webkit-scrollbar-thumb {
-  background-color: hsla(208, 16%, 94%, 1);
+.app-card .tab-content {
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/30;
+  @apply pr-7 pl-6 overflow-x-hidden overflow-y-auto;
+  height: calc(100% - 2.75rem);
 }
 </style>
 <style lang="scss" scoped>
@@ -987,17 +979,5 @@ export default {
     }
   }
 
-  /* 设置滚动条样式 */
-  ::v-deep .tab-content {
-    padding-right: 2.25rem;
-    padding-left: 1.5rem;
-    height: calc(100% - 2.75rem);
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    .container-icon {
-      height: 2.5rem;
-    }
-  }
 }
 </style>

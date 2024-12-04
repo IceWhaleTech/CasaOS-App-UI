@@ -1,14 +1,5 @@
-<!--
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-20 18:25:37
- * @FilePath: /CasaOS-App-UI/src/App.vue
-  * @Description:
-  *
-  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
-  -->
-
 <template>
-	<div id="app" class="font-sans">
+	<div id="app1" class="font-sans">
 		<!-- Router View Start -->
 		<router-view/>
 		<!-- Router View End -->
@@ -108,7 +99,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app {
+#app1 {
 	width: 100%;
 	height: 100%;
 	font-weight: 400;

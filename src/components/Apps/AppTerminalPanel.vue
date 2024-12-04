@@ -1,22 +1,18 @@
-<!--
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-20 18:37:04
- * @FilePath: /CasaOS-App-UI/src/components/Apps/AppTerminalPanel.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-  
-  -->
-
 <template>
 	<div class="modal-card">
+    <!-- Modal-Card Header Start -->
+    <header class="modal-card-head !bg-gray-100">
+      <div class="is-flex-grow-1">
+        <h3 class="_title is-5">{{ serviceName || appName }}</h3>
+      </div>
+      <div>
+        <button class="delete" type="button" @click="$emit('close')" />
+      </div>
+    </header>
+    <!-- Modal-Card Header End -->
 
 		<!-- Modal-Card Body Start -->
 		<section class="modal-card-body ">
-			<div class="close-container">
-				<button class="delete" type="button" @click="$emit('close')"/>
-			</div>
-			<h3 class="title is-3">{{ serviceName || appName }}</h3>
 			<div class="is-flex-grow-1">
 				<b-tabs :animated="false" @input="onInput">
 					<b-tab-item :label="$t('Terminal')" value="terminal">

@@ -1,20 +1,11 @@
-<!--
-  * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
-  * @LastEditTime: 2023/4/25 下午7:10
-  * @FilePath: /CasaOS-UI/main/src/components/logsAndTerminal/TerminalCard.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
 <template>
-	<fullscreen :class="[{ 'mt-5': !fullscreen }, isVaild ? 'fdark-bg' : 'flight-bg']" :fullscreen.sync="fullscreen"
-				:page-only="true" :teleport="true" class="fullScreen  pl-2 pt-2 pb-2" @change="onWindowResize">
+	<fullscreen :class="[{ 'mt-4': !fullscreen }, isVaild ? 'fdark-bg' : 'flight-bg']" :fullscreen.sync="fullscreen"
+				:page-only="true" :teleport="true" class="pt-2 pb-2 pl-2 fullScreen" @change="onWindowResize">
 		<a v-if="isVaild" class="fullscreen-button" @click="toggleFullScreen">
 			<b-icon :icon="buttonIcon"></b-icon>
 		</a>
 		<div id="terminal" class="is-flex is-align-items-center is-justify-content-center">
-			<div v-if="!isVaild" class="card card-shadow mb-6">
+			<div v-if="!isVaild" class="mb-6 card card-shadow">
 				<div class="card-content">
 					<div class="content">
 						<b-notification v-model="notificationShow" :closable="false"
@@ -36,7 +27,7 @@
 							<b-input v-model="sshPort" name="port" type="number"
 									 v-on:keyup.enter.native="checkLogin"></b-input>
 						</b-field>
-						<div class="buttons mt-5">
+						<div class="mt-5 buttons">
 							<b-button :loading="isConnecting" expanded rounded type="is-primary" @click="checkLogin">{{
 									$t('Connect')
 								}}

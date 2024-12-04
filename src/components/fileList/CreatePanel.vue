@@ -1,13 +1,3 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2021-10-27 15:44:17
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2022-08-03 12:22:43
- * @FilePath: /CasaOS-UI/src/components/fileList/CreatePanel.vue
- * @Description: 
- * 
- * Copyright (c) 2022 by IceWhale, All Rights Reserved. 
--->
 <template>
   <div class="modal-card">
     <!-- Modal-Card Header Start -->

@@ -1,18 +1,12 @@
-<!--
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-05 14:09:17
- * @FilePath: /CasaOS-App-UI/src/components/forms/ImportPanel.vue
-  * @Description:
-  *
-  * Copyright (c) 2023 by IceWhale, All Rights Reserved.
-
-  -->
 <template>
   <div class="modal-card">
     <!-- Modal-Card Header Start -->
-    <header class="modal-card-head">
+    <header class="modal-card-head !bg-gray-100">
       <div class="is-flex-grow-1">
-        <h3 class="title is-3">{{ $t('Import') }}</h3>
+        <h3 class="_title is-5">{{ $t('Import') }}</h3>
+      </div>
+      <div>
+        <button class="delete" type="button" @click="$emit('close')" />
       </div>
     </header>
     <!-- Modal-Card Header End -->
@@ -21,12 +15,13 @@
       <b-tabs v-model="activeTab" :animated="false">
         <b-tab-item label="Docker Compose">
           <b-field :message="errors" :type="{ 'is-danger': !!errors }">
-            <b-input v-model="dockerComposeCommands"
+            <b-input v-model="dockerComposeCommands" ref="dockerComposeCommands"
               :placeholder="$t('Notice: If there are multiple services, only the first set can be analyzed correctly')"
               class="import-area" type="textarea"></b-input>
           </b-field>
 
-          <b-upload ref="importUpload" v-model="dropFiles" accept=".yaml,.yml" drag-drop expanded @input="onSelect">
+          <b-upload ref="importUpload" v-model="dropFiles" accept=".yaml,.yml" drag-drop expanded @input="onSelect"
+            class="mb-2">
             <section class="section">
               <div class="content has-text-centered">
                 <p>
@@ -40,7 +35,8 @@
         </b-tab-item>
         <b-tab-item label="Docker CLI">
           <b-field :message="errors" :type="{ 'is-danger': !!errors }">
-            <b-input v-model="dockerCliCommands" class="import-area" type="textarea"></b-input>
+            <b-input v-model="dockerCliCommands" ref="dockerCliCommands" class="import-area" custom-class="!h-[244px]"
+              type="textarea"></b-input>
           </b-field>
         </b-tab-item>
 
@@ -67,10 +63,9 @@
     <!-- Modal-Card Footer Start-->
     <footer class="modal-card-foot is-flex is-align-items-center">
       <div class="is-flex-grow-1 has-text-full-04">
-        <a href="https://www.composerize.com/" target="_blank">{{ $t('cli to compose...') }}</a>
+
       </div>
       <div>
-        <b-button :label="$t('Cancel')" rounded @click="$emit('close')" />
         <b-button :label="$t('Submit')" rounded type="is-primary" @click="emitSubmit" />
       </div>
     </footer>
@@ -80,7 +75,7 @@
 
 <script>
 
-import { parse ,stringify } from "yaml"
+import { parse, stringify } from "yaml"
 import Composerize from "composerize";
 
 export default {
@@ -103,6 +98,24 @@ export default {
     oriNetWorks: Array,
     deviceMemory: Number
   },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.dockerComposeCommands.focus()
+    })
+  },
+  watch: {
+    activeTab: {
+      handler(val) {
+        if (val === 0) {
+          this.$refs.dockerComposeCommands.focus()
+        } else if (val === 1) {
+          this.$refs.dockerCliCommands.focus()
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
     /**
      * @description: Emit Event to tell parent Update
@@ -112,7 +125,7 @@ export default {
     emitSubmit() {
       if (this.activeTab == 1) {
         const cleanedCommand = this.dockerCliCommands.replace(/`#.*?`/g, '').replace(/#.*$/gm, '').trim();
-        this.dockerComposeCommands = Composerize(cleanedCommand,null, 'v3x');
+        this.dockerComposeCommands = Composerize(cleanedCommand, null, 'v3x');
         this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
         this.$emit('update', this.dockerComposeCommands)
         this.$emit('close')

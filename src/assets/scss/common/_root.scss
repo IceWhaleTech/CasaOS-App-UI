@@ -40,6 +40,7 @@ html {
 .pagination-next,
 .pagination-link,
 .pagination-ellipsis {
+	border-radius: 10px ;
 	&:focus {
 		box-shadow: none;
 	}

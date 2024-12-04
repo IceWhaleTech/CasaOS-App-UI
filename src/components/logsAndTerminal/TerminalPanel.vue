@@ -1,13 +1,4 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2022-02-18 10:20:10
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2022-07-15 17:58:36
- * @FilePath: /CasaOS-UI/src/components/logsAndTerminal/TerminalPanel.vue
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
--->
+
 <template>
 	<div class="modal-card">
 
@@ -15,7 +6,7 @@
 		<section class="modal-card-body " style="overflow:hidden">
 			<h3 class="title is-3">{{ $t("Terminal & Logs") }}</h3>
 			<div class="close-container">
-				<span v-show="showTabName === 'logs'" class="mdi mdi-tray-arrow-down is-size-20px mr-4 cursor-pointer"
+				<span v-show="showTabName === 'logs'" class="mr-4 cursor-pointer mdi mdi-tray-arrow-down is-size-20px"
 					  @click="downloadSystemLog"></span>
 				<button class="delete" type="button" @click="$emit('close')"/>
 			</div>
