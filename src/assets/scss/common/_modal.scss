@@ -55,7 +55,7 @@
 	}
 	
 	.modal-card-body {
-		padding: 0 2rem;
+		padding: 0 1.5rem;
 		
 		.loading-overlay .loading-icon:after {
 			-webkit-animation: spinAround 500ms infinite linear;
@@ -89,12 +89,7 @@
 		.pagination-ellipsis {
 			font-size: 0.875rem;
 			height: 2.714em;
-			border: 1px solid #cfcfcf !important;
-			border-radius: 4px;
-			
-			&:focus {
-				box-shadow: none;
-			}
+
 		}
 		
 		.media {
@@ -137,7 +132,7 @@
 	}
 	
 	.modal-card-foot {
-		padding: 0.75rem 1.5rem 1.5rem 1.5rem;
+		padding: 0.5rem 1.5rem 1rem 1.5rem;
 		gap: 1rem;
 		
 		.button {
@@ -150,7 +145,7 @@
 
 .terminal-modal {
 	.modal-card-body {
-		padding: 2rem 2rem 2rem 2rem;
+		padding-bottom: 1.5rem;
 	}
 	
 	.close-container {
@@ -204,7 +199,7 @@
 }
 
 .modal-background {
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.4);
 }
 
 .modal.is-full-screen > .animation-content {

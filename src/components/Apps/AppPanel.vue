@@ -1,14 +1,3 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2022-03-01 21:10:57
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-20 11:20:02
- * @FilePath: /CasaOS-App-UI/src/components/Apps/AppPanel.vue
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
-
--->
 <template>
 	<div
 		:class="{
@@ -41,7 +30,7 @@
 		<template v-else>
 			<!-- Modal-Card Header Start -->
 			<header
-				:class="{ 'setting-compose-panel': currentSlide == APP_SETTING_PANEL && isCasa }"
+				:class="{ '!bg-gray-100': currentSlide == APP_SETTING_PANEL }"
 				class="modal-card-head b-line"
 			>
 				<div class="is-flex-grow-1">
@@ -1217,15 +1206,7 @@ export default {
 	opacity: 0.3;
 }
 
-._title {
-	font-family: "BrittiSans";
-	font-style: normal;
-	font-weight: 500;
-	font-size: 1rem;
-	line-height: 1.5rem;
-	font-feature-settings: "pnum" on, "lnum" on;
-	color: #29343d;
-}
+
 
 ._hideOverflow {
 	overflow: unset;

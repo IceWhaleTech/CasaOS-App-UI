@@ -32,7 +32,7 @@
 }
 
 .b-line {
-	border-bottom: #edf0f2 1px solid;
+	border-bottom: #edf0f2 1px solid !important;
 }
 
 // Shadow
@@ -184,6 +184,7 @@
 	
 	.container-icon {
 		padding: 0 0.5rem;
+		height: 2.5rem;
 	}
 }
 
@@ -263,4 +264,23 @@ button.dropdown-item.is-active {
 .max-w-9{
 	max-width: 9rem;
 	display: block;
+}
+
+.vue-slider-process{
+	background-color: $primary !important;
+}
+
+.vue-slider-dot-tooltip-inner{
+	background-color: $primary !important;
+	border-color: $primary !important;
+}
+
+._title {
+	font-family: "BrittiSans";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 1.875rem;
+	font-feature-settings: "pnum" on, "lnum" on;
+	color: #29343d;
 }

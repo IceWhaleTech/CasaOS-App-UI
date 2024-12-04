@@ -1,20 +1,9 @@
-<!--
- * @Author: ezreal.ice hengxin.zhang@icewhale.org
- * @Date:  2022-08-23 14:10:59
- * @LastEditors: zhanghengxin ezreal.ice@icloud.com
- * @LastEditTime: 2022-08-27 18:45:33
- * @FilePath: /CasaOS-UI/src/components/Apps/ExternalLinkPanel.vue
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
--->
-
 <template>
   <div class="modal-card">
     <!-- Modal-Card Header Start -->
-    <header class="modal-card-head">
+    <header class="modal-card-head !bg-gray-100">
       <div class="is-flex-grow-1">
-        <h3 class="title is-3">{{ panelTitle }}</h3>
+        <h3 class="_title is-5">{{ panelTitle }}</h3>
       </div>
       <div>
         <button class="delete" type="button" @click="$emit('close')" />
@@ -51,7 +40,7 @@
             </ValidationProvider>
 
             <div v-if="!state_hostIsExist" class="message-alert is-flex is-align-items-center">
-              <div class="left mr-2 is-flex is-align-items-center">
+              <div class="mr-2 left is-flex is-align-items-center">
                 <b-icon icon="danger" pack="casa"></b-icon>
               </div>
               <div class="main is-flex is-align-items-center">

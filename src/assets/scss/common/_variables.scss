@@ -32,7 +32,7 @@ $orange: hsl(14, 100%, 53%) !default;
 $yellow: hsl(48, 100%, 67%) !default;
 $green: hsla(118, 70%, 45%, 1) !default;
 $turquoise: hsl(171, 100%, 41%) !default;
-$casablue: hsl(216, 90%, 54%) !default;
+$casablue: hsl(220, 100%, 50%) !default;
 $cyan: hsl(204, 86%, 53%) !default;
 $blue: hsla(208, 100%, 45%, 1) !default;
 $purple: hsl(271, 100%, 71%) !default;
@@ -188,8 +188,6 @@ $grey-600: hsla(208, 14%, 58%, 1);
 $grey-400: hsla(208, 16%, 85%, 1) !default;
 $gray-800: hsla(208, 20%, 20%, 1);
 
-// Colors
-$casablue: hsl(216, 90%, 54%) !default;
 
 $primary: $casablue;
 $primary-light: findLightColor($primary);

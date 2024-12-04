@@ -2,29 +2,18 @@
   <div class="home-section has-text-left">
     <!-- Title Bar Start -->
     <div class="pt-1 pb-2 is-flex is-align-items-center">
-      <app-section-title-tip
-        id="appTitle1"
-        class="is-flex-grow-1 has-text-sub-04"
-        :label="$t('DragIconsToSort')"
-        :title="$t('Apps')"
-      ></app-section-title-tip>
+      <app-section-title-tip id="appTitle1" class="is-flex-grow-1 has-text-sub-04" :label="$t('DragIconsToSort')"
+        :title="$t('Apps')"></app-section-title-tip>
 
       <b-dropdown ref="cdro" animation="fade1" aria-role="menu" position="is-bottom-left"
-      v-on-click-outside="() => ($refs.cdro.isActive = false)">
+        v-on-click-outside="() => ($refs.cdro.isActive = false)">
         <template #trigger>
-          <b-icon
-            class="polymorphic is-clickable has-text-grey-100"
-            icon="plus-outline"
-            pack="casa"
-            size="is-24"
-          ></b-icon>
+          <b-icon class="polymorphic is-clickable has-text-grey-100" icon="plus-outline" pack="casa"
+            size="is-24"></b-icon>
         </template>
-        <b-dropdown-item
-          aria-role="menuitem"
-          @click="showAppSettingPanel('', 'custom')"
-        >
-        {{ $t("Add a Containerized Application APP") }}
-          
+        <b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel('', 'custom')">
+          {{ $t("Add a Containerized Application APP") }}
+
         </b-dropdown-item>
         <b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
           {{ $t("Add external link/APP") }}
@@ -35,71 +24,36 @@
 
     <!-- App List Start -->
     <transition name="fade">
-    <draggable
-      v-model="appList"
-      :draggable="draggable"
-      class="columns is-variable is-2 is-multiline app-list contextmenu-canvas"
-      tag="div"
-      v-bind="dragOptions"
-      @end="onSortEnd"
-      @start="drag = true"
-      v-if="!isLoading"
-    >
-      <!-- App Icon Card Start -->
-      <template  >
-        <div
-          v-for="item in appList"
-          :id="'app-' + item.name"
-          :key="'app-' + item.name"
-          class="column is-narrow is-3 handle"
-        >
-          <app-card
-            :item="item"
-            :appIds="newAppIds"
-            @configApp="showConfigPanel"
-            @importApp="showContainerPanel"
-            @updateState="getList"
-            @updateAppIds="getNewAppIdsFromCustomStorage"
-          ></app-card>
-        </div>
-      </template>
-      <!-- App Icon Card End -->
-    </draggable>
-  </transition>
+      <draggable v-model="appList" :draggable="draggable"
+        class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas"
+        tag="div" v-bind="dragOptions" @end="onSortEnd" @start="drag = true" v-if="!isLoading">
+        <!-- App Icon Card Start -->
+        <template>
+          <div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name" class="handle">
+            <app-card :item="item" :appIds="newAppIds" @configApp="showConfigPanel" @importApp="showContainerPanel"
+              @updateState="getList" @updateAppIds="getNewAppIdsFromCustomStorage"></app-card>
+          </div>
+        </template>
+        <!-- App Icon Card End -->
+      </draggable>
+    </transition>
     <!-- App List End -->
 
     <template v-if="oldAppList.length > 0">
       <!-- Title Bar Start -->
       <div class="mb-5 title-bar is-flex is-align-items-center mt-2rem">
-        <app-section-title-tip
-          id="appTitle2"
-          class="is-flex-grow-1 has-text-sub-04"
-          label="To be rebuilt."
-          title="Legacy app(To be rebuilt)."
-        >
+        <app-section-title-tip id="appTitle2" class="is-flex-grow-1 has-text-sub-04" :label="$t('To be rebuilt.')" 
+          title="Legacy app">
         </app-section-title-tip>
       </div>
       <!-- Title Bar End -->
 
       <!-- App List Start -->
-      <div
-        class="columns is-variable is-2 is-multiline app-list contextmenu-canvas"
-      >
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas">
         <!-- Application not imported Start -->
-        <div
-          v-for="item in oldAppList"
-          :id="'app-' + item.name"
-          :key="'app-' + item.name"
-          class="column is-narrow is-3"
-        >
-          <app-card
-            :isCasa="false"
-            :item="item"
-            :appIds="newAppIds"
-            @configApp="showConfigPanel"
-            @importApp="showContainerPanel"
-            @updateState="getList"
-          ></app-card>
+        <div v-for="item in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name">
+          <app-card :isCasa="false" :item="item" :appIds="newAppIds" @configApp="showConfigPanel"
+            @importApp="showContainerPanel" @updateState="getList"></app-card>
         </div>
         <!-- Application not imported End -->
       </div>
@@ -156,8 +110,8 @@ let db;
 
 export default {
   directives: {
-		onClickOutside: vOnClickOutside,
-	},
+    onClickOutside: vOnClickOutside,
+  },
   mixins: [business_ShowNewAppTag, business_LinkApp],
   data() {
     return {
@@ -459,7 +413,7 @@ export default {
           );
         });
 
-        const sortedList = sortedAppList.map((obj) => obj.name);      
+        const sortedList = sortedAppList.map((obj) => obj.name);
         this.appList = sortedAppList;
         if (!isEqual(lateSortList, sortedList)) {
           this.saveSortData();
@@ -532,6 +486,7 @@ export default {
         this.$messageBus("apps_custominstall");
       }
       this.isShowing = true;
+      // block parent scroll
 
       const networks = await this.$api.container.getNetworks();
       const memory = this.$store.state.hardwareInfo.mem;
@@ -540,6 +495,7 @@ export default {
         memory: memory,
       };
       this.isShowing = false;
+      window.parent?.document.body.classList.add("p-overflow-hidden");
       this.$buefy.modal.open({
         parent: this,
         component: AppPanel,
@@ -552,6 +508,9 @@ export default {
         events: {
           updateState: () => {
             this.getList();
+          },
+          close: () => {
+            window.parent?.document.body.classList.remove("p-overflow-hidden");
           },
         },
         props: {
@@ -572,6 +531,8 @@ export default {
      * @return {*}
      */
     async showConfigPanel(item, isCasa) {
+
+
       let name = item.name;
       // this.$messageBus('appsexsiting_open', name);
       try {
@@ -594,6 +555,7 @@ export default {
             },
           }
         );
+        window.parent?.document.body.classList.add("p-overflow-hidden");
         this.$buefy.modal.open({
           parent: this,
           component: AppPanel,
@@ -606,6 +568,9 @@ export default {
           events: {
             updateState: () => {
               this.getList();
+            },
+            close: () => {
+              window.parent?.document.body.classList.remove("p-overflow-hidden");
             },
           },
           props: {
@@ -634,6 +599,7 @@ export default {
         memory: memory,
       };
       const ret = await this.$api.container.getInfo(id);
+      window.parent?.document.body.classList.add("p-overflow-hidden");
       this.$buefy.modal.open({
         parent: this,
         component: AppPanel,
@@ -646,6 +612,9 @@ export default {
         events: {
           updateState: () => {
             this.getList();
+          },
+          close: () => {
+            window.parent?.document.body.classList.remove("p-overflow-hidden");
           },
         },
         props: {
@@ -660,6 +629,7 @@ export default {
     },
 
     async showExternalLinkPanel(item = {}) {
+      window.parent?.document.body.classList.add("p-overflow-hidden");
       this.$buefy.modal.open({
         parent: this,
         component: ExternalLinkPanel,
@@ -675,6 +645,9 @@ export default {
             this.getList().then(() => {
               this.scrollToNewApp();
             });
+          },
+          close: () => {
+            window.parent?.document.body.classList.remove("p-overflow-hidden");
           },
         },
         props: {
@@ -792,67 +765,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.app-list {
-  position: relative;
-}
-
-@media screen and (max-width: 480px) {
-  .app-list {
-    display: flex;
-
-    .column {
-      flex: none;
-      width: 50%;
-    }
-  }
-}
-
-@media screen and (max-width: $tablet) {
-  .app-list {
-    display: flex;
-
-    .column {
-      flex: none;
-      width: 50%;
-    }
-  }
-}
-
-@media screen and (min-width: $tablet) {
-  .app-list {
-    .column {
-      flex: none;
-      width: 50%;
-    }
-  }
-}
-
-@media screen and (min-width: $desktop) {
-  .app-list {
-    .column {
-      flex: none;
-      width: 33.333333%;
-    }
-  }
-}
-
-@media screen and (min-width: $widescreen) {
-  .app-list {
-    .column {
-      flex: none;
-      width: 25%;
-    }
-  }
-}
-
-@media screen and (min-width: $fullhd) {
-  .app-list {
-    .column {
-      flex: none;
-      width: 20%;
-    }
-  }
-}
-</style>
