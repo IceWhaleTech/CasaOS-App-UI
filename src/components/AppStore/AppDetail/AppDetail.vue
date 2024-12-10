@@ -32,9 +32,6 @@
 			<AppDescription 
 				:appDetailData="appDetailData"
 			></AppDescription>
-
-			<SpiltLine  />
-
 		</section>
 	</div>
 </template>

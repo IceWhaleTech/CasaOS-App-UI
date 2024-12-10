@@ -1,21 +1,11 @@
-<!--
- * @Author: zhanghengxin ezreal.zhang@icewhale.org
- * @Date: 2023-08-31 15:41:00
- * @LastEditors: zhanghengxin ezreal.zhang@icewhale.org
- * @LastEditTime: 2023-09-04 18:08:55
- * @FilePath: /CasaOS-App-UI/src/components/AppStore/AppDetail/AppInfoTable.vue
- * @Description: 
- * 
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
--->
 <template>
-	<nav class="level is-mobile mt-4">
+	<nav class="mt-4 level is-mobile">
 		<div class="level-item has-text-centered">
 			<div>
 				<p class="heading">{{ $t('CATEGORY') }}</p>
 				<p class="title">
 					<b-icon :icon="categoryIcon"
-							custom-size="mdi-36px"></b-icon>
+							custom-size="mdi-32px"></b-icon>
 				</p>
 				<p class="footing is-size-14px">{{ appDetailData.category }}</p>
 			</div>
@@ -27,7 +17,7 @@
 			<div>
 				<p class="heading">{{ $t('DEVELOPER') }}</p>
 				<p class="title">
-					<b-icon custom-size="mdi-36px" icon="account-circle-outline"></b-icon>
+					<b-icon custom-size="mdi-32px" icon="account-circle-outline"></b-icon>
 				</p>
 				<p class="footing is-size-14px">{{ appDetailData.developer }}</p>
 			</div>

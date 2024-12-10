@@ -159,6 +159,23 @@
 .slide-next-enter-active,
 .slide-prev-enter-active,
 .slide-prev-leave-active {
-	// transition-timing-function:cubic-bezier(0.165, 0.84, 0.44, 1);
+	animation-timing-function:cubic-bezier(0.69,0,0.26,1);
 	transition-duration: 0.35s;
+}
+
+.slide-next-half-leave-active,
+.slide-next-half-enter-active {
+	animation-timing-function:cubic-bezier(0.69,0,0.26,1);
+	transition-duration: 0.35s;
+}
+
+
+.slide-next-half-enter-to,
+.slide-next-half-leave {
+	transform: translateX(0);
+}
+
+.slide-next-half-enter,
+.slide-next-half-leave-to {
+	transform: translateX(-30%);
 }
