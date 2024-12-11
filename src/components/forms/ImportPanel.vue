@@ -123,36 +123,46 @@ export default {
      * @return {*} void
      */
     emitSubmit() {
-      if (this.activeTab == 1) {
-        const cleanedCommand = this.dockerCliCommands.replace(/`#.*?`/g, '').replace(/#.*$/gm, '').trim();
-        this.dockerComposeCommands = Composerize(cleanedCommand, null, 'v3x');
-        this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
-        this.$emit('update', this.dockerComposeCommands)
-        this.$emit('close')
-      } else if (this.activeTab == 0) {
-        this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
-        this.errors = ""
-        this.$emit('update', this.dockerComposeCommands)
-        this.$emit('close')
-      } else if (this.activeTab == 2) {
-        if (this.appFileLoaded) {
-          this.errors = ""
+      switch (this.activeTab) {
+        case 0:
+          this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
+          this.errors = ''
+          this.$emit('update', this.dockerComposeCommands)
           this.$emit('close')
-        } else {
-          this.errors = this.$t('Please import a valid App file')
-          this.parseError = true;
+          break
+        case 1: {
+          const cleanedCommand = this.dockerCliCommands.replace(/`#.*?`/g, '').replace(/#.*$/gm, '').trim()
+          this.dockerComposeCommands = Composerize(cleanedCommand)
+          this.dockerComposeCommands = this.addTitleToYaml(this.dockerComposeCommands)
+          this.$emit('update', this.dockerComposeCommands)
+          this.$emit('close')
+          break
         }
+        case 2:
+          if (this.appFileLoaded) {
+            this.errors = ''
+            this.$emit('close')
+          }
+          else {
+            this.errors = this.$t('Please import a valid App file')
+            this.parseError = true
+          }
+          break
       }
     },
 
     addTitleToYaml(yaml) {
       const yamlObj = parse(yaml)
+      if (yamlObj['x-casaos'] !== undefined)
+        return yaml
+
       const serviceName = Object.keys(yamlObj.services)[0]
-      if (serviceName == undefined) return stringify(yamlObj)
+      if (serviceName === undefined)
+        return stringify(yamlObj)
       yamlObj['x-casaos'] = {}
       yamlObj['x-casaos'].title = {}
       yamlObj['x-casaos'].title.en_us = serviceName
-      yamlObj['x-casaos'].icon = `https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/${serviceName}/icon.png`
+      yamlObj['x-casaos'].icon = `https://icon.casaos.io/main/all/${serviceName}.png`
       return stringify(yamlObj)
     },
 
