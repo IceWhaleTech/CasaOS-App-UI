@@ -64,7 +64,7 @@ const categoryIcon = computed(() => {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .level {
 	position: relative;
   
