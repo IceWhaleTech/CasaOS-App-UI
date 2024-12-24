@@ -2,7 +2,7 @@
   <div class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
     @mouseleave="hover = true" @mouseover="hover = true">
     <!-- Action Button Start -->
-    <div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling" class="action-btn">
+    <div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling && !isRebuilding" class="action-btn">
       <b-dropdown ref="dro" v-on-click-outside="() => ($refs.dro.isActive = false)" :mobile-modal="false"
         :triggers="['contextmenu', 'click']" animation="fade1" aria-role="list" class="app-card-drop"
         :position="dropdownPosition" @active-change="setDropState">
@@ -13,7 +13,7 @@
         </template>
 
         <b-dropdown-item :focusable="false" aria-role="menu-item" custom>
-          <b-button expanded tag="a" type="is-text" @click="openApp(item)">
+          <b-button v-if="!isV1App" expanded tag="a" type="is-text" @click="openApp(item)">
             {{ $t("Open") }}
           </b-button>
           <b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16" type="is-text"
@@ -38,7 +38,7 @@
             {{ $t("Export as Compose") }}
           </b-button>
 
-          <b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item)">
+          <b-button v-if="isV1App" :loading="isRebuilding" expanded type="is-text" @click="rebuild(item.name)">
             {{ $t("Rebuild") }}
           </b-button>
 
@@ -74,7 +74,7 @@
             </b-loading>
           </b-button>
 
-          <div v-if="!isLinkApp" class="gap">
+          <div v-if="!isLinkApp && !isV1App" class="gap">
             <div class="columns is-gapless _b-bor is-flex">
               <div class="column is-flex is-justify-content-center is-align-items-center">
                 <b-button :loading="isRestarting" expanded type="is-text" @click="restartApp">
@@ -187,6 +187,8 @@ export default {
     tooltipLabel() {
       if (this.isContainerApp) {
         return this.$t("Import to CasaOS");
+      } else if(this.item.app_type === "v1app"){
+        return this.$t("Rebuild");
       } else {
         if (this.item.app_type === "system") {
           return this.$t("Open");
@@ -265,6 +267,15 @@ export default {
     },
   },
 
+  mounted() {
+    const localAppId = localStorage.getItem("rebuild_appid");
+    if (localAppId) {
+      localStorage.removeItem("rebuild_appid")
+      if(localAppId === this.item.name){
+        this.rebuild(localAppId);
+      }
+    }
+  },
   methods: {
     calculateDropdownPosition(event) {
       const app1 = document.getElementById('app1');
@@ -293,12 +304,16 @@ export default {
      */
     openApp(item) {
 
-
       if (this.isContainerApp) {
         this.$emit("importApp", item, false);
         return false;
       }
       // TODO: logic
+
+      if (this.isV1App){
+        this.rebuild(item.name);
+        return;
+      }
 
       if (item.app_type === "system") {
         this.openSystemApps(item);
@@ -435,7 +450,7 @@ export default {
         message: this.$t(
           `Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}`,
           {
-            divS: `<div class="mt-4 is-flex is-align-items-center"><input type="checkbox" checked id="checkDelConfig">`,
+            divS: `<div class="mt-4 is-flex is-align-items-center"><input type="checkbox" id="checkDelConfig">`,
             divE: `</input></div>`,
           }
         ),
@@ -688,26 +703,28 @@ export default {
         });
     },
 
-    async rebuild(app) {
+    async rebuild(appName) {      
       this.isRebuilding = true;
       try {
         // 1. get yaml
-        const file = await this.$api.container.exportAsCompose(app.name).then((res) => res.data);
+        const file = await this.$api.container.exportAsCompose(appName).then((res) => res.data);
         // 2. archive
-        await this.$api.container.archive(app.name);
+        await this.$api.container.archive(appName);
         // 3.install compose
-        await this.$openAPI.appManagement.compose.installComposeApp(file, { name: app.name });
-      } catch (e) {
+        await this.$openAPI.appManagement.compose.installComposeApp(file, { name: appName });
+        // 4. uninstall
+      //  this.uninstallApp(false);
+      } catch {
         this.isRebuilding = false;
-        console.error("rebuild Error:", e);
         this.$buefy.toast.open({
           message: this.$t(`Rebulid error`),
           type: "is-danger",
+          duration:3000
         });
       }
       // 4.sockiet :: install-end :: change UI status.
       // this.isRebuilding = false;
-      this.$refs.dro.isActive = false;
+      // this.$refs.dro.isActive = false;
     },
 
     checkAppVersion(name) {
@@ -879,6 +896,7 @@ export default {
       if (res.Properties["dry_run.name"] === this.item.name) {
         // 4.sockiet :: install-end :: change UI status.
         this.isRebuilding = false;
+        this.uninstallApp(false);
         // 5.message toast
         this.$buefy.toast.open({
           message: this.$t("{title} rebulid completed", { title: ice_i18n(this.item.title) }),

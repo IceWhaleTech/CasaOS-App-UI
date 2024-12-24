@@ -1,5 +1,5 @@
 <template>
-	<section :class="{ _hideOverflow: !isCasa }" class="modal-card-body pt-3">
+	<section :class="{ _hideOverflow: !isCasa }" class="pt-3 modal-card-body">
 		<!--	导入"已存在的容器"，进行初始化操作	-->
 		<ValidationObserver ref="containerValida">
 			<ValidationProvider v-slot="{ errors, valid }" name="appName" rules="required">
@@ -92,14 +92,23 @@ export default {
 			required: true,
 		},
 	},
+	mounted() {
+		this.settingData.port_map = this.settingData.ports[0].host;
+	},
 	methods: {
 		async updateAppHost() {
 			try {
 				const is_validate = await this.$refs.containerValida.validate();
 				if (is_validate === true) {
-					const result = await this.$api.container.update(this.appId, this.settingData);
-					if (result.data.success !== 200) {
-						return new Error(result.data.message);
+					try {
+						const res = await this.$api.container.update(this.appId, this.settingData);
+						return res.data.data.name;
+					} catch (error) {
+						this.$buefy.toast.open({
+							message: this.$t("Rebuild failed, please try again."),
+							type: "is-warning",
+							duration: 3000
+						});
 					}
 				}
 			} catch (error) {

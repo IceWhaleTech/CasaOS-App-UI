@@ -103,7 +103,7 @@ module.exports = {
 		port: 8080,
 		hot: true,
 		proxy: {
-			"/": {
+			'^(?!/ws).*': {
 				target: `http://${process.env.VUE_APP_DEV_IP}:${process.env.VUE_APP_DEV_PORT}`,
 				changeOrigin: true,
 			}

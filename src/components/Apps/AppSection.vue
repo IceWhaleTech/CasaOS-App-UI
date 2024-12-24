@@ -318,6 +318,9 @@ export default {
           // Container app does not have icon.
           item.icon = item.icon || require(`@/assets/img/app/default.svg`);
           if (item.app_type === "v1app" || item.app_type === "container") {
+            // if(item.status === "running") {
+              
+            // }
             orgOldAppList.push(item);
           } else {
             orgNewAppList.push(item);
@@ -612,6 +615,9 @@ export default {
         events: {
           updateState: () => {
             this.getList();
+          },
+          updateCompose: (res) => {
+            console.log("updateCompose",res);
           },
           close: () => {
             window.parent?.document.body.classList.remove("p-overflow-hidden");
