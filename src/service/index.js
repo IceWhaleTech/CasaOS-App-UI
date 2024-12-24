@@ -14,7 +14,7 @@ import {
 	ComposeMethodsApiFactory,
 	Configuration,
 	InternalMethodsApiFactory
-} from '@icewhale/casaos-appmanagement-openapi'
+} from '@icewhale/zimaos-appmanagement-openapi'
 import { ZerotierMethodsApi } from '@icewhale/casaos-openapi'
 import { FileApiFactory, FolderApiFactory, PinMethodsApi } from '@icewhale/icewhale-files-openapi'
 import { GPUMethodsApi } from '@icewhale/zimaos-openapi'

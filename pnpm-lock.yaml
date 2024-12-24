@@ -11,15 +11,15 @@ importers:
       '@fontsource/roboto':
         specifier: ^4.5.8
         version: 4.5.8
-      '@icewhale/casaos-appmanagement-openapi':
-        specifier: 0.4.9-alpha7
-        version: 0.4.9-alpha7
       '@icewhale/casaos-openapi':
         specifier: latest
         version: 0.4.13-2adb795
       '@icewhale/icewhale-files-openapi':
         specifier: 1.2.2-alpha4
         version: 1.2.2-alpha4
+      '@icewhale/zimaos-appmanagement-openapi':
+        specifier: latest
+        version: 1.3.1-alpha2
       '@icewhale/zimaos-localstorage-openapi':
         specifier: 1.2.2-alpha7
         version: 1.2.2-alpha7
@@ -908,14 +908,14 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@icewhale/casaos-appmanagement-openapi@0.4.9-alpha7':
-    resolution: {integrity: sha512-Zad1OywXEGUpyEPqaxLZ3M0PBMUt1hpPXMMO11HQvv+39V4OtI2V8oWqoyryo1LbTkrMqRl55ji50PxbPpyHYQ==}
-
   '@icewhale/casaos-openapi@0.4.13-2adb795':
     resolution: {integrity: sha512-abitonoBcPCR7TCMJh69OMNScHuiS5DCNvyQo/cpEJ00ceThazbcHLUtiCRxAA4fUy++RlWqmbHw++BE5Aj5EA==}
 
   '@icewhale/icewhale-files-openapi@1.2.2-alpha4':
     resolution: {integrity: sha512-zWl1cDwJvcth51+aIFMHjMOYtKg9n86KzmLUKzZ2jVLaHujpmiKJgiuzfylHwwkAUOL3m7b448gj2P3xW3UcpA==}
+
+  '@icewhale/zimaos-appmanagement-openapi@1.3.1-alpha2':
+    resolution: {integrity: sha512-sePfJcz7ZsqkQc7rpAchzZmYMyC4909AuyBw9WrHeA9ia4QfsDHqxBdIXWvoFxUmJ1Tx9hCum5FIf+BjaZFE0g==}
 
   '@icewhale/zimaos-localstorage-openapi@1.2.2-alpha7':
     resolution: {integrity: sha512-ebZgdrn75k8qx7GWGVGZelf0kbyNarm7E/vxfqvaZ2fqXSF7WmufTdBSGxnC9uejuatv/nPOXbzmPBbm+UR72w==}
@@ -7593,12 +7593,6 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@icewhale/casaos-appmanagement-openapi@0.4.9-alpha7':
-    dependencies:
-      axios: 1.7.8
-    transitivePeerDependencies:
-      - debug
-
   '@icewhale/casaos-openapi@0.4.13-2adb795':
     dependencies:
       axios: 1.7.8
@@ -7606,6 +7600,12 @@ snapshots:
       - debug
 
   '@icewhale/icewhale-files-openapi@1.2.2-alpha4':
+    dependencies:
+      axios: 1.7.8
+    transitivePeerDependencies:
+      - debug
+
+  '@icewhale/zimaos-appmanagement-openapi@1.3.1-alpha2':
     dependencies:
       axios: 1.7.8
     transitivePeerDependencies:

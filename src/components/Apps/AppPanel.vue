@@ -40,7 +40,8 @@
               <button class="icon-button mdi mdi-export-variant" type="button" @click="exportYAML" />
             </b-tooltip>
             <div v-if="currentSlide !== APP_INSTALLING_PANEL"
-              class="is-flex is-align-items-center modal-close-container modal-close-container-line">
+              class="is-flex is-align-items-center modal-close-container"
+              :class="{'modal-close-container-line': isCasa }">
               <b-icon class="_polymorphic close" icon="close-outline" pack="casa" @click.native="$emit('close')" />
             </div>
             <div v-else-if="currentSlide === APP_INSTALLING_PANEL" class="is-flex is-align-items-center">
@@ -144,6 +145,7 @@ import { AppConditionSelector, AppDetail, AppRecommend, AppStoreContent } from "
 import { AppInstallLoadingFooter, AppInstallLoadingPanel } from "@/components/AppInstallLoadingPanel";
 import { AppSettingPanelFooter } from "@/components/AppSetting";
 import { AppHost } from "@/components/AppHost";
+import events from "@/events/events";
 
 const data = [
   "AUDIT_CONTROL",
@@ -365,10 +367,10 @@ export default {
       return this.currentSlide == APP_SETTING_PANEL && this.state == "install";
     },
     showExportButton() {
-      return this.currentSlide == APP_SETTING_PANEL && this.state == "update";
+      return this.currentSlide == APP_SETTING_PANEL && this.state == "update" && this.isCasa;
     },
     showTerminalButton() {
-      return this.currentSlide == APP_SETTING_PANEL && this.state == "update" && this.runningStatus == "running";
+      return this.currentSlide == APP_SETTING_PANEL && this.state == "update" && this.runningStatus == "running" && this.isCasa;
     },
     panelTitle() {
       if (this.currentSlide == APP_STORE_PANEL) {
@@ -702,14 +704,15 @@ export default {
     async updateContainer() {
       this.isLoading = true;
       try {
-        console.log(0);
-        await this.$refs.apphost.updateAppHost();
-        this.$emit("updateState");
+        const appId = await this.$refs.apphost.updateAppHost();
+        localStorage.setItem("rebuild_appid", appId);
         this.$emit("close");
-      } catch (e) {
+        this.$emit("updateState");
+      } catch (err) {
         this.$buefy.toast.open({
-          message: err.response.data.message,
+          message: this.$t("Rebuild failed, please try again."),
           type: "is-warning",
+          duration: 3000
         });
       }
       this.isLoading = false;
