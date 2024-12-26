@@ -391,7 +391,7 @@ export default {
       return !this.appDetailData.screenshot_link ? false : true;
     },
     currentInstallAppTextClass() {
-      return this.currentInstallAppError ? "has-text-danger" : "has-text-black";
+      return this.currentInstallAppError ? "has-text-danger" : "has-text-black ";
     },
     archTitle() {
       if (this.arch === "arm") {
@@ -635,10 +635,11 @@ export default {
             this.dockerComposeConfig = dockerComposeCommands;
             this.currentSlide = APP_SETTING_PANEL;
             this.errInfo = e.response.data.data;
-          }
+          }          
           this.$buefy.toast.open({
-            message: e.response.data || e.response.status,
+            message: e.response.data.message || e.response.status,
             type: "is-danger",
+            duration: 5000,
           });
         });
     },
@@ -849,7 +850,12 @@ export default {
             this.currentInstallAppText = "Installing " + this.totalPercentage + "%";
           }
         } else {
-          this.currentInstallAppText = resData.message;
+          const message = resData.message.toString();
+          if(message.startsWith("Error response from daemon") && message.endsWith("connection reset by peer") && message.includes("docker.io")){
+            this.currentInstallAppText = this.$t("ZimaOS is currently unable to access Docker Hub. Please check your network connection and try again.");
+          }else{
+            this.currentInstallAppText = message;
+          }
         }
       } else {
         localStorage.removeItem("app_data");
@@ -857,7 +863,7 @@ export default {
         setTimeout(() => {
           this.$emit("updateState");
           this.$emit("close");
-        }, 500);
+        }, 5000);
       }
     },
 
