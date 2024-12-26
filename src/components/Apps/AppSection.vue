@@ -692,7 +692,19 @@ export default {
         },
       });
     },
-    "app:install-error"() {
+    "app:install-error"(res) {
+      const message = res.Properties.message.toString();
+      let toastMessage = "";
+      if(message.startsWith("Error response from daemon") && message.endsWith("connection reset by peer") && message.includes("docker.io")){
+        toastMessage = this.$t("App installation error: ZimaOS is currently unable to access Docker Hub. Please check your network connection and try again.");
+      }else{
+        toastMessage = message;
+      }
+      this.$buefy.toast.open({
+          message: toastMessage,
+          type: "is-danger",
+          duration: 5000
+        });
       this.getList().then(() => {
         this.scrollToNewApp();
       });
