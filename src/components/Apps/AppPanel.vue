@@ -851,7 +851,7 @@ export default {
           }
         } else {
           const message = resData.message.toString();
-          if(message.startsWith("Error response from daemon") && message.endsWith("connection reset by peer") && message.includes("docker.io")){
+          if(message.startsWith("Error response from daemon") && message.includes("docker.io")){
             this.currentInstallAppText = this.$t("ZimaOS is currently unable to access Docker Hub. Please check your network connection and try again.");
           }else{
             this.currentInstallAppText = message;
