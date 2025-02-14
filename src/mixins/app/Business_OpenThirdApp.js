@@ -31,7 +31,7 @@ export default {
 					let html = document.createElement('a');
 					html.href = url;
 					html.rel = 'noreferrer';
-					document.getElementById('app').appendChild(html)
+					document.getElementById('app1').appendChild(html)
 					setTimeout(() => {
 						html.click();
 					}, 500);
