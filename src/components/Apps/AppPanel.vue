@@ -17,7 +17,7 @@
     </app-side-bar>
     <!-- Sidebar End -->
     <transition name="slide-next-half">
-      <div v-show="!sidebarOpen" class="app-card flex flex-col  overflow-hidden max-h-[calc(100vh - 40px)]">
+      <div v-show="!sidebarOpen" class="app-card flex flex-col is-flex-grow-1 overflow-hidden max-h-[calc(100vh - 40px)]">
         <!-- Modal-Card Header Start -->
         <header :class="{ '!bg-gray-100': currentSlide == APP_SETTING_PANEL }" class="modal-card-head b-line">
           <div class="is-flex-grow-1">
