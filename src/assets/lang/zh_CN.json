@@ -26,7 +26,7 @@
   "Setting": "设置",
   "Uninstall": "卸载",
   "Attention": "注意",
-  "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}": "数据删除后无法恢复！<br/>继续卸载此应用程序吗？<br/>{divS}删除用户数据（config文件夹）{divE}",
+  "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?": "数据删除后无法恢复！<br/>继续卸载此应用程序吗？",
   "Featured Apps": "精选App",
   "numApps": "无应用 | 1 个应用 | {n} 个应用",
   "Add a Containerized Application": "自定义安装",

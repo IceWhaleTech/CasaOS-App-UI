@@ -26,7 +26,7 @@
   "Setting": "Settings",
   "Uninstall": "Uninstall",
   "Attention": "Attention",
-  "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}": "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}",
+  "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?": "Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?",
   "Featured Apps": "Featured Apps",
   "numApps": "No Apps | 1 App | {n} Apps",
   "Add a Containerized Application": "Add a Containerised Application",
@@ -87,7 +87,6 @@
   "Notice: If there are multiple services, only the first set can be analyzed correctly": "When there are more than 1 containers specified in the Docker compose file, only the first one will be imported for now.",
   "There was an error loading the data, please try again!": "There was an error loading the data. Please try again.",
   "Port": "Ports",
-  "Single Drive Storage": "Single storage drive",
   "CasaOS reserves 1% of file space when creating storage in EXT4 format.": "ZimaOS reserves 1% of file space when creating storage in EXT4 format.",
   "Delete": "Delete",
   "Download in preparation...": "Preparing to download...",
@@ -157,5 +156,5 @@
   "noFavorites": "No favourites now.",
   "Storage": "Storage",
   "Migration": "Migration",
-  "migrationTips:": "Migrate user data to another space."
+  "migrationTips": "Migrate user data to another space."
 }
