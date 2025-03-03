@@ -448,19 +448,13 @@ export default {
       this.$buefy.dialog.confirm({
         title: this.$t("Attention"),
         message: this.$t(
-          `Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?<br/>{divS}Delete userdata ( config folder ){divE}`,
-          {
-            divS: `<div class="mt-4 is-flex is-align-items-center"><input type="checkbox" id="checkDelConfig">`,
-            divE: `</input></div>`,
-          }
+          `Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?`
         ),
         type: "is-dark",
         confirmText: this.$t("Uninstall"),
         cancelText: this.$t("Cancel"),
         onConfirm: () => {
-          let checkDelConfig = document.getElementById("checkDelConfig")
-            ? document.getElementById("checkDelConfig").checked
-            : false;
+          let checkDelConfig =  false;
           this.uninstallApp(checkDelConfig);
         },
       });
