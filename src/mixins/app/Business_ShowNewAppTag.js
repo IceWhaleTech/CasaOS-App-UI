@@ -1,3 +1,4 @@
+
 const customStorageName = 'new_app_ids';
 // appId : container id
 export default {
@@ -7,7 +8,7 @@ export default {
 		}
 	},
 	mounted() {
-		// this.getNewAppIdsFromCustomStorage();
+		this.getNewAppIdsFromCustomStorage();
 	},
 	methods: {
 		// getSessionStorageOutputArray() {
