@@ -1,12 +1,3 @@
-/*
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-12 18:32:17
- * @FilePath: \CasaOS-UI-0.4.2\src\mixins\app\Business_OpenThirdApp.js
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
- */
-
 import { parse }              from "yaml";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
 
@@ -54,8 +45,7 @@ export default {
 					image: allinfo.compose.services[appInfo.id]?.image,
 					icon: containerInfoV2.icon,
 				}
-				
-				if (allinfo.status.indexOf('running') === -1) { 
+				if (allinfo.status.indexOf('running') === -1) {
 					await this.$openAPI.appManagement.compose.setComposeAppStatus(allinfo.compose.name, 'start')
 					this.firstOpenThirdApp(app)
 				}else{
