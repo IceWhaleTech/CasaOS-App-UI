@@ -1,30 +1,29 @@
-
-const customStorageName = 'new_app_ids';
+const customStorageName = "new_app_ids";
 // appId : container id
 export default {
 	data() {
 		return {
-			newAppIds: [],
-		}
+			// newAppIds 现在通过 computed 从 store 获取，不再需要本地存储
+		};
 	},
-	mounted() {
-		this.getNewAppIdsFromCustomStorage();
+	computed: {
+		newAppIds: {
+			get() {
+				return this.$store.state.newAppIds;
+			},
+			set(value) {
+				this.$store.commit("SET_NEW_APP_IDS", value);
+			},
+		},
 	},
+
 	methods: {
-		// getSessionStorageOutputArray() {
-		// 	// THIS FUNCTION IS DEPRECATED!!!
-		// 	// USE getNewAppIdsFromCustomStorage FUNCTION INSTEAD!!!
-		// 	let newAppTag = sessionStorage.getItem('newAppTag');
-		// 	if (newAppTag === null) {
-		// 		return [];
-		// 	} else {
-		// 		return JSON.parse(newAppTag);
-		// 	}
-		// },
 		getNewAppIdsFromCustomStorage(callback) {
-			this.$api.users.getCustomStorage(customStorageName)
+			this.$api.users
+				.getCustomStorage(customStorageName)
 				.then((res) => {
-					this.newAppIds = res.data.data || [];
+					const newAppIds = res.data.data || [];
+					this.$store.commit("SET_NEW_APP_IDS", newAppIds);
 					callback?.then?.();
 				})
 				.catch((err) => {
@@ -36,7 +35,8 @@ export default {
 				});
 		},
 		setNewAppIdsToCustomStorage(callback) {
-			this.$api.users.setCustomStorage(customStorageName, this.newAppIds)
+			this.$api.users
+				.setCustomStorage(customStorageName, this.newAppIds)
 				.then(() => {
 					callback?.then?.();
 				})
@@ -49,20 +49,6 @@ export default {
 				});
 		},
 		addIdToSessionStorage(appId) {
-			// THIS FUNCTION IS DEPRECATED!!!
-			// USE addIdToNewAppIds FUNCTION INSTEAD!!!
-
-			// let newAppTag = this.getSessionStorageOutputArray('newAppTag');
-			// if (newAppTag.length > 0) {
-			// 	if (newAppTag.indexOf(appId) === -1) {
-			// 		newAppTag.push(appId);
-			// 	}
-			// } else {
-			// 	newAppTag = [appId];
-			// }
-			// this.newAppIds = newAppTag;
-			// return sessionStorage.setItem('newAppTag', JSON.stringify(newAppTag));
-
 			this.addIdToNewAppIds(appId);
 		},
 		addIdToNewAppIds(appId, callback) {
@@ -70,7 +56,7 @@ export default {
 			this.getNewAppIdsFromCustomStorage({
 				then: () => {
 					if (this.newAppIds.indexOf(appId) === -1) {
-						this.newAppIds.push(appId);
+						this.$store.commit("ADD_NEW_APP_ID", appId);
 						this.setNewAppIdsToCustomStorage({
 							then: () => {
 								callback?.then?.();
@@ -85,22 +71,10 @@ export default {
 				catch: (err) => {
 					console.log("addIdToNewAppIds error", err);
 					callback?.catch?.();
-				}
+				},
 			});
 		},
 		removeIdFromSessionStorage(appId) {
-			// THIS FUNCTION IS DEPRECATED!!!
-			// USE removeIdFromNewAppIds FUNCTION INSTEAD!!!
-
-			// let newAppTag = this.getSessionStorageOutputArray('newAppTag');
-			// if (newAppTag.length > 0) {
-			// 	if (newAppTag.indexOf(appId) !== -1) {
-			// 		newAppTag.splice(newAppTag.indexOf(appId), 1);
-			// 	}
-			// }
-			// this.newAppIds = newAppTag;
-			// sessionStorage.setItem('newAppTag', JSON.stringify(newAppTag));
-
 			this.removeIdFromNewAppIds(appId);
 		},
 		removeIdFromNewAppIds(appId, callback) {
@@ -108,7 +82,7 @@ export default {
 			this.getNewAppIdsFromCustomStorage({
 				then: () => {
 					if (this.newAppIds.indexOf(appId) !== -1) {
-						this.newAppIds.splice(this.newAppIds.indexOf(appId), 1);
+						this.$store.commit("REMOVE_NEW_APP_ID", appId);
 						this.setNewAppIdsToCustomStorage({
 							then: () => {
 								callback?.then?.();
@@ -123,20 +97,12 @@ export default {
 				catch: (err) => {
 					console.log("removeIdFromNewAppIds error", err);
 					callback?.catch?.();
-				}
+				},
 			});
 		},
-		// getIdFromSessionStorage() {
-		// 	// THIS FUNCTION IS DEPRECATED!!!
-		// 	// USE getNewAppIdsFromCustomStorage FUNCTION INSTEAD!!!
-		// 	this.getNewAppIdsFromCustomStorage({
-		// 		finally: () => {
-		// 			return this.newAppIds;
-		// 		},
-		// 	});
-		// },
+
 		hasNewTag(appId) {
-			return this.newAppIds.indexOf(appId) !== -1;
+			return this.newAppIds.indexOf(appId) > 0;
 		},
-	}
-}
+	},
+};

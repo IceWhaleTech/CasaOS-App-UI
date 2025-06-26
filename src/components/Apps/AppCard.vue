@@ -106,7 +106,7 @@
                 :src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64" webp-fallback=".jpg"
                 @click.native="openApp(item)"></b-image>
               <!-- Unstable-->
-              <cTooltip v-if="appIds.includes(item.name)" class="!absolute !-top-3 !left-12 z-30" content="NEW"></cTooltip>
+              <cTooltip v-if="hasNewTag(item.name)" class="!absolute !-top-3 !left-12 z-30" content="NEW"></cTooltip>
             </div>
           </b-tooltip>
 
@@ -291,10 +291,6 @@ export default {
       const verticalPos = bottomOffset > 0 && bottomOffset2 > 0 ? "bottom" : "top";
       this.dropdownPosition = `is-${verticalPos}-${horizontalPos}`;
     },
-    hasNewTagLabel(name) {
-      return this.appIds.includes(name) >= 0;
-    },
-
     /**
      * @description: Open app in new windows
      * @param {String} status App status
@@ -328,7 +324,6 @@ export default {
           });
         }
       } else if (this.isLinkApp) {
-        // this.hasNewTagLabel(item.name) && this.removeIdFromNewAppIds(item.name);
         window.open(item.hostname, "_blank");
       } else if (item.requireGPU) {
 
@@ -349,10 +344,10 @@ export default {
           this.checkAndOpenThirdApp(item);
         }
       }
-      this.hasNewTagLabel(item.name) && this.removeIdFromNewAppIds(item.name);
-      setTimeout(() => {
-        this.$emit("updateAppIds");
-      }, 200);
+      // this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
+      // setTimeout(() => {
+      //   this.$emit("updateAppIds");
+      // }, 200);
     },
 
     openSystemApps(item) {
@@ -360,12 +355,6 @@ export default {
         case "App Store":
           this.openAppStore();
           break;
-        // case "Files":
-        // 	this.showMircoApp(item);
-        // 	break;
-        // case "Remote Access":
-        // 	this.showMircoApp(item);
-        // 	break;
         case "Settings":
           this.$messageBus("mircoapp_communicate", {
             action: "open",

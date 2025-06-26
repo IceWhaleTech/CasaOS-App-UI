@@ -1,4 +1,4 @@
-import { MutationTree } from 'vuex';
-import { State } from './state';
+import { type MutationTree } from 'vuex';
+import { type State } from './state';
 declare const mutations: MutationTree<State>;
 export default mutations;

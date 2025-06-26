@@ -904,6 +904,7 @@ export default {
       });
     },
     "app:install-end"(res) {
+      this.$emit("close");
       this.installAppProgress({
         finished: true,
         name: res.Properties["app:name"],
@@ -921,6 +922,9 @@ export default {
       });
     },
     "app:install-progress"(res) {
+      if(res.Properties["app:progress"] === 100){
+        this.$emit("close");
+      }
       this.installAppProgress({
         finished: false,
         name: res.Properties["app:name"],

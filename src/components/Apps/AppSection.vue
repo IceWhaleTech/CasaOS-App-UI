@@ -2,18 +2,30 @@
   <div class="home-section has-text-left">
     <!-- Title Bar Start -->
     <div class="pt-1 pb-2 is-flex is-align-items-center">
-      <app-section-title-tip id="appTitle1" class="is-flex-grow-1 has-text-sub-04" :label="$t('DragIconsToSort')"
-        :title="$t('Apps')"></app-section-title-tip>
+      <app-section-title-tip
+        id="appTitle1"
+        class="is-flex-grow-1 has-text-sub-04"
+        :label="$t('DragIconsToSort')"
+        :title="$t('Apps')"
+      ></app-section-title-tip>
 
-      <b-dropdown ref="cdro" animation="fade1" aria-role="menu" position="is-bottom-left"
-        v-on-click-outside="() => ($refs.cdro.isActive = false)">
+      <b-dropdown
+        ref="cdro"
+        animation="fade1"
+        aria-role="menu"
+        position="is-bottom-left"
+        v-on-click-outside="() => ($refs.cdro.isActive = false)"
+      >
         <template #trigger>
-          <b-icon class="polymorphic is-clickable has-text-grey-100" icon="plus-outline" pack="casa"
-            size="is-24"></b-icon>
+          <b-icon
+            class="polymorphic is-clickable has-text-grey-100"
+            icon="plus-outline"
+            pack="casa"
+            size="is-24"
+          ></b-icon>
         </template>
         <b-dropdown-item aria-role="menuitem" @click="showAppSettingPanel('', 'custom')">
           {{ $t("Add a Containerized Application APP") }}
-
         </b-dropdown-item>
         <b-dropdown-item aria-role="menuitem" @click="showExternalLinkPanel">
           {{ $t("Add external link/APP") }}
@@ -24,14 +36,27 @@
 
     <!-- App List Start -->
     <transition name="fade">
-      <draggable v-model="appList" :draggable="draggable"
+      <draggable
+        v-model="appList"
+        :draggable="draggable"
         class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas"
-        tag="div" v-bind="dragOptions" @end="onSortEnd" @start="drag = true" v-if="!isLoading">
+        tag="div"
+        v-bind="dragOptions"
+        @end="onSortEnd"
+        @start="drag = true"
+        v-if="!isLoading"
+      >
         <!-- App Icon Card Start -->
         <template>
           <div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name" class="handle">
-            <app-card :item="item" :appIds="newAppIds" @configApp="showConfigPanel" @importApp="showContainerPanel"
-              @updateState="getList" @updateAppIds="getNewAppIdsFromCustomStorage"></app-card>
+            <app-card
+              :item="item"
+              :appIds="$store.state.newAppIds"
+              @configApp="showConfigPanel"
+              @importApp="showContainerPanel"
+              @updateState="getList"
+              @updateAppIds="getNewAppIdsFromCustomStorage"
+            ></app-card>
           </div>
         </template>
         <!-- App Icon Card End -->
@@ -42,18 +67,30 @@
     <template v-if="oldAppList.length > 0">
       <!-- Title Bar Start -->
       <div class="mb-5 title-bar is-flex is-align-items-center mt-2rem">
-        <app-section-title-tip id="appTitle2" class="is-flex-grow-1 has-text-sub-04" :label="$t('To be rebuilt.')" 
-          title="Legacy app">
+        <app-section-title-tip
+          id="appTitle2"
+          class="is-flex-grow-1 has-text-sub-04"
+          :label="$t('To be rebuilt.')"
+          title="Legacy app"
+        >
         </app-section-title-tip>
       </div>
       <!-- Title Bar End -->
 
       <!-- App List Start -->
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas">
+      <div
+        class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas"
+      >
         <!-- Application not imported Start -->
         <div v-for="item in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name">
-          <app-card :isCasa="false" :item="item" :appIds="newAppIds" @configApp="showConfigPanel"
-            @importApp="showContainerPanel" @updateState="getList"></app-card>
+          <app-card
+            :isCasa="false"
+            :item="item"
+            :appIds="newAppIds"
+            @configApp="showConfigPanel"
+            @importApp="showContainerPanel"
+            @updateState="getList"
+          ></app-card>
         </div>
         <!-- Application not imported End -->
       </div>
@@ -318,9 +355,7 @@ export default {
       }
 
       try {
-        const orgAppList = await this.$openAPI.appGrid
-          .getAppGrid()
-          .then((res) => res.data.data || []);
+        const orgAppList = await this.$openAPI.appGrid.getAppGrid().then((res) => res.data.data || []);
         let orgOldAppList = [],
           orgNewAppList = [];
         orgAppList.forEach((item) => {
@@ -329,7 +364,7 @@ export default {
           item.icon = item.icon || require(`@/assets/img/app/default.svg`);
           if (item.app_type === "v1app" || item.app_type === "container") {
             // if(item.status === "running") {
-              
+
             // }
             orgOldAppList.push(item);
           } else {
@@ -368,18 +403,11 @@ export default {
             });
         }
         // all app list
-        let casaAppList = concat(
-          builtInApplications,
-          orgNewAppList,
-          linkAppList,
-          this.mircoAppList
-        );
+        let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList);
 
         if (this.hasGpu) {
           casaAppList = casaAppList.map((item) => {
-            item.requireGPU = this.gpuAppList.find(
-              (gpuItem) => gpuItem.name === item.name
-            );
+            item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
             return item;
           });
         } else if (this.hasGpu === false) {
@@ -411,19 +439,13 @@ export default {
 
         // filter anything not in casaAppList.
         const propList = casaAppList.map((obj) => obj.name);
-        const existingList = lateSortList.filter((item) =>
-          propList.includes(item)
-        );
-        const futureList = propList.filter(
-          (item) => !lateSortList.includes(item)
-        );
+        const existingList = lateSortList.filter((item) => propList.includes(item));
+        const futureList = propList.filter((item) => !lateSortList.includes(item));
         const newSortList = existingList.concat(futureList);
 
         // then sort.
         const sortedAppList = casaAppList.sort((obj1, obj2) => {
-          return (
-            newSortList.indexOf(obj1.name) - newSortList.indexOf(obj2.name)
-          );
+          return newSortList.indexOf(obj1.name) - newSortList.indexOf(obj2.name);
         });
 
         const sortedList = sortedAppList.map((obj) => obj.name);
@@ -544,8 +566,6 @@ export default {
      * @return {*}
      */
     async showConfigPanel(item, isCasa) {
-
-
       let name = item.name;
       // this.$messageBus('appsexsiting_open', name);
       try {
@@ -559,15 +579,12 @@ export default {
           networks: networks.data.data,
           memory: memory,
         };
-        const ret = await this.$openAPI.appManagement.compose.myComposeApp(
-          name,
-          {
-            headers: {
-              "content-type": "application/yaml",
-              accept: "application/yaml",
-            },
-          }
-        );
+        const ret = await this.$openAPI.appManagement.compose.myComposeApp(name, {
+          headers: {
+            "content-type": "application/yaml",
+            accept: "application/yaml",
+          },
+        });
         window.parent?.document.body.classList.add("p-overflow-hidden");
         this.$buefy.modal.open({
           parent: this,
@@ -627,7 +644,7 @@ export default {
             this.getList();
           },
           updateCompose: (res) => {
-            console.log("updateCompose",res);
+            console.log("updateCompose", res);
           },
           close: () => {
             window.parent?.document.body.classList.remove("p-overflow-hidden");
@@ -694,27 +711,26 @@ export default {
   sockets: {
     "app:install-end"(res) {
       // business :: Tagging of new app / scrollIntoView
-      this.addIdToNewAppIds(res.Properties["app:name"], {
-        then: () => {
-          this.getList().then(() => {
-            this.scrollToNewApp();
-          });
-        },
+      this.addIdToNewAppIds(res.Properties["app:name"]);
+      this.getList().then(() => {
+        this.scrollToNewApp();
       });
     },
     "app:install-error"(res) {
       const message = res.Properties.message.toString();
       let toastMessage = "";
-      if(message.startsWith("Error response from daemon") && message.includes("docker.io")){
-        toastMessage = this.$t("App installation error: ZimaOS is currently unable to access Docker Hub. Please check your network connection and try again.");
-      }else{
+      if (message.startsWith("Error response from daemon") && message.includes("docker.io")) {
+        toastMessage = this.$t(
+          "App installation error: ZimaOS is currently unable to access Docker Hub. Please check your network connection and try again."
+        );
+      } else {
         toastMessage = message;
       }
       this.$buefy.toast.open({
-          message: toastMessage,
-          type: "is-danger",
-          duration: 5000
-        });
+        message: toastMessage,
+        type: "is-danger",
+        duration: 5000,
+      });
       this.getList().then(() => {
         this.scrollToNewApp();
       });
@@ -730,10 +746,7 @@ export default {
       let languages = JSON.parse(res.Properties["app:title"]);
       const title = ice_i18n(languages);
       // toast info
-      this.messageBusToast(
-        this.$t("appSettingsUpdated", { appName: title }),
-        "is-success"
-      );
+      this.messageBusToast(this.$t("appSettingsUpdated", { appName: title }), "is-success");
 
       // business :: Tagging of new app / scrollIntoView
       this.addIdToNewAppIds(res.Properties["app:name"], {
@@ -755,12 +768,9 @@ export default {
         this.addIdToNewAppIds(data.Properties["app:name"], {
           then: () => {
             this.$buefy.toast.open({
-              message: this.$t(
-                `{name} has been updated to the latest version!`,
-                {
-                  name: data.Properties.name,
-                }
-              ),
+              message: this.$t(`{name} has been updated to the latest version!`, {
+                name: data.Properties.name,
+              }),
               type: "is-success",
             });
             this.getList().then(() => {
@@ -782,10 +792,7 @@ export default {
     "casaos-ui:app:mircoapp_communicate"(data) {
       if (data.Properties.access_id === window.$wujie.props?.access_id) {
         // Open App Detail Panel
-        if (
-          data.Properties.action === "open_appstore_detail" &&
-          data.Properties.storeId
-        ) {
+        if (data.Properties.action === "open_appstore_detail" && data.Properties.storeId) {
           this.showAppSettingPanel(data.Properties.storeId);
         }
       }
