@@ -1,6 +1,10 @@
 name: push_test_server
 
 on:
+    workflow_call:
+      secrets:
+        NPM_TOKEN:
+          required: true
     push:
         branches:
             - main
@@ -22,6 +26,8 @@ jobs:
                 uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
+                    cache: pnpm
+                    registry-url: "https://registry.npmjs.org"
 
             -   uses: pnpm/action-setup@v2
                 name: Install pnpm
@@ -63,7 +69,12 @@ jobs:
                 run: echo ${{ env.VERSION }}
                 # run: echo ${{ steps.get_version.outputs.VERSION }}
 
-            -   run: pnpm install
+            -   name: Install dependencies
+                run: |
+                    pnpm install
+                env:
+                    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+                    
             -   run: pnpm build
             -   run: |
                     tar -zcvf linux-all-icewhale-app-ui-v99.99.99.tar.gz build
