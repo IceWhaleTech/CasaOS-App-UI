@@ -1,6 +1,10 @@
 name: Release Raw Module
 
 on:
+    workflow_call:
+      secrets:
+        NPM_TOKEN:
+          required: true
     push:
         tags:
             - 'v*'
@@ -16,6 +20,7 @@ jobs:
                 uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
+                    registry-url: "https://registry.npmjs.org"
                     
             -   uses: pnpm/action-setup@v2
                 name: Install pnpm
@@ -55,6 +60,9 @@ jobs:
                     echo env.VERSION ${{ steps.get_version.outputs.VERSION }}
                     
             -   run: pnpm install
+                env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
             -   run: pnpm build:raw
             -   run: |
                     mksquashfs raw/ icewhale_app.raw
