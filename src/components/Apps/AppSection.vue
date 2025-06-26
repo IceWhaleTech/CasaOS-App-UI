@@ -103,6 +103,16 @@ const builtInApplications = [
     status: "running",
     app_type: "system",
   },
+  {
+    id: "3",
+    name: "Backup",
+    title: {
+      en_us: "Backup",
+    },
+    icon: require(`@/assets/img/app/backup.svg`),
+    status: "running",
+    app_type: "system",
+  },
 ];
 
 const orderConfig = "app_order";

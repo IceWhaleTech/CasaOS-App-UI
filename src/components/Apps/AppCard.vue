@@ -372,6 +372,12 @@ export default {
             name: "icewhale_settings",
           });
           break;
+        case "Backup":
+          this.$messageBus("mircoapp_communicate", {
+            action: "open",
+            name: "icewhale_backup",
+          });
+          break;
         default:
           break;
       }
