@@ -59,12 +59,12 @@ jobs:
                     echo github ${{ github }}
                     echo github.sha ${{ github.sha }}
                     echo env.VERSION ${{ steps.get_version.outputs.VERSION }}
-                    
-            - name: Install dependencies
-              run: |
-                pnpm install
-              env:
-                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+            -   name: Install dependencies
+                run: |
+                    pnpm install
+                env:
+                    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
             -   run: pnpm build:raw
             -   run: |
