@@ -48,6 +48,7 @@ export interface State {
 	access_id: string;
 	casaos_lang: string;
 	notImportList: any[];
+    newAppIds: string[];
 }
 
 const state = {
@@ -103,5 +104,6 @@ const state = {
 	access_id: "dsdad",
 	casaos_lang: "zh",
 	notImportList: [],
+	newAppIds: [],
 }
 export default state

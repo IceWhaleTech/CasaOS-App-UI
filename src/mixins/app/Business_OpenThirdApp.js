@@ -1,5 +1,8 @@
 import { parse }              from "yaml";
 import business_ShowNewAppTag from "@/mixins/app/Business_ShowNewAppTag";
+import { usei18n } 		from '@/composables/usei18n';
+
+const { i18n } = usei18n();
 
 export default {
 	mixins: [business_ShowNewAppTag],
@@ -68,7 +71,7 @@ export default {
 					return res.data
 				})
 				const composeSourceData = parse(composeSourceDataYAML);
-				if (composeSourceData?.["x-casaos"]?.tips?.before_install?.en_us) {
+				if (i18n(composeSourceData?.["x-casaos"]?.tips?.before_install)) {
 					this.$buefy.modal.open({
 						parent: this,
 						component: () => import("@/components/AppSetting/AppTipModal.vue"),

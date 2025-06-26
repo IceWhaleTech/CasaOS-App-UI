@@ -36,6 +36,7 @@ export interface State {
     access_id: string;
     casaos_lang: string;
     notImportList: any[];
+    newAppIds: string[];
 }
 declare const state: {
     access_token: string;
@@ -74,5 +75,6 @@ declare const state: {
     access_id: string;
     casaos_lang: string;
     notImportList: never[];
+    newAppIds: never[];
 };
 export default state;

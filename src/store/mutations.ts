@@ -122,6 +122,24 @@ const mutations: MutationTree<State> = {
 	SET_NOTIMPORT_LIST(state, val: any) {
 		state.notImportList = val;
 	},
+
+	// New app IDs mutations
+	SET_NEW_APP_IDS(state, val: string[]) {
+		state.newAppIds = val;
+	},
+
+	ADD_NEW_APP_ID(state, appId: string) {
+		if (state.newAppIds.indexOf(appId) === -1) {
+			state.newAppIds.push(appId);
+		}
+	},
+
+	REMOVE_NEW_APP_ID(state, appId: string) {
+		const index = state.newAppIds.indexOf(appId);
+		if (index !== -1) {
+			state.newAppIds.splice(index, 1);
+		}
+	},
 };
 
 export default mutations;
