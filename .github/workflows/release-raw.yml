@@ -20,6 +20,7 @@ jobs:
                 uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
+                    cache: pnpm
                     registry-url: "https://registry.npmjs.org"
                     
             -   uses: pnpm/action-setup@v2
@@ -58,10 +59,12 @@ jobs:
                     echo github ${{ github }}
                     echo github.sha ${{ github.sha }}
                     echo env.VERSION ${{ steps.get_version.outputs.VERSION }}
-                    
-            -   run: pnpm install
+
+            -   name: Install dependencies
+                run: |
+                    pnpm install
                 env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+                    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
             -   run: pnpm build:raw
             -   run: |
