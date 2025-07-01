@@ -341,7 +341,7 @@ export default {
       this.dockerComposeConfig = this.settingComposeData;
       this.currentSlide = APP_SETTING_PANEL;
     } else {
-      this.getCategoryList();
+      // this.getCategoryList();
     }
 
     // If StoreId is not 0
@@ -474,10 +474,9 @@ export default {
           .composeAppStoreInfoList(undefined, undefined, true)
           .then((res) => res.data.data.list);
 
-        this.recommendList = Object.keys(res).map((id) => {
-          let main_app_info = res[id];
+        this.recommendList = res.map((main_app_info) => {
           return {
-            id,
+            id: main_app_info.store_app_id,
             category: main_app_info.category,
             icon: main_app_info.icon,
             tagline: ice_i18n(main_app_info.tagline),

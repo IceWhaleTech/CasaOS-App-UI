@@ -1,5 +1,5 @@
 <template>
-	<div class="is-flex mt-5 mb-5 is-justify-content-center app-condition-selector">
+	<div class="mt-5 mb-5 is-flex is-justify-content-center app-condition-selector">
 		<ListBox
 		:activeAppStoreSourceInput="activeAppStoreSourceInput"
 		:currentOption="currentCategory"
@@ -151,7 +151,7 @@ const getCategoryList = async () => {
 
 onMounted(async () => {
 	await getCategoryList()
-	await getStoreList()
+	// await getStoreList()
 	searchAndSourcesStatusController()
 	nextTick(() => {
 		appSearchEleHandle.value.focus();
@@ -175,10 +175,9 @@ const getStoreList = async () => {
 		}
 		const list = res.list
 
-		const listRes = Object.keys(list).map(id => {
-			const main_app_info = list[id]
+		const listRes = list.map(main_app_info => {
 			return {
-				id,
+				id: main_app_info.store_app_id,
 				category: main_app_info.category,
 				icon: main_app_info.icon,
 				tagline: ice_i18n(main_app_info.tagline),

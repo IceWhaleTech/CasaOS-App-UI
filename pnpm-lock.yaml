@@ -15,8 +15,8 @@ dependencies:
     specifier: 1.2.2-alpha4
     version: 1.2.2-alpha4
   '@icewhale/zimaos-appmanagement-openapi':
-    specifier: latest
-    version: 1.4.0-alpha7
+    specifier: 1.4.2-alpha23
+    version: 1.4.2-alpha23
   '@icewhale/zimaos-localstorage-openapi':
     specifier: 1.2.2-alpha7
     version: 1.2.2-alpha7
@@ -1572,8 +1572,8 @@ packages:
       - debug
     dev: false
 
-  /@icewhale/zimaos-appmanagement-openapi@1.4.0-alpha7:
-    resolution: {integrity: sha512-RumRJaAu/n2SPJUkhe47EXx6YGOB/eRZKp92TaapRJJNKkPNs08Au0wyX2sWrH7hha5gI4LpWzJj+rghStmGiw==}
+  /@icewhale/zimaos-appmanagement-openapi@1.4.2-alpha23:
+    resolution: {integrity: sha512-8ifj/Y5F1WhfPhuA+diQH+oH/zAEQ4DoNwyoCN+HBZVzmpNTWvjyhZxGeJTGGbcYXEYvvaN5IJOdk9ET7kvG2w==}
     dependencies:
       axios: 1.8.4
     transitivePeerDependencies:
