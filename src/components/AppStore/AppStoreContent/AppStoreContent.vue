@@ -1,5 +1,5 @@
 <template>
-	<div class="columns f-list is-multiline is-mobile pb-3 mb-5">
+	<div class="pb-3 mb-5 columns f-list is-multiline is-mobile">
 		<div
 			v-for="(item, index) in filteredPageList"
 			:key="index + item.title + item.id"
@@ -16,17 +16,17 @@
 					></b-image>
 				</div>
 				<div
-					class="is-flex-grow-1 mr-4 is-clickable"
+					class="mr-4 is-flex-grow-1 is-clickable"
 					@click="
 						showAppDetial(item.id);
 						$messageBus('appstore_detail', item.title);
 					"
 				>
-					<h6 class="title is-6 mb-2">{{ item.title }}</h6>
+					<h6 class="mb-2 title is-6">{{ item.title }}</h6>
 					<p class="is-size-7 two-line">{{ item.tagline }}</p>
 				</div>
 			</div>
-			<div class="mt-1 ml-7 is-flex is-align-items-center">
+			<div class="mt-1 is-flex is-align-items-center">
 				<div class="is-flex-grow-1 is-size-7 has-text-grey-light">
 					{{ item.category }}
 				</div>
