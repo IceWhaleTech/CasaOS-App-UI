@@ -461,6 +461,7 @@ export default {
      */
     uninstallApp(checkDelConfig) {
       this.isUninstalling = true;
+      this.removeIdFromTipsState(this.item.name)
       this.removeIdFromSessionStorage(this.item.name);
       if (this.isLinkApp) {
         this.deleteLinkAppByName(this.item.name).then((res) => {

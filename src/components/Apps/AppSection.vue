@@ -214,6 +214,7 @@ export default {
       },
     });
     this.getNewAppIdsFromCustomStorage();
+    this.getTipsStateFromCustomStorage();
 
     this.isLoading = true;
     this.draggable = this.isMobile() ? "" : ".handle";
@@ -229,9 +230,9 @@ export default {
             this.getList();
           });
           // refresh app list every 5 seconds
-          this.ListRefreshTimer = setInterval(() => {
-            this.getList();
-          }, 5000);
+          // this.ListRefreshTimer = setInterval(() => {
+          //   this.getList();
+          // }, 5000);
         },
         catch: () => {
           // retry
@@ -749,12 +750,15 @@ export default {
       this.messageBusToast(this.$t("appSettingsUpdated", { appName: title }), "is-success");
 
       // business :: Tagging of new app / scrollIntoView
-      this.addIdToNewAppIds(res.Properties["app:name"], {
-        then: () => {
-          this.getList().then(() => {
-            this.scrollToNewApp();
-          });
-        },
+      // this.addIdToNewAppIds(res.Properties["app:name"], {
+      //   then: () => {
+      //     this.getList().then(() => {
+      //       this.scrollToNewApp();
+      //     });
+      //   },
+      // });
+      this.getList().then(() => {
+          this.scrollToNewApp();
       });
     },
     /**

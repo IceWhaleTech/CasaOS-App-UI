@@ -140,6 +140,24 @@ const mutations: MutationTree<State> = {
 			state.newAppIds.splice(index, 1);
 		}
 	},
+
+	SET_TIPS_STATE(state, val: string[]) {
+		state.tipsState = val;
+	},
+
+	ADD_TIPS_STATE(state, val: string) {
+		if (state.tipsState.indexOf(val) === -1) {
+			state.tipsState.push(val);
+		}
+	},
+
+	REMOVE_TIPS_STATE(state, val: string) {
+		const index = state.tipsState.indexOf(val);
+		if (index !== -1) {
+			state.tipsState.splice(index, 1);
+		}
+	},
+	
 };
 
 export default mutations;

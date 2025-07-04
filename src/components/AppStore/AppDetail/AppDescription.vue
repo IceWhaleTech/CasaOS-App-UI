@@ -30,7 +30,7 @@ defineExpose({
 ::v-deep .github-markdown-body{
   font-family: "BrittiSans";
 	padding: 1rem 0 0 0;
-	line-height: 1.5rem;
+	line-height: 1.5em;
   font-size: 0.875rem;
 }
 </style>

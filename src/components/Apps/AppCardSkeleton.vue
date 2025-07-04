@@ -1,24 +1,14 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2023-02-08 12:09:40
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-08 19:16:11
- * @FilePath: /CasaOS-UI/src/components/Apps/AppCardSkeleton.vue
- * @Description: 
- * 
- * Copyright (c) 2023 by IceWhale, All Rights Reserved. 
--->
 <template>
 	<div class="common-card is-flex is-align-items-center is-justify-content-center p-55 app-card" :style="animation">
 		<!-- Action Button End -->
 		<div class="blur-background"></div>
 		<div class="cards-content">
 			<!-- Card Content Start -->
-			<div class="has-text-centered is-flex is-justify-content-center is-flex-direction-column pt-5 pb-3">
+			<div class="pt-5 pb-3 has-text-centered is-flex is-justify-content-center is-flex-direction-column">
 				<div class="is-flex is-justify-content-center">
 					<b-image :src="require('@/assets/img/app/sk_icon.svg')" class="is-64x64"></b-image>
 				</div>
-				<div class="sk-line mt-3"></div>
+				<div class="mt-3 sk-line"></div>
 
 			</div>
 			<!-- Card Content End -->
