@@ -156,5 +156,7 @@
   "noFavorites": "Aucun favori pour le moment.",
   "Storage": "Stockage",
   "Migration": "Migration",
-  "migrationTips": "Migrer les données de l'utilisateur vers un autre espace."
+  "migrationTips": "Migrer les données de l'utilisateur vers un autre espace.",
+  "Edit": "Modifier",
+  "Don't show this again": "Ne pas afficher à nouveau"
 }

@@ -156,5 +156,7 @@
   "noFavorites": "Favoriler boş.",
   "Storage": "Depolama",
   "Migration": "Veri Aktarma",
-  "migrationTips": "Kullanıcı verilerini başka bir alana taşıyın."
+  "migrationTips": "Kullanıcı verilerini başka bir alana taşıyın.",
+  "Edit": "Düzenle",
+  "Don't show this again": "Bu sefer gösterme"
 }

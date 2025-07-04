@@ -156,5 +156,7 @@
   "noFavorites": "No favourites now.",
   "Storage": "Storage",
   "Migration": "Migration",
-  "migrationTips": "Migrate user data to another space."
+  "migrationTips": "Migrate user data to another space.",
+  "Edit": "Edit",
+  "Don't show this again": "Don't show this again"
 }

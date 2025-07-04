@@ -156,5 +156,7 @@
   "noFavorites": "お気に入りはありません。",
   "Storage": "ストレージ",
   "Migration": "移行",
-  "migrationTips": "ユーザーデータを別の場所に移行します。"
+  "migrationTips": "ユーザーデータを別の場所に移行します。",
+  "Edit": "編集",
+  "Don't show this again": "これ以降表示しない"
 }

@@ -157,5 +157,7 @@
   "noFavorites": "目前没有收藏的文件夹。",
   "Storage": "存储",
   "Migration": "迁移",
-  "migrationTips": "将用户数据迁移到另一个空间。"
+  "migrationTips": "将用户数据迁移到另一个空间。",
+  "Edit": "编辑",
+  "Don't show this again": "不再显示"
 }

@@ -1,14 +1,3 @@
-/*
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2022-06-02 19:48:26
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-02-07 22:32:04
- * @FilePath: \CasaOS-UI-0.4.2\src\store\state.js
- * @Description:
- *
- * Copyright (c) 2022 by IceWhale, All Rights Reserved.
- */
-
 export interface User {
 	avatar: string;
 	created_at: string;
@@ -49,6 +38,7 @@ export interface State {
 	casaos_lang: string;
 	notImportList: any[];
     newAppIds: string[];
+    tipsState: string[]; // 这里只记录忽略显示的app tips
 }
 
 const state = {
@@ -105,5 +95,6 @@ const state = {
 	casaos_lang: "zh",
 	notImportList: [],
 	newAppIds: [],
+	tipsState: [],
 }
 export default state

@@ -156,5 +156,7 @@
   "noFavorites": "No favorites now.",
   "Storage": "Storage",
   "Migration": "Migration",
-  "migrationTips": "Migrate user data to another space."
+  "migrationTips": "Migrate user data to another space.",
+  "Edit": "Επεξεργασία",
+  "Don't show this again": "Να μην εμφανίζεται ξανά"
 }
