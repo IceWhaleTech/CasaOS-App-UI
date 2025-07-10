@@ -143,7 +143,6 @@ import commonI18n, { ice_i18n } from "@/mixins/base/common-i18n";
 import FileSaver from "file-saver";
 import { MIRCO_APP_ACTION_ENUM } from "@/const";
 import { vOnClickOutside } from "@vueuse/components";
-
 export default {
   name: "app-card",
   components: {
@@ -356,6 +355,7 @@ export default {
     },
 
     openSystemApps(item) {
+      const bus = window.$wujie.bus;
       switch (item.name) {
         case "App Store":
           this.openAppStore();
@@ -371,12 +371,24 @@ export default {
             action: "open",
             name: "icewhale_settings",
           });
+          if(bus){
+            bus.$emit("mircoapp_communicate", {
+              action: "open",
+              name: "icewhale_settings",
+            });
+          }
           break;
         case "Backup":
           this.$messageBus("mircoapp_communicate", {
             action: "open",
             name: "icewhale_backup",
           });
+          if(bus){
+            bus.$emit("mircoapp_communicate", {
+              action: "open",
+              name: "icewhale_backup",
+            });
+          }
           break;
         default:
           break;
