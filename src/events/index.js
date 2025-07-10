@@ -7,11 +7,15 @@ export default function messageBus(name, params) {
 	}
 	if (name !=='mircoapp_communicate') return;
 	try {
-		message_bus[name](params).then(res => {
-			let properties = res.properties;
-			let eventName = res.name;
-			api.post(`/v2/message_bus/event/casaos-ui/${eventName}`, properties);
-		})
+    if(window.$wujie.bus){
+      window.$wujie.bus.$emit(name, {Properties:params});
+    }else{
+      message_bus[name](params).then(res => {
+      	let properties = res.properties;
+      	let eventName = res.name;
+      	api.post(`/v2/message_bus/event/casaos-ui/${eventName}`, properties);
+      })
+    }
 	} catch (error) {
 		console.log(error);
 	}
