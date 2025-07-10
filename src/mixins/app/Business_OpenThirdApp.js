@@ -33,16 +33,18 @@ export default {
 		 * @param {boolean} isNewWindows - 是否在新窗口打开
 		 */
 		openThirdApp(appInfo, isNewWindows = false) {
+			
 			if (!appInfo) {
 				console.error("应用信息不能为空");
 				return;
 			}
 
 			// 发送消息总线事件
-			this.$messageBus("apps_open", appInfo.name);
+			// this.$messageBus("apps_open", appInfo.name);
 
 			// 构建应用URL
 			const url = this.buildAppUrl(appInfo);
+			
 			if (!url) {
 				console.warn("无法构建应用URL，应用信息不完整");
 				return;
@@ -86,29 +88,15 @@ export default {
 		},
 
 		/**
-		 * 在当前窗口中打开URL
+		 * 在当前页面打开URL
 		 * @param {string} url - 要打开的URL
 		 */
 		openInCurrentWindow(url) {
-			const linkElement = document.createElement("a");
-			linkElement.href = url;
-			linkElement.rel = "noreferrer";
-			linkElement.target = "_blank";
-
-			const appContainer = document.getElementById("app1");
-			if (!appContainer) {
-				console.error("找不到app1容器元素");
-				return;
-			}
-
-			appContainer.appendChild(linkElement);
-
-			setTimeout(() => {
-				linkElement.click();
-				// 清理DOM元素
-				appContainer.removeChild(linkElement);
-			}, WINDOW_OPEN_DELAY);
+			// 直接在当前页面跳转
+			window.location.href = url;
 		},
+
+
 
 		/**
 		 * 从商店打开应用
