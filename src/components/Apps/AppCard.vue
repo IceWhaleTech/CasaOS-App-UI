@@ -350,7 +350,6 @@ export default {
     },
 
     openSystemApps(item) {
-      const bus = window.$wujie.bus;
       switch (item.name) {
         case "App Store":
           this.openAppStore();
@@ -360,24 +359,13 @@ export default {
             action: "open",
             name: "icewhale_settings",
           });
-          if(bus){
-            bus.$emit("mircoapp_communicate", {
-              action: "open",
-              name: "icewhale_settings",
-            });
-          }
           break;
         case "Backup":
           this.$messageBus("mircoapp_communicate", {
             action: "open",
             name: "icewhale_backup",
           });
-          if(bus){
-            bus.$emit("mircoapp_communicate", {
-              action: "open",
-              name: "icewhale_backup",
-            });
-          }
+          
           break;
         default:
           break;

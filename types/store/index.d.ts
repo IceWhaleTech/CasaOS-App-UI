@@ -36,5 +36,6 @@ declare const _default: import("vuex").Store<{
     casaos_lang: string;
     notImportList: never[];
     newAppIds: never[];
+    tipsState: never[];
 }>;
 export default _default;
