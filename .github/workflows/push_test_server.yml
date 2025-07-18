@@ -2,112 +2,111 @@ name: push_test_server
 
 on:
     workflow_call:
-      secrets:
-        NPM_TOKEN:
-          required: true
+        secrets:
+            NPM_TOKEN:
+                required: true
     push:
-        branches:
-            - main
+        tags: ["v*"]
     workflow_dispatch:
 
 jobs:
     release:
-
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [ 16.x ]
+                node-version: [16.x]
             # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
-            -   uses: actions/checkout@v3
-            
-            -   name: '使用 Use Node.js ${{ matrix.node-version }}'
-                uses: actions/setup-node@v3
-                with:
-                    node-version: ${{ matrix.node-version }}
-                    registry-url: "https://registry.npmjs.org"
-                env:
-                    NPM_TOKEN: ${{secrets.NPM_TOKEN}}    
+            - uses: actions/checkout@v3
 
-            -   uses: pnpm/action-setup@v2
-                name: Install pnpm
-                with:
+            - uses: pnpm/action-setup@v2
+              name: Install pnpm
+              with:
                   version: 8.6
                   run_install: false
-            -   name: Get pnpm store directory
-                shell: bash
-                run: |
+
+            - name: "使用 Use Node.js ${{ matrix.node-version }}"
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: pnpm
+                  registry-url: "https://registry.npmjs.org"
+              env:
+                  NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
+            - name: Get pnpm store directory
+              shell: bash
+              run: |
                   echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-                  
-            -   name: '缓存 Cache'
-                uses: actions/cache@v3
-                id: cache-dependencies
-                with:
-                   path: ${{ env.STORE_PATH }}
-                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                   restore-keys: |
-                     ${{ runner.os }}-pnpm-store-
-                    
-            -   uses: actions/checkout@v3
-            -   name: install git
-                run: sudo apt install --yes git
 
-            -   name: git global
-                run: sudo git config --global --add safe.directory '*'
+            - name: "缓存 Cache"
+              uses: actions/cache@v3
+              id: cache-dependencies
+              with:
+                  path: ${{ env.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
 
-            -   name: Fetch all tags
-                run: sudo git fetch --force --tags
+            - uses: actions/checkout@v3
+            - name: install git
+              run: sudo apt install --yes git
 
-            -   name: Get version
-                id: get_version
-                # run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-                run: echo "VERSION=$(git describe --abbrev=5)" >> $GITHUB_ENV
-                # run: echo "VERSION=v99.99.99" >> $GITHUB_ENV
+            - name: git global
+              run: sudo git config --global --add safe.directory '*'
 
-            -   name: show version
-                id: show_version
-                run: echo ${{ env.VERSION }}
-                # run: echo ${{ steps.get_version.outputs.VERSION }}
+            - name: Fetch all tags
+              run: sudo git fetch --force --tags
 
-            -   name: Install dependencies
-                run: |
-                    pnpm install
-                env:
-                    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            - name: Get version
+              id: get_version
+              # run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+              run: echo "VERSION=$(git describe --abbrev=5)" >> $GITHUB_ENV
+              # run: echo "VERSION=v99.99.99" >> $GITHUB_ENV
 
-            -   run: pnpm build
-            -   run: |
-                    tar -zcvf linux-all-icewhale-app-ui-v99.99.99.tar.gz build
-                    ls
+            - name: show version
+              id: show_version
+              run: echo ${{ env.VERSION }}
+              # run: echo ${{ steps.get_version.outputs.VERSION }}
 
-            -   name: install sshpass
-                run: sudo apt install sshpass --yes
+            - name: Install dependencies
+              run: |
+                  pnpm install
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
+            - run: pnpm build
+            - run: |
+                  tar -zcvf linux-all-icewhale-app-ui-v99.99.99.tar.gz build
+                  ls
 
-            -   name: ZeroTier
-                uses: zerotier/github-action@v1.0.1
-                with:
-                    network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
-                    auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
+            - name: install sshpass
+              run: sudo apt install sshpass --yes
 
-            -   name: ping hostname
-                shell: bash
-                run: |
-                    count=10
-                    while ! ping -c 1 10.147.18.11 ; do
-                      echo "waiting..." ;
-                      sleep 1 ;
-                      let count=count-1
-                    done
-                    echo "ping success"
+            - name: ZeroTier
+              uses: zerotier/github-action@v1.0.1
+              with:
+                  network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
+                  auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
 
-            -   name: copy tar to target hostname
-                shell: bash
-                run: |
-                    sshpass -p "${{ secrets.ssh_password }}" scp -r -o StrictHostKeyChecking=no -P 22 ./linux-all-icewhale-app-ui-v99.99.99.tar.gz root@10.147.18.11:/var/www/download
-                    echo "ping success"
-            -   name: Error Handling
-                if: ${{ failure() }}
-                run: |
-                    curl -X POST -H "Content-Type: application/json" -d '{"msg_type":"text","content":{"text":"icewhale-app-ui push error"}}' ${{ secrets.SSH_ROBOT_URL }} 
+            - name: ping hostname
+              shell: bash
+              run: |
+                  count=10
+                  while ! ping -c 1 10.147.18.11 ; do
+                    echo "waiting..." ;
+                    sleep 1 ;
+                    let count=count-1
+                  done
+                  echo "ping success"
+
+            - name: copy tar to target hostname
+              shell: bash
+              run: |
+                  sshpass -p "${{ secrets.ssh_password }}" scp -r -o StrictHostKeyChecking=no -P 22 ./linux-all-icewhale-app-ui-v99.99.99.tar.gz root@10.147.18.11:/var/www/download
+                  echo "ping success"
+            - name: Error Handling
+              if: ${{ failure() }}
+              run: |
+                  curl -X POST -H "Content-Type: application/json" -d '{"msg_type":"text","content":{"text":"icewhale-app-ui push error"}}' ${{ secrets.SSH_ROBOT_URL }}
