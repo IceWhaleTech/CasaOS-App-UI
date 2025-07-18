@@ -28,6 +28,10 @@ jobs:
                 uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
+                    cache: pnpm
+                    registry-url: "https://registry.npmjs.org"
+                env:
+                    NPM_TOKEN: ${{secrets.NPM_TOKEN}}
                     
             -   uses: pnpm/action-setup@v2
                 name: Install pnpm
@@ -67,6 +71,8 @@ jobs:
                     echo env.VERSION ${{ steps.get_version.outputs.VERSION }}
                     
             -   run: pnpm install
+                env:
+                  NPM_TOKEN: ${{secrets.NPM_TOKEN}}
             -   run: pnpm build
             -   run: |
                     tar -zcvf linux-all-icewhale-app-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz build
