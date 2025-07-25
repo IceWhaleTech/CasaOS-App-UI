@@ -430,6 +430,7 @@ export default {
               res.data.data.data || [
                 "App Store",
                 "icewhale_files",
+                "Backup",
                 "zimaos_zvm",
                 "icewhale_chat",
                 "icewhale_peerdrop",
