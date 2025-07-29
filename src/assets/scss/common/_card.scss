@@ -99,10 +99,14 @@
 		top: 1rem;
 		transition: all 0.2s;
 		outline: none;
-		z-index: 20;
+		z-index: 10;
 		.action-btn-trigger{
 			visibility: hidden;
 			opacity: 0;
+			pointer-events: none;
+		}
+		&.action-btn-hover{
+			z-index: 20;
 		}
 	}
 	
@@ -125,6 +129,7 @@
 			.action-btn-trigger{
 				visibility: visible;
 				opacity: 1;
+				pointer-events: auto;
 			}
 		}
 	}

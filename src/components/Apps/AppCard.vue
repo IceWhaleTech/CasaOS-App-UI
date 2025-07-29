@@ -1,8 +1,8 @@
 <template>
   <div class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
-    @mouseleave="hover = true" @mouseover="hover = true">
+    @mouseleave="hover = true;" @mouseover="hover = true" @mouseenter="actionBtnHover = true">
     <!-- Action Button Start -->
-    <div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling && !isRebuilding" class="action-btn">
+    <div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling && !isRebuilding" class="action-btn" :class="{'action-btn-hover': actionBtnHover}">
       <b-dropdown ref="dro" v-on-click-outside="() => ($refs.dro.isActive = false)" :mobile-modal="false"
         :triggers="['contextmenu', 'click']" animation="fade1" aria-role="list" class="app-card-drop"
         :position="dropdownPosition" @active-change="setDropState">
@@ -157,6 +157,7 @@ export default {
   data() {
     return {
       hover: false,
+      actionBtnHover: false,
       dropState: false,
       isUninstalling: false,
       isCloning: false,
@@ -379,6 +380,9 @@ export default {
      */
     setDropState(e) {
       this.dropState = e;
+      if (!this.dropState) {
+        this.actionBtnHover = false;
+      }
     },
 
     /**
