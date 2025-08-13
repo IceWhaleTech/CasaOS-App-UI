@@ -317,7 +317,7 @@ export default {
     this.getStoreRecommend();
 
     //Get Max memory info form device
-    this.totalMemory = Math.floor(this.configData.memory.total / 1048576);
+    this.totalMemory = this.configData.memory.total;
 
     //Handling network types
     this.tempNetworks = this.configData.networks;
