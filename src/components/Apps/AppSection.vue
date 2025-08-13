@@ -48,9 +48,9 @@
       >
         <!-- App Icon Card Start -->
         <template>
-          <div v-for="item in appList" :id="'app-' + item.name" :key="'app-' + item.name" class="handle">
+          <div v-for="(item, index) in appList" :id="'app-' + item.name" :key="'app-' + item.name" class="handle">
             <app-card
-              :item="item"
+              v-model="appList[index]"
               :appIds="$store.state.newAppIds"
               @configApp="showConfigPanel"
               @importApp="showContainerPanel"
@@ -82,10 +82,10 @@
         class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas"
       >
         <!-- Application not imported Start -->
-        <div v-for="item in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name">
+        <div v-for="(item, index) in oldAppList" :id="'app-' + item.name" :key="'app-' + item.name">
           <app-card
             :isCasa="false"
-            :item="item"
+            v-model="oldAppList[index]"
             :appIds="newAppIds"
             @configApp="showConfigPanel"
             @importApp="showContainerPanel"
@@ -738,6 +738,8 @@ export default {
       });
     },
     "app:uninstall-end"() {
+      console.log("App uninstalled successfully");
+
       this.getList();
     },
     "app:apply-changes-error"(res) {

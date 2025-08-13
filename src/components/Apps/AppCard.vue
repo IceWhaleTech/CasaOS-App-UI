@@ -1,11 +1,27 @@
 <template>
-  <div class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
-    @mouseleave="hover = true;" @mouseover="hover = true" @mouseenter="actionBtnHover = true">
+  <div
+    class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
+    @mouseleave="hover = true"
+    @mouseover="hover = true"
+    @mouseenter="actionBtnHover = true"
+  >
     <!-- Action Button Start -->
-    <div v-if="item.app_type !== 'system' && !isMircoApp && !isContainerApp && !isUninstalling && !isRebuilding" class="action-btn" :class="{'action-btn-hover': actionBtnHover}">
-      <b-dropdown ref="dro" v-on-click-outside="() => ($refs.dro.isActive = false)" :mobile-modal="false"
-        :triggers="['contextmenu', 'click']" animation="fade1" aria-role="list" class="app-card-drop"
-        :position="dropdownPosition" @active-change="setDropState">
+    <div
+      v-if="showActionButton"
+      class="action-btn"
+      :class="{ 'action-btn-hover': actionBtnHover }"
+    >
+      <b-dropdown
+        ref="dro"
+        v-on-click-outside="() => ($refs.dro.isActive = false)"
+        :mobile-modal="false"
+        :triggers="['contextmenu', 'click']"
+        animation="fade1"
+        aria-role="list"
+        class="app-card-drop"
+        :position="dropdownPosition"
+        @active-change="setDropState"
+      >
         <template #trigger>
           <div role="button" class="action-btn-trigger" @click.prevent="calculateDropdownPosition">
             <b-icon class="is-clickable" icon="dots-vertical"></b-icon>
@@ -16,8 +32,15 @@
           <b-button v-if="!isV1App" expanded tag="a" type="is-text" @click="openApp(item)">
             {{ $t("Open") }}
           </b-button>
-          <b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16" type="is-text"
-            @click="openTips(item.name)">
+          <b-button
+            v-if="isV2App"
+            expanded
+            icon-pack="casa"
+            icon-right="question-outline"
+            size="is-16"
+            type="is-text"
+            @click="openTips(item.name)"
+          >
             {{ $t("Tips") }}
           </b-button>
           <b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()">
@@ -82,8 +105,14 @@
                 </b-button>
               </div>
               <div class="column is-flex is-justify-content-center is-align-items-center">
-                <b-button :class="item.status" :loading="isStarting" class="has-text-red" expanded type="is-text"
-                  @click="toggle(item)">
+                <b-button
+                  :class="item.status"
+                  :loading="isStarting"
+                  class="has-text-red"
+                  expanded
+                  type="is-text"
+                  @click="toggle(item)"
+                >
                   <b-icon custom-size="is-size-20px" icon="power-standby" size="is-20"></b-icon>
                 </b-button>
               </div>
@@ -93,35 +122,51 @@
       </b-dropdown>
     </div>
     <!-- Action Button End -->
-    <div class="blur-background"></div>
+    <div class="blur-background" :class="{ 'bg-[#000000]/40': item.status !== 'running' }"></div>
     <div class="cards-content">
       <!-- Card Content Start -->
 
       <div class="flex flex-col justify-center pt-5 text-center img-c">
         <div class="flex justify-center">
-          <b-tooltip :always="isActiveTooltip" :animated="true" :label="tooltipLabel" :triggers="tooltipTriger"
-            animation="fade1" class="in-card" type="is-white">
+          <b-tooltip
+            :always="isActiveTooltip"
+            :animated="true"
+            :label="tooltipLabel"
+            :triggers="tooltipTriger"
+            animation="fade1"
+            class="in-card"
+            type="is-white"
+          >
             <div class="is-relative">
-              <b-image :class="dotClass(item.status, isLoading)" :src="item.icon"
-                :src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64" webp-fallback=".jpg"
-                @click.native="openApp(item)"></b-image>
+              <b-image
+                :class="[statusColorClass, { 'brightness-50': !isRunning }]"
+                :src="item.icon"
+                :src-fallback="require('@/assets/img/app/default.svg')"
+                class="overflow-hidden rounded-xl is-64x64"
+                webp-fallback=".jpg"
+                @click.native="openApp(item)"
+              ></b-image>
               <!-- Unstable-->
               <cTooltip v-if="hasNewTag(item.name)" class="!absolute !-top-3 !left-12 z-30" content="NEW"></cTooltip>
             </div>
           </b-tooltip>
 
           <!-- Loading Bar Start -->
-          <b-loading :active="isLoading" :can-cancel="false" :is-full-page="false"
-            class="has-background-gray-800 op80 is-64x64"
-            style="top: auto; bottom: auto; right: auto; left: auto; border-radius: 12px">
-            <img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading" class="is-20x20" />
+          <b-loading
+            :active="isLoading"
+            :can-cancel="false"
+            :is-full-page="false"
+            class="rounded-xl has-background-gray-800 op80 is-64x64"
+            style="top: auto; bottom: auto; right: auto; left: auto; "
+          >
+            <img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading" class="is-20x20"  />
           </b-loading>
           <!-- Loading Bar End -->
         </div>
 
         <p class="mt-3">
-          <a class="block one-line max-w-36" style="cursor: default">
-            {{ i18n(item.title) }}
+          <a class="block one-line max-w-36" :class="{ 'opacity-50': !isRunning }" style="cursor: default">
+            {{ itemDisplayTitle }}
           </a>
         </p>
       </div>
@@ -159,35 +204,55 @@ export default {
       hover: false,
       actionBtnHover: false,
       dropState: false,
-      isUninstalling: false,
-      isCloning: false,
-      isCheckThenUpdate: false,
-      isUpdating: false,
-      isRestarting: false,
-      isStarting: false,
-      isRebuilding: false,
+      isUninstalling: false,  // 卸载中
+      isCloning: false, // 克隆中
+      isCheckThenUpdate: false, // 检查更新中
+      isUpdating: false, // 更新中
+      isRestarting: false, // 重启中
+      isStarting: false, // 启动中
+      isRebuilding: false, // 重建中
       // isStoping: false,
       // Public. Only changes the state of the card, not the state of the button.
       isSaving: false,
-      isActiveTooltip: false,
-      dropdownPosition: "is-bottom-right"
+      isActiveTooltip: false, 
+      dropdownPosition: "is-bottom-right",
     };
+  },
+  model: {
+    prop: 'item',
+    event: 'update:item'
   },
   props: {
     item: {
       type: Object,
       required: true,
+      validator(value) {
+        // 验证必要的属性，但更加宽容
+        if (!value || typeof value !== 'object') {
+          console.warn('[AppCard] item prop must be an object, received:', typeof value, value);
+          return false;
+        }
+        
+        // 检查是否至少有 name 属性
+        if (!value.hasOwnProperty('name')) {
+          console.warn('[AppCard] item prop must have "name" property, received:', Object.keys(value));
+          return false;
+        }
+        
+        return true;
+      }
     },
     appIds: {
       type: Array,
       required: true,
+      default: () => []
     },
   },
   computed: {
     tooltipLabel() {
       if (this.isContainerApp) {
         return this.$t("Import to CasaOS");
-      } else if(this.item.app_type === "v1app"){
+      } else if (this.item.app_type === "v1app") {
         return this.$t("Rebuild");
       } else {
         if (this.item.app_type === "system") {
@@ -244,6 +309,33 @@ export default {
     isLinkApp() {
       return this.item.app_type === "LinkApp";
     },
+    isRunning() {
+      return this.item.status === "running";
+    },
+    
+    // 额外的辅助计算属性
+    canBeControlled() {
+      return this.item.app_type !== 'system' && !this.isMircoApp && !this.isContainerApp;
+    },
+    
+    showActionButton() {
+      return this.canBeControlled && !this.isUninstalling && !this.isRebuilding;
+    },
+    
+    isSystemApp() {
+      return this.item.app_type === 'system';
+    },
+    
+    statusColorClass() {
+      if (this.isLoading) {
+        return this.isRunning ? 'disabled start' : 'disabled stop';
+      }
+      return this.isRunning ? 'start' : 'stop';
+    },
+    
+    itemDisplayTitle() {
+      return this.i18n(this.item.title) || this.item.name;
+    },
   },
 
   watch: {
@@ -267,18 +359,78 @@ export default {
     },
   },
 
+  created() {
+    // 验证 item 数据的完整性
+    if (!this.item || typeof this.item !== 'object') {
+      console.error('[AppCard] Invalid item prop provided:', this.item);
+    }
+  },
+
   mounted() {
     const localAppId = localStorage.getItem("rebuild_appid");
     if (localAppId) {
-      localStorage.removeItem("rebuild_appid")
-      if(localAppId === this.item.name){
+      localStorage.removeItem("rebuild_appid");
+      if (localAppId === this.item.name) {
         this.rebuild(localAppId);
       }
     }
   },
+
+  beforeDestroy() {
+    // 清理定时器
+    if (this.activeTimer) {
+      clearTimeout(this.activeTimer);
+      this.activeTimer = null;
+    }
+  },
   methods: {
+    /**
+     * @description: Update item data and emit event
+     * @param {Object} updates - Object containing the properties to update
+     * @return {*} void
+     */
+    updateItem(updates) {
+      try {
+        if (!updates || typeof updates !== 'object') {
+          console.warn('[AppCard] updateItem: Invalid updates provided:', updates);
+          return;
+        }
+        
+        const updatedItem = { ...this.item, ...updates };
+        this.$emit('update:item', updatedItem);
+      } catch (error) {
+        console.error('[AppCard] Error updating item:', error);
+      }
+    },
+    
+    /**
+     * @description: Update item status
+     * @param {String} status - New status
+     * @return {*} void
+     */
+    updateItemStatus(status) {
+      this.updateItem({ status });
+    },
+    
+    /**
+     * @description: Reset item to initial state (helper method)
+     * @param {Object} initialData - Initial item data
+     * @return {*} void
+     */
+    resetItem(initialData) {
+      this.$emit('update:item', initialData);
+    },
+    
+    /**
+     * @description: Get current item data (helper method for debugging)
+     * @return {Object} Current item data
+     */
+    getCurrentItem() {
+      return { ...this.item };
+    },
+    
     calculateDropdownPosition(event) {
-      const app1 = document.getElementById('app1');
+      const app1 = document.getElementById("app1");
       const app1Rect = app1.getBoundingClientRect();
       const dropdownWidth = 180;
       const dropdownHeight = 206;
@@ -299,14 +451,13 @@ export default {
      * @return {*} void
      */
     openApp(item) {
-
       if (this.isContainerApp) {
         this.$emit("importApp", item, false);
         return false;
       }
       // TODO: logic
 
-      if (this.isV1App){
+      if (this.isV1App) {
         this.rebuild(item.name);
         return;
       }
@@ -326,7 +477,6 @@ export default {
       } else if (this.isLinkApp) {
         window.open(item.hostname, "_blank");
       } else if (item.requireGPU) {
-
         console.log("enable GPU ::", item);
         let routeUrl = this.$router.resolve({
           name: "AppDetection",
@@ -366,7 +516,7 @@ export default {
             action: "open",
             name: "icewhale_backup",
           });
-          
+
           break;
         default:
           break;
@@ -446,14 +596,12 @@ export default {
       this.$refs.dro.isActive = false;
       this.$buefy.dialog.confirm({
         title: this.$t("Attention"),
-        message: this.$t(
-          `Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?`
-        ),
+        message: this.$t(`Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?`),
         type: "is-dark",
         confirmText: this.$t("Uninstall"),
         cancelText: this.$t("Cancel"),
         onConfirm: () => {
-          let checkDelConfig =  false;
+          let checkDelConfig = false;
           this.uninstallApp(checkDelConfig);
         },
       });
@@ -465,7 +613,7 @@ export default {
      */
     uninstallApp(checkDelConfig) {
       this.isUninstalling = true;
-      this.removeIdFromTipsState(this.item.name)
+      this.removeIdFromTipsState(this.item.name);
       this.removeIdFromSessionStorage(this.item.name);
       if (this.isLinkApp) {
         this.deleteLinkAppByName(this.item.name).then((res) => {
@@ -582,7 +730,7 @@ export default {
         .updateState(item.name, status)
         .then((res) => {
           if (res.data.success === 200) {
-            item.status = res.data.data;
+            this.updateItemStatus(res.data.data);
             this.updateState();
           } else {
             this.$buefy.dialog.alert({
@@ -612,7 +760,7 @@ export default {
         .setComposeAppStatus(item.name, status)
         .then((res) => {
           this.updateState();
-          item.status = status;
+          this.updateItemStatus(status);
         })
         .catch((err) => {
           this.$buefy.dialog.alert({
@@ -697,7 +845,7 @@ export default {
         });
     },
 
-    async rebuild(appName) {      
+    async rebuild(appName) {
       this.isRebuilding = true;
       try {
         // 1. get yaml
@@ -707,13 +855,13 @@ export default {
         // 3.install compose
         await this.$openAPI.appManagement.compose.installComposeApp(file, { name: appName });
         // 4. uninstall
-      //  this.uninstallApp(false);
+        //  this.uninstallApp(false);
       } catch {
         this.isRebuilding = false;
         this.$buefy.toast.open({
           message: this.$t(`Rebulid error`),
           type: "is-danger",
-          duration:3000
+          duration: 3000,
         });
       }
       // 4.sockiet :: install-end :: change UI status.
@@ -737,8 +885,8 @@ export default {
               message: resp.data.message.includes("up to date")
                 ? this.$t("appIsLatestVersion", { appName: ice_i18n(this.item.title) })
                 : resp.data.message.includes("asynchronously")
-                  ? this.$t("appUpdatingAsynchronously", { appName: ice_i18n(this.item.title) })
-                  : resp.data.message,
+                ? this.$t("appUpdatingAsynchronously", { appName: ice_i18n(this.item.title) })
+                : resp.data.message,
               type: "is-success",
             });
           }
@@ -758,9 +906,12 @@ export default {
     /**
      * @description: Format Dot Class
      * @param {String} status
+     * @param {Boolean} loadState
      * @return {String}
+     * @deprecated 建议使用 statusColorClass 计算属性
      */
     dotClass(status, loadState) {
+      console.warn('[AppCard] dotClass method is deprecated, use statusColorClass computed property instead');
       // For updating
       if (loadState) {
         if (status === "0" || status === "running") {
@@ -793,6 +944,7 @@ export default {
       if (res.Properties["app:name"] === this.item.name) {
         this.isRestarting = false;
         this.isStarting = false;
+        this.updateItemStatus("running");
       }
     },
     "app:stop-error"(res) {
@@ -807,6 +959,7 @@ export default {
       if (res.Properties["app:name"] === this.item.name) {
         this.isRestarting = false;
         this.isStarting = false;
+        this.updateItemStatus("exited");        
       }
     },
     "app:restart-error"(res) {
@@ -821,6 +974,8 @@ export default {
       if (res.Properties["app:name"] === this.item.name) {
         this.isRestarting = false;
         this.isStarting = false;
+        this.updateItemStatus("running");
+        
       }
     },
     "app:apply-changes-begin"(res) {
@@ -934,7 +1089,7 @@ export default {
       .dropdown-item {
         padding: 0;
 
-        &>* {
+        & > * {
           margin: 1px 0;
         }
       }
@@ -950,7 +1105,7 @@ export default {
           height: 1.25rem !important;
         }
 
-        span+span i {
+        span + span i {
           color: hsla(208, 16%, 42%, 1);
         }
 
@@ -1049,7 +1204,7 @@ export default {
 .in-card.b-tooltip {
   &.is-top .tooltip-content {
     margin-bottom: 0.2rem;
-	}
+  }
 
   .tooltip-content {
     box-shadow: none;
@@ -1063,7 +1218,6 @@ export default {
     pointer-events: none;
   }
 }
-
 
 // 0.4.4
 .dropdown.is-right .dropdown-menu {

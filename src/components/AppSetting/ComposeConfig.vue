@@ -1,47 +1,83 @@
 <template>
   <section style="height: calc(100dvh - 12rem)">
     <b-tabs :value="firstAppName" class="has-text-full-03" style="height: 100%">
-      <b-tab-item v-for="(service, key) in configData.services" :key="key" :label="key" :value="key"
-        @click="current_service = key">
+      <b-tab-item
+        v-for="(service, key) in configData.services"
+        :key="key"
+        :label="key"
+        :value="key"
+        @click="current_service = key"
+      >
         <ValidationObserver :ref="key + 'valida'">
           <b-field grouped>
             <ValidationProvider v-slot="{ errors, valid }" name="Image" rules="required" class="is-flex-grow-1">
-              <b-field :label="$t('Docker Image') + ' *'" :message="$t(errors)"
-                :type="{ 'is-danger': errors[0], 'is-success': valid }" class="mb-3">
-                <b-input :key="service.image" :readonly="state == 'update' || serviceStableVersion !== ''"
-                  :value="getFirstField(service.image)" :placeholder="$t('e.g.,hello-world:latest')" @input="(V) => {
-                    changeIcon(V);
-                  }
-                    " @blur="(E) =>
-                    (service.image = service.image.split(':')[1]
-                      ? E.target._value + ':' + service.image.split(':')[1]
-                      : E.target._value)
-                      "></b-input>
+              <b-field
+                :label="$t('Docker Image') + ' *'"
+                :message="$t(errors)"
+                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                class="mb-3"
+              >
+                <b-input
+                  :key="service.image"
+                  :readonly="state == 'update' || serviceStableVersion !== ''"
+                  :value="getFirstField(service.image)"
+                  :placeholder="$t('e.g.,hello-world:latest')"
+                  @input="
+                    (V) => {
+                      changeIcon(V);
+                    }
+                  "
+                  @blur="
+                    (E) =>
+                      (service.image = service.image.split(':')[1]
+                        ? E.target._value + ':' + service.image.split(':')[1]
+                        : E.target._value)
+                  "
+                ></b-input>
               </b-field>
             </ValidationProvider>
 
             <ValidationProvider v-slot="{ errors, valid }" name="Image1" rules="required">
-              <b-field class="ml-2" :label="$t('Tag')" :message="$t(errors)"
-                :type="{ 'is-danger': errors[0], 'is-success': valid }">
+              <b-field
+                class="ml-2"
+                :label="$t('Tag')"
+                :message="$t(errors)"
+                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+              >
                 <b-dropdown :value="getLateField(service.image)" aria-role="menu" trap-focus>
                   <template #trigger>
-                    <b-input icon-pack="casa" icon-right="down-outline" class="w-48 is-flex-grow-1"
-                      :value="getLateField(service.image)" @input="(V) => {
-                        service.image = service.image.split(':')[0] + ':' + V;
-                      }
-                        ">
+                    <b-input
+                      icon-pack="casa"
+                      icon-right="down-outline"
+                      class="w-48 is-flex-grow-1"
+                      :value="getLateField(service.image)"
+                      @input="
+                        (V) => {
+                          service.image = service.image.split(':')[0] + ':' + V;
+                        }
+                      "
+                    >
                     </b-input>
                   </template>
-                  <b-dropdown-item key="latest" @click="() => {
-                    service.image = service.image.split(':')[0] + ':latest';
-                  }
-                    ">
+                  <b-dropdown-item
+                    key="latest"
+                    @click="
+                      () => {
+                        service.image = service.image.split(':')[0] + ':latest';
+                      }
+                    "
+                  >
                     latest
                   </b-dropdown-item>
-                  <b-dropdown-item key="stable" v-show="serviceStableVersion !== ''" @click="() => {
-                    service.image = service.image.split(':')[0] + ':' + serviceStableVersion;
-                  }
-                    ">
+                  <b-dropdown-item
+                    key="stable"
+                    v-show="serviceStableVersion !== ''"
+                    @click="
+                      () => {
+                        service.image = service.image.split(':')[0] + ':' + serviceStableVersion;
+                      }
+                    "
+                  >
                     stable({{ serviceStableVersion }})
                   </b-dropdown-item>
                 </b-dropdown>
@@ -49,18 +85,29 @@
             </ValidationProvider>
           </b-field>
           <ValidationProvider v-slot="{ errors, valid }" name="composeAppName" rules="required">
-            <b-field :label="$t('App Name') + ' *'" :message="$t(errors)"
-              :type="{ 'is-danger': errors[0], 'is-success': valid }">
-              <b-input :placeholder="$t('e.g.,Your App Name')" :value="i18n(configData['x-casaos'].title)"
-                @blur="(E) => (configData['x-casaos'].title.custom = E.target._value)"></b-input>
+            <b-field
+              :label="$t('App Name') + ' *'"
+              :message="$t(errors)"
+              :type="{ 'is-danger': errors[0], 'is-success': valid }"
+            >
+              <b-input
+                :placeholder="$t('e.g.,Your App Name')"
+                :value="i18n(configData['x-casaos'].title)"
+                @blur="(E) => (configData['x-casaos'].title.custom = E.target._value)"
+              ></b-input>
             </b-field>
           </ValidationProvider>
 
           <b-field v-if="key === firstAppName" :label="$t('Icon URL')">
             <p class="control">
               <span class="button is-static container-icon">
-                <b-image :key="appIcon" :src="appIcon" :src-fallback="require('@/assets/img/app/default.svg')"
-                  class="is-32x32" ratio="1by1"></b-image>
+                <b-image
+                  :key="appIcon"
+                  :src="appIcon"
+                  :src-fallback="require('@/assets/img/app/default.svg')"
+                  class="is-32x32"
+                  ratio="1by1"
+                ></b-image>
               </span>
             </p>
             <b-input v-model="configData['x-casaos'].icon" :placeholder="$t('Your custom icon URL')" expanded></b-input>
@@ -72,16 +119,29 @@
               <option value="https">https://</option>
             </b-select>
             <b-input v-model="configData['x-casaos'].hostname" :placeholder="baseUrl" expanded></b-input>
-            <b-autocomplete v-model="configData['x-casaos'].port_map" :data="bridgePorts(configData.services)"
-              :open-on-focus="true" :placeholder="$t('Port')" class="has-colon" field="hostname"
-              @select="(option) => (portSelected = option)"></b-autocomplete>
-            <b-input v-model="configData['x-casaos'].index" :placeholder="'/index.html ' + $t('[Optional]')"
-              expanded></b-input>
+            <b-autocomplete
+              v-model="configData['x-casaos'].port_map"
+              :data="bridgePorts(configData.services)"
+              :open-on-focus="true"
+              :placeholder="$t('Port')"
+              class="has-colon"
+              field="hostname"
+              @select="(option) => (portSelected = option)"
+            ></b-autocomplete>
+            <b-input
+              v-model="configData['x-casaos'].index"
+              :placeholder="'/index.html ' + $t('[Optional]')"
+              expanded
+            ></b-input>
           </b-field>
 
           <b-field :label="$t('Network')">
-            <b-select :value="service.network_mode || service?.networks?.[0]" expanded placeholder="Select"
-              @input="(v) => patchNetworkValue(v, service)">
+            <b-select
+              :value="service.network_mode || service?.networks?.[0]"
+              expanded
+              placeholder="Select"
+              @input="(v) => patchNetworkValue(v, service)"
+            >
               <optgroup v-for="net in appendNetworks" :key="net.driver" :label="net.driver">
                 <option v-for="(option, index) in net.networks" :key="option.name + index" :value="option.name">
                   {{ option.name }}
@@ -90,25 +150,45 @@
             </b-select>
           </b-field>
 
-          <ports v-if="showPorts(service)" v-model="service.ports" :ports_in_use="ports_in_use"
-            :showHostPost="showHostPort(service)"></ports>
+          <ports
+            v-if="showPorts(service)"
+            v-model="service.ports"
+            :ports_in_use="ports_in_use"
+            :showHostPost="showHostPort(service)"
+          ></ports>
 
-          <volumes-input-group v-model="service.volumes" :label="$t('Volumes')" name2="ZimaOS"
-            :name1="i18n(configData['x-casaos'].title)" :message="$t('No volumes now, click “+” to add one.')"
-            type="volume">
+          <volumes-input-group
+            v-model="service.volumes"
+            :label="$t('Volumes')"
+            name2="ZimaOS"
+            :name1="i18n(configData['x-casaos'].title)"
+            :message="$t('No volumes now, click “+” to add one.')"
+            type="volume"
+          >
             <template #label-extra>
               <AppMigrationBtn />
             </template>
           </volumes-input-group>
-          <env-input-group v-model="service.environment" :label="$t('Environment Variables')"
-            :message="$t('No environment variables now, click “+” to add one.')">
+          <env-input-group
+            v-model="service.environment"
+            :label="$t('Environment Variables')"
+            :message="$t('No environment variables now, click “+” to add one.')"
+          >
           </env-input-group>
-          <input-group :devices="service.devices" :label="$t('Devices')" name2="ZimaOS"
-            :name1="i18n(configData['x-casaos'].title)" :message="$t('No devices now, click “+” to add one.')"
-            type="device">
+          <input-group
+            :devices="service.devices"
+            :label="$t('Devices')"
+            name2="ZimaOS"
+            :name1="i18n(configData['x-casaos'].title)"
+            :message="$t('No devices now, click “+” to add one.')"
+            type="device"
+          >
           </input-group>
-          <commands-input v-model="service.command" :label="$t('Container Command')"
-            :message="$t('No commands now, click “+” to add one.')">
+          <commands-input
+            v-model="service.command"
+            :label="$t('Container Command')"
+            :message="$t('No commands now, click “+” to add one.')"
+          >
           </commands-input>
 
           <b-field :label="$t('Privileged')">
@@ -116,9 +196,13 @@
           </b-field>
 
           <b-field :label="$t('Memory Limit')">
-            <vue-slider :max="totalMemory" :min="memory_min"
+            <vue-slider
+              :max="totalMemory"
+              :min="memory_min"
               :value="service.deploy.resources.limits.memory | duplexDisplay"
-              @change="(v) => (service.deploy.resources.limits.memory = v)"></vue-slider>
+              :tooltip-formatter="formatMemoryTooltip"
+              @change="(v) => (service.deploy.resources.limits.memory = v)"
+            ></vue-slider>
           </b-field>
 
           <b-field :label="$t('CPU Shares')">
@@ -138,15 +222,27 @@
           </b-field>
 
           <b-field :label="$t('Container Capabilities (cap-add)')">
-            <b-taginput ref="taginput" v-model="service.cap_add" :allow-new="false" :data="capArray"
-              :open-on-focus="false" autocomplete @typing="getFilteredTags">
+            <b-taginput
+              ref="taginput"
+              v-model="service.cap_add"
+              :allow-new="false"
+              :data="capArray"
+              :open-on-focus="false"
+              autocomplete
+              @typing="getFilteredTags"
+            >
               <template slot-scope="props">
                 {{ props.option }}
               </template>
               <template #empty> There are no items</template>
               <template #portSelected="props">
-                <b-tag v-for="(tag, index) in props.tags" :key="index" :tabstop="false" closable
-                  @close="$refs.taginput.removeTag(index, $event)">
+                <b-tag
+                  v-for="(tag, index) in props.tags"
+                  :key="index"
+                  :tabstop="false"
+                  closable
+                  @close="$refs.taginput.removeTag(index, $event)"
+                >
                   {{ tag }}
                 </b-tag>
               </template>
@@ -154,8 +250,11 @@
           </b-field>
 
           <ValidationProvider v-slot="{ errors, valid }" name="ContainerName" rules="ContainerName">
-            <b-field :label="$t('Container Name')" :message="$t(errors)"
-              :type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }">
+            <b-field
+              :label="$t('Container Name')"
+              :message="$t(errors)"
+              :type="{ 'is-danger': errors[0], 'is-success': valid && service.container_name }"
+            >
               <b-input v-model="service.container_name" :placeholder="$t('Name of app container')" value=""></b-input>
             </b-field>
           </ValidationProvider>
@@ -187,7 +286,7 @@ import i18n from "@/mixins/base/common-i18n";
 import { nanoid } from "nanoid";
 import find from "lodash/find";
 import isArray from "lodash/isArray";
-import AppMigrationBtn from './AppMigrationBtn.vue';
+import AppMigrationBtn from "./AppMigrationBtn.vue";
 
 const data = [
   "AUDIT_CONTROL",
@@ -259,7 +358,7 @@ export default {
             deploy: {
               resources: {
                 limits: {
-                  memory: "256",
+                  memory: "268435456",
                 },
               },
             },
@@ -282,7 +381,7 @@ export default {
       // error info
       ports_in_use: { udp: [], tcp: [] },
 
-      memory_min: 256,
+      memory_min: 268435456,
       // other level_config
       volumes: [],
     };
@@ -459,6 +558,15 @@ export default {
           this.isFetching = false;
         });
     }, 500),
+    // format memory
+    formatMemoryTooltip(memory) {
+      // 将 字节 转换成 MB 或 GB 并且取整
+      if (memory < 1024 * 1024 * 1024) {
+        return `${Math.floor(memory / 1024 / 1024)} MB`;
+      } else {
+        return `${Math.floor(memory / 1024 / 1024 / 1024)} GB`;
+      }
+    },
 
     /**
      * @description: Change App icon when image changed
@@ -542,8 +650,6 @@ export default {
         for (const serviceKey in yaml.services) {
           this.$set(this.configData.services, serviceKey, this.parseComposeItem(yaml.services[serviceKey]));
         }
-
-
       } catch (error) {
         console.log(error);
       }
@@ -718,26 +824,26 @@ export default {
       }
 
       // 判断是否存在
-      const memory = composeServicesItemInput?.deploy?.resources?.limits?.memory ?? 0;
+      const memory = composeServicesItemInput?.deploy?.resources?.limits?.memory ?? "0";
       let newMemory = 0;
       if (memory) {
-        // In the presence of a unit, detect whether there is a unit
-        // Detect the absence of units
-        if (isNumber(memory) && memory > 0) {
-          newMemory = memory / 1024 / 1024;
-        } else if (/[Mm]$/.test(memory)) {
-          newMemory = memory.replace(/[Mm]/, "");
+        if (/[Mm]$/.test(memory)) {
+          newMemory = Number(memory.replace(/[Mm]/, "")) * 1024 * 1024;
         } else if (/[Gg]$/.test(memory)) {
-          newMemory = memory.replace(/[Gg]/, "") * 1024;
+          newMemory = Number(memory.replace(/[Gg]/, "")) * 1024 * 1024 * 1024;
+        } else {
+          newMemory = Number(memory);
         }
         // Detect if the maximum value is exceeded
         if (newMemory > this.totalMemory) {
           newMemory = this.totalMemory;
         }
       }
+
       let ob = merge(composeServicesItemInput?.deploy, {
         resources: { limits: { memory: newMemory || this.totalMemory } },
       });
+
       this.$set(composeServicesItem, "deploy", ob);
 
       return composeServicesItem;
@@ -809,7 +915,7 @@ export default {
         // 输出结果
         let outputService = ConfigData.services[servicesKey];
         // memory
-        outputService.deploy.resources.limits.memory = service.deploy.resources.limits.memory + "M";
+        outputService.deploy.resources.limits.memory = service.deploy.resources.limits.memory;
         outputService.devices = service.devices
           .filter((device) => {
             if (device.container || device.host) {
@@ -945,7 +1051,7 @@ export default {
   filters: {
     duplexDisplay(val) {
       // units is M
-      return val < 256 ? 256 : val;
+      return val < 268435456 ? 268435456 : val;
     },
   },
 };
@@ -978,6 +1084,5 @@ export default {
       }
     }
   }
-
 }
 </style>
