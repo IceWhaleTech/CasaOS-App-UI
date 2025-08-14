@@ -158,5 +158,10 @@
   "Migration": "Migratie",
   "migrationTips": "Migreer gebruikersgegevens naar een andere ruimte.",
   "Edit": "Bewerken",
-  "Don't show this again": "Niet meer tonen"
+  "Don't show this again": "Niet meer tonen",
+  "Start": "Starten",
+  "Stop": "Stoppen",
+  "Restart": "Herstarten",
+  "Restarting...": "Herstarten...",
+  "Executing...": "Uitvoeren..."
 }

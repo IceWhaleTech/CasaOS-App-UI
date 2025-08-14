@@ -158,5 +158,10 @@
   "Migration": "Migráció",
   "migrationTips": "Felhasználói adatok migrálása másik tárhelyre.",
   "Edit": "Szerkesztés",
-  "Don't show this again": "Ne jelenjen meg újra"
+  "Don't show this again": "Ne jelenjen meg újra",
+  "Start": "Indítás",
+  "Stop": "Megállítás",
+  "Restart": "Újraindítás",
+  "Restarting...": "Újraindítás...",
+  "Executing...": "Futtatás..."
 }

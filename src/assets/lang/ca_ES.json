@@ -158,5 +158,10 @@
   "Migration": "Migració",
   "migrationTips": "Migra les dades de l'usuari a un altre espai.",
   "Edit": "Edita",
-  "Don't show this again": "No ho tornis a mostrar"
+  "Don't show this again": "No ho tornis a mostrar",
+  "Start": "Iniciar",
+  "Stop": "Aturar",
+  "Restart": "Reiniciar",
+  "Restarting...": "Reiniciant...",
+  "Executing...": "S'executa..."
 }

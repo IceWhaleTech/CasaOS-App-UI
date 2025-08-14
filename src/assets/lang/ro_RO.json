@@ -158,5 +158,10 @@
   "Migration": "Migrare",
   "migrationTips": "Migrați datele utilizatorului către un alt spațiu.",
   "Edit": "Editare",
-  "Don't show this again": "Nu mai afișa acest lucru"
+  "Don't show this again": "Nu mai afișa acest lucru",
+  "Start": "Iniciar",
+  "Stop": "Parar",
+  "Restart": "Reiniciar",
+  "Restarting...": "Reiniciando...",
+  "Executing...": "Executando..."
 }

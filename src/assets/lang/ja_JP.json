@@ -158,5 +158,10 @@
   "Migration": "移行",
   "migrationTips": "ユーザーデータを別の場所に移行します。",
   "Edit": "編集",
-  "Don't show this again": "今後表示しない"
+  "Don't show this again": "今後表示しない",
+  "Start": "開始",
+  "Stop": "停止",
+  "Restart": "再起動",
+  "Restarting...": "再起動中...",
+  "Executing...": "実行中..."
 }
