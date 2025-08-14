@@ -158,5 +158,10 @@
   "Migration": "Migrasjon",
   "migrationTips": "Migrer brukerdata til et annet område.",
   "Edit": "Rediger",
-  "Don't show this again": "Ikke vis dette igjen"
+  "Don't show this again": "Ikke vis dette igjen",
+  "Start": "Start",
+  "Stop": "Stopp",
+  "Restart": "Restart",
+  "Restarting...": "Restarting...",
+  "Executing...": "Executing..."
 }

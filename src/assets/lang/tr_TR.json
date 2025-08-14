@@ -158,5 +158,10 @@
   "Migration": "Veri Aktarma",
   "migrationTips": "Kullanıcı verilerini başka bir alana taşıyın.",
   "Edit": "Düzenle",
-  "Don't show this again": "Bunu bir daha gösterme"
+  "Don't show this again": "Bunu bir daha gösterme",
+  "Start": "Başlat",
+  "Stop": "Durdur",
+  "Restart": "Yeniden Başlat",
+  "Restarting...": "Yeniden Başlatılıyor...",
+  "Executing...": "Yürütülüyor..."
 }

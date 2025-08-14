@@ -158,5 +158,10 @@
   "Migration": "Migration",
   "migrationTips": "Migrera användardata till ett annat utrymme.",
   "Edit": "Redigera",
-  "Don't show this again": "Visa inte detta igen"
+  "Don't show this again": "Visa inte detta igen",
+  "Start": "Starta",
+  "Stop": "Stoppa",
+  "Restart": "Starta om",
+  "Restarting...": "Startar om...",
+  "Executing...": "Utför..."
 }

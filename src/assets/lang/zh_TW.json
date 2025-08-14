@@ -158,5 +158,10 @@
   "Migration": "遷移",
   "migrationTips": "將使用者資料遷移至其他空間。",
   "Edit": "編輯",
-  "Don't show this again": "不再顯示此訊息"
+  "Don't show this again": "不再顯示此訊息",
+  "Start": "啟動",
+  "Stop": "停止",
+  "Restart": "重啟",
+  "Restarting...": "正在重啟...",
+  "Executing...": "執行中..."
 }

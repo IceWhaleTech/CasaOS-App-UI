@@ -1,27 +1,11 @@
 <template>
-  <div
-    class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
-    @mouseleave="hover = true"
-    @mouseover="hover = true"
-    @mouseenter="actionBtnHover = true"
-  >
+  <div class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
+    @mouseleave="hover = true" @mouseover="hover = true" @mouseenter="actionBtnHover = true">
     <!-- Action Button Start -->
-    <div
-      v-if="showActionButton"
-      class="action-btn"
-      :class="{ 'action-btn-hover': actionBtnHover }"
-    >
-      <b-dropdown
-        ref="dro"
-        v-on-click-outside="() => ($refs.dro.isActive = false)"
-        :mobile-modal="false"
-        :triggers="['contextmenu', 'click']"
-        animation="fade1"
-        aria-role="list"
-        class="app-card-drop"
-        :position="dropdownPosition"
-        @active-change="setDropState"
-      >
+    <div v-if="showActionButton" class="action-btn" :class="{ 'action-btn-hover': actionBtnHover }">
+      <b-dropdown ref="dro" v-on-click-outside="() => ($refs.dro.isActive = false)" :mobile-modal="false"
+        :triggers="['contextmenu', 'click']" animation="fade1" aria-role="list" class="app-card-drop"
+        :position="dropdownPosition" @active-change="setDropState">
         <template #trigger>
           <div role="button" class="action-btn-trigger" @click.prevent="calculateDropdownPosition">
             <b-icon class="is-clickable" icon="dots-vertical"></b-icon>
@@ -32,15 +16,8 @@
           <b-button v-if="!isV1App" expanded tag="a" type="is-text" @click="openApp(item)">
             {{ $t("Open") }}
           </b-button>
-          <b-button
-            v-if="isV2App"
-            expanded
-            icon-pack="casa"
-            icon-right="question-outline"
-            size="is-16"
-            type="is-text"
-            @click="openTips(item.name)"
-          >
+          <b-button v-if="isV2App" expanded icon-pack="casa" icon-right="question-outline" size="is-16" type="is-text"
+            @click="openTips(item.name)">
             {{ $t("Tips") }}
           </b-button>
           <b-button v-if="isV2App || isLinkApp" expanded type="is-text" @click="configApp()">
@@ -96,28 +73,15 @@
               <img :src="require('@/assets/img/loading/waiting.svg')" alt="pending" class="ml-4 is-24x24" />
             </b-loading>
           </b-button>
-
-          <div v-if="!isLinkApp && !isV1App" class="gap">
-            <div class="columns is-gapless _b-bor is-flex">
-              <div class="column is-flex is-justify-content-center is-align-items-center">
-                <b-button :loading="isRestarting" expanded type="is-text" @click="restartApp">
-                  <b-icon custom-size="is-size-20px" icon="sync" size="is-20x20"></b-icon>
-                </b-button>
-              </div>
-              <div class="column is-flex is-justify-content-center is-align-items-center">
-                <b-button
-                  :class="item.status"
-                  :loading="isStarting"
-                  class="has-text-red"
-                  expanded
-                  type="is-text"
-                  @click="toggle(item)"
-                >
-                  <b-icon custom-size="is-size-20px" icon="power-standby" size="is-20"></b-icon>
-                </b-button>
-              </div>
-            </div>
-          </div>
+          <template v-if="!isLinkApp && !isV1App">
+            <hr class="dropdown-divider" />
+            <b-button expanded type="is-text" @click="restartApp" :disabled="isRestarting | isStarting">
+              {{ isRestarting ? $t("Restarting...") : $t("Restart") }}
+            </b-button>
+            <b-button expanded type="is-text" @click="toggle(item)" :disabled="isStarting || isRestarting">
+              {{ startAndStopText }}
+            </b-button>
+          </template>
         </b-dropdown-item>
       </b-dropdown>
     </div>
@@ -128,38 +92,22 @@
 
       <div class="flex flex-col justify-center pt-5 text-center img-c">
         <div class="flex justify-center">
-          <b-tooltip
-            :always="isActiveTooltip"
-            :animated="true"
-            :label="tooltipLabel"
-            :triggers="tooltipTriger"
-            animation="fade1"
-            class="in-card"
-            type="is-white"
-          >
+          <b-tooltip :always="isActiveTooltip" :animated="true" :label="tooltipLabel" :triggers="tooltipTriger"
+            animation="fade1" class="in-card" type="is-white">
             <div class="is-relative">
-              <b-image
-                :class="[statusColorClass, { 'brightness-50': !isRunning }]"
-                :src="item.icon"
-                :src-fallback="require('@/assets/img/app/default.svg')"
-                class="overflow-hidden rounded-xl is-64x64"
-                webp-fallback=".jpg"
-                @click.native="openApp(item)"
-              ></b-image>
+              <b-image :class="[statusColorClass, { 'brightness-50': !isRunning }]" :src="item.icon"
+                :src-fallback="require('@/assets/img/app/default.svg')" class="overflow-hidden rounded-xl is-64x64"
+                webp-fallback=".jpg" @click.native="openApp(item)"></b-image>
               <!-- Unstable-->
               <cTooltip v-if="hasNewTag(item.name)" class="!absolute !-top-3 !left-12 z-30" content="NEW"></cTooltip>
             </div>
           </b-tooltip>
 
           <!-- Loading Bar Start -->
-          <b-loading
-            :active="isLoading"
-            :can-cancel="false"
-            :is-full-page="false"
+          <b-loading :active="isLoading" :can-cancel="false" :is-full-page="false"
             class="rounded-xl has-background-gray-800 op80 is-64x64"
-            style="top: auto; bottom: auto; right: auto; left: auto; "
-          >
-            <img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading" class="is-20x20"  />
+            style="top: auto; bottom: auto; right: auto; left: auto; ">
+            <img :src="require('@/assets/img/loading/waiting-white.svg')" alt="loading" class="is-20x20" />
           </b-loading>
           <!-- Loading Bar End -->
         </div>
@@ -214,7 +162,7 @@ export default {
       // isStoping: false,
       // Public. Only changes the state of the card, not the state of the button.
       isSaving: false,
-      isActiveTooltip: false, 
+      isActiveTooltip: false,
       dropdownPosition: "is-bottom-right",
     };
   },
@@ -232,13 +180,13 @@ export default {
           console.warn('[AppCard] item prop must be an object, received:', typeof value, value);
           return false;
         }
-        
+
         // 检查是否至少有 name 属性
         if (!value.hasOwnProperty('name')) {
           console.warn('[AppCard] item prop must have "name" property, received:', Object.keys(value));
           return false;
         }
-        
+
         return true;
       }
     },
@@ -312,27 +260,34 @@ export default {
     isRunning() {
       return this.item.status === "running";
     },
-    
+    startAndStopText() {
+      if(this.isStarting){
+        return this.$t("Executing...");
+      }else{
+        return this.isRunning ? this.$t("Stop") : this.$t("Start");
+      }
+    },
+
     // 额外的辅助计算属性
     canBeControlled() {
       return this.item.app_type !== 'system' && !this.isMircoApp && !this.isContainerApp;
     },
-    
+
     showActionButton() {
       return this.canBeControlled && !this.isUninstalling && !this.isRebuilding;
     },
-    
+
     isSystemApp() {
       return this.item.app_type === 'system';
     },
-    
+
     statusColorClass() {
       if (this.isLoading) {
         return this.isRunning ? 'disabled start' : 'disabled stop';
       }
       return this.isRunning ? 'start' : 'stop';
     },
-    
+
     itemDisplayTitle() {
       return this.i18n(this.item.title) || this.item.name;
     },
@@ -395,14 +350,14 @@ export default {
           console.warn('[AppCard] updateItem: Invalid updates provided:', updates);
           return;
         }
-        
+
         const updatedItem = { ...this.item, ...updates };
         this.$emit('update:item', updatedItem);
       } catch (error) {
         console.error('[AppCard] Error updating item:', error);
       }
     },
-    
+
     /**
      * @description: Update item status
      * @param {String} status - New status
@@ -411,7 +366,7 @@ export default {
     updateItemStatus(status) {
       this.updateItem({ status });
     },
-    
+
     /**
      * @description: Reset item to initial state (helper method)
      * @param {Object} initialData - Initial item data
@@ -420,7 +375,7 @@ export default {
     resetItem(initialData) {
       this.$emit('update:item', initialData);
     },
-    
+
     /**
      * @description: Get current item data (helper method for debugging)
      * @return {Object} Current item data
@@ -428,12 +383,12 @@ export default {
     getCurrentItem() {
       return { ...this.item };
     },
-    
+
     calculateDropdownPosition(event) {
       const app1 = document.getElementById("app1");
       const app1Rect = app1.getBoundingClientRect();
       const dropdownWidth = 180;
-      const dropdownHeight = 206;
+      const dropdownHeight = 226;
       const eventClientX = event.clientX - app1Rect.x;
       const eventClientY = event.clientY - app1Rect.y;
       const rightOffset = app1Rect.width - eventClientX - dropdownWidth;
@@ -885,8 +840,8 @@ export default {
               message: resp.data.message.includes("up to date")
                 ? this.$t("appIsLatestVersion", { appName: ice_i18n(this.item.title) })
                 : resp.data.message.includes("asynchronously")
-                ? this.$t("appUpdatingAsynchronously", { appName: ice_i18n(this.item.title) })
-                : resp.data.message,
+                  ? this.$t("appUpdatingAsynchronously", { appName: ice_i18n(this.item.title) })
+                  : resp.data.message,
               type: "is-success",
             });
           }
@@ -959,7 +914,7 @@ export default {
       if (res.Properties["app:name"] === this.item.name) {
         this.isRestarting = false;
         this.isStarting = false;
-        this.updateItemStatus("exited");        
+        this.updateItemStatus("exited");
       }
     },
     "app:restart-error"(res) {
@@ -975,7 +930,7 @@ export default {
         this.isRestarting = false;
         this.isStarting = false;
         this.updateItemStatus("running");
-        
+
       }
     },
     "app:apply-changes-begin"(res) {
@@ -1089,7 +1044,7 @@ export default {
       .dropdown-item {
         padding: 0;
 
-        & > * {
+        &>* {
           margin: 1px 0;
         }
       }
@@ -1105,7 +1060,7 @@ export default {
           height: 1.25rem !important;
         }
 
-        span + span i {
+        span+span i {
           color: hsla(208, 16%, 42%, 1);
         }
 
@@ -1120,7 +1075,7 @@ export default {
           color: hsla(208, 20%, 20%, 1);
 
           &.running {
-            color: #779e2a !important;
+            color: hsl(80, 58%, 39%) !important;
           }
 
           &.exited {
@@ -1135,6 +1090,16 @@ export default {
 
           &:active {
             background: hsla(18, 100%, 80%, 1);
+          }
+        }
+
+        &.has-text-green {
+          &:hover {
+            background: rgb(210, 249, 216);
+          }
+
+          &:active {
+            background: rgb(210, 249, 216);
           }
         }
 

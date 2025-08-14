@@ -158,5 +158,10 @@
   "Migration": "이전",
   "migrationTips": "사용자 데이터를 다른 공간으로 이전합니다.",
   "Edit": "편집",
-  "Don't show this again": "다시 표시하지 않음"
+  "Don't show this again": "다시 표시하지 않음",
+  "Start": "시작",
+  "Stop": "중지",
+  "Restart": "재시작",
+  "Restarting...": "재시작 중...",
+  "Executing...": "실행 중..."
 }

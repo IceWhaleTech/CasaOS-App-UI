@@ -158,5 +158,10 @@
   "Migration": "Migration",
   "migrationTips": "Overfør brugerdata til et andet rum.",
   "Edit": "Rediger",
-  "Don't show this again": "Vis ikke dette igen"
+  "Don't show this again": "Vis ikke dette igen",
+  "Start": "Start",
+  "Stop": "Stop",
+  "Restart": "Genstart",
+  "Restarting...": "Genstarter...",
+  "Executing...": "Udfører..."
 }

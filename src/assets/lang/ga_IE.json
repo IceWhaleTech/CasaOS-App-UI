@@ -158,5 +158,10 @@
   "Migration": "Aistriú",
   "migrationTips": "Aistrigh sonraí úsáideora go spás eile.",
   "Edit": "Eagar",
-  "Don't show this again": "Ná taispeáin é seo arís"
+  "Don't show this again": "Ná taispeáin é seo arís",
+  "Start": "Tosaigh",
+  "Stop": "Stop",
+  "Restart": "Atógáil",
+  "Restarting...": "Ag atógáil...",
+  "Executing...": "Ag feidhmiú..."
 }

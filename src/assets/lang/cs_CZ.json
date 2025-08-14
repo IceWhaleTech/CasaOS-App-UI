@@ -158,5 +158,10 @@
   "Migration": "Migrace",
   "migrationTips": "Migrovat uživatelská data do jiného prostoru.",
   "Edit": "Upravit",
-  "Don't show this again": "Znovu nezobrazovat"
+  "Don't show this again": "Znovu nezobrazovat",
+  "Start": "Spustit",
+  "Stop": "Zastavit",
+  "Restart": "Restartovat",
+  "Restarting...": "Restartuji...",
+  "Executing...": "Provádím..."
 }

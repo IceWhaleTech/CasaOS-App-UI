@@ -158,5 +158,10 @@
   "Migration": "Migrácia",
   "migrationTips": "Preniesť používateľské údaje do iného priestoru.",
   "Edit": "Upraviť",
-  "Don't show this again": "Nezobrazovať znova"
+  "Don't show this again": "Nezobrazovať znova",
+  "Start": "Spustiť",
+  "Stop": "Zastaviť",
+  "Restart": "Reštartovať",
+  "Restarting...": "Reštartovanie...",
+  "Executing...": "Vykonáva sa..."
 }

@@ -158,5 +158,10 @@
   "Migration": "Migracija",
   "migrationTips": "Migriraj korisničke podatke u drugi prostor.",
   "Edit": "Uredi",
-  "Don't show this again": "Ne prikazuj ovo ponovno"
+  "Don't show this again": "Ne prikazuj ovo ponovno",
+  "Start": "Pokreni",
+  "Stop": "Zaustavi",
+  "Restart": "Ponovno pokreni",
+  "Restarting...": "Ponovno pokretanje...",
+  "Executing...": "Izvršavanje..."
 }
