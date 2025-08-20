@@ -197,6 +197,9 @@ export default {
     },
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     tooltipLabel() {
       if (this.isContainerApp) {
         return this.$t("Import to CasaOS");
@@ -274,7 +277,7 @@ export default {
     },
 
     showActionButton() {
-      return this.canBeControlled && !this.isUninstalling && !this.isRebuilding;
+      return this.canBeControlled && !this.isUninstalling && !this.isRebuilding && this.user.is_admin;
     },
 
     isSystemApp() {

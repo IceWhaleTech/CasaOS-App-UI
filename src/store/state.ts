@@ -8,6 +8,7 @@ export interface User {
 	role: string;
 	updated_at: string;
 	username: string;
+	is_admin?: boolean;
 }
 
 export interface State {
