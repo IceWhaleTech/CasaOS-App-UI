@@ -158,5 +158,10 @@
   "Migration": "Migration",
   "migrationTips": "Migrer les données de l'utilisateur vers un autre espace.",
   "Edit": "Modifier",
-  "Don't show this again": "Ne pas afficher à nouveau"
+  "Don't show this again": "Ne plus afficher ce message",
+  "Start": "Démarrer",
+  "Stop": "Arrêter",
+  "Restart": "Redémarrer",
+  "Restarting...": "Redémarrage...",
+  "Executing...": "Exécution..."
 }

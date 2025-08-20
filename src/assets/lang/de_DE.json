@@ -156,7 +156,12 @@
   "noFavorites": "Zurzeit keine Favoriten.",
   "Storage": "Speicher",
   "Migration": "Migration",
-  "migrationTips": "Migrate user data to another space.",
+  "migrationTips": "Benutzerdaten in einen anderen Bereich migrieren.",
   "Edit": "Bearbeiten",
-  "Don't show this again": "Nicht mehr anzeigen"
+  "Don't show this again": "Nicht erneut anzeigen",
+  "Start": "Start",
+  "Stop": "Stopp",
+  "Restart": "Neustart",
+  "Restarting...": "Wird neu gestartet...",
+  "Executing...": "Wird ausgeführt..."
 }
