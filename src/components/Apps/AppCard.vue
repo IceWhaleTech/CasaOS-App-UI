@@ -227,7 +227,7 @@ export default {
           } else if (this.item.status === "running") {
             return this.$t("Open");
           } else {
-            return this.$t("launch-and-open");
+            return this.user.is_admin ? this.$t("launch-and-open") : this.$t("Disabled");
           }
         }
       }
@@ -444,12 +444,14 @@ export default {
         window.open(routeUrl.href, "_blank");
       } else {
         // type is one of 'official' or 'community'.
-        this.$refs.dro.isActive = false;
+        if(this.$refs.dro)this.$refs.dro.isActive = false;
         if (item.status === "running") {
           this.openAppToNewWindow(item);
         } else {
-          this.toggle(item);
-          this.checkAndOpenThirdApp(item);
+          if(this.user.is_admin) {
+            this.toggle(item);
+            this.checkAndOpenThirdApp(item);
+          }
         }
       }
       // this.hasNewTag(item.name) && this.removeIdFromNewAppIds(item.name);
@@ -505,7 +507,7 @@ export default {
       } else if (this.isV1App) {
         this.restartAppV1();
       }
-      this.$refs.dro.isActive = false;
+      if(this.$refs.dro)this.$refs.dro.isActive = false;
     },
 
     restartAppV1() {
@@ -551,7 +553,7 @@ export default {
      */
     uninstallConfirm() {
       this.$messageBus("apps_uninstall", this.item.name);
-      this.$refs.dro.isActive = false;
+      if(this.$refs.dro)this.$refs.dro.isActive = false;
       this.$buefy.dialog.confirm({
         title: this.$t("Attention"),
         message: this.$t(`Data cannot be recovered after deletion! <br/>Continue on to uninstall this application?`),
@@ -620,7 +622,7 @@ export default {
      * @return {*} void
      */
     updateState() {
-      this.$refs.dro.isActive = false;
+      if(this.$refs.dro)this.$refs.dro.isActive = false;
       this.$emit("updateState");
       this.$EventBus.$emit(events.UPDATE_SYNC_STATUS);
     },
@@ -635,7 +637,7 @@ export default {
             },
           })
           .then((res) => res.data);
-        this.$refs.dro.isActive = false;
+        if(this.$refs.dro)this.$refs.dro.isActive = false;
         this.$buefy.modal.open({
           parent: this,
           component: tipEditorModal,
@@ -661,7 +663,7 @@ export default {
      */
     configApp() {
       this.$messageBus("apps_setting", this.item.name);
-      this.$refs.dro.isActive = false;
+      if(this.$refs.dro)this.$refs.dro.isActive = false;
       this.$emit("configApp", this.item, this.isV2App);
     },
 
@@ -675,7 +677,7 @@ export default {
       this.$messageBus("apps_stop", item.name);
       this.isStarting = true;
       const status = item.status === "running" ? "stop" : "start";
-      this.$refs.dro.isActive = false;
+      if(this.$refs.dro)this.$refs.dro.isActive = false;
       if (this.isV2App) {
         this.toggleAppV2(item, status);
       } else if (this.isV1App) {
@@ -776,7 +778,7 @@ export default {
               })
               .then(() => {
                 this.isCloning = false;
-                this.$refs.dro.isActive = false;
+                if(this.$refs.dro)this.$refs.dro.isActive = false;
               });
           }
         })
@@ -824,7 +826,7 @@ export default {
       }
       // 4.sockiet :: install-end :: change UI status.
       // this.isRebuilding = false;
-      // this.$refs.dro.isActive = false;
+      // if(this.$refs.dro)this.$refs.dro.isActive = false;
     },
 
     checkAppVersion(name) {
@@ -857,7 +859,7 @@ export default {
           });
         })
         .finally(() => {
-          this.$refs.dro.isActive = false;
+          if(this.$refs.dro)this.$refs.dro.isActive = false;
           this.isCheckThenUpdate = false;
         });
     },

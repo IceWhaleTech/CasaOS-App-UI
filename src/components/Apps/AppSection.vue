@@ -417,7 +417,6 @@ export default {
         }
         // all app list
         let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList);
-
         if (this.hasGpu) {
           casaAppList = casaAppList.map((item) => {
             item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
@@ -450,7 +449,7 @@ export default {
                 "IceWhale Community",
               ]
           );
-
+        
         // filter anything not in casaAppList.
         const propList = casaAppList.map((obj) => obj.name);
         const existingList = lateSortList.filter((item) => propList.includes(item));
@@ -458,13 +457,19 @@ export default {
         const newSortList = existingList.concat(futureList);
 
         // then sort.
+        console.log(casaAppList)
         const sortedAppList = casaAppList.sort((obj1, obj2) => {
           return newSortList.indexOf(obj1.name) - newSortList.indexOf(obj2.name);
         });
 
         const sortedList = sortedAppList.map((obj) => obj.name);
-        this.appList = sortedAppList;
-        if (!isEqual(lateSortList, sortedList)) {
+        console.log("sortedList", sortedList);
+        if(this.user.is_admin) {
+          this.appList = sortedAppList;
+        } else {
+          this.appList = sortedAppList.filter((item) => lateSortList.includes(item.name));
+        }
+        if (!isEqual(lateSortList, sortedList) && this.user.is_admin) {
           this.saveSortData();
         }
 
