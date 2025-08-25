@@ -457,13 +457,11 @@ export default {
         const newSortList = existingList.concat(futureList);
 
         // then sort.
-        console.log(casaAppList)
         const sortedAppList = casaAppList.sort((obj1, obj2) => {
           return newSortList.indexOf(obj1.name) - newSortList.indexOf(obj2.name);
         });
 
         const sortedList = sortedAppList.map((obj) => obj.name);
-        console.log("sortedList", sortedList);
         if(this.user.is_admin) {
           this.appList = sortedAppList;
         } else {
