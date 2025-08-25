@@ -8,8 +8,8 @@
         :label="$t('DragIconsToSort')"
         :title="$t('Apps')"
       ></app-section-title-tip>
-
       <b-dropdown
+        v-if="user.is_admin"
         ref="cdro"
         animation="fade1"
         aria-role="menu"
@@ -38,7 +38,7 @@
     <transition name="fade">
       <draggable
         v-model="appList"
-        :draggable="draggable"
+        :draggable="user.is_admin && draggable"
         class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 app-list contextmenu-canvas"
         tag="div"
         v-bind="dragOptions"
@@ -204,6 +204,9 @@ export default {
     showDragTip() {
       return this.draggable === ".handle";
     },
+    user() {
+      return this.$store.state.user;
+    },
   },
   async created() {
     db = await openDB("casaos", "1", {
@@ -215,7 +218,7 @@ export default {
     });
     this.getNewAppIdsFromCustomStorage();
     this.getTipsStateFromCustomStorage();
-
+    this.getUserInfo();
     this.isLoading = true;
     this.draggable = this.isMobile() ? "" : ".handle";
 
@@ -324,6 +327,15 @@ export default {
           this.gpuAppList = [];
         });
     },
+    /**
+     * @description: Get user info
+     * @return {*} void
+     */
+    getUserInfo() {
+      this.$api.users.getUserInfo().then((res) => {
+        this.$store.commit("SET_USER", res.data.data);
+      });
+    },
 
     /**
      * @description: Fetch the list of installed apps
@@ -405,7 +417,6 @@ export default {
         }
         // all app list
         let casaAppList = concat(builtInApplications, orgNewAppList, linkAppList, this.mircoAppList);
-
         if (this.hasGpu) {
           casaAppList = casaAppList.map((item) => {
             item.requireGPU = this.gpuAppList.find((gpuItem) => gpuItem.name === item.name);
@@ -438,7 +449,7 @@ export default {
                 "IceWhale Community",
               ]
           );
-
+        
         // filter anything not in casaAppList.
         const propList = casaAppList.map((obj) => obj.name);
         const existingList = lateSortList.filter((item) => propList.includes(item));
@@ -446,13 +457,19 @@ export default {
         const newSortList = existingList.concat(futureList);
 
         // then sort.
+        console.log(casaAppList)
         const sortedAppList = casaAppList.sort((obj1, obj2) => {
           return newSortList.indexOf(obj1.name) - newSortList.indexOf(obj2.name);
         });
 
         const sortedList = sortedAppList.map((obj) => obj.name);
-        this.appList = sortedAppList;
-        if (!isEqual(lateSortList, sortedList)) {
+        console.log("sortedList", sortedList);
+        if(this.user.is_admin) {
+          this.appList = sortedAppList;
+        } else {
+          this.appList = sortedAppList.filter((item) => lateSortList.includes(item.name));
+        }
+        if (!isEqual(lateSortList, sortedList) && this.user.is_admin) {
           this.saveSortData();
         }
 

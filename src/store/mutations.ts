@@ -23,7 +23,10 @@ const mutations: MutationTree<State> = {
 	},
 
 	SET_USER(state, user: User) {
-		state.user = user;
+		state.user = {
+      ...user,
+      is_admin: user.role === 'admin' ? true : false,
+    };
 	},
 
 	SET_INIT_KEY(state, key: string) {
