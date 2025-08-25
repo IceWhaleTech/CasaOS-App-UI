@@ -75,7 +75,7 @@
           </b-button>
           <template v-if="!isLinkApp && !isV1App">
             <hr class="dropdown-divider" />
-            <b-button expanded type="is-text" @click="restartApp" :disabled="isRestarting | isStarting">
+            <b-button expanded type="is-text" @click="restartApp" :disabled="isRestarting || isStarting">
               {{ isRestarting ? $t("Restarting...") : $t("Restart") }}
             </b-button>
             <b-button expanded type="is-text" @click="toggle(item)" :disabled="isStarting || isRestarting">
