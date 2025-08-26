@@ -198,8 +198,8 @@
           <b-field :label="$t('Memory Limit')">
             <vue-slider
               :max="totalMemory"
-              :min="memory_min"
-              :value="service.deploy.resources.limits.memory | duplexDisplay"
+              :min="getMinMemory(service)"
+              :value="duplexDisplay(service)"
               :tooltip-formatter="formatMemoryTooltip"
               @change="(v) => (service.deploy.resources.limits.memory = v)"
             ></vue-slider>
@@ -279,7 +279,7 @@ import "vue-slider-component/theme/default.css";
 import YAML from "yaml";
 import lowerFirst from "lodash/lowerFirst";
 import isNil from "lodash/isNil";
-import { isNumber, isString } from "lodash/lang";
+import { isString } from "lodash/lang";
 import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 import i18n from "@/mixins/base/common-i18n";
@@ -358,7 +358,7 @@ export default {
             deploy: {
               resources: {
                 limits: {
-                  memory: "268435456",
+                  memory: "0",
                 },
               },
             },
@@ -526,7 +526,7 @@ export default {
   },
   created() {
     // Set Front-end base url
-    this.baseUrl = `${document.domain}`;
+    this.baseUrl = `${window.location.hostname}`;
     // update Service Name.
     this.$emit("updateDockerComposeServiceName", this.firstAppName);
   },
@@ -558,6 +558,7 @@ export default {
           this.isFetching = false;
         });
     }, 500),
+    
     // format memory
     formatMemoryTooltip(memory) {
       // 将 字节 转换成 MB 或 GB 并且取整
@@ -824,7 +825,7 @@ export default {
       }
 
       // 判断是否存在
-      const memory = composeServicesItemInput?.deploy?.resources?.limits?.memory ?? "0";
+      const memory = composeServicesItemInput?.deploy?.resources?.limits?.memory ?? this.totalMemory;
       let newMemory = 0;
       if (memory) {
         if (/[Mm]$/.test(memory)) {
@@ -1047,11 +1048,23 @@ export default {
     getLateField(image) {
       return image?.split(":")[1];
     },
-  },
-  filters: {
-    duplexDisplay(val) {
-      // units is M
-      return val < 268435456 ? 268435456 : val;
+
+    getMinMemory(service) {
+      const reservedMemory = service?.deploy?.resources?.reservations?.memory;
+      return Number(reservedMemory) || 268435456;
+    },
+
+    duplexDisplay(service) {
+      // units is byte
+      const min_memory = this.getMinMemory(service);
+
+      if (service?.deploy?.resources?.limits?.memory == 0) {
+        return this.totalMemory;
+      } else if (service?.deploy?.resources?.limits?.memory < min_memory) {
+        return min_memory;
+      } else {
+        return service?.deploy?.resources?.limits?.memory;
+      }
     },
   },
 };

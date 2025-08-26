@@ -27,10 +27,10 @@
 
 		<div class="level-item has-text-centered">
 			<div>
-				<p class="heading "><span class="is-hidden-mobile">{{
+				<p class="heading"><span class="is-hidden-mobile">{{
 						$t('REQUIRE')
 					}} </span>{{ $t('MEMORY') }}</p>
-				<p class="title has-text-weight-normal">{{ appDetailData.min_memory }}</p>
+				<p class="title has-text-weight-normal">{{ appDetailData.min_memory/1024/1024 }}</p>
 				<p class="footing is-size-14px">MB</p>
 			</div>
 		</div>

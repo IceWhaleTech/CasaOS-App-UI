@@ -500,19 +500,31 @@ export default {
       this.isLoading = true;
       let { min_memory, compose } = await this.$openAPI.appManagement.appStore.composeApp(id).then((res) => {
         // A district that is reserved for resource.
+        // 遍历 res.data.data.compose.services 如果存在 deploy?.resources?.reservations?.memory 则返回累加值。
+        let min_memory = 0;
+        for (const service in res.data.data.compose.services) {
+          if (res.data.data.compose.services[service]?.deploy?.resources?.reservations?.memory) {
+            let memoryValue = res.data.data.compose.services[service]?.deploy?.resources?.reservations?.memory;
+            // 统一转换为字节数进行累加
+            if (typeof memoryValue === 'string') {
+              if (memoryValue.includes("GB") || memoryValue.includes("G")) {
+                min_memory += Number(memoryValue.replace(/[^\d.]/g, '')) * 1024 * 1024 * 1024;
+              } else if (memoryValue.includes("MB") || memoryValue.includes("M")) {
+                min_memory += Number(memoryValue.replace(/[^\d.]/g, '')) * 1024 * 1024;
+              } else {
+                min_memory += Number(memoryValue) || 0;
+              }
+            } else {
+              min_memory += Number(memoryValue) || 0;
+            }
+          }
+        }
         return {
-          min_memory: res.data.data.compose.services[id]?.deploy?.resources?.reservations?.memory || "0",
+          min_memory: min_memory, // 统一返回字节数
           compose: res.data.data.compose,
         };
       });
 
-      if (min_memory.includes("GB")) {
-        min_memory = min_memory.replace("GB", "") * 1024;
-      } else if (min_memory.includes("MB")) {
-        min_memory = min_memory.replace("MB", "");
-      } else {
-        min_memory = min_memory / 1024 / 1024;
-      }
       this.$openAPI.appManagement.appStore
         .composeAppStoreInfo(id)
         .then((res) => {
