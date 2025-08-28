@@ -1,6 +1,6 @@
 <template>
   <div class="common-card is-flex is-align-items-center is-justify-content-center app-card aspect-square"
-    @mouseleave="hover = true" @mouseover="hover = true" @mouseenter="actionBtnHover = true">
+    @mouseleave="hover = true" @mouseover="hover = true" >
     <!-- Action Button Start -->
     <div v-if="showActionButton" class="action-btn" :class="{ 'action-btn-hover': actionBtnHover }">
       <b-dropdown ref="dro" v-on-click-outside="() => ($refs.dro.isActive = false)" :mobile-modal="false"
