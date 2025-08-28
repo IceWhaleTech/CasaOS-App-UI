@@ -388,17 +388,19 @@ export default {
     },
 
     calculateDropdownPosition(event) {
+      this.actionBtnHover = true;
       const app1 = document.getElementById("app1");
       const app1Rect = app1.getBoundingClientRect();
+
       const dropdownWidth = 180;
-      const dropdownHeight = 226;
+      const dropdownHeight = 256;
       const eventClientX = event.clientX - app1Rect.x;
       const eventClientY = event.clientY - app1Rect.y;
       const rightOffset = app1Rect.width - eventClientX - dropdownWidth;
       const horizontalPos = rightOffset > 0 ? "right" : "left";
       const bottomOffset = app1Rect.height - eventClientY - dropdownHeight;
-      const bottomOffset2 = window.innerHeight - event.clientY - dropdownHeight;
-      const verticalPos = bottomOffset > 0 && bottomOffset2 > 0 ? "bottom" : "top";
+      const bottomOffset2 = window.innerHeight - event.clientY - dropdownHeight;      
+      const verticalPos = (bottomOffset > 0 && bottomOffset2 > 0) ? "bottom" : "top";
       this.dropdownPosition = `is-${verticalPos}-${horizontalPos}`;
     },
     /**
