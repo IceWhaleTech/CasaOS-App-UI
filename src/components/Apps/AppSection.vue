@@ -303,6 +303,11 @@ export default {
         .getGPUList(10 * 1024 * 1024 * 1024, true)
         .then((res) => {
           this.hasGpu = res.data.data.length > 0;
+          const gpuList = res.data.data;
+          gpuList.forEach((item, index) => {
+            item.index = index;
+          });
+          this.$store.commit("SET_GPU_LIST", gpuList);
           callback?.then?.();
         })
         .catch(() => {

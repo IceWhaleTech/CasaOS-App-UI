@@ -163,5 +163,6 @@
   "Stop": "Durdur",
   "Restart": "Yeniden Başlat",
   "Restarting...": "Yeniden Başlatılıyor...",
-  "Executing...": "Yürütülüyor..."
+  "Executing...": "Yürütülüyor...",
+  "Enable all available NVIDIA GPUs": "Mevcut olan tüm NVIDIA GPU'ları etkinleştir"
 }

@@ -8,6 +8,7 @@ export interface User {
     role: string;
     updated_at: string;
     username: string;
+    is_admin?: boolean;
 }
 export interface State {
     access_token: string;
@@ -38,6 +39,7 @@ export interface State {
     notImportList: any[];
     newAppIds: string[];
     tipsState: string[];
+    gpuList: any[];
 }
 declare const state: {
     access_token: string;
@@ -78,5 +80,6 @@ declare const state: {
     notImportList: never[];
     newAppIds: never[];
     tipsState: never[];
+    gpuList: never[];
 };
 export default state;

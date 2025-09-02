@@ -160,7 +160,9 @@ const mutations: MutationTree<State> = {
 			state.tipsState.splice(index, 1);
 		}
 	},
-	
+	SET_GPU_LIST(state, val: any) {
+		state.gpuList = val;
+	},
 };
 
 export default mutations;

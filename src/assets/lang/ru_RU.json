@@ -163,5 +163,6 @@
   "Stop": "Остановить",
   "Restart": "Перезапустить",
   "Restarting...": "Перезапуск...",
-  "Executing...": "Выполнение..."
+  "Executing...": "Выполнение...",
+  "Enable all available NVIDIA GPUs": "Включить все доступные GPU NVIDIA"
 }

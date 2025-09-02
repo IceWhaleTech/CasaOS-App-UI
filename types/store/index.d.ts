@@ -37,5 +37,6 @@ declare const _default: import("vuex").Store<{
     notImportList: never[];
     newAppIds: never[];
     tipsState: never[];
+    gpuList: never[];
 }>;
 export default _default;

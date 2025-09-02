@@ -163,5 +163,6 @@
   "Stop": "Διακοπή",
   "Restart": "Επαναφορά",
   "Restarting...": "Επαναφορά...",
-  "Executing...": "Εκτελείται..."
+  "Executing...": "Εκτελείται...",
+  "Enable all available NVIDIA GPUs": "Ενεργοποίηση όλων των διαθέσιμων GPU NVIDIA"
 }

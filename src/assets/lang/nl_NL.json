@@ -163,5 +163,6 @@
   "Stop": "Stoppen",
   "Restart": "Herstarten",
   "Restarting...": "Herstarten...",
-  "Executing...": "Uitvoeren..."
+  "Executing...": "Uitvoeren...",
+  "Enable all available NVIDIA GPUs": "Schakel alle beschikbare NVIDIA GPU's in"
 }

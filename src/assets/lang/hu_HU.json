@@ -163,5 +163,6 @@
   "Stop": "Megállítás",
   "Restart": "Újraindítás",
   "Restarting...": "Újraindítás...",
-  "Executing...": "Futtatás..."
+  "Executing...": "Futtatás...",
+  "Enable all available NVIDIA GPUs": "Aktiválja a rendelkezésre álló NVIDIA GPU-kat"
 }

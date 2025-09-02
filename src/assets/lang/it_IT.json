@@ -163,5 +163,6 @@
   "Stop": "Ferma",
   "Restart": "Riavvia",
   "Restarting...": "Riavvio in corso...",
-  "Executing...": "Esecuzione in corso..."
+  "Executing...": "Esecuzione in corso...",
+  "Enable all available NVIDIA GPUs": "Abilita tutte le GPU NVIDIA disponibili"
 }
