@@ -163,5 +163,6 @@
   "Stop": "Stop",
   "Restart": "Atógáil",
   "Restarting...": "Ag atógáil...",
-  "Executing...": "Ag feidhmiú..."
+  "Executing...": "Ag feidhmiú...",
+  "Enable all available NVIDIA GPUs": "Gníomh ar fáil na GPUs NVIDIA"
 }

@@ -163,5 +163,6 @@
   "Stop": "중지",
   "Restart": "재시작",
   "Restarting...": "재시작 중...",
-  "Executing...": "실행 중..."
+  "Executing...": "실행 중...",
+  "Enable all available NVIDIA GPUs": "사용 가능한 모든 NVIDIA GPU 활성화"
 }

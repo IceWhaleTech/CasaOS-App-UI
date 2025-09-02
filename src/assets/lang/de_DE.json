@@ -163,5 +163,6 @@
   "Stop": "Stopp",
   "Restart": "Neustart",
   "Restarting...": "Wird neu gestartet...",
-  "Executing...": "Wird ausgeführt..."
+  "Executing...": "Wird ausgeführt...",
+  "Enable all available NVIDIA GPUs": "Alle verfügbaren NVIDIA GPUs aktivieren"
 }

@@ -163,5 +163,6 @@
   "Stop": "停止",
   "Restart": "重啟",
   "Restarting...": "正在重啟...",
-  "Executing...": "執行中..."
+  "Executing...": "執行中...",
+  "Enable all available NVIDIA GPUs": "啟用所有可用的 NVIDIA GPU"
 }

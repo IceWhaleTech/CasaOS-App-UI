@@ -15,7 +15,6 @@
                 :label="$t('Docker Image') + ' *'"
                 :message="$t(errors)"
                 :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                class="mb-3"
               >
                 <b-input
                   :key="service.image"
@@ -94,6 +93,7 @@
                 :placeholder="$t('e.g.,Your App Name')"
                 :value="i18n(configData['x-casaos'].title)"
                 @blur="(E) => (configData['x-casaos'].title.custom = E.target._value)"
+                class="mb-3"
               ></b-input>
             </b-field>
           </ValidationProvider>
@@ -184,6 +184,13 @@
             type="device"
           >
           </input-group>
+          <!-- GPU Manager -->
+          <gpu-manager
+            :devices="service.deploy.resources.reservations.devices"
+            @update:devices="service.deploy.resources.reservations.devices = $event"
+            v-if="$store.state.gpuList.length > 0"
+          ></gpu-manager>
+          <!-- Commands Input -->
           <commands-input
             v-model="service.command"
             :label="$t('Container Command')"
@@ -265,28 +272,33 @@
 </template>
 
 <script>
-import debounce from "lodash/debounce";
+// 核心依赖
 import axios from "axios";
+import YAML from "yaml";
+import { nanoid } from "nanoid";
+
+// 表单验证
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import "@/plugins/vee-validate";
-import Ports from "../forms/Ports.vue";
-import EnvInputGroup from "../forms/EnvInputGroup.vue";
-import CommandsInput from "../forms/CommandsInput.vue";
-import InputGroup from "../forms/InputGroup.vue";
-import VolumesInputGroup from "@/components/forms/VolumesInputGroup.vue";
+
+// UI 组件
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
-import YAML from "yaml";
-import lowerFirst from "lodash/lowerFirst";
-import isNil from "lodash/isNil";
-import { isString } from "lodash/lang";
-import cloneDeep from "lodash/cloneDeep";
-import merge from "lodash/merge";
+
+// 自定义组件
+import Ports from "@/components/forms/Ports.vue";
+import EnvInputGroup from "@/components/forms/EnvInputGroup.vue";
+import CommandsInput from "@/components/forms/CommandsInput.vue";
+import InputGroup from "@/components/forms/InputGroup.vue";
+import VolumesInputGroup from "@/components/forms/VolumesInputGroup.vue";
+import AppMigrationBtn from "@/components/AppSetting/AppMigrationBtn.vue";
+import GpuManager from "@/components/forms/GpuManager.vue";
+
+// Lodash 工具函数
+import { debounce, lowerFirst, isNil, isString, cloneDeep, merge, find, isArray } from "lodash";
+
+// Mixins
 import i18n from "@/mixins/base/common-i18n";
-import { nanoid } from "nanoid";
-import find from "lodash/find";
-import isArray from "lodash/isArray";
-import AppMigrationBtn from "./AppMigrationBtn.vue";
 
 const data = [
   "AUDIT_CONTROL",
@@ -332,6 +344,7 @@ export default {
     CommandsInput,
     VueSlider,
     AppMigrationBtn,
+    GpuManager,
   },
   mixins: [i18n],
   data() {
@@ -359,6 +372,9 @@ export default {
               resources: {
                 limits: {
                   memory: "0",
+                },
+                reservations: {
+                  devices: [],
                 },
               },
             },
@@ -392,38 +408,6 @@ export default {
       type: Number,
       required: true,
     },
-    /*networks STRUCTURE [
-      {
-        "driver": "host",
-        "networks": [
-          {
-            "driver": "host",
-            "id": "3014e1842267eb8aabea9e83b21ff95f36d988c519a51b107d86db9906501ba0",
-            "name": "host"
-          }
-        ]
-      },
-      {
-        "driver": "bridge",
-        "networks": [
-          {
-            "driver": "bridge",
-            "id": "AAA",
-            "name": "AAA"
-          },
-          {
-            "driver": "bridge",
-            "id": "BBB",
-            "name": "BBB"
-          },
-          {
-            "driver": "bridge",
-            "id": "CCC",
-            "name": "bridge"
-          }
-        ]
-      }
-    ]*/
     networks: {
       type: Array,
       required: true,
@@ -446,35 +430,21 @@ export default {
     current_service: {
       handler(val) {
         this.$emit("updateDockerComposeServiceName", val);
-        if (this.configData.name && val) {
-          this.$openAPI.appManagement.appStore
-            .composeAppServiceStableTag(this.configData.name, val)
-            .then((res) => {
-              this.serviceStableVersion = res.data.data.tag;
-            })
-            .catch((e) => {
-              this.serviceStableVersion = "";
-            });
-        } else {
-          this.serviceStableVersion = "";
-        }
+        this.fetchServiceStableVersion(val);
       },
       immediate: true,
     },
     // Watch if configData changes
     configData: {
-      handler(val, newVal) {
-        if (this.state == "install") {
-          localStorage.setItem("app_data", JSON.stringify(val));
-        }
-        this.outputConfigDataCommands(val);
+      handler(val) {
+        this.handleConfigDataChange(val);
       },
       deep: true,
     },
     // The parent component passes in data
     dockerComposeCommands: {
       handler(val) {
-        if (val != null) {
+        if (val) {
           this.parseComposeYaml(val);
         }
       },
@@ -488,7 +458,9 @@ export default {
     },
     "errInfo.ports_in_use": {
       handler(val) {
-        this.ports_in_use = val;
+        if (val && typeof val === "object") {
+          this.ports_in_use = val;
+        }
       },
       immediate: true,
     },
@@ -532,6 +504,63 @@ export default {
   },
 
   methods: {
+    /**
+     * 获取服务稳定版本标签
+     * @param {string} serviceName 服务名称
+     */
+    async fetchServiceStableVersion(serviceName) {
+      if (this.configData.name && serviceName) {
+        try {
+          const res = await this.$openAPI.appManagement.appStore.composeAppServiceStableTag(
+            this.configData.name,
+            serviceName
+          );
+          this.serviceStableVersion = res.data.data.tag;
+        } catch (error) {
+          this.serviceStableVersion = "";
+          console.warn("Failed to fetch service stable version:", error);
+        }
+      } else {
+        this.serviceStableVersion = "";
+      }
+    },
+
+    /**
+     * 处理配置数据变化
+     * @param {Object} configData 配置数据
+     */
+    handleConfigDataChange(configData) {
+      // 在开发环境下记录设备信息
+      if (process.env.NODE_ENV === "development") {
+        this.logDevicesInfo(configData);
+      }
+
+      // 保存到本地存储（仅在安装状态下）
+      if (this.state === "install") {
+        try {
+          localStorage.setItem("app_data", JSON.stringify(configData));
+        } catch (error) {
+          console.error("Failed to save to localStorage:", error);
+        }
+      }
+
+      // 输出配置命令
+      this.outputConfigDataCommands(configData);
+    },
+
+    /**
+     * 记录设备信息（开发环境）
+     * @param {Object} configData 配置数据
+     */
+    logDevicesInfo(configData) {
+      Object.keys(configData.services || {}).forEach((serviceKey) => {
+        const devices = configData.services[serviceKey]?.deploy?.resources?.reservations?.devices;
+        if (devices) {
+          console.log(`Service ${serviceKey} devices:`, devices);
+        }
+      });
+    },
+
     // ****** migration !!! start !!!
     /**
      * @description: Get remote synchronization information
@@ -558,7 +587,7 @@ export default {
           this.isFetching = false;
         });
     }, 500),
-    
+
     // format memory
     formatMemoryTooltip(memory) {
       // 将 字节 转换成 MB 或 GB 并且取整
@@ -657,10 +686,21 @@ export default {
     },
 
     /*
-     * formate for render
+     * format for render
      * */
     parseComposeItem(composeServicesItemInput) {
-      let composeServicesItem = {};
+      let composeServicesItem = {
+            deploy: {
+              resources: {
+                limits: {
+                  memory: "0",
+                },
+                reservations: {
+                  devices: [],
+                },
+              },
+            },
+          };
       // Image
       composeServicesItem.image = composeServicesItemInput.image;
 
@@ -769,6 +809,22 @@ export default {
       });
       isNil(composeServicesItem.devices) && this.$set(composeServicesItem, "devices", []);
 
+      if (composeServicesItemInput.deploy?.resources?.reservations?.devices) {
+        composeServicesItemInput.deploy.resources.reservations.devices =
+          composeServicesItemInput.deploy.resources.reservations.devices.map((device) => {
+            if (device.count == -1) {
+              return {
+                count: "all",
+                capabilities: device.capabilities,
+              };
+            }
+            return device;
+          });
+
+        composeServicesItem.deploy.resources.reservations.devices =
+          composeServicesItemInput.deploy.resources.reservations.devices;
+      }
+
       //Network_mode
       const network_mode = composeServicesItemInput?.network_mode;
       const networks = composeServicesItemInput?.networks;
@@ -812,7 +868,6 @@ export default {
 
       // container_name
       composeServicesItem.container_name = composeServicesItemInput?.container_name || "";
-      // this.$set(composeServicesItem, "container_name", composeServicesItemInput?.container_name);
 
       if (
         composeServicesItemInput.cpu_shares === 0 ||
@@ -844,9 +899,7 @@ export default {
       let ob = merge(composeServicesItemInput?.deploy, {
         resources: { limits: { memory: newMemory || this.totalMemory } },
       });
-
-      this.$set(composeServicesItem, "deploy", ob);
-
+      composeServicesItem.deploy.resources.limits.memory = ob.resources.limits.memory;
       return composeServicesItem;
     },
 
@@ -896,9 +949,36 @@ export default {
       return finalHostPath;
     },
 
-    makeArray(foo) {
-      const newArray = typeof foo == "string" ? [foo] : foo;
-      return newArray == undefined ? [] : newArray;
+    makeArray(value) {
+      if (Array.isArray(value)) return value;
+      if (typeof value === "string") return [value];
+      return value == null ? [] : [value];
+    },
+
+    /**
+     * 确保嵌套结构存在并设置值
+     * @param {Object} obj 目标对象
+     * @param {string} path 嵌套路径，如 'deploy.resources.reservations.devices'
+     * @param {*} value 要设置的值
+     */
+    ensureNestedStructure(obj, path, value) {
+      const keys = path.split('.');
+      let current = obj;
+      
+      // 创建嵌套结构（除了最后一个key）
+      for (let i = 0; i < keys.length - 1; i++) {
+        const key = keys[i];
+        if (!current[key] || typeof current[key] !== 'object' || Array.isArray(current[key])) {
+          current[key] = {};
+        }
+        current = current[key];
+      }
+      
+      // 设置最终值
+      const finalKey = keys[keys.length - 1];
+      current[finalKey] = value;
+      
+      return obj;
     },
 
     // ****** migration !!! end !!!
@@ -916,7 +996,9 @@ export default {
         // 输出结果
         let outputService = ConfigData.services[servicesKey];
         // memory
-        outputService.deploy.resources.limits.memory = service.deploy.resources.limits.memory;
+        this.ensureNestedStructure(outputService, 'deploy.resources.limits.memory', service.deploy.resources.limits.memory);
+        this.ensureNestedStructure(outputService, 'deploy.resources.reservations.devices', service.deploy.resources.reservations.devices || []);
+
         outputService.devices = service.devices
           .filter((device) => {
             if (device.container || device.host) {
@@ -927,6 +1009,7 @@ export default {
           .map((device) => {
             return `${device.host}:${device.container}`;
           });
+
         outputService.environment = service.environment
           .filter((env) => {
             if (env.container || env.host) {
@@ -941,23 +1024,25 @@ export default {
       if (this.dockerComposeCommands) {
         let yaml = YAML.parse(this.dockerComposeCommands);
         Object.keys(yaml.services).map((key) => {
-          yaml.services[key].ports = [];
-          yaml.services[key].volumes = [];
-          yaml.services[key].devices = [];
-          yaml.services[key].cap_add = [];
-          yaml.services[key].command = [];
-          delete yaml.services[key]?.network_mode;
-          delete yaml.services[key]?.networks;
+          const service = yaml.services[key];
+          
+          // 重置基础属性
+          service.ports = [];
+          service.volumes = [];
+          service.devices = [];
+          service.cap_add = [];
+          service.command = [];
+          
+          // 安全地设置嵌套的 deploy.resources.reservations.devices
+          this.ensureNestedStructure(service, 'deploy.resources.reservations.devices', []);
+          
+          // 删除网络相关配置
+          delete service.network_mode;
+          delete service.networks;
         });
 
         ConfigData = merge(yaml, ConfigData);
       }
-
-      // check
-      // let DockerComposeCommands = YAML.stringify(ConfigData)
-      // this.$api.apps.checkPort().then(res => {
-      // 	this.ports_in_use = res.data?.data || {}
-      // })
 
       this.$emit("updateDockerComposeCommands", YAML.stringify(ConfigData));
     },
@@ -1069,6 +1154,8 @@ export default {
   },
 };
 </script>
+
+
 <style lang="scss">
 .app-card .tab-content {
   @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/30;

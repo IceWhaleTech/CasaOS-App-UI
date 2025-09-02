@@ -163,5 +163,6 @@
   "Stop": "Zaustavi",
   "Restart": "Ponovno pokreni",
   "Restarting...": "Ponovno pokretanje...",
-  "Executing...": "Izvršavanje..."
+  "Executing...": "Izvršavanje...",
+  "Enable all available NVIDIA GPUs": "Aktiviraj sve dostupne NVIDIA GPU-ove"
 }

@@ -30,7 +30,7 @@
                     {{ $t("Install") }}
                   </div>
                 </b-button>
-                <b-button class="pl-2 pr-3" style="border-top-left-radius: 0; border-bottom-left-radius: 0" rounded
+                <b-button class="pr-3 pl-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0" rounded
                   size="is-normal" type="is-primary">
                   <div class="casa-down-outline custom-install-dropdown-trigger"></div>
                 </b-button>
@@ -46,7 +46,7 @@
         <p v-if="unusable"
           class="pr-2 has-background-red-tertiary has-text-red has-text-full-04 _is-normal is-flex is-align-items-center font"
           style="width: fit-content; height: 1.5rem; border-radius: 0.25rem">
-          <label class="ml-2 mr-1 is-flex">
+          <label class="mr-1 ml-2 is-flex">
             <b-icon class="is-16x16" custom-size="casa-19px" icon="close" pack="casa"></b-icon>
           </label>
           {{ $t("Not compatible with {arch} devices.", { arch: archTitle }) }}
@@ -99,7 +99,6 @@ const handleInstallBtnClick = () => {
 
 function openConfigPanle() {
   // this.$emit('switchAppPanelToAppConfigContent', YAML.stringify(this.appDetailData.compose))
-  console.log("openConfigPanle", props.appDetailData);
   switchAppPanelToAppConfigContent(YAML.stringify(props.appDetailData.compose));
 }
 

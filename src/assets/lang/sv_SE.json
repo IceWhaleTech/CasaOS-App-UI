@@ -163,5 +163,6 @@
   "Stop": "Stoppa",
   "Restart": "Starta om",
   "Restarting...": "Startar om...",
-  "Executing...": "Utför..."
+  "Executing...": "Utför...",
+  "Enable all available NVIDIA GPUs": "Aktivera alla tillgängliga GPU NVIDIA"
 }

@@ -164,5 +164,6 @@
   "Restart": "Restart",
   "Restarting...": "Restarting...",
   "Executing...": "Executing...",
-  "Disabled": "Disabled"
+  "Disabled": "Disabled",
+  "Enable all available NVIDIA GPUs": "Enable all available NVIDIA GPUs"
 }

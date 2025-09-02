@@ -163,5 +163,6 @@
   "Stop": "停止",
   "Restart": "再起動",
   "Restarting...": "再起動中...",
-  "Executing...": "実行中..."
+  "Executing...": "実行中...",
+  "Enable all available NVIDIA GPUs": "利用可能なすべてのNVIDIA GPUを有効にする"
 }

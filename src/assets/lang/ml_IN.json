@@ -163,5 +163,6 @@
   "Stop": "നിർത്തുക",
   "Restart": "പുനരാരംഭിക്കുക",
   "Restarting...": "പുനരാരംഭിക്കുന്നു...",
-  "Executing...": "നടത്തുന്നു..."
+  "Executing...": "നടത്തുന്നു...",
+  "Enable all available NVIDIA GPUs": "ലഭ്യമായ എല്ലാ NVIDIA GPU ഉം ചെയ്തുക"
 }

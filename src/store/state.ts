@@ -40,6 +40,7 @@ export interface State {
 	notImportList: any[];
     newAppIds: string[];
     tipsState: string[]; // 这里只记录忽略显示的app tips
+    gpuList: any[];
 }
 
 const state = {
@@ -97,5 +98,6 @@ const state = {
 	notImportList: [],
 	newAppIds: [],
 	tipsState: [],
+    gpuList: [],
 }
 export default state

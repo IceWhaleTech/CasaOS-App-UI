@@ -163,5 +163,6 @@
   "Stop": "Parar",
   "Restart": "Reiniciar",
   "Restarting...": "Reiniciando...",
-  "Executing...": "Executando..."
+  "Executing...": "Executando...",
+  "Enable all available NVIDIA GPUs": "Ativar todas as GPUs disponíveis da NVIDIA"
 }

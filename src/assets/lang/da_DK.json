@@ -163,5 +163,6 @@
   "Stop": "Stop",
   "Restart": "Genstart",
   "Restarting...": "Genstarter...",
-  "Executing...": "Udfører..."
+  "Executing...": "Udfører...",
+  "Enable all available NVIDIA GPUs": "Aktivér alle tilgængelige NVIDIA GPU'er"
 }

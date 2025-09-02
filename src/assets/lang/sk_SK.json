@@ -163,5 +163,6 @@
   "Stop": "Zastaviť",
   "Restart": "Reštartovať",
   "Restarting...": "Reštartovanie...",
-  "Executing...": "Vykonáva sa..."
+  "Executing...": "Vykonáva sa...",
+  "Enable all available NVIDIA GPUs": "Povoliť všetky dostupné GPU NVIDIA"
 }
