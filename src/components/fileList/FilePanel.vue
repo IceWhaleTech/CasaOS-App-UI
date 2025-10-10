@@ -16,13 +16,13 @@
           <ul v-else>
             <li
               v-for="pin in favoriteList"
-              :key="pin.index"
+              :key="`${pin.path}-${pin.index}`"
               class="folder-item"
               :class="[{ 'folder-item-selected': activePath.startsWith(pin.path) }]"
               @click="getFileList(pin.path)"
             >
               <img src="@/assets/img/filebrowser/folder-default.svg" />
-              <span>{{ pin.name }}</span>
+              <span class="text-sm">{{ pin.name }}</span>
             </li>
           </ul>
         </div>
@@ -37,7 +37,7 @@
               @click="getFileList(storage.path)"
             >
               <img src="@/assets/img/storage/storage.svg" />
-              <span>{{ storage.name }}</span>
+              <span class="text-sm">{{ storage.name }}</span>
             </li>
           </ul>
         </div>
@@ -374,7 +374,7 @@ export default {
     overflow-y: auto;
 
     li {
-      border-bottom: #e4e4e4 1px solid;
+      
       line-height: 1.5em;
       border-radius: 4px;
       transition: background-color 0.2s;

@@ -1,15 +1,5 @@
-<!--
- * @Author: Jerryk jerry@icewhale.org
- * @Date: 2021-12-11 11:39:46
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2022-06-21 17:08:20
- * @FilePath: \CasaOS-UI\src\components\forms\IconInput.vue
- * @Description: 
- * 
- * Copyright (c) 2022 by IceWhale, All Rights Reserved. 
--->
 <template>
-	<b-input v-model="path" :placeholder="placeholder" expanded icon-right="image-filter-center-focus-strong"
+	<b-input v-model="path" :placeholder="placeholder" expanded icon-right="folder-outline"
 			 icon-right-clickable @input="handleInput"
 			 @icon-right-click="selectFile"></b-input>
 </template>
