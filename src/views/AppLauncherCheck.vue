@@ -1,30 +1,31 @@
-<!--
- * @LastEditors: Jerryk jerry@icewhale.org
- * @LastEditTime: 2023-01-30 15:06:13
- * @FilePath: /CasaOS-UI/src/views/AppLauncherCheck.vue
-  * @Description:
-  *
-  * Copyright (c) 2022 by IceWhale, All Rights Reserved.
-  -->
 <template>
 	<div v-if="isCheckFailed"
 		class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-fullheight">
 		<b-image :key="appDetailData.icon" :src="appDetailData?.icon"
 			:src-fallback="require('@/assets/img/app/default.svg')" class="is-64x64 icon-shadow"
 			webp-fallback=".jpg"></b-image>
-		<h2 class="has-text-emphasis-01 has-text-white mt-2">{{ i18n(appDetailData.title) }}</h2>
-		<h1 v-if="status === 'pending'" class="has-text-sub-03 has-text-white mt-6">{{ $t('Preparing for launch') }}
-		</h1>
-		<h1 v-else class="has-text-sub-03 has-text-white mt-6">{{ $t('APP may not be available') }}</h1>
-		<b-image v-if="status === 'pending'" :src="require('@/assets/img/loading/waiting-white.svg')" alt="pending"
-			class="is-48x48 mt-6" />
-		<span v-else class="has-text-full-03 has-text-grey-600 mt-6">{{
-			$t('Please')
-			}}
-			<a @click="openApp(appDetailData);">{{ $t('Click here') }}
-			</a> {{ $t('to open the app. If it does not work, please restart or try again later.') }}
-		</span>
-	</div>
+		<h2 class="mt-2 has-text-emphasis-01 has-text-white">{{ i18n(appDetailData.title) }}</h2>
+		<h1 v-if="status === 'pending'" class="mt-5 has-text-sub-03 has-text-white">{{ $t('Starting up, please wait…') }}</h1>
+		<h1 v-else class="mt-5 has-text-sub-03 has-text-white">{{ $t('Service Unavailable') }}</h1>
+        <div v-if="status === 'pending'" class="flex flex-col justify-center items-center">
+          <div class="mt-3 has-text-full-03 has-text-grey-600 max-w-[300px] text-center">
+                {{ $t('Core service is ready, loading application data. Initial setup or large apps may take a few minutes.') }}
+            </div>
+            <b-image v-if="status === 'pending'" :src="require('@/assets/img/loading/waiting-white.svg')" alt="pending"
+                class="mt-6 is-48x48" />
+          </div>
+          <div v-else class="flex flex-col justify-center items-center">
+            <span class="mt-3 has-text-full-03 has-text-grey-600 max-w-[500px] text-center mx-4">
+              {{ $t('The application is not running properly. We recommend checking:') }}
+                <ul class="mt-3 list-disc list-inside text-left">
+                  <li>{{ $t('All configuration items (e.g., port, path).') }}</li>
+                  <li>{{ $t('The access permissions of the storage directories.') }}</li>
+                  <li>{{ $t('The connection settings for dependent services like the database.') }}</li>
+                </ul>
+            </span>
+            <span class="mx-4 mt-3 text-center text-white has-text-full-03">{{ $t('Please check the detailed startup logs in the "Configuration" menu to identify the specific issue.') }}</span>
+        </div>
+</div>
 </template>
 
 <script>
