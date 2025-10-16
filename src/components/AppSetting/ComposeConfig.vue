@@ -70,6 +70,8 @@
                   </b-dropdown-item>
                   <b-dropdown-item
                     key="stable"
+                    class="block max-w-[182px] truncate"
+                    text-left
                     v-show="serviceStableVersion !== ''"
                     @click="
                       () => {
@@ -1131,7 +1133,7 @@ export default {
     },
 
     getLateField(image) {
-      return image?.split(":")[1];
+      return image?.split(":")?.slice(1)?.join(":");
     },
 
     getMinMemory(service) {

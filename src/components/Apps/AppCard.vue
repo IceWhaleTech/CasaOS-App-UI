@@ -435,6 +435,7 @@ export default {
           });
         }
       } else if (this.isLinkApp) {
+        this.removeIdFromSessionStorage(this.item.name);
         window.open(item.hostname, "_blank");
       } else if (item.requireGPU) {
         console.log("enable GPU ::", item);
