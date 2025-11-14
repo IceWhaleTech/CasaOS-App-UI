@@ -159,6 +159,7 @@ export default {
       const serviceName = Object.keys(yamlObj.services)[0]
       if (serviceName === undefined)
         return stringify(yamlObj)
+      yamlObj['name'] = serviceName
       yamlObj['x-casaos'] = {}
       yamlObj['x-casaos'].title = {}
       yamlObj['x-casaos'].title.en_us = serviceName
