@@ -300,7 +300,7 @@ export default {
      */
     checkGpu(callback) {
       iceGpu
-        .getGPUList(10 * 1024 * 1024 * 1024, true)
+        .getGPUList()
         .then((res) => {
           this.hasGpu = res.data.data.length > 0;
           const gpuList = res.data.data;
