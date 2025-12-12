@@ -437,14 +437,14 @@ export default {
       } else if (this.isLinkApp) {
         this.removeIdFromSessionStorage(this.item.name);
         window.open(item.hostname, "_blank");
-      } else if (item.requireGPU) {
-        console.log("enable GPU ::", item);
-        let routeUrl = this.$router.resolve({
-          name: "AppDetection",
-          path: "/detection",
-          query: { name: item.name },
-        });
-        window.open(routeUrl.href, "_blank");
+      // } else if (item.requireGPU) {
+      //   console.log("enable GPU ::", item);
+      //   let routeUrl = this.$router.resolve({
+      //     name: "AppDetection",
+      //     path: "/detection",
+      //     query: { name: item.name },
+      //   });
+      //   window.open(routeUrl.href, "_blank");
       } else {
         // type is one of 'official' or 'community'.
         if(this.$refs.dro)this.$refs.dro.isActive = false;
