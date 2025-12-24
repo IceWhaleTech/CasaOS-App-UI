@@ -9,13 +9,14 @@
 <template>
 	<li :class="[{active:state}]" class="ficon is-flex is-align-items-center" @click="activeSelf" @dblclick="expandDir">
 		<div class="cover">
-			<div :class="item | coverType">
+			<div :class="item | coverType" class="">
 				<img :class="item | iconType" :src="getIconFile(item)" alt="folder"/>
 			</div>
 		</div>
 		<div class="one-line">
 			{{name}}
 		</div>
+    <span v-if="IsLocked" class="locked">({{ $t('Locked') }})</span>
 
 	</li>
 </template>
@@ -39,7 +40,11 @@ export default {
 		IsDir: {
 			type: Boolean,
 			default: true
-		}
+		},
+    IsLocked:{
+      type: Boolean,
+			default: false
+    }
 	},
 	computed: {
 		icon() {
@@ -76,6 +81,11 @@ export default {
 		width: 1.5rem;
 		height: 1.5rem;
 		margin-right: 0.5rem;
+    flex-shrink: 0;
 	}
+}
+.locked{
+  color: #A3A3A3;
+  margin-left: 4px;
 }
 </style>

@@ -170,5 +170,7 @@
   "Restarting...": "Restarting...",
   "Executing...": "Executing...",
   "Disabled": "Disabled",
-  "Enable all available NVIDIA GPUs": "Enable all available NVIDIA GPUs"
+  "Enable all available NVIDIA GPUs": "Enable all available NVIDIA GPUs",
+  "Locked": "Locked",
+  "LockedCannotSelect": "Locked folder can not be selected!"
 }

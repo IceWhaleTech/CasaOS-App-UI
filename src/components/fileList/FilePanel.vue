@@ -65,6 +65,7 @@
             :id="item.path"
             :key="item.path"
             :IsDir="item.is_dir"
+            :IsLocked="item.extensions && item.extensions.locked"
             :item="item"
             :name="item.name"
             :path="item.path"
@@ -192,7 +193,14 @@ export default {
             this.activePath = path;
           }
         }
-      });
+      }).catch((err)=>{
+        console.log(err)
+        const message = err.response.data.message || err.response.message || 'Failed to get files!'
+        this.$buefy.toast.open({
+            message: message,
+            type: "is-danger",
+          })
+      })
     },
 
     locateFile() {
@@ -212,6 +220,15 @@ export default {
       this.getFileList(backDir);
     },
     selectFile() {
+      const selectedItem = this.fileList.find(item=>item.path == this.activePath)
+      if(selectedItem.extensions && selectedItem.extensions.locked){
+        this.$buefy.toast.open({
+          message: this.$t('LockedCannotSelect'),
+          type: "is-danger",
+        })
+        return
+      }
+
       this.$emit("close");
       this.$emit("updatePath", this.activePath);
     },
