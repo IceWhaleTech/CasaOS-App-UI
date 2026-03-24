@@ -73,7 +73,17 @@ export default {
 			const hostIp = hostname || this.$baseHostname;
 			const appScheme = scheme || DEFAULT_SCHEME;
 			const portPart = port ? `:${port}` : "";
-			const indexPart = index || "";
+			let indexPart = index || "";
+
+			// 支持在 index 中使用 token 占位符
+			if (typeof indexPart === "string") {
+				const accessToken = this.$store?.state?.access_token || "";
+				const refreshToken = this.$store?.state?.refresh_token || "";
+
+				indexPart = indexPart
+					.replace(/\$?\{access_token\}/g, accessToken)
+					.replace(/\$?\{refresh_token\}/g, refreshToken);
+			}
 
 			return `${appScheme}://${hostIp}${portPart}${indexPart}`;
 		},
