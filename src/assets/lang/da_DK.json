@@ -12,6 +12,8 @@
   "High": "Høj",
   "Connect": "Forbind",
   "This field is required": "Dette felt er obligatorisk.",
+  "The field must be a valid URL": "Feltet skal være en gyldig URL.",
+  "The field must be a valid docker-compose port": "Feltet skal være en gyldig docker-compose-port.",
   "Username": "Username",
   "Name": "Navn",
   "Password": "Kodeord",

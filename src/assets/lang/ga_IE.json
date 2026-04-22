@@ -12,6 +12,8 @@
   "High": "Ard",
   "Connect": "Ceangail",
   "This field is required": "Tá an réimse seo ag teastáil.",
+  "The field must be a valid URL": "Caithfidh an réimse a bheith ina URL bailí.",
+  "The field must be a valid docker-compose port": "Caithfidh an réimse a bheith ina phort docker-compose bailí.",
   "Username": "Ainm úsáideora",
   "Name": "Ainm",
   "Password": "Pasfhocal",

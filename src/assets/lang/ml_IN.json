@@ -12,6 +12,8 @@
   "High": "ഉയർന്ന",
   "Connect": "കണക്ട് ചെയ്യുക",
   "This field is required": "ഈ ഫീൽഡ് ആവശ്യമാണ്.",
+  "The field must be a valid URL": "ഈ ഫീൽഡ് സാധുവായ URL ആയിരിക്കണം.",
+  "The field must be a valid docker-compose port": "ഈ ഫീൽഡ് സാധുവായ docker-compose പോർട്ട് ആയിരിക്കണം.",
   "Username": "യൂസർനെയിം",
   "Name": "പേര്",
   "Password": "പാസ്സ്‌വേർഡ്",

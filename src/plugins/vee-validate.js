@@ -54,8 +54,23 @@ extend('uuid', {
 });
 
 extend('url', {
-	validate: value => isURL(value, {require_protocol: true}),
-	message: 'The field mast be a valid url',
+	validate: value => {
+		if (typeof value !== 'string') {
+			return false;
+		}
+
+		const trimmedValue = value.trim();
+		if (!trimmedValue) {
+			return false;
+		}
+
+		return isURL(trimmedValue, {
+			require_protocol: true,
+			protocols: ['http', 'https'],
+			allow_protocol_relative_urls: true,
+		});
+	},
+	message: 'The field must be a valid URL',
 })
 
 extend('yaml_port', {
@@ -64,7 +79,7 @@ extend('yaml_port', {
 
 		return regExp.test(value)
 	},
-	message: 'The field mast be a valid docker-compose port',
+	message: 'The field must be a valid docker-compose port',
 })
 
 extend('not_in_ports', {

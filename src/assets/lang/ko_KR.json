@@ -12,6 +12,8 @@
   "High": "최고",
   "Connect": "연결",
   "This field is required": "이 입력란은 필수 입니다.",
+  "The field must be a valid URL": "유효한 URL을 입력해야 합니다.",
+  "The field must be a valid docker-compose port": "유효한 docker-compose 포트를 입력해야 합니다.",
   "Username": "사용자 이름",
   "Name": "이름",
   "Password": "암호",

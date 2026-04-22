@@ -12,6 +12,8 @@
   "High": "Magas",
   "Connect": "Csatlakozás",
   "This field is required": "A mező kitöltése kötelező.",
+  "The field must be a valid URL": "A mezőnek érvényes URL-nek kell lennie.",
+  "The field must be a valid docker-compose port": "A mezőnek érvényes docker-compose portnak kell lennie.",
   "Username": "Felhasználónév",
   "Name": "Név",
   "Password": "Jelszó",

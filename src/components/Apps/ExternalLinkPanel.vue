@@ -15,7 +15,7 @@
       <div class="node-card">
         <div class="mt-5 mb-5">
           <ValidationObserver ref="ob1">
-            <ValidationProvider v-slot="{ errors, valid }" rules="required">
+            <ValidationProvider v-slot="{ errors, valid }" rules="required|url">
               <b-field
                 :message="$t(errors)"
                 :type="{ 'is-danger': errors[0], 'is-success': valid }"
@@ -169,6 +169,32 @@ export default {
     this.icon = this.linkIcon;
   },
   methods: {
+    normalizeAndValidateExternalUrl(url) {
+      if (typeof url !== "string") {
+        return { valid: false, normalized: "" };
+      }
+
+      const trimmedUrl = url.trim();
+      if (!trimmedUrl) {
+        return { valid: false, normalized: "" };
+      }
+
+      const normalizedInput = trimmedUrl.startsWith("//")
+        ? `${window.location.protocol}${trimmedUrl}`
+        : trimmedUrl;
+
+      try {
+        const parsedUrl = new URL(normalizedInput);
+        const allowedProtocols = ["http:", "https:"];
+        if (!allowedProtocols.includes(parsedUrl.protocol)) {
+          return { valid: false, normalized: "" };
+        }
+        return { valid: true, normalized: parsedUrl.href };
+      } catch (error) {
+        return { valid: false, normalized: "" };
+      }
+    },
+
     /**
      * @description: Validate form async
      * @param {Object} ref ref of component
@@ -184,6 +210,18 @@ export default {
       this.checkStep(this.$refs.ob1)
         .then(async (valid) => {
           if (valid) {
+            const { valid: isValidUrl, normalized } = this.normalizeAndValidateExternalUrl(this.hostname);
+            if (!isValidUrl) {
+              this.$buefy.toast.open({
+                message: this.$t("Please enter a valid HTTP/HTTPS URL"),
+                type: "is-danger",
+                position: "is-top",
+                duration: 5000,
+              });
+              return;
+            }
+            this.hostname = normalized;
+
             let listLinkApp = await this.getLinkAppList();
             if (this.linkId) {
               listLinkApp.forEach((item) => {

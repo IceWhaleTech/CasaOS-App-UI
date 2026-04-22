@@ -12,6 +12,8 @@
   "High": "高",
   "Connect": "连接",
   "This field is required": "此字段为必填项",
+  "The field must be a valid URL": "该字段必须是有效的 URL。",
+  "The field must be a valid docker-compose port": "该字段必须是有效的 docker-compose 端口。",
   "Username": "用户名",
   "Name": "名称",
   "Password": "密码",

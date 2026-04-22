@@ -12,6 +12,8 @@
   "High": "Высокий",
   "Connect": "Подключиться",
   "This field is required": "Это поле обязательно.",
+  "The field must be a valid URL": "Поле должно содержать корректный URL.",
+  "The field must be a valid docker-compose port": "Поле должно содержать корректный порт docker-compose.",
   "Username": "Имя пользователя",
   "Name": "Имя",
   "Password": "Пароль",
