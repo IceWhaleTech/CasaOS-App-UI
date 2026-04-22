@@ -12,6 +12,8 @@
   "High": "Hoog",
   "Connect": "Verbinden",
   "This field is required": "Dit veld is vereist.",
+  "The field must be a valid URL": "Het veld moet een geldige URL zijn.",
+  "The field must be a valid docker-compose port": "Het veld moet een geldige docker-compose-poort zijn.",
   "Username": "Gebruikersnaam",
   "Name": "Naam",
   "Password": "Wachtwoord",

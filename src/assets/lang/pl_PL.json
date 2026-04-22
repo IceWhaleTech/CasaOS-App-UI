@@ -12,6 +12,8 @@
   "High": "Wysoki",
   "Connect": "Połącz",
   "This field is required": "To pole jest wymagane.",
+  "The field must be a valid URL": "Pole musi być prawidłowym adresem URL.",
+  "The field must be a valid docker-compose port": "Pole musi być prawidłowym portem docker-compose.",
   "Username": "Nazwa użytkownika",
   "Name": "Użytkownik",
   "Password": "Hasło",

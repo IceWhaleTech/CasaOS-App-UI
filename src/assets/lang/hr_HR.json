@@ -12,6 +12,8 @@
   "High": "Visoko",
   "Connect": "Poveži",
   "This field is required": "Ovo polje je obavezno.",
+  "The field must be a valid URL": "Polje mora biti valjani URL.",
+  "The field must be a valid docker-compose port": "Polje mora biti valjani docker-compose port.",
   "Username": "Korisničko ime",
   "Name": "Ime",
   "Password": "Lozinka",

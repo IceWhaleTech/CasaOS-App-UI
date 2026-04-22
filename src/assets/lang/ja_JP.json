@@ -12,6 +12,8 @@
   "High": "高",
   "Connect": "接続",
   "This field is required": "このフィールドは必須です。",
+  "The field must be a valid URL": "この項目は有効な URL である必要があります。",
+  "The field must be a valid docker-compose port": "この項目は有効な docker-compose ポートである必要があります。",
   "Username": "ユーザー名",
   "Name": "名前",
   "Password": "パスワード",

@@ -12,6 +12,8 @@
   "High": "Ridicat",
   "Connect": "Conectează",
   "This field is required": "Acest câmp este obligatoriu.",
+  "The field must be a valid URL": "Câmpul trebuie să fie un URL valid.",
+  "The field must be a valid docker-compose port": "Câmpul trebuie să fie un port docker-compose valid.",
   "Username": "Nume de utilizator",
   "Name": "Nume",
   "Password": "Parolă",

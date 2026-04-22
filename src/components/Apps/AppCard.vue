@@ -342,6 +342,31 @@ export default {
     }
   },
   methods: {
+    safeExternalUrl(rawUrl) {
+      if (typeof rawUrl !== "string") {
+        return "";
+      }
+
+      const trimmedUrl = rawUrl.trim();
+      if (!trimmedUrl) {
+        return "";
+      }
+
+      const normalizedInput = trimmedUrl.startsWith("//")
+        ? `${window.location.protocol}${trimmedUrl}`
+        : trimmedUrl;
+
+      try {
+        const parsedUrl = new URL(normalizedInput);
+        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+          return "";
+        }
+        return parsedUrl.href;
+      } catch (error) {
+        return "";
+      }
+    },
+
     /**
      * @description: Update item data and emit event
      * @param {Object} updates - Object containing the properties to update
@@ -435,8 +460,21 @@ export default {
           });
         }
       } else if (this.isLinkApp) {
+        const safeUrl = this.safeExternalUrl(item.hostname);
+        if (!safeUrl) {
+          this.$buefy.toast.open({
+            message: this.$t("Invalid external link URL"),
+            type: "is-danger",
+            position: "is-top",
+            duration: 5000,
+          });
+          return;
+        }
         this.removeIdFromSessionStorage(this.item.name);
-        window.open(item.hostname, "_blank");
+        const popupWindow = window.open(safeUrl, "_blank", "noopener,noreferrer");
+        if (popupWindow) {
+          popupWindow.opener = null;
+        }
       // } else if (item.requireGPU) {
       //   console.log("enable GPU ::", item);
       //   let routeUrl = this.$router.resolve({

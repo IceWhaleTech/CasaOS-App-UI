@@ -12,6 +12,8 @@
   "High": "High",
   "Connect": "Connect",
   "This field is required": "This field is required.",
+  "The field must be a valid URL": "The field must be a valid URL.",
+  "The field must be a valid docker-compose port": "The field must be a valid docker-compose port.",
   "Username": "Username",
   "Name": "Name",
   "Password": "Password",

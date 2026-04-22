@@ -12,6 +12,8 @@
   "High": "Υψηλή",
   "Connect": "Σύνδεση",
   "This field is required": "Αυτό το πεδίο απαιτείται.",
+  "The field must be a valid URL": "Το πεδίο πρέπει να είναι έγκυρο URL.",
+  "The field must be a valid docker-compose port": "Το πεδίο πρέπει να είναι έγκυρη θύρα docker-compose.",
   "Username": "Όνομα χρήστη",
   "Name": "Όνομα",
   "Password": "Κωδικόs πρόσβασης",

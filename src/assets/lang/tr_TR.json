@@ -12,6 +12,8 @@
   "High": "Yüksek",
   "Connect": "Bağlan",
   "This field is required": "Bu alan gereklidir.",
+  "The field must be a valid URL": "Alan geçerli bir URL olmalıdır.",
+  "The field must be a valid docker-compose port": "Alan geçerli bir docker-compose portu olmalıdır.",
   "Username": "Kullanıcı adı",
   "Name": "İsim",
   "Password": "Şifre",

@@ -12,6 +12,8 @@
   "High": "Vysoká",
   "Connect": "Připojit",
   "This field is required": "Toto pole je povinné.",
+  "The field must be a valid URL": "Pole musí být platná URL adresa.",
+  "The field must be a valid docker-compose port": "Pole musí být platný docker-compose port.",
   "Username": "Uživatelské jméno",
   "Name": "Jméno",
   "Password": "Heslo",

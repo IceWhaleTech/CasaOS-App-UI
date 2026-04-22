@@ -12,6 +12,8 @@
   "High": "Alt",
   "Connect": "Connecta",
   "This field is required": "El camp és obligatori.",
+  "The field must be a valid URL": "El camp ha de ser un URL vàlid.",
+  "The field must be a valid docker-compose port": "El camp ha de ser un port docker-compose vàlid.",
   "Username": "Nom d'usuari",
   "Name": "Nom",
   "Password": "Contrasenya",

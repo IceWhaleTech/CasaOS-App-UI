@@ -12,6 +12,8 @@
   "High": "Hög",
   "Connect": "Anslut",
   "This field is required": "Detta fältet är obligatoriskt.",
+  "The field must be a valid URL": "Fältet måste vara en giltig URL.",
+  "The field must be a valid docker-compose port": "Fältet måste vara en giltig docker-compose-port.",
   "Username": "Användarnamn",
   "Name": "Namn",
   "Password": "Lösenord",
