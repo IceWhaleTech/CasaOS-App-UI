@@ -59,10 +59,12 @@ import VueFullscreen                from 'vue-fullscreen'
 import Vue2TouchEvents              from 'vue2-touch-events'
 import VueSocketIOExt               from 'vue-socket.io-extended';
 import messageBus                   from '@/events/index.js'
+import { createAppSocket }          from '@/socket'
+// @ts-ignore service.js has no local type declaration
+import { scheduleAccessTokenRefresh } from '@/service/service.js'
 
 import '@/assets/scss/app.scss'
 import "@/assets/tailwind.css";
-const io = require("socket.io-client");
 
 const isDev = process.env.NODE_ENV === 'dev';
 const protocol = document.location.protocol
@@ -75,14 +77,13 @@ const baseHostname = isDev ? `${devIp}` : `${localhostName}`
 const baseURL = isDev ? `${devIp}:${devPort}` : `${localhost}`
 const wsURL = `${wsProtocol}//${baseURL}`
 
-const socket = io(wsURL, {
-	transports: ['websocket', 'polling'],
-	path: '/v2/message_bus/socket.io/',
-});
+const socket = createAppSocket(wsURL);
 
 Vue.use(VueFullscreen)
 Vue.use(Vue2TouchEvents)
 Vue.use(VueSocketIOExt, socket);
+
+scheduleAccessTokenRefresh()
 
 
 Vue.config.productionTip = false
@@ -113,7 +114,5 @@ new Vue({
 export {
 	baseHostname
 }
-
-
 
 
