@@ -1,6 +1,7 @@
 import axios  from 'axios'
 import router from '@/router'
 import store  from '@/store'
+import { syncAppSocketToken } from '@/socket'
 
 const axiosBaseURL = ``
 
@@ -46,13 +47,97 @@ instance.interceptors.request.use(
 
 // Response interception
 
-let isRefreshing = false
-let requests = []
+let refreshPromise = null
+let refreshTimer = null
+const TOKEN_REFRESH_BUFFER_MS = 60 * 1000
 
 function logout() {
 	router.replace({ //Jump to the logout page
 		path: '/logout'
 	})
+}
+
+function parseExpiresAt(expiresAt) {
+	if (!expiresAt) {
+		return null
+	}
+
+	if (typeof expiresAt === 'number') {
+		return expiresAt > 1e12 ? expiresAt : expiresAt * 1000
+	}
+
+	const numericExpiresAt = Number(expiresAt)
+	if (!Number.isNaN(numericExpiresAt) && numericExpiresAt > 0) {
+		return numericExpiresAt > 1e12 ? numericExpiresAt : numericExpiresAt * 1000
+	}
+
+	const parsedExpiresAt = Date.parse(expiresAt)
+	return Number.isNaN(parsedExpiresAt) ? null : parsedExpiresAt
+}
+
+function persistTokens(tokenData) {
+	localStorage.setItem("access_token", tokenData.access_token);
+	localStorage.setItem("refresh_token", tokenData.refresh_token);
+	localStorage.setItem("expires_at", tokenData.expires_at);
+
+	store.commit("SET_ACCESS_TOKEN", tokenData.access_token);
+	store.commit("SET_REFRESH_TOKEN", tokenData.refresh_token);
+	instance.defaults.headers.Authorization = tokenData.access_token
+	syncAppSocketToken(tokenData.access_token)
+	scheduleAccessTokenRefresh()
+
+	return tokenData.access_token
+}
+
+export function scheduleAccessTokenRefresh() {
+	if (typeof window === 'undefined') {
+		return
+	}
+
+	if (refreshTimer) {
+		window.clearTimeout(refreshTimer)
+	}
+
+	const expiresAt = parseExpiresAt(localStorage.getItem("expires_at"))
+	if (!expiresAt) {
+		return
+	}
+
+	const delay = Math.max(expiresAt - Date.now() - TOKEN_REFRESH_BUFFER_MS, 0)
+	refreshTimer = window.setTimeout(() => {
+		refreshAccessToken().catch((error) => {
+			console.log(error);
+		})
+	}, delay)
+}
+
+export function refreshAccessToken() {
+	if (refreshPromise) {
+		return refreshPromise
+	}
+
+	const refresh_token = localStorage.getItem("refresh_token")
+	if (!refresh_token) {
+		logout()
+		return Promise.reject(new Error("Missing refresh token"))
+	}
+
+	refreshPromise = instance.post("/v1/users/refresh", {
+		refresh_token: refresh_token,
+	}).then(tokenRes => {
+		if (tokenRes.data.success == 200) {
+			return persistTokens(tokenRes.data.data)
+		}
+		logout()
+		throw new Error("Refresh token request failed")
+	}).catch(error => {
+		logout()
+		throw error
+	}).finally(() => {
+		refreshPromise = null
+	})
+
+	return refreshPromise
 }
 
 instance.interceptors.response.use(
@@ -61,47 +146,28 @@ instance.interceptors.response.use(
 	},
 	async (error) => {
 		const originalConfig = error?.config;
-		const refresh_token = localStorage.getItem("refresh_token")
 		if (originalConfig.url !== "/users/register" && error?.response?.status === 401) {
-			// Access Token was expired
-			if (!isRefreshing) {
-				isRefreshing = true
-
-				instance.post("/v1/users/refresh", {
-					refresh_token: refresh_token,
-				}).then(tokenRes => {
-					if (tokenRes.data.success == 200) {
-						localStorage.setItem("access_token", tokenRes.data.data.access_token);
-						localStorage.setItem("refresh_token", tokenRes.data.data.refresh_token);
-						localStorage.setItem("expires_at", tokenRes.data.data.expires_at);
-
-						store.commit("SET_ACCESS_TOKEN", tokenRes.data.data.access_token);
-						store.commit("SET_REFRESH_TOKEN", tokenRes.data.data.refresh_token);
-						originalConfig.headers.Authorization = tokenRes.data.data.access_token
-						instance.defaults.headers.Authorization = tokenRes.data.data.access_token
-						isRefreshing = false
-						return tokenRes.data.data.access_token
-					} else {
-						logout()
-					}
-				}).then(token => {
-					requests.forEach(cb => cb(token))
-					requests = []
-				}).catch(error => {
-					logout()
-					console.log(error);
-				})
-
-			} else if (originalConfig.url === "/v1/users/refresh" && error?.response?.status === 401) {
+			if (originalConfig.url === "/v1/users/refresh") {
 				logout()
+				return Promise.reject(error)
 			}
-			return new Promise(resolve => {
-				requests.push((token) => {
-					originalConfig.headers = {}
-					originalConfig.headers.Authorization = token
-					resolve(instance(originalConfig))
-				})
-			})
+
+			if (originalConfig._retry) {
+				return Promise.reject(error)
+			}
+
+			originalConfig._retry = true
+
+			try {
+				const token = await refreshAccessToken()
+				originalConfig.headers = {
+					...(originalConfig.headers || {}),
+					Authorization: token,
+				}
+				return instance(originalConfig)
+			} catch (refreshError) {
+				return Promise.reject(refreshError)
+			}
 		}
 		return Promise.reject(error)
 
